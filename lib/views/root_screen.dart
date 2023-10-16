@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import 'home_page.dart';
 import 'order.dart';
 import 'other_page.dart';
@@ -24,10 +23,8 @@ class _RootScreenState extends State<RootScreen> {
   ];
   List<BottomNavigationBarItem> items = const [
     BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Trang chủ'),
-    BottomNavigationBarItem(
-        icon: Icon(Icons.coffee_outlined), label: 'Đặt hàng'),
-    BottomNavigationBarItem(
-        icon: Icon(Icons.store_outlined), label: 'Cửa hàng'),
+    BottomNavigationBarItem(icon: Icon(Icons.coffee_outlined), label: 'Đặt hàng'),
+    BottomNavigationBarItem(icon: Icon(Icons.store_outlined), label: 'Cửa hàng'),
     BottomNavigationBarItem(icon: Icon(Icons.assignment), label: 'Ưu đãi'),
     BottomNavigationBarItem(icon: Icon(Icons.segment_sharp), label: 'Khác'),
   ];

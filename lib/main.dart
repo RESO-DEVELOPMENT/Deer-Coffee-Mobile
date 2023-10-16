@@ -1,3 +1,7 @@
+import 'package:deer_coffee/views/cart.dart';
+import 'package:deer_coffee/views/home_page_order_method.dart';
+import 'package:deer_coffee/views/order_confirmation.dart';
+import 'package:deer_coffee/views/order_determination.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -25,24 +29,24 @@ class MyApp extends StatelessWidget {
         brightness: Brightness.light,
       ),
       themeMode: ThemeMode.light,
-      getPages: [
-        GetPage(
-            name: RouteHandler.WELCOME,
-            page: () => SplashScreen(),
-            transition: Transition.zoom),
-        GetPage(
-            name: RouteHandler.LOGIN,
-            page: () => LoginScreen(),
-            transition: Transition.zoom),
-        GetPage(
-            name: RouteHandler.HOME,
-            page: () => RootScreen(),
-            transition: Transition.cupertino),
-      ],
-      initialRoute: RouteHandler.WELCOME,
-      unknownRoute:
-          GetPage(name: RouteHandler.NOT_FOUND, page: () => NotFoundScreen()),
-      home: SplashScreen(),
+      // getPages: [  
+      //   GetPage(
+      //       name: RouteHandler.WELCOME,
+      //       page: () => SplashScreen(),
+      //       transition: Transition.zoom),
+      //   GetPage(
+      //       name: RouteHandler.LOGIN,
+      //       page: () => LoginScreen(),
+      //       transition: Transition.zoom),
+      //   GetPage(
+      //       name: RouteHandler.HOME,
+      //       page: () => RootScreen(),
+      //       transition: Transition.cupertino),
+      // ],
+      // initialRoute: RouteHandler.WELCOME,
+      // unknownRoute:
+      //     GetPage(name: RouteHandler.NOT_FOUND, page: () => NotFoundScreen()),
+      home: OrderMethod(),
     );
   }
 }
