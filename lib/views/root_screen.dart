@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'home_page.dart';
 import 'order.dart';
 import 'other_page.dart';
+import 'home_page_order_method.dart';
 
 class RootScreen extends StatefulWidget {
   const RootScreen({super.key});
@@ -17,9 +18,8 @@ class _RootScreenState extends State<RootScreen> {
   List<Widget> portraitViews = [
     HomePage(),
     OrderScreen(),
-    HomePage(),
-    HomePage(),
     OtherPage(),
+    OrderScreen()
   ];
   List<BottomNavigationBarItem> items = const [
     BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Trang chủ'),

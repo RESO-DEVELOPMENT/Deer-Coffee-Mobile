@@ -614,13 +614,13 @@
                 borderRadius: BorderRadius.circular(8.0),
               ),
               color: Colors.grey,
-              clipBehavior: Clip.none, // Tắt cắt bớt
-              child: Container(), // Đây là phần trống để giữ "Card" trống
+              clipBehavior: Clip.none, 
+              child: Container(), 
             ),
             Positioned(
-              bottom: -50, // Điều chỉnh khoảng cách từ dưới của "Card"
-              left: 16, // Điều chỉnh khoảng cách từ bên trái của "Card"
-              right: 16, // Điều chỉnh khoảng cách từ bên phải của "Card"
+              bottom: -50, 
+              left: 16, 
+              right: 16, 
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -631,7 +631,7 @@
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 8), // Khoảng cách giữa "bottom text" và "date text"
+                  SizedBox(height: 8), 
                   Row(
                     children: [
                       Icon(

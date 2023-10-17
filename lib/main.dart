@@ -1,4 +1,5 @@
 import 'package:deer_coffee/views/cart.dart';
+import 'package:deer_coffee/views/home_page.dart';
 import 'package:deer_coffee/views/home_page_order_method.dart';
 import 'package:deer_coffee/views/order_confirmation.dart';
 import 'package:deer_coffee/views/order_determination.dart';

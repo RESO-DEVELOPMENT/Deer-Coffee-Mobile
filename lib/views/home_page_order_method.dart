@@ -102,8 +102,6 @@ class _OrderMethodState extends State<OrderMethod> {
       body:  SafeArea(
             child: ListView(
               children: [
-               
-                /// dang nhap  //
                 SizedBox(
                   height: 20,
                 ),
@@ -523,89 +521,84 @@ class _OrderMethodState extends State<OrderMethod> {
                       SizedBox(
                         height: 32,
                       ),
-                    Column(
-      children: [
-    GridView.builder(
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        crossAxisSpacing: 16.0,
-        mainAxisSpacing: 90.0,
+                   GridView.builder(
+  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+    crossAxisCount: 2,
+    crossAxisSpacing: 16.0,
+    mainAxisSpacing: 46.0, // Reduce the vertical spacing
+  ),
+  itemCount: 6,
+  shrinkWrap: true,
+  physics: NeverScrollableScrollPhysics(),
+  itemBuilder: (BuildContext context, int index) {
+    List<String> bottomTexts = [
+      'Text 1',
+      'Text 2',
+      'Text 3',
+      'Text 4',
+      'Text 5',
+      'Text 6'
+    ];
+    List<String> dateTexts = [
+      '01/08',
+      '01/08',
+      '01/08',
+      '01/08',
+      '01/08',
+      '01/08'
+    ];
+
+   return Stack(
+  children: [
+    Positioned.fill(
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+        color: Colors.grey,
+        clipBehavior: Clip.none,
+        child: Container(),
       ),
-      itemCount: 6,
-      shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
-      itemBuilder: (BuildContext context, int index) {
-        List<String> bottomTexts = [
-          'Text 1',
-          'Text 2',
-          'Text 3',
-          'Text 4',
-          'Text 5',
-          'Text 6'
-        ];
-        List<String> dateTexts = [
-          '01/08',
-          '01/08',
-          '01/08',
-          '01/08',
-          '01/08',
-          '01/08'
-        ];
-
-        return Stack(
-          children: [
-            Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8.0),
-              ),
-              color: Colors.grey,
-              clipBehavior: Clip.none, 
-              child: Container(), 
+    ),
+    Positioned(
+      bottom: -20,
+      left: 0,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            bottomTexts[index].toUpperCase(),
+            style: TextStyle(
+              fontSize: 19,
+              fontWeight: FontWeight.bold,
             ),
-            Positioned(
-              bottom: -50, 
-              left: 16, 
-              right: 16, 
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    bottomTexts[index].toUpperCase(),
-                    style: TextStyle(
-                      fontSize: 19,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 8), 
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.calendar_month_outlined,
-                        color: Colors.black,
-                        size: 16,
-                      ),
-                      SizedBox(width: 4),
-                      Text(
-                        dateTexts[index],
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.normal,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+          ),
+          SizedBox(height: 8),
+          Row(
+            children: [
+              Icon(
+                Icons.calendar_month_outlined,
+                color: Colors.black,
+                size: 16,
               ),
-            ),
-          ],
-        );
-      },
-    )
+              SizedBox(width: 4),
+              Text(
+                dateTexts[index],
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.normal,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    ),
+  ],
+);
 
-      
-      ],
-    )
-
+  },
+),
                     ],
                   ),
                 ),
