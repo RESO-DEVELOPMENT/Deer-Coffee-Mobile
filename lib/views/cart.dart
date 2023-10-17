@@ -16,66 +16,53 @@ class _SlidableScreenState extends State<SlidableScreen> {
       'image': 'assets/images/coffee1.png',
       'title': 'Americano',
       'desc': '50% | medium | full ice',
-      'sl': 'x 1'
+      'sl': 'x 1',
     },
     {
       'image': 'assets/images/coffee1.png',
       'title': 'Cappuchino',
       'desc': '70% | medium | full ice',
-      'sl': 'x 1'
+      'sl': 'x 1',
     },
     {
       'image': 'assets/images/coffee1.png',
       'title': 'Flat White',
       'desc': 'single | iced | medium | full ice',
-      'sl': 'x 1'
+      'sl': 'x 1',
     },
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        color: Colors.white,
+      body: SafeArea(
         child: Column(
           children: [
             Container(
-              height: 85,
-              child: Column(
-                children: [
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: IconButton(
-                        icon: Icon(Icons.arrow_back),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
+              height: 100.0, // Adjust the height to your needs
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                child: Row(
+                  children: [
+                    IconButton(
+                      icon: Icon(Icons.arrow_back),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                    Text(
+                      "Giỏ hàng",
+                      style: TextStyle(
+                        fontSize: 25.0, // Adjust the font size as needed
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
-                  ),
-                
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 20,
-                      ),
-                      child: Text(
-                        "Giỏ hàng",
-                        style: TextStyle(
-                          fontSize: 25.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
             SizedBox(
-              height: 50,
+              height: 30, // Adjust the height to your needs
             ),
             Expanded(
               child: Column(
@@ -89,7 +76,8 @@ class _SlidableScreenState extends State<SlidableScreen> {
                         return Padding(
                           padding: const EdgeInsets.symmetric(vertical: 10.0),
                           child: Container(
-                            margin: const EdgeInsets.symmetric(horizontal: 30.0),
+                            margin:
+                                const EdgeInsets.symmetric(horizontal: 20.0),
                             child: Slidable(
                               key: Key('$item'),
                               endActionPane: ActionPane(
@@ -102,7 +90,8 @@ class _SlidableScreenState extends State<SlidableScreen> {
                                       });
                                     },
                                     borderRadius: BorderRadius.circular(10),
-                                    backgroundColor: Color.fromRGBO(255, 229, 229, 1.0),
+                                    backgroundColor:
+                                        Color.fromRGBO(255, 229, 229, 1.0),
                                     icon: Icons.delete_outline,
                                     foregroundColor: Colors.red,
                                   ),
@@ -126,18 +115,21 @@ class _SlidableScreenState extends State<SlidableScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     ClipRRect(
-                                      // child: 
-                                      // Image.asset(
-                                      //   item['image']!,
-                                      //   width: 100.0,
-                                      //   height: 100.0,
-                                      //   fit: BoxFit.cover,
-                                      // ),
+                                      child: Container(
+                                        width: 80,
+                                        height: 80,
+                                        child: Image.asset(
+                                          item['image']!,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
                                     ),
                                     const SizedBox(width: 10.0),
                                     Column(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           item['title']!,
@@ -159,7 +151,8 @@ class _SlidableScreenState extends State<SlidableScreen> {
                                           item['sl']!,
                                           style: const TextStyle(
                                             fontSize: 16.0,
-                                            color: Color.fromARGB(255, 108, 107, 107),
+                                            color: Color.fromARGB(
+                                                255, 108, 107, 107),
                                           ),
                                         ),
                                       ],
@@ -176,7 +169,7 @@ class _SlidableScreenState extends State<SlidableScreen> {
                   Container(
                     child: Center(
                       child: Padding(
-                        padding: const EdgeInsets.all( 20),
+                        padding: const EdgeInsets.all(20),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -211,18 +204,18 @@ class _SlidableScreenState extends State<SlidableScreen> {
                                   width: 200,
                                   height: 50,
                                   child: ElevatedButton(
-  onPressed: () {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      isDismissible: false,
-      builder: (context) {
-        return BottomSheetContent(); 
-      }
-    );
-  },
+                                    onPressed: () {
+                                      showModalBottomSheet(
+                                          context: context,
+                                          isScrollControlled: true,
+                                          isDismissible: false,
+                                          builder: (context) {
+                                            return BottomSheetContent();
+                                          });
+                                    },
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         Icon(
                                           Icons.shopping_cart_outlined,

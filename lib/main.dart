@@ -4,6 +4,16 @@ import 'package:deer_coffee/views/home_page.dart';
 import 'package:deer_coffee/views/home_page_order_method.dart';
 import 'package:deer_coffee/views/order_confirmation.dart';
 import 'package:deer_coffee/views/order_determination.dart';
+import 'package:deer_coffee/views/available_rewards.dart';
+import 'package:deer_coffee/views/cart.dart';
+import 'package:deer_coffee/views/delivering.dart';
+import 'package:deer_coffee/views/drips.dart';
+import 'package:deer_coffee/views/notification.dart';
+import 'package:deer_coffee/views/order_determination.dart';
+import 'package:deer_coffee/views/store.dart';
+import 'package:deer_coffee/views/voucher.dart';
+import 'package:deer_coffee/views/voucher_login.dart';
+import 'package:deer_coffee/views/voucher_qr.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'firebase_options.dart';
@@ -53,7 +63,7 @@ class MyApp extends StatelessWidget {
       // initialRoute: RouteHandler.WELCOME,
       // unknownRoute:
       //     GetPage(name: RouteHandler.NOT_FOUND, page: () => NotFoundScreen()),
-      home: OrderMethod(),
+      home: SplashScreen(),
     );
   }
 }

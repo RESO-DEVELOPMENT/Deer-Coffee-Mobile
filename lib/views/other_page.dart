@@ -10,24 +10,10 @@ class OtherPage extends StatefulWidget {
 }
 
 class _OtherPageState extends State<OtherPage> {
-   int _currentIndex = 0;
+  int _currentIndex = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: Color(0xffF9F9F9),
-      //  bottomNavigationBar: BottomNavigationBar(
-      //   items: [
-      //     BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Trang chủ'),
-      //     BottomNavigationBarItem(icon: Icon(Icons.coffee_outlined), label: 'Đặt hàng'),
-      //     BottomNavigationBarItem(icon: Icon(Icons.store_outlined), label: 'Cửa hàng'),
-      //     BottomNavigationBarItem(icon: Icon(Icons.assignment), label: 'Ưu đãi'),
-      //     BottomNavigationBarItem(icon: Icon(Icons.segment_sharp), label: 'Khác'),
-      //   ],
-      //   currentIndex: _currentIndex,
-      //   selectedItemColor: Colors.blue,
-      //   unselectedItemColor: Colors.grey,
-      //   onTap: _changeItem, // Đổi màu khi nổi lên (chọn)
-      // ),
       appBar: AppBar(
         title: Row(
           children: [
@@ -80,8 +66,7 @@ class _OtherPageState extends State<OtherPage> {
           ],
         ),
       ),
-      body: 
-      SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(8.0),
           child: Column(
@@ -130,10 +115,10 @@ class _OtherPageState extends State<OtherPage> {
                                 padding: EdgeInsets.only(bottom: 10, left: 10),
                                 child: Text(
                                   'Lịch sử đơn hàng',
-                                  style: GoogleFonts.inter(color: Colors.black,
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold
-                          ),
+                                  style: GoogleFonts.inter(
+                                      color: Colors.black,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold),
                                 ),
                               ),
                             ),
@@ -168,10 +153,10 @@ class _OtherPageState extends State<OtherPage> {
                                 padding: EdgeInsets.only(bottom: 10, left: 10),
                                 child: Text(
                                   'Điều khoản',
-                                  style: GoogleFonts.inter(color: Colors.black,
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold
-                          ),
+                                  style: GoogleFonts.inter(
+                                      color: Colors.black,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold),
                                 ),
                               ),
                             ),
@@ -206,10 +191,10 @@ class _OtherPageState extends State<OtherPage> {
                                 padding: EdgeInsets.only(bottom: 10, left: 10),
                                 child: Text(
                                   'Về tôi',
-                                  style: GoogleFonts.inter(color: Colors.black,
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold
-                          ),
+                                  style: GoogleFonts.inter(
+                                      color: Colors.black,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold),
                                 ),
                               ),
                             ),
@@ -244,10 +229,10 @@ class _OtherPageState extends State<OtherPage> {
                                 padding: EdgeInsets.only(bottom: 10, left: 10),
                                 child: Text(
                                   'Điều khoản VNPay',
-                                  style: GoogleFonts.inter(color: Colors.black,
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold
-                          ),
+                                  style: GoogleFonts.inter(
+                                      color: Colors.black,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold),
                                 ),
                               ),
                             ),
@@ -300,10 +285,10 @@ class _OtherPageState extends State<OtherPage> {
                                 padding: EdgeInsets.only(bottom: 10, left: 10),
                                 child: Text(
                                   'Đánh giá đơn hàng',
-                                 style: GoogleFonts.inter(color: Colors.black,
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold
-                          ),
+                                  style: GoogleFonts.inter(
+                                      color: Colors.black,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold),
                                 ),
                               ),
                             ),
@@ -336,10 +321,10 @@ class _OtherPageState extends State<OtherPage> {
                                 padding: EdgeInsets.only(bottom: 10, left: 10),
                                 child: Text(
                                   'Liên hệ và góp ý',
-                                style: GoogleFonts.inter(color: Colors.black,
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold
-                          ),
+                                  style: GoogleFonts.inter(
+                                      color: Colors.black,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold),
                                 ),
                               ),
                             ),
@@ -351,50 +336,54 @@ class _OtherPageState extends State<OtherPage> {
                   ),
                 ],
               ),
-              SizedBox(height: 15,),
+              SizedBox(
+                height: 15,
+              ),
               Text(
                 "Tài Khoản",
                 style: GoogleFonts.inter(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold
-                ),
+                    fontSize: 20, fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: 20,),
+              SizedBox(
+                height: 20,
+              ),
               Padding(
                 padding: const EdgeInsets.only(top: 5.0, left: 15),
                 child: Container(
                   height: 240,
                   width: 355,
-                      padding: EdgeInsets.symmetric(horizontal: 10), // Khoảng cách xung quanh nội dung
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(13)),
-                      //   border: Border.all(
-                      // color: Colors.grey, // Màu của đường viền nếu cần
-                        
-                      //   ),
-                        boxShadow: [
-                            BoxShadow(
-                              color: Colors.white, // Màu của bóng đổ
-                              offset: Offset(0, 0.5),
-                            ),
-                          ],
+                  padding: EdgeInsets.symmetric(
+                      horizontal: 10), // Khoảng cách xung quanh nội dung
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(13)),
+                    //   border: Border.all(
+                    // color: Colors.grey, // Màu của đường viền nếu cần
+
+                    //   ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.white, // Màu của bóng đổ
+                        offset: Offset(0, 0.5),
                       ),
-                      child: Column(
-                        children: [
+                    ],
+                  ),
+                  child: Column(
+                    children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('Thông tin cá nhân',
-                          style: GoogleFonts.inter(color: Colors.black,
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold
-                          ),
+                          Text(
+                            'Thông tin cá nhân',
+                            style: GoogleFonts.inter(
+                                color: Colors.black,
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold),
                           ),
                           IconButton(
-                icon: Icon(Icons.arrow_forward),
-                onPressed: () {
-                  // Xử lý khi nút mũi tên được nhấn
-                },
+                            icon: Icon(Icons.arrow_forward),
+                            onPressed: () {
+                              // Xử lý khi nút mũi tên được nhấn
+                            },
                           ),
                         ],
                       ),
@@ -402,17 +391,18 @@ class _OtherPageState extends State<OtherPage> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('Địa chỉ đã lưu',
-                          style: GoogleFonts.inter(color: Colors.black,
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold
-                          ),
+                          Text(
+                            'Địa chỉ đã lưu',
+                            style: GoogleFonts.inter(
+                                color: Colors.black,
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold),
                           ),
                           IconButton(
-                icon: Icon(Icons.arrow_forward),
-                onPressed: () {
-                  // Xử lý khi nút mũi tên được nhấn
-                },
+                            icon: Icon(Icons.arrow_forward),
+                            onPressed: () {
+                              // Xử lý khi nút mũi tên được nhấn
+                            },
                           ),
                         ],
                       ),
@@ -420,16 +410,18 @@ class _OtherPageState extends State<OtherPage> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('Cài đặt',
-                          style: GoogleFonts.inter(color: Colors.black,
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold
-                          ),),
+                          Text(
+                            'Cài đặt',
+                            style: GoogleFonts.inter(
+                                color: Colors.black,
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold),
+                          ),
                           IconButton(
-                icon: Icon(Icons.arrow_forward),
-                onPressed: () {
-                  // Xử lý khi nút mũi tên được nhấn
-                },
+                            icon: Icon(Icons.arrow_forward),
+                            onPressed: () {
+                              // Xử lý khi nút mũi tên được nhấn
+                            },
                           ),
                         ],
                       ),
@@ -437,22 +429,24 @@ class _OtherPageState extends State<OtherPage> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('Đăng xuất',
-                          style: GoogleFonts.inter(color: Colors.black,
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold
-                          ),),
+                          Text(
+                            'Đăng xuất',
+                            style: GoogleFonts.inter(
+                                color: Colors.black,
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold),
+                          ),
                           IconButton(
-                icon: Icon(Icons.arrow_forward),
-                onPressed: () {
-                  // Xử lý khi nút mũi tên được nhấn
-                },
+                            icon: Icon(Icons.arrow_forward),
+                            onPressed: () {
+                              // Xử lý khi nút mũi tên được nhấn
+                            },
                           ),
                         ],
                       ),
-                        ],
-                      ),
-                    ),
+                    ],
+                  ),
+                ),
               )
             ],
           ),
@@ -460,6 +454,7 @@ class _OtherPageState extends State<OtherPage> {
       ),
     );
   }
+
   void _changeItem(int value) {
     print(value);
     setState(() {
@@ -467,5 +462,3 @@ class _OtherPageState extends State<OtherPage> {
     });
   }
 }
-
-
