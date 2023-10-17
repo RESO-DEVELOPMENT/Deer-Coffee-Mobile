@@ -1,5 +1,7 @@
+import 'package:deer_coffee/views/order_confirmation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class SlidableScreen extends StatefulWidget {
   const SlidableScreen({Key? key}) : super(key: key);
@@ -38,7 +40,7 @@ class _SlidableScreenState extends State<SlidableScreen> {
         child: Column(
           children: [
             Container(
-              height: 70.0,
+              height: 85,
               child: Column(
                 children: [
                   Align(
@@ -124,12 +126,13 @@ class _SlidableScreenState extends State<SlidableScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     ClipRRect(
-                                      child: Image.asset(
-                                        item['image']!,
-                                        width: 100.0,
-                                        height: 100.0,
-                                        fit: BoxFit.cover,
-                                      ),
+                                      // child: 
+                                      // Image.asset(
+                                      //   item['image']!,
+                                      //   width: 100.0,
+                                      //   height: 100.0,
+                                      //   fit: BoxFit.cover,
+                                      // ),
                                     ),
                                     const SizedBox(width: 10.0),
                                     Column(
@@ -208,7 +211,16 @@ class _SlidableScreenState extends State<SlidableScreen> {
                                   width: 200,
                                   height: 50,
                                   child: ElevatedButton(
-                                    onPressed: () {},
+  onPressed: () {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      isDismissible: false,
+      builder: (context) {
+        return BottomSheetContent(); 
+      }
+    );
+  },
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       children: [

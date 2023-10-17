@@ -14,7 +14,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
   TextEditingController _tenController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
   DateTime _selectedDate = DateTime.now();
-  String _selectedGender = 'Nam'; // Giới tính mặc định
+  String _selectedGender = 'Nam'; 
   int _currentIndex = 0;
 
   @override
@@ -53,7 +53,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
         child: Column(
           children: [
             Container(
-              height: 18, // Khoảng trắng giữa AppBar và body
+              height: 18, 
             ),
             Center(
               child: SizedBox(
@@ -112,17 +112,17 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
             Container(
               height: 70,
               width: double.infinity,
-              padding: EdgeInsets.all(10), // Định dạng khoảng cách
+              padding: EdgeInsets.all(10), 
               child: TextField(
                 controller: _tenController,
                 decoration: InputDecoration(
                   labelText: 'Tên',
                   border: OutlineInputBorder(),
-                  labelStyle: GoogleFonts.inter( // Đặt font family 'Inter' cho labelText
+                  labelStyle: GoogleFonts.inter( 
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                style: GoogleFonts.inter( // Đặt font family 'Inter' cho nội dung TextField
+                style: GoogleFonts.inter( 
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -131,22 +131,22 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
             Container(
               height: 70,
               width: double.infinity,
-              padding: EdgeInsets.all(10), // Định dạng khoảng cách
+              padding: EdgeInsets.all(10), 
               child: TextField(
                 controller: _emailController,
                 decoration: InputDecoration(
                   labelText: 'Email',
                   border: OutlineInputBorder(),
-                  labelStyle: GoogleFonts.inter( // Đặt font family 'Inter' cho labelText
+                  labelStyle: GoogleFonts.inter( 
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                style: GoogleFonts.inter( // Đặt font family 'Inter' cho nội dung TextField
+                style: GoogleFonts.inter( 
                   fontWeight: FontWeight.bold,
                 ),
               ),
             ),
-            // Ngày sinh
+            
             Container(
               height: 70,
               width: double.infinity,
@@ -163,20 +163,20 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                   labelText: 'Ngày ',
                   border: OutlineInputBorder(),
                   suffixIcon: Icon(Icons.calendar_month),
-                  labelStyle: GoogleFonts.inter( // Đặt font family 'Inter' cho labelText
+                  labelStyle: GoogleFonts.inter( 
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                style: GoogleFonts.inter( // Đặt font family 'Inter' cho nội dung TextField
+                style: GoogleFonts.inter( 
                   fontWeight: FontWeight.bold,
                 ),
               ),
             ),
-            // Giới tính
+           
             Container(
               height: 80,
               width: double.infinity,
-              padding: EdgeInsets.all(10), // Định dạng khoảng cách
+              padding: EdgeInsets.all(10), 
               child: DropdownButtonFormField<String>(
                 value: _selectedGender,
                 onChanged: (newValue) {
@@ -190,7 +190,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                       value: value,
                       child: Text(
                         value,
-                        style: GoogleFonts.inter( // Đặt font family 'Inter' cho mục DropdownMenuItem
+                        style: GoogleFonts.inter( 
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -200,7 +200,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                 decoration: InputDecoration(
                   labelText: 'Giới tính',
                   border: OutlineInputBorder(),
-                  labelStyle: GoogleFonts.inter( // Đặt font family 'Inter' cho labelText
+                  labelStyle: GoogleFonts.inter( 
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -212,17 +212,17 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
               width: 375,
               child: ElevatedButton(
                 onPressed: () {
-                  // Xử lý cập nhật tài khoản ở đây
+                 
                 },
                 child: Text(
                   'Cập Nhật Tài Khoản',
-                  style: GoogleFonts.inter( // Đặt font family 'Inter' cho văn bản nút
+                  style: GoogleFonts.inter( 
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
                   ),
                 ),
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.grey, // Màu nền của nút
+                  primary: Colors.grey, 
                   textStyle: TextStyle(
                     color: Colors.black,
                   ),
@@ -243,10 +243,10 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                     },
                     icon: Icon(Icons.delete_outline),
                   ),
-                  SizedBox(width: 0,), // Khoảng cách giữa icon và text
+                  SizedBox(width: 0,), 
                   Text(
                     'Xóa tài khoản',
-                    style: GoogleFonts.inter( // Đặt font family 'Inter' cho văn bản Text
+                    style: GoogleFonts.inter( 
                       fontWeight: FontWeight.bold,
                     ),
                   ),

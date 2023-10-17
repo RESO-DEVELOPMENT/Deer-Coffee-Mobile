@@ -14,20 +14,20 @@ class _OtherPageState extends State<OtherPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffF9F9F9),
-       bottomNavigationBar: BottomNavigationBar(
-        items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Trang chủ'),
-          BottomNavigationBarItem(icon: Icon(Icons.coffee_outlined), label: 'Đặt hàng'),
-          BottomNavigationBarItem(icon: Icon(Icons.store_outlined), label: 'Cửa hàng'),
-          BottomNavigationBarItem(icon: Icon(Icons.assignment), label: 'Ưu đãi'),
-          BottomNavigationBarItem(icon: Icon(Icons.segment_sharp), label: 'Khác'),
-        ],
-        currentIndex: _currentIndex,
-        selectedItemColor: Colors.blue,
-        unselectedItemColor: Colors.grey,
-        onTap: _changeItem, // Đổi màu khi nổi lên (chọn)
-      ),
+      // backgroundColor: Color(0xffF9F9F9),
+      //  bottomNavigationBar: BottomNavigationBar(
+      //   items: [
+      //     BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Trang chủ'),
+      //     BottomNavigationBarItem(icon: Icon(Icons.coffee_outlined), label: 'Đặt hàng'),
+      //     BottomNavigationBarItem(icon: Icon(Icons.store_outlined), label: 'Cửa hàng'),
+      //     BottomNavigationBarItem(icon: Icon(Icons.assignment), label: 'Ưu đãi'),
+      //     BottomNavigationBarItem(icon: Icon(Icons.segment_sharp), label: 'Khác'),
+      //   ],
+      //   currentIndex: _currentIndex,
+      //   selectedItemColor: Colors.blue,
+      //   unselectedItemColor: Colors.grey,
+      //   onTap: _changeItem, // Đổi màu khi nổi lên (chọn)
+      // ),
       appBar: AppBar(
         title: Row(
           children: [

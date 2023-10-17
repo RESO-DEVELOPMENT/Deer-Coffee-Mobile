@@ -1,245 +1,211 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ionicons/ionicons.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 
-    class HomePage extends StatefulWidget {
-      const HomePage({Key? key}) : super(key: key);
+class OrderMethod extends StatefulWidget {
+  const OrderMethod({super.key});
 
-      @override
-      State<HomePage> createState() => _HomePageState();
-    }
-
-    final List<String> imageList = [
+  @override
+  State<OrderMethod> createState() => _OrderMethodState();
+}
+  final List<String> imageList = [
       'assets/images/1.png',
       'assets/images/2.png',
       'assets/images/3.png',
       // Thêm các đường dẫn đến hình ảnh của bạn tại đây
     ];
-
-    class _HomePageState extends State<HomePage> {
-      int _currentIndex = 0;
-
+class _OrderMethodState extends State<OrderMethod> {
+   int _currentIndex = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFE5EDFF),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: ListView(
+      appBar: AppBar(
+        title:  Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                Image.asset(
+                  'assets/images/waving_hand.png',
+                  width: 40,
+                  height: 40,
+                ),
+                SizedBox(width: 10),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      children: [
-                        Image.asset(
-                          'assets/images/waving_hand.png',
-                          width: 40,
-                          height: 40,
-                        ),
-                        SizedBox(width: 10),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                    Text(
+                      "Chào buổi sáng",
+                      style: GoogleFonts.getFont(
+                        'Inter',
+                        color: Colors.black,
+                        fontWeight: FontWeight.w300,
+                        fontSize: 13,
+                      ),
+                    ),
+                    Text(
+                      "Quốc Khánh",
+                      style: GoogleFonts.getFont(
+                        'Inter',
+                        color: Colors.black,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 18,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Container(
+                  width: 55,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.rectangle,
+                    borderRadius: BorderRadius.circular(13),
+                    color: Colors.blue,
+                  ),
+                  child: IconButton(
+                    icon: Icon(
+                      Icons.confirmation_num_outlined,
+                      color: Colors.white,
+                    ),
+                    onPressed: () {},
+                  ),
+                ),
+                SizedBox(width: 3),
+                Container(
+                  width: 50,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.blue,
+                  ),
+                  child: IconButton(
+                    icon: Icon(
+                      Ionicons.notifications_outline,
+                      color: Colors.white,
+                    ),
+                    onPressed: () {},
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 1, 
+      ),
+     
+      body:  SafeArea(
+            child: ListView(
+              children: [
+                SizedBox(
+                  height: 20,
+                ),
+                Padding(
+  padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16),
+  child: Container(
+    decoration: BoxDecoration(
+      image: DecorationImage(
+        image: AssetImage('assets/images/homepage.png'),
+        fit: BoxFit.cover,
+      ),
+      color: Colors.blue,
+      borderRadius: BorderRadius.circular(20),
+    ),
+    height: 291,
+    width: 356,
+    padding: EdgeInsets.symmetric(horizontal: 60, vertical: 0),
+    child: Column(
+      children: [
+        SizedBox(height: 20,),
+        Positioned(
+          left: 30,
+          right: 50,
+          child: Row(
+            children: [
+              Row(
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(right: 30),
+                        child: Row(
                           children: [
                             Text(
-                              "Chào buổi sáng",
-                              style: GoogleFonts.getFont(
-                                'Inter',
-                                color: Colors.black,
-                                fontWeight: FontWeight.w300,
-                                fontSize: 13,
-                              ),
-                            ),
-                            Text(
-                              "Quốc Khánh",
-                              style: GoogleFonts.getFont(
-                                'Inter',
-                                color: Colors.black,
-                                fontWeight: FontWeight.w500,
-                                fontSize: 18,
+                              "Nguyễn Quốc Khánh",
+                              style: TextStyle(
+                                fontSize: 20,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
                           ],
                         ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Container(
-                          width: 55,
-                          height: 40,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.rectangle,
-                            borderRadius: BorderRadius.circular(13),
-                            color: Colors.blue,
-                          ),
-                          child: IconButton(
-                            icon: Icon(
-                              Icons.confirmation_num_outlined,
+                      ),
+                      Row(
+                        children: [
+                          Icon(Icons.payment, color: Colors.white),
+                          SizedBox(width: 5),
+                          Text(
+                            "Trả trước :  0 đồng",
+                            style: TextStyle(
+                              fontSize: 16,
                               color: Colors.white,
-                            ),
-                            onPressed: () {},
-                          ),
-                        ),
-                        SizedBox(width: 03),
-                        Container(
-                          width: 50,
-                          height: 40,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.blue,
-                          ),
-                          child: IconButton(
-                            icon: Icon(
-                              Ionicons.notifications_outline,
-                              color: Colors.white,
-                            ),
-                            onPressed: () {},
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                /// dang nhap  //
-                SizedBox(
-                  height: 20,
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  SizedBox(height: 18),
-                  Text(
-                    'Sử dụng app để tích điểm và đổi những ưu đãi',
-                    style: GoogleFonts.getFont(
-                      'Inter',
-                      fontSize: 11,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black,
-                      letterSpacing: 0.1,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  SizedBox(height: 10),
-                  Text(
-                    'chỉ dành riêng cho thành viên bạn nhé !',
-                    style: GoogleFonts.getFont(
-                      'Inter',
-                      fontSize: 11,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black,
-                      letterSpacing: 0.1,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  Stack(
-                    alignment: Alignment.center,
-                    clipBehavior: Clip.none,
-                    children: [
-                      Text(
-                        'Đăng nhập',
-                        style: GoogleFonts.getFont(
-                          'Inter',
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ),
-                      ),
-                      Positioned(
-                        top: -10,
-                        child: Container(
-                          width: Get.width * 0.5,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            gradient: LinearGradient(
-                              begin: Alignment(-1, -1.133),
-                              end: Alignment(1, 1.367),
-                              colors: <Color>[
-                                Color(0xff549ffd),
-                                Color(0xffc8ddff)
-                              ],
-                              stops: <double>[0.014, 1],
-                            ),
-                          ),
-                          child: TextButton(
-                            onPressed: () {},
-                            child: Text('Đăng nhập',
-                                textAlign: TextAlign.center,
-                                style: Get.textTheme.bodyLarge
-                                    ?.copyWith(color: Colors.white)),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 50,
-                      ),
-                      Positioned(
-                        top: 70,
-                        child: Container(
-                          width: Get.width * 0.5,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            gradient: const LinearGradient(
-                              begin: Alignment(-1, -1.133),
-                              end: Alignment(1, 1.367),
-                              colors: <Color>[
-                                Color(0xff549ffd),
-                                Color(0xffc8ddff)
-                              ],
-                              stops: <double>[0.014, 1],
-                            ),
-                          ),
-                          child: TextButton(
-                            onPressed: () {},
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      right: 5), // Thụt lề văn bản ra bên phải
-                                  child: Text('Deer Coffee Reward',
-                                      textAlign: TextAlign.start,
-                                      style: Get.textTheme.bodyLarge
-                                          ?.copyWith(color: Colors.white)),
-                                ),
-                                Icon(
-                                  Icons.chevron_right,
-                                  color: Colors.white,
-                                  size: 25,
-                                ),
-                              ],
                             ),
                           ),
                         ],
-                        clipBehavior: Clip
-                            .none, // Đảm bảo không cắt bớt phần nào của các phần tử
                       ),
-                    ], // Đảm bảo không cắt bớt phần nào của các phần tử
+                    ],
                   ),
-                ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        SizedBox(height: 50), 
+        Container(
+          decoration: BoxDecoration(
+            color: Colors.white, 
+            borderRadius: BorderRadius.circular(20), 
+          ),
+          height: 100, 
+          width: 300, 
+          
+          child: Center(
+            child: Text(
+              "This is a white container",
+              style: TextStyle(
+                fontSize: 18,
+                color: Colors.black,
+              ),
+            ),
+          ),
+        ),
+      ],
+    ),
+    
+  ),
+  
+),
                 // hop trang ben duoi
                   SizedBox(
                     height: 50,
                   ),
                   Container(
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: Colors.grey.shade200,
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(30.0),
                         topRight: Radius.circular(30.0),
                       ),
                     ),
+                    
                     
                     padding: EdgeInsets.only(bottom: 120),
                     child: Column(
@@ -555,98 +521,97 @@ import 'package:carousel_slider/carousel_slider.dart';
                       SizedBox(
                         height: 32,
                       ),
-                    Column(
-      children: [
-    GridView.builder(
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        crossAxisSpacing: 16.0,
-        mainAxisSpacing: 100.0,
+                   GridView.builder(
+  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+    crossAxisCount: 2,
+    crossAxisSpacing: 16.0,
+    mainAxisSpacing: 46.0, // Reduce the vertical spacing
+  ),
+  itemCount: 6,
+  shrinkWrap: true,
+  physics: NeverScrollableScrollPhysics(),
+  itemBuilder: (BuildContext context, int index) {
+    List<String> bottomTexts = [
+      'Text 1',
+      'Text 2',
+      'Text 3',
+      'Text 4',
+      'Text 5',
+      'Text 6'
+    ];
+    List<String> dateTexts = [
+      '01/08',
+      '01/08',
+      '01/08',
+      '01/08',
+      '01/08',
+      '01/08'
+    ];
+
+   return Stack(
+  children: [
+    Positioned.fill(
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+        color: Colors.grey,
+        clipBehavior: Clip.none,
+        child: Container(),
       ),
-      itemCount: 6,
-      shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
-      itemBuilder: (BuildContext context, int index) {
-        List<String> bottomTexts = [
-          'Text 1',
-          'Text 2',
-          'Text 3',
-          'Text 4',
-          'Text 5',
-          'Text 6'
-        ];
-        List<String> dateTexts = [
-          '01/08',
-          '01/08',
-          '01/08',
-          '01/08',
-          '01/08',
-          '01/08'
-        ];
-
-        return Stack(
-          children: [
-            Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8.0),
-              ),
-              color: Colors.grey,
-              clipBehavior: Clip.none, 
-              child: Container(), 
+    ),
+    Positioned(
+      bottom: -20,
+      left: 0,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            bottomTexts[index].toUpperCase(),
+            style: TextStyle(
+              fontSize: 19,
+              fontWeight: FontWeight.bold,
             ),
-            Positioned(
-              bottom: -50, 
-              left: 16, 
-              right: 16, 
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    bottomTexts[index].toUpperCase(),
-                    style: TextStyle(
-                      fontSize: 19,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 8), 
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.calendar_month_outlined,
-                        color: Colors.black,
-                        size: 16,
-                      ),
-                      SizedBox(width: 4),
-                      Text(
-                        dateTexts[index],
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.normal,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+          ),
+          SizedBox(height: 8),
+          Row(
+            children: [
+              Icon(
+                Icons.calendar_month_outlined,
+                color: Colors.black,
+                size: 16,
               ),
-            ),
-          ],
-        );
-      },
-    )
+              SizedBox(width: 4),
+              Text(
+                dateTexts[index],
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.normal,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    ),
+  ],
+);
 
-      
-      ],
-    )
-
+  },
+),
                     ],
                   ),
                 ),
               ],
             ),
           ),
-        );
-      }
+         
 
+      );
+  }
+    
+
+ 
       void _changeItem(int value) {
         print(value);
         setState(() {
@@ -654,3 +619,4 @@ import 'package:carousel_slider/carousel_slider.dart';
         });
       }
     }
+    
