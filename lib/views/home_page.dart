@@ -252,104 +252,104 @@
                   ),
                 ),
                 // hop trang ben duoi
-                SizedBox(
-                  height: 50,
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(30.0),
-                      topRight: Radius.circular(30.0),
-                    ),
+                  SizedBox(
+                    height: 50,
                   ),
-                  
-                  padding: EdgeInsets.only(bottom: 120),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                    Padding(
-                                  padding: const EdgeInsets.only(bottom: 30,top : 30),
-                                  child: Transform.rotate(
-                                    angle: 0 * (3.14159265359 / 180),
-                                    child: Container(
-                                      height: 5,
-                                      width: 49,
-                                      color: Colors.grey,
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(30.0),
+                        topRight: Radius.circular(30.0),
+                      ),
+                    ),
+                    
+                    padding: EdgeInsets.only(bottom: 120),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                      Padding(
+                                    padding: const EdgeInsets.only(bottom: 30,top : 30),
+                                    child: Transform.rotate(
+                                      angle: 0 * (3.14159265359 / 180),
+                                      child: Container(
+                                        height: 5,
+                                        width: 49,
+                                        color: Colors.grey,
+                                      ),
                                     ),
                                   ),
-                                ),
-                      Container(
-                        width: 280,
-                        height: 100,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(30),
-                          border: Border.all(
-                            color: Colors.black,
-                            width: 0.5,
+                        Container(
+                          width: 280,
+                          height: 100,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(30),
+                            border: Border.all(
+                              color: Colors.black,
+                              width: 0.5,
+                            ),
                           ),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                InkWell(
-                                  onTap: () {
-                                    // Add your onTap logic here
-                                  },
-                                  child: Container(
-                                    width: 70,
-                                    height: 70,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Colors.transparent,
-                                      border: Border.all(color: Colors.transparent),
-                                    ),
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Icon(
-                                          Icons.local_shipping_outlined,
-                                          color: Colors.black,
-                                          size: 30,
-                                        ),
-                                        SizedBox(height: 5),
-                                        Text(
-                                          "Giao hàng",
-                                          style: GoogleFonts.getFont(
-                                            'Inter',
-                                            color: Colors.black,
-                                            fontSize: 12,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(width: 10),
-                                Padding(
-                                  padding: const EdgeInsets.only(bottom: 45),
-                                  child: Transform.rotate(
-                                    angle: 90 * (3.14159265359 / 180),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  InkWell(
+                                    onTap: () {
+                                      // Add your onTap logic here
+                                    },
                                     child: Container(
-                                      height: 2,
-                                      width: 49,
-                                      color: Colors.grey,
+                                      width: 70,
+                                      height: 70,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: Colors.transparent,
+                                        border: Border.all(color: Colors.transparent),
+                                      ),
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Icon(
+                                            Icons.local_shipping_outlined,
+                                            color: Colors.black,
+                                            size: 30,
+                                          ),
+                                          SizedBox(height: 5),
+                                          Text(
+                                            "Giao hàng",
+                                            style: GoogleFonts.getFont(
+                                              'Inter',
+                                              color: Colors.black,
+                                              fontSize: 12,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                ),
-                                SizedBox(width: 10),
-                                InkWell(
-                                  onTap: () {
-                                    // Add your onTap logic here
-                                  },
-                                  child: Container(
-                                    width: 70,
-                                    height: 70,
+                                  SizedBox(width: 10),
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: 45),
+                                    child: Transform.rotate(
+                                      angle: 90 * (3.14159265359 / 180),
+                                      child: Container(
+                                        height: 2,
+                                        width: 49,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(width: 10),
+                                  InkWell(
+                                    onTap: () {
+                                      // Add your onTap logic here
+                                    },
+                                    child: Container(
+                                      width: 70,
+                                      height: 70,
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
                                       color: Colors.transparent,
