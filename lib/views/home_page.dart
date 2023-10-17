@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -24,7 +25,8 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFFE5EDFF),
-      body: SafeArea(
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
         child: ListView(
           children: [
             Row(
@@ -155,6 +157,8 @@ class _HomePageState extends State<HomePage> {
                     height: 30,
                   ),
                   Stack(
+                    alignment: Alignment.center,
+                    clipBehavior: Clip.none,
                     children: [
                       Image.asset(
                         'assets/images/hinhchunhat.png',
@@ -163,11 +167,9 @@ class _HomePageState extends State<HomePage> {
                         fit: BoxFit.cover,
                       ),
                       Positioned(
-                        right: 42,
                         top: -10,
                         child: Container(
-                          width: 190,
-                          height: 39,
+                          width: Get.width * 0.5,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             gradient: LinearGradient(
@@ -182,15 +184,10 @@ class _HomePageState extends State<HomePage> {
                           ),
                           child: TextButton(
                             onPressed: () {},
-                            child: Text(
-                              'Đăng nhập',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600,
-                                color: Color(0xffffffff),
-                              ),
-                            ),
+                            child: Text('Đăng nhập',
+                                textAlign: TextAlign.center,
+                                style: Get.textTheme.bodyLarge
+                                    ?.copyWith(color: Colors.white)),
                           ),
                         ),
                       ),
@@ -198,14 +195,12 @@ class _HomePageState extends State<HomePage> {
                         height: 50,
                       ),
                       Positioned(
-                        right: 15,
                         top: 70,
                         child: Container(
-                          width: 245,
-                          height: 39,
+                          width: Get.width * 0.5,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
-                            gradient: LinearGradient(
+                            gradient: const LinearGradient(
                               begin: Alignment(-1, -1.133),
                               end: Alignment(1, 1.367),
                               colors: <Color>[
@@ -218,26 +213,20 @@ class _HomePageState extends State<HomePage> {
                           child: TextButton(
                             onPressed: () {},
                             child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Padding(
                                   padding: EdgeInsets.only(
                                       right: 5), // Thụt lề văn bản ra bên phải
-                                  child: Text(
-                                    'Deer Coffee House\'s Reward',
-                                    textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(0xffffffff),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 35,
+                                  child: Text('Deer Coffee Reward',
+                                      textAlign: TextAlign.start,
+                                      style: Get.textTheme.bodyLarge
+                                          ?.copyWith(color: Colors.white)),
                                 ),
                                 Icon(
                                   Icons.chevron_right,
-                                  color: Colors.black,
+                                  color: Colors.white,
                                   size: 25,
                                 ),
                               ],
@@ -245,9 +234,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                       ),
-                    ],
-                    clipBehavior: Clip
-                        .none, // Đảm bảo không cắt bớt phần nào của các phần tử
+                    ], // Đảm bảo không cắt bớt phần nào của các phần tử
                   ),
                 ],
               ),

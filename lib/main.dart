@@ -1,6 +1,7 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
+import 'firebase_options.dart';
 import 'utils/route_constrant.dart';
 import 'views/login/login.dart';
 import 'views/not_found_screen.dart';
@@ -8,6 +9,9 @@ import 'views/root_screen.dart';
 import 'views/splash_screen.dart';
 
 void main() {
+  Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
@@ -18,6 +22,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
+      debugShowMaterialGrid: false,
       title: 'Deer Coffee',
       theme: ThemeData(
         colorSchemeSeed: const Color(0xFF2182F2),
