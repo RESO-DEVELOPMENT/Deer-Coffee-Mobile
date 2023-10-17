@@ -1,3 +1,4 @@
+import 'package:deer_coffee/views/store.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -21,6 +22,7 @@ class _RootScreenState extends State<RootScreen> {
     HomePage(),
     HomePage(),
     OtherPage(),
+    Store(),
   ];
   List<BottomNavigationBarItem> items = const [
     BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Trang chủ'),

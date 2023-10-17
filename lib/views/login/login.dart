@@ -9,8 +9,7 @@ enum Language {
   English,
 }
 
-Language currentLanguage =
-    Language.Vietnamese; // Ngôn ngữ mặc định là Tiếng Việt
+Language currentLanguage = Language.Vietnamese;
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -29,19 +28,16 @@ class _LoginScreenState extends State<LoginScreen> {
     } else {
       currentLanguage = Language.Vietnamese;
     }
-    setState(() {}); // Cập nhật giao diện
+    setState(() {});
   }
 
   @override
   void initState() {
-    // TODO: implement initState
     countrycode.text = "+84";
     super.initState();
   }
 
   bool isPhoneNumberValid() {
-    // Biểu thức chính quy để kiểm tra số điện thoại
-    // Kiểm tra số điện thoại có ít nhất 10 chữ số và chỉ chứa số không chữ
     RegExp regex = RegExp(r'^\d{10}$');
     return regex.hasMatch(phoneNumber.text);
   }
@@ -49,9 +45,9 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false, // Không cho phép resize khi bàn phím xuất hiện
       body: Stack(
         children: [
-          // Hình ảnh làm background
           Container(
             decoration: BoxDecoration(
               image: DecorationImage(
@@ -60,7 +56,6 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
           ),
-          // Nội dung trên hình ảnh
           SafeArea(
             child: Column(
               children: [
@@ -91,7 +86,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 SizedBox(
-                  height: 150,
+                  height: 130,
                 ),
                 Expanded(
                   child: Container(
@@ -108,7 +103,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       children: [
                         SizedBox(
                           height: 50,
-                          // child: Image.asset("assets/login.png"),
                         ),
                         Text.rich(
                           TextSpan(children: [
@@ -134,7 +128,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         Padding(
                           padding: const EdgeInsets.symmetric(
                             horizontal: 50.0,
-                            vertical: 30.0,
+                            vertical: 20.0,
                           ),
                           child: Container(
                             width: 550,
@@ -155,7 +149,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                   child: TextField(
                                     controller: countrycode,
                                     decoration: InputDecoration(
-                                        border: InputBorder.none),
+                                      border: InputBorder.none,
+                                    ),
                                   ),
                                 ),
                                 Text(
@@ -178,7 +173,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                         SizedBox(
-                          width: 385,
+                          width: 300,
                           height: 50,
                           child: ElevatedButton(
                             onPressed: () {
@@ -194,7 +189,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                         SizedBox(
-                          height: 145,
+                          height: 120,
                         ),
                         SizedBox(
                           child: InkWell(
