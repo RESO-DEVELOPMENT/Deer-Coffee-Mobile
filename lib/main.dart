@@ -1,5 +1,6 @@
 import 'package:deer_coffee/views/available_rewards.dart';
 import 'package:deer_coffee/views/cart.dart';
+import 'package:deer_coffee/views/delivering.dart';
 import 'package:deer_coffee/views/drips.dart';
 import 'package:deer_coffee/views/notification.dart';
 import 'package:deer_coffee/views/order_determination.dart';
@@ -51,7 +52,7 @@ class MyApp extends StatelessWidget {
       // initialRoute: RouteHandler.WELCOME,
       // unknownRoute:
       //     GetPage(name: RouteHandler.NOT_FOUND, page: () => NotFoundScreen()),
-      home: VoucherLogin(),
+      home: Delivering(),
     );
   }
 }

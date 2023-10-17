@@ -35,7 +35,7 @@ class _VoucherState extends State<Voucher> {
         ),
       ),
       body: Container(
-        color: Color(0xFFF5F5F5), // Màu F5F5F5 cho nền body
+        color: Color.fromARGB(255, 8, 7, 7), // Màu F5F5F5 cho nền body
         child: Column(
           children: [
             Padding(
