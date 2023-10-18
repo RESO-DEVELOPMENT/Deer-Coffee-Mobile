@@ -359,6 +359,35 @@ class _OptionState extends State<Option> {
                               ],
                             ),
                           ],
+                              Text(
+                                'Tùy Chọn',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize:
+                                      16, 
+                                ),
+                              ),
+                            ],
+                          ),
+                          IconButton(
+                            icon: Icon(
+                              Icons.shopping_cart_outlined,
+                              color: Colors.black,
+                            ),
+                            onPressed: () {
+                              // Xử lý khi nhấn nút back ở đây
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(
+                              15),
                         ),
                         Spacer(),
                         Text(

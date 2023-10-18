@@ -14,6 +14,7 @@ import 'package:deer_coffee/views/store.dart';
 import 'package:deer_coffee/views/voucher.dart';
 import 'package:deer_coffee/views/voucher_login.dart';
 import 'package:deer_coffee/views/voucher_qr.dart';
+import 'package:deer_coffee/views/reward_coffee.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'firebase_options.dart';

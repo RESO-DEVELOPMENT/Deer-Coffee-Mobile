@@ -223,7 +223,7 @@ import 'package:carousel_slider/carousel_slider.dart';
                           ),
                         ],
                         clipBehavior: Clip
-                            .none, // Đảm bảo không cắt bớt phần nào của các phần tử
+                            .none, 
                       ),
                     ], // Đảm bảo không cắt bớt phần nào của các phần tử
                   ),
@@ -276,7 +276,7 @@ import 'package:carousel_slider/carousel_slider.dart';
                                 children: [
                                   InkWell(
                                     onTap: () {
-                                      // Add your onTap logic here
+                                      
                                     },
                                     child: Container(
                                       width: 70,
@@ -322,7 +322,7 @@ import 'package:carousel_slider/carousel_slider.dart';
                                   SizedBox(width: 10),
                                   InkWell(
                                     onTap: () {
-                                      // Add your onTap logic here
+                                      
                                     },
                                     child: Container(
                                       width: 70,
@@ -532,7 +532,7 @@ import 'package:carousel_slider/carousel_slider.dart';
                               child: InkWell(
                                 borderRadius: BorderRadius.circular(30.0),
                                 onTap: () {
-                                  // Xử lý khi nút được nhấn
+                               
                                 },
                                 child: Padding(
                                   padding: EdgeInsets.symmetric(

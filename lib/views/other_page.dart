@@ -25,7 +25,7 @@ class _OtherPageState extends State<OtherPage> {
               ),
             ),
             SizedBox(
-              width: 185,
+              width: 130,
             ),
             Row(
               children: [
