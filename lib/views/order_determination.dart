@@ -42,7 +42,7 @@ class _OptionState extends State<Option> {
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize:
-                                      16, // Điều chỉnh kích thước phông chữ nếu cần
+                                      16, 
                                 ),
                               ),
                             ],
@@ -50,7 +50,7 @@ class _OptionState extends State<Option> {
                           IconButton(
                             icon: Icon(
                               Icons.shopping_cart_outlined,
-                              color: Colors.black, // Màu của nút back
+                              color: Colors.black,
                             ),
                             onPressed: () {
                               // Xử lý khi nhấn nút back ở đây
@@ -65,7 +65,7 @@ class _OptionState extends State<Option> {
                       Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(
-                              15), // Đặt giá trị BorderRadius là 15
+                              15),
                         ),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(15),

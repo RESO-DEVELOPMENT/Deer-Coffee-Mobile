@@ -3,6 +3,7 @@ import 'package:deer_coffee/views/home_page.dart';
 import 'package:deer_coffee/views/home_page_order_method.dart';
 import 'package:deer_coffee/views/order_confirmation.dart';
 import 'package:deer_coffee/views/order_determination.dart';
+import 'package:deer_coffee/views/reward_coffee.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -47,7 +48,8 @@ class MyApp extends StatelessWidget {
       // initialRoute: RouteHandler.WELCOME,
       // unknownRoute:
       //     GetPage(name: RouteHandler.NOT_FOUND, page: () => NotFoundScreen()),
-      home: OrderMethod(),
+      home: RewardCoffee(),
     );
   }
 }
+

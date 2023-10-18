@@ -13,12 +13,12 @@ class _OrderScreenState extends State<OrderScreen> {
     return Scaffold(
       body: Container(
         child: Align(
-          alignment: Alignment.center, // Căn giữa theo chiều ngang
+          alignment: Alignment.center, 
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Container(
-                // Điều chỉnh khoảng cách giữa hình ảnh và văn bản
+           
                 child: Image.asset('assets/images/1.png.png'),
                 margin: const EdgeInsets.only(top: 80),
               ),

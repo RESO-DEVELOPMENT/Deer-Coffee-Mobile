@@ -10,7 +10,7 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
   String selectedPaymentMethod = "Tiền mặt";
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) {  
     return Container(
       height: 680,
       child: SingleChildScrollView(
@@ -80,7 +80,7 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
             SizedBox(height: 20),
             Container(
                width: 350,
-              padding: EdgeInsets.all(8), // Tùy chỉnh lề cho hộp trắng
+              padding: EdgeInsets.all(8), 
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(13),
                 color: Colors.white,

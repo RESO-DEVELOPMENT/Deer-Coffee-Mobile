@@ -10,7 +10,7 @@ class OtherPage extends StatefulWidget {
 }
 
 class _OtherPageState extends State<OtherPage> {
-   int _currentIndex = 0;
+   int _currentIndex = 5;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,7 +39,7 @@ class _OtherPageState extends State<OtherPage> {
               ),
             ),
             SizedBox(
-              width: 185,
+              width: 130,
             ),
             Row(
               children: [
