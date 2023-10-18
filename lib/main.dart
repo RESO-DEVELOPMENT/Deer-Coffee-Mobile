@@ -4,7 +4,9 @@ import 'package:deer_coffee/views/delivering.dart';
 import 'package:deer_coffee/views/drips.dart';
 import 'package:deer_coffee/views/notification.dart';
 import 'package:deer_coffee/views/order_determination.dart';
+import 'package:deer_coffee/views/reward.dart';
 import 'package:deer_coffee/views/store.dart';
+import 'package:deer_coffee/views/t.dart';
 import 'package:deer_coffee/views/voucher.dart';
 import 'package:deer_coffee/views/voucher_login.dart';
 import 'package:deer_coffee/views/voucher_qr.dart';
@@ -52,7 +54,9 @@ class MyApp extends StatelessWidget {
       // initialRoute: RouteHandler.WELCOME,
       // unknownRoute:
       //     GetPage(name: RouteHandler.NOT_FOUND, page: () => NotFoundScreen()),
-      home: Delivering(),
+      home: Reward(
+        
+      ),
     );
   }
 }
