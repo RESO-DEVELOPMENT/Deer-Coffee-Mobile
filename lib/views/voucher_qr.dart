@@ -54,19 +54,25 @@ class _voucherQrState extends State<voucherQr> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            Icon(
-                              Icons.cancel,
-                              color: Colors.grey,
-                              size: 30,
+                             IconButton(
+                              icon: Icon(
+                                Icons.cancel,
+                                color: Colors.grey,
+                                size: 30,
+                              ),
+                              onPressed: () {
+                                Navigator.of(context)
+                                    .pop(); // Navigate back to the previous screen (LoginScreen)
+                              },
                             ),
-                            SizedBox(width: 16),
+                         
                           ],
                         ),
                         SizedBox(height: 10),
                         // Create the ticket-like UI
                         Container(
                           width: 320,
-                          height: 663,
+                          height: 645,
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(20),
@@ -110,7 +116,7 @@ class _voucherQrState extends State<voucherQr> {
                                 width: 180, // Điều chỉnh chiều rộng của ảnh
                                 height: 180, // Điều chỉnh chiều cao của ảnh
                               ),
-                              SizedBox(height: 10),
+                              SizedBox(height: 5),
                               Text(
                                 'DEERCOFFEE20',
                                 style: TextStyle(fontSize: 16),
@@ -161,7 +167,7 @@ class _voucherQrState extends State<voucherQr> {
                                 ),
                               ),
                               SizedBox(
-                                height: 20,
+                                height: 5,
                               ),
                               Divider(
                                 color: Colors.grey[300],

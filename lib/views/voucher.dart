@@ -1,3 +1,4 @@
+import 'package:deer_coffee/views/voucher_qr.dart';
 import 'package:flutter/material.dart';
 
 class Voucher extends StatefulWidget {
@@ -35,7 +36,7 @@ class _VoucherState extends State<Voucher> {
         ),
       ),
       body: Container(
-        color: Color.fromARGB(255, 8, 7, 7), // Màu F5F5F5 cho nền body
+        color: Color(0xFFF5F5F5), // Màu F5F5F5 cho nền body
         child: Column(
           children: [
             Padding(
@@ -92,59 +93,66 @@ class _VoucherState extends State<Voucher> {
 class TicketWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 50.0,
-      height: 128.0,
-      margin: EdgeInsets.all(10.0),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border.all(
-            color: Colors.transparent, width: 0.0),
-        borderRadius: BorderRadius.circular(12.0),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start, // Thay đổi từ `spaceBetween` thành `start`
-        children: [
-          CustomPaint(
-            size: Size(150.0, 120.0),
-            painter: TicketPainter(),
-            foregroundPainter: DotPainter(),
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => voucherQr(), // Replace with your VoucherQr page
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start, // Đảm bảo văn bản nằm bên trái
-              children: [
-                Text(
-                  'Dòng giảm 40% + FREESHIP',
-                  style: TextStyle(
-                    fontSize: 16.0,
-                  ),
-                ),
-                Text(
-                  'Đơn 4 ly',
-                  style: TextStyle(
-                    fontSize: 16.0,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 18),
-                  child: Text(
-                    'Hết hạn: 9/9/2023',
+        );
+      },
+      child: Container(
+        width: 50.0,
+        height: 128.0,
+        margin: EdgeInsets.all(10.0),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(color: Colors.transparent, width: 0.0),
+          borderRadius: BorderRadius.circular(12.0),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            CustomPaint(
+              size: Size(150.0, 120.0),
+              painter: TicketPainter(),
+              foregroundPainter: DotPainter(),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Dòng giảm 40% + FREESHIP',
                     style: TextStyle(
                       fontSize: 16.0,
                     ),
                   ),
-                ),
-              ],
+                  Text(
+                    'Đơn 4 ly',
+                    style: TextStyle(
+                      fontSize: 16.0,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 18),
+                    child: Text(
+                      'Hết hạn: 9/9/2023',
+                      style: TextStyle(
+                        fontSize: 16.0,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 }
-
 
 
 

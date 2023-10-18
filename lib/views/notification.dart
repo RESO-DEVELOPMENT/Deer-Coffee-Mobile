@@ -10,8 +10,7 @@ class NotificationPage extends StatelessWidget {
       appBar: AppBar(
         title: Row(
           children: [
-            Icon(Icons.arrow_back),
-            SizedBox(width: 110),
+            SizedBox(width: 80),
             Text(
               "Thông báo",
               style: GoogleFonts.inter(

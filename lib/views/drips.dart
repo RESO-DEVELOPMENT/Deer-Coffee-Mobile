@@ -1,3 +1,4 @@
+import 'package:deer_coffee/views/available_rewards.dart';
 import 'package:flutter/material.dart';
 
 class Drip extends StatefulWidget {
@@ -107,7 +108,7 @@ class _DripState extends State<Drip> {
               BottomNavigationBarItem(
                   icon: Icon(Icons.person_outline, size: 40), label: ""),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.note, size: 40), label: ""),
+                  icon: Icon(Icons.assignment, size: 40), label: ""),
             ],
           ),
         ),
@@ -154,31 +155,40 @@ class _DripState extends State<Drip> {
                     width: 10,
                   ),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(25.0),
-                      color: Colors.white,
-                    ),
-                    child: DropdownButton<String>(
-                      items: <String?>[null, 'Option 1', 'Option 2', 'Option 3']
-                          .map((String? value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(
-                            value ?? 'Xem tất cả',
-                            style: TextStyle(color: Colors.lightBlue),
-                          ),
-                        );
-                      }).toList(),
-                      onChanged: (String? newValue) {
-                        if (newValue != null) {
-                          // Xử lý khi lựa chọn một tùy chọn trong Dropdown
-                        }
-                      },
-                      underline:
-                          Container(), // Loại bỏ đường gạch dưới DropdownButton
-                    ),
-                  ),
+  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+  decoration: BoxDecoration(
+    borderRadius: BorderRadius.circular(25.0),
+    color: Colors.white,
+  ),
+  child: DropdownButton<String>(
+    items: <String?>[null, 'Xem tất cả','Option 1', 'Option 2', 'Option 3', ]
+        .map((String? value) {
+      return DropdownMenuItem<String>(
+        value: value,
+        child: Text(
+          value ?? 'Xem tất cả',
+          style: TextStyle(color: Colors.lightBlue),
+        ),
+      );
+    }).toList(),
+    onChanged: (String? newValue) {
+      if (newValue != null) {
+        if (newValue == "Xem tất cả") {
+          // Chuyển sang trang AvailableReward khi chọn "Xem tất cả"
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => availableReward(),
+            ),
+          );
+        } else {
+          // Xử lý khi lựa chọn một tùy chọn khác trong Dropdown
+        }
+      }
+    },
+    underline: Container(),
+  ),
+),
+
                 ],
               ),
               Column(

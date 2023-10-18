@@ -1,3 +1,7 @@
+import 'package:deer_coffee/views/drips.dart';
+import 'package:deer_coffee/views/reward.dart';
+import 'package:deer_coffee/views/reward_coffee.dart';
+import 'package:deer_coffee/views/voucher.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -60,7 +64,12 @@ class _VoucherLoginState extends State<VoucherLogin> {
                           padding: const EdgeInsets.only(right: 8.0),
                           child: ElevatedButton(
                             onPressed: () {
-                              // Handle the event when "Voucher của tôi" is pressed
+                               Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      Voucher(), // Replace with your OrderMethod page
+                                ),
+                              );
                             },
                             style: ElevatedButton.styleFrom(
                               primary: Colors.white,
@@ -145,10 +154,10 @@ class _VoucherLoginState extends State<VoucherLogin> {
                       shrinkWrap: true,
                       childAspectRatio: 2 / 1,
                       children: <Widget>[
-                        buildUtilityWidget("Lịch sử đơn hàng"),
-                        buildUtilityWidget("Điều khoản"),
-                        buildUtilityWidget("Về tôi"),
-                        buildUtilityWidget("Điều khoản VNPay"),
+                        buildUtilityWidget("Hạng thành viên"),
+                        buildUtilityWidget("Đổi Bean"),
+                        buildUtilityWidget("Lịch sử BEAN"),
+                        buildUtilityWidget("Quyền lợi của bạn"),
                       ],
                     ),
                   ],
@@ -220,8 +229,30 @@ class _VoucherLoginState extends State<VoucherLogin> {
     );
   }
 
-  Widget buildUtilityWidget(String title) {
-    return Positioned(
+ Widget buildUtilityWidget(String title) {
+  return GestureDetector(
+    onTap: () {
+      if (title == "Lịch sử BEAN") {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => RewardCoffee(),
+          ),
+        );
+      } else if (title == "Hạng thành viên") {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => Reward(),
+          ),
+        );
+      } else if (title == "Đổi Bean") {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => Drip(),
+          ),
+        );
+      }
+    },
+    child: Positioned(
       top: 10,
       left: 10,
       child: Transform.scale(
@@ -257,8 +288,11 @@ class _VoucherLoginState extends State<VoucherLogin> {
           ),
         ),
       ),
-    );
-  }
+    ),
+  );
+}
+
+
 
   Widget buildTicketWidget(String title, String subTitle1, String subTitle2) {
     return Container(

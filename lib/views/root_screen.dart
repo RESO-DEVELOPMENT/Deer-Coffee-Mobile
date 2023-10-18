@@ -1,4 +1,6 @@
 import 'package:deer_coffee/views/store.dart';
+import 'package:deer_coffee/views/tracking.dart';
+import 'package:deer_coffee/views/voucher_login.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'home_page.dart';
@@ -6,6 +8,7 @@ import 'order.dart';
 import 'other_page.dart';
 import 'home_page_order_method.dart';
 import 'bottom_sheet_util.dart';
+import 'home_page_order_method.dart';
 
 class RootScreen extends StatefulWidget {
   const RootScreen({super.key});
@@ -19,10 +22,10 @@ class _RootScreenState extends State<RootScreen> {
 
   List<Widget> portraitViews = [
     HomePage(),
-    OrderMethod(),
-    OrderScreen(),
-    OtherPage(),
+    Tracking(),
     Store(),
+    VoucherLogin(),
+    OtherPage(),
   ];
 
   List<BottomNavigationBarItem> items = const [

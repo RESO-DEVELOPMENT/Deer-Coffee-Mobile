@@ -1,3 +1,5 @@
+
+import 'package:deer_coffee/views/cart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -119,7 +121,11 @@ class _OptionState extends State<Option> {
                         color: Colors.black,
                       ),
                       onPressed: () {
-                        Navigator.of(context).pop();
+                        Navigator.of(context).push(
+                          MaterialPageRoute(builder: (context) {
+                            return SlidableScreen();
+                          }),
+                        );
                       },
                     ),
                   ],
@@ -168,12 +174,12 @@ class _OptionState extends State<Option> {
                             children: [
                               GestureDetector(
                                 onTap: decreaseQuantity,
-                                child: Icon(CupertinoIcons.minus, size: 16,),
+                                child: Icon(CupertinoIcons.minus),
                               ),
                               Text('$quantity'),
                               GestureDetector(
                                 onTap: increaseQuantity,
-                                child: Icon(CupertinoIcons.plus, size: 16,),
+                                child: Icon(CupertinoIcons.plus),
                               ),
                             ],
                           ),
@@ -212,12 +218,12 @@ class _OptionState extends State<Option> {
                             children: [
                               GestureDetector(
                                 onTap: decreasePercent,
-                                child: Icon(CupertinoIcons.minus, size: 16,),
+                                child: Icon(CupertinoIcons.minus),
                               ),
                               Text('${percent.toInt()}%'),
                               GestureDetector(
                                 onTap: increasePercent,
-                                child: Icon(CupertinoIcons.plus, size: 16,),
+                                child: Icon(CupertinoIcons.plus),
                               ),
                             ],
                           ),
@@ -256,12 +262,12 @@ class _OptionState extends State<Option> {
                             children: [
                               GestureDetector(
                                 onTap: decreasePercent1,
-                                child: Icon(CupertinoIcons.minus , size: 16,),
+                                child: Icon(CupertinoIcons.minus),
                               ),
                               Text('${percent1.toInt()}%'),
                               GestureDetector(
                                 onTap: increasePercent1,
-                                child: Icon(CupertinoIcons.plus,size: 16,),
+                                child: Icon(CupertinoIcons.plus),
                               ),
                             ],
                           ),
@@ -300,12 +306,12 @@ class _OptionState extends State<Option> {
                             children: [
                               GestureDetector(
                                 onTap: decreaseSize,
-                                child: Icon(CupertinoIcons.minus,  size: 16,),
+                                child: Icon(CupertinoIcons.minus),
                               ),
                               Text(sizes[selectedSizeIndex]),
                               GestureDetector(
                                 onTap: increaseSize,
-                                child: Icon(CupertinoIcons.plus,  size: 16,),
+                                child: Icon(CupertinoIcons.plus),
                               ),
                             ],
                           ),
@@ -323,25 +329,19 @@ class _OptionState extends State<Option> {
                       height: 10,
                     ),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
                               'Topping',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 18,
                               ),
                             ),
-                           
-                      ],
-                    ),
-                     SizedBox(height: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            
+                            SizedBox(height: 10),
                             Row(
                               children: [
                                 Checkbox(
@@ -359,35 +359,6 @@ class _OptionState extends State<Option> {
                               ],
                             ),
                           ],
-                              Text(
-                                'Tùy Chọn',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize:
-                                      16, 
-                                ),
-                              ),
-                            ],
-                          ),
-                          IconButton(
-                            icon: Icon(
-                              Icons.shopping_cart_outlined,
-                              color: Colors.black,
-                            ),
-                            onPressed: () {
-                              // Xử lý khi nhấn nút back ở đây
-                              Navigator.of(context).pop();
-                            },
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(
-                              15),
                         ),
                         Spacer(),
                         Text(
@@ -501,7 +472,7 @@ class _OptionState extends State<Option> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(5.0),
+                      padding: const EdgeInsets.all(8.0),
                       child: Row(
                         children: [
                           Text(
@@ -513,7 +484,7 @@ class _OptionState extends State<Option> {
                           Spacer(),
                           Container(
                             height: 50,
-                            width: 250,
+                            width: 270,
                             decoration: BoxDecoration(
                               color: Color.fromARGB(255, 216, 215, 215),
                               borderRadius: BorderRadius.circular(20),
@@ -584,7 +555,12 @@ class _OptionState extends State<Option> {
                           Expanded(
                             child: ElevatedButton(
                               onPressed: () {
-                                // Xử lý khi nút "Chọn" được nhấn
+                                  Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    SlidableScreen(), // Replace with your VoucherQr page
+                              ),
+                            );
                               },
                               style: ElevatedButton.styleFrom(
                                 primary: Color.fromARGB(

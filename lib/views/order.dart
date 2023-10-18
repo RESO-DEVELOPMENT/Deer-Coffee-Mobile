@@ -71,9 +71,9 @@ class _OrderScreenState extends State<OrderScreen> {
                     //   ),
                     // );
                   },
-                  child: Text("Theo dõi đơn hàng của tôi"),
+                  child: Text("Theo dõi đơn hàng của tôi",style: TextStyle(color: Colors.white),),
                   style: ElevatedButton.styleFrom(
-                    // primary: Colors.grey[300],
+                    primary: Colors.lightBlue,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(50),
                     ),

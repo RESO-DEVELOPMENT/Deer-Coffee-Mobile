@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:deer_coffee/views/home_page_order_method.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
 
@@ -80,7 +81,7 @@ class _MyOtpState extends State<MyOtp> {
                   child: Column(
                     children: [
                       SizedBox(
-                        height: 70,
+                        height: 50,
                       )
                     ],
                   ),
@@ -102,17 +103,23 @@ class _MyOtpState extends State<MyOtp> {
                           mainAxisAlignment: MainAxisAlignment
                               .end, // Di chuyển icon sang bên trái
                           children: [
-                            Icon(
-                              Icons.cancel,
-                              color: Colors.grey,
-                              size: 30,
+                            IconButton(
+                              icon: Icon(
+                                Icons.cancel,
+                                color: Colors.grey,
+                                size: 30,
+                              ),
+                              onPressed: () {
+                                Navigator.of(context)
+                                    .pop(); // Navigate back to the previous screen (LoginScreen)
+                              },
                             ),
                             // Đặt khoảng trống giữa icon và phần còn lại
                             SizedBox(width: 16),
                           ],
                         ),
                         SizedBox(
-                          height: 50,
+                          height: 30,
                           // child: Image.asset("assets/login.png"),
                         ),
                         Text(
@@ -174,6 +181,25 @@ class _MyOtpState extends State<MyOtp> {
                           pinputAutovalidateMode:
                               PinputAutovalidateMode.onSubmit,
                           showCursor: true,
+                          onSubmitted: (input) {
+                            if (input == "222222") {
+                              // Navigate to the OrderMethod page
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      OrderMethod(), // Replace with your OrderMethod page
+                                ),
+                              );
+                            } else {
+                              // Show an error message
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content:
+                                      Text('Mã không đúng. Vui lòng nhập lại.'),
+                                ),
+                              );
+                            }
+                          },
                         ),
                         SizedBox(
                           height: 15,

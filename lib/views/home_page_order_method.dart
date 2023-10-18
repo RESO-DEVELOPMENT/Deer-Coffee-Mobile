@@ -24,82 +24,93 @@ class _OrderMethodState extends State<OrderMethod> {
     return Scaffold(
       backgroundColor: Color(0xFFE5EDFF),
       appBar: AppBar(
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              children: [
-                Image.asset(
-                  'assets/images/waving_hand.png',
-                  width: 40,
-                  height: 40,
-                ),
-                SizedBox(width: 10),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Chào buổi sáng",
-                      style: GoogleFonts.getFont(
-                        'Inter',
-                        color: Colors.black,
-                        fontWeight: FontWeight.w300,
-                        fontSize: 13,
-                      ),
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            children: [
+              Image.asset(
+                'assets/images/waving_hand.png',
+                width: 40,
+                height: 40,
+              ),
+              SizedBox(width: 10),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Chào buổi sáng",
+                    style: GoogleFonts.inter(
+                      color: Colors.black,
+                      fontWeight: FontWeight.w300,
+                      fontSize: 13,
                     ),
-                    Text(
-                      "Quốc Khánh",
-                      style: GoogleFonts.getFont(
-                        'Inter',
-                        color: Colors.black,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 18,
-                      ),
+                  ),
+                  Text(
+                    "Quốc Khánh",
+                    style: GoogleFonts.inter(
+                      color: Colors.black,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 18,
                     ),
-                  ],
+                  ),
+                ],
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              Container(
+                width: 55,
+                height: 40,
+                decoration: BoxDecoration(
+                  shape: BoxShape.rectangle,
+                  borderRadius: BorderRadius.circular(13),
+                  color: Colors.blue,
                 ),
-              ],
-            ),
-            Row(
-              children: [
-                Container(
-                  width: 55,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.rectangle,
-                    borderRadius: BorderRadius.circular(13),
-                    color: Colors.blue,
+                child: IconButton(
+                  icon: Icon(
+                    Icons.confirmation_num_outlined,
+                    color: Colors.white,
                   ),
-                  child: IconButton(
-                    icon: Icon(
-                      Icons.confirmation_num_outlined,
-                      color: Colors.white,
-                    ),
-                    onPressed: () {},
-                  ),
+                  onPressed: () {},
                 ),
-                SizedBox(width: 3),
-                Container(
-                  width: 50,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.blue,
-                  ),
-                  child: IconButton(
-                    icon: Icon(
-                      Ionicons.notifications_outline,
-                      color: Colors.white,
-),
-                    onPressed: () {},
-                  ),
+              ),
+              SizedBox(width: 3),
+              Container(
+                width: 50,
+                height: 40,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.blue,
                 ),
-              ],
-            ),
-          ],
-        ),
-        backgroundColor: Colors.transparent,
-        elevation: 1,
+                child: IconButton(
+                  icon: Icon(
+                    Ionicons.notifications_outline,
+                    color: Colors.white,
+                  ),
+                  onPressed: () {},
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+      backgroundColor: Colors.transparent,
+      elevation: 1,
+    ),
+    bottomNavigationBar: BottomNavigationBar(                 // sau sccaff
+        items: [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Trang chủ'),
+          BottomNavigationBarItem(icon: Icon(Icons.coffee_outlined), label: 'Đặt hàng'),
+          BottomNavigationBarItem(icon: Icon(Icons.store_outlined), label: 'Cửa hàng'),
+          BottomNavigationBarItem(icon: Icon(Icons.assignment), label: 'Ưu đãi'),
+          BottomNavigationBarItem(icon: Icon(Icons.segment_sharp), label: 'Khác'),
+        ],
+        currentIndex: _currentIndex,
+        selectedItemColor: Colors.blue,
+        unselectedItemColor: Colors.grey,
+        onTap: _changeItem, // Đổi màu khi nổi lên (chọn)
       ),
       body: SafeArea(
         child: ListView(
@@ -602,12 +613,9 @@ onTap: () {
               ),
             ),
           ],
-        ),
-        
-      ),
-      
+        ),   
+      ),    
     );
-    
   }
 
   void _changeItem(int value) {

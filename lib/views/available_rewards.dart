@@ -1,3 +1,4 @@
+import 'package:deer_coffee/views/notification.dart';
 import 'package:flutter/material.dart';
 
 class availableReward extends StatefulWidget {
@@ -40,8 +41,8 @@ class _availableRewardState extends State<availableReward> {
       });
     }
   }
-  
-   void incrementQuantityContainer3() {
+
+  void incrementQuantityContainer3() {
     setState(() {
       quantityContainer3++;
     });
@@ -54,9 +55,10 @@ class _availableRewardState extends State<availableReward> {
       });
     }
   }
+
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       appBar: AppBar(
         toolbarHeight: 60.0,
         backgroundColor: Colors.white,
@@ -79,7 +81,6 @@ class _availableRewardState extends State<availableReward> {
             Navigator.of(context).pop();
           },
         ),
-       
       ),
       body: Container(
         color: Color(0xFFF5F5F5),
@@ -143,12 +144,10 @@ class _availableRewardState extends State<availableReward> {
                                   child: Text(
                                     '20 Drips = 5000đ',
                                     style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18
-                                    ),
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18),
                                   ),
                                 ),
-                                
                                 SizedBox(height: 70),
                                 Row(
                                   children: [
@@ -210,21 +209,30 @@ class _availableRewardState extends State<availableReward> {
                                     ),
                                     SizedBox(
                                         width:
-                                            80), // Điều chỉnh khoảng cách khi cần thiết
+                                            46), // Điều chỉnh khoảng cách khi cần thiết
                                     GestureDetector(
-                                      onTap: () {
-                                        // Xử lý khi chữ "đổi" được nhấn
-                                        // Thêm mã xử lý ở đây, ví dụ: gọi hàm hoặc thực hiện một hành động nào đó
-                                      },
-                                      child: Text(
-                                        'đổi',
-                                        style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.lightBlue,
-                                        ),
-                                      ),
-                                    )
+                                        onTap: () {
+                                          // Xử lý khi chữ "đổi" được nhấn
+                                          // Thêm mã xử lý ở đây, ví dụ: gọi hàm hoặc thực hiện một hành động nào đó
+                                        },
+                                        child: TextButton(
+                                          onPressed: () {
+                                            Navigator.of(context).push(
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    NotificationPage(),
+                                              ),
+                                            );
+                                          },
+                                          child: Text(
+                                            'đổi',
+                                            style: TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.lightBlue,
+                                            ),
+                                          ),
+                                        ))
                                   ],
                                 ),
                               ],
@@ -336,21 +344,30 @@ class _availableRewardState extends State<availableReward> {
                                     ),
                                     SizedBox(
                                         width:
-                                            80), // Điều chỉnh khoảng cách khi cần thiết
+                                            46), // Điều chỉnh khoảng cách khi cần thiết
                                     GestureDetector(
-                                      onTap: () {
-                                        // Xử lý khi chữ "đổi" được nhấn
-                                        // Thêm mã xử lý ở đây, ví dụ: gọi hàm hoặc thực hiện một hành động nào đó
-                                      },
-                                      child: Text(
-                                        'đổi',
-                                        style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.lightBlue,
-                                        ),
-                                      ),
-                                    )
+                                        onTap: () {
+                                          // Xử lý khi chữ "đổi" được nhấn
+                                          // Thêm mã xử lý ở đây, ví dụ: gọi hàm hoặc thực hiện một hành động nào đó
+                                        },
+                                        child: TextButton(
+                                          onPressed: () {
+                                            Navigator.of(context).push(
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    NotificationPage(),
+                                              ),
+                                            );
+                                          },
+                                          child: Text(
+                                            'đổi',
+                                            style: TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.lightBlue,
+                                            ),
+                                          ),
+                                        )),
                                   ],
                                 ),
                               ],
@@ -363,7 +380,7 @@ class _availableRewardState extends State<availableReward> {
                   SizedBox(
                     height: 10,
                   ),
-                    Container(
+                  Container(
                     color: Colors.white,
                     margin: EdgeInsets.all(10),
                     child: ClipRRect(
@@ -465,21 +482,30 @@ class _availableRewardState extends State<availableReward> {
                                     ),
                                     SizedBox(
                                         width:
-                                            80), // Điều chỉnh khoảng cách khi cần thiết
+                                            46), // Điều chỉnh khoảng cách khi cần thiết
                                     GestureDetector(
-                                      onTap: () {
-                                        // Xử lý khi chữ "đổi" được nhấn
-                                        // Thêm mã xử lý ở đây, ví dụ: gọi hàm hoặc thực hiện một hành động nào đó
-                                      },
-                                      child: Text(
-                                        'đổi',
-                                        style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.lightBlue,
-                                        ),
-                                      ),
-                                    )
+                                        onTap: () {
+                                          // Xử lý khi chữ "đổi" được nhấn
+                                          // Thêm mã xử lý ở đây, ví dụ: gọi hàm hoặc thực hiện một hành động nào đó
+                                        },
+                                        child: TextButton(
+                                          onPressed: () {
+                                            Navigator.of(context).push(
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    NotificationPage(),
+                                              ),
+                                            );
+                                          },
+                                          child: Text(
+                                            'đổi',
+                                            style: TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.lightBlue,
+                                            ),
+                                          ),
+                                        )),
                                   ],
                                 ),
                               ],
@@ -495,6 +521,6 @@ class _availableRewardState extends State<availableReward> {
           ),
         ),
       ),
-   );
+    );
   }
 }

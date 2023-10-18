@@ -1,3 +1,5 @@
+import 'package:deer_coffee/views/delivering.dart';
+import 'package:deer_coffee/views/update_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ionicons/ionicons.dart';
@@ -25,7 +27,7 @@ class _OtherPageState extends State<OtherPage> {
               ),
             ),
             SizedBox(
-              width: 130,
+              width: 135,
             ),
             Row(
               children: [
@@ -89,45 +91,54 @@ class _OtherPageState extends State<OtherPage> {
                     3 / 1, // Tỷ lệ 2:1 giữa chiều ngang và chiều cao
                 children: [
                   // Ô 1
-                  Positioned(
-                    top: 10, // Điều chỉnh vị trí theo chiều dọc
-                    left: 10, // Điều chỉnh vị trí theo chiều ngang
-                    child: Transform.scale(
-                      scale: 0.9, // Thay đổi tỷ lệ kích thước của hình chữ nhật
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(13),
-                          color: Colors.white,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey, // Màu của bóng đổ
-                              offset: Offset(0,
-                                  0.5), // Điều chỉnh vị trí bóng đổ theo chiều ngang và dọc
-                              // Độ mờ của bóng đổ
-                            ),
-                          ],
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => Delivering(),
                         ),
-                        child: Stack(
-                          children: [
-                            Align(
-                              alignment: Alignment.bottomLeft,
-                              child: Padding(
-                                padding: EdgeInsets.only(bottom: 10, left: 10),
-                                child: Text(
-                                  'Lịch sử đơn hàng',
-                                  style: GoogleFonts.inter(
+                      );
+                    },
+                    child: Positioned(
+                      top: 10,
+                      left: 10,
+                      child: Transform.scale(
+                        scale: 0.9,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(13),
+                            color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey,
+                                offset: Offset(0, 0.5),
+                              ),
+                            ],
+                          ),
+                          child: Stack(
+                            children: [
+                              Align(
+                                alignment: Alignment.bottomLeft,
+                                child: Padding(
+                                  padding:
+                                      EdgeInsets.only(bottom: 10, left: 10),
+                                  child: Text(
+                                    'Lịch sử đơn hàng',
+                                    style: GoogleFonts.inter(
                                       color: Colors.black,
                                       fontSize: 14,
-                                      fontWeight: FontWeight.bold),
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                        // Các nội dung bên trong ô 1
                       ),
                     ),
                   ),
+
                   // Ô 2
                   Positioned(
                     top: 20, // Điều chỉnh vị trí theo chiều dọc
@@ -167,40 +178,50 @@ class _OtherPageState extends State<OtherPage> {
                     ),
                   ),
                   // Ô 3
-                  Positioned(
-                    top: 30, // Điều chỉnh vị trí theo chiều dọc
-                    left: 30, // Điều chỉnh vị trí theo chiều ngang
-                    child: Transform.scale(
-                      scale: 0.9, // Thay đổi tỷ lệ kích thước của hình chữ nhật
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(13),
-                          color: Colors.white,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey, // Màu của bóng đổ
-                              offset: Offset(0, 0.5),
-                            ),
-                          ],
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => UpdateProfilePage(),
                         ),
-                        child: Stack(
-                          children: [
-                            Align(
-                              alignment: Alignment.bottomLeft,
-                              child: Padding(
-                                padding: EdgeInsets.only(bottom: 10, left: 10),
-                                child: Text(
-                                  'Về tôi',
-                                  style: GoogleFonts.inter(
+                      );
+                    },
+                    child: Positioned(
+                      top: 10,
+                      left: 10,
+                      child: Transform.scale(
+                        scale: 0.9,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(13),
+                            color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey,
+                                offset: Offset(0, 0.5),
+                              ),
+                            ],
+                          ),
+                          child: Stack(
+                            children: [
+                              Align(
+                                alignment: Alignment.bottomLeft,
+                                child: Padding(
+                                  padding:
+                                      EdgeInsets.only(bottom: 10, left: 10),
+                                  child: Text(
+                                    'Về tôi',
+                                    style: GoogleFonts.inter(
                                       color: Colors.black,
                                       fontSize: 14,
-                                      fontWeight: FontWeight.bold),
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                        // Các nội dung bên trong ô 3
                       ),
                     ),
                   ),

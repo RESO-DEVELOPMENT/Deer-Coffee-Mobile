@@ -1,3 +1,4 @@
+import 'package:deer_coffee/views/order.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -298,7 +299,12 @@ Row(
   height: 55, 
   child: ElevatedButton(
     onPressed: () {
-     
+       Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    OrderScreen(), // Replace with your VoucherQr page
+                              ),
+                            );
     },
     style: ElevatedButton.styleFrom(
       primary: Colors.blue, 

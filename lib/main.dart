@@ -12,7 +12,7 @@ import 'package:deer_coffee/views/notification.dart';
 import 'package:deer_coffee/views/order_determination.dart';
 import 'package:deer_coffee/views/reward.dart';
 import 'package:deer_coffee/views/store.dart';
-import 'package:deer_coffee/views/t.dart';
+
 import 'package:deer_coffee/views/voucher.dart';
 import 'package:deer_coffee/views/voucher_login.dart';
 import 'package:deer_coffee/views/voucher_qr.dart';
@@ -49,23 +49,23 @@ class MyApp extends StatelessWidget {
         brightness: Brightness.light,
       ),
       themeMode: ThemeMode.light,
-      // getPages: [
-      //   GetPage(
-      //       name: RouteHandler.WELCOME,
-      //       page: () => SplashScreen(),
-      //       transition: Transition.zoom),
-      //   GetPage(
-      //       name: RouteHandler.LOGIN,
-      //       page: () => LoginScreen(),
-      //       transition: Transition.zoom),
-      //   GetPage(
-      //       name: RouteHandler.HOME,
-      //       page: () => RootScreen(),
-      //       transition: Transition.cupertino),
-      // ],
-      // initialRoute: RouteHandler.WELCOME,
-      // unknownRoute:
-      //     GetPage(name: RouteHandler.NOT_FOUND, page: () => NotFoundScreen()),
+      getPages: [
+        GetPage(
+            name: RouteHandler.WELCOME,
+            page: () => SplashScreen(),
+            transition: Transition.zoom),
+        GetPage(
+            name: RouteHandler.LOGIN,
+            page: () => LoginScreen(),
+            transition: Transition.zoom),
+        GetPage(
+            name: RouteHandler.HOME,
+            page: () => RootScreen(),
+            transition: Transition.cupertino),
+      ],
+      initialRoute: RouteHandler.WELCOME,
+      unknownRoute:
+          GetPage(name: RouteHandler.NOT_FOUND, page: () => NotFoundScreen()),
       home: SplashScreen(),
     );
   }

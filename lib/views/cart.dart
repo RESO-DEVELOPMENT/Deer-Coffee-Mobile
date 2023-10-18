@@ -219,17 +219,18 @@ class _SlidableScreenState extends State<SlidableScreen> {
                                       children: [
                                         Icon(
                                           Icons.shopping_cart_outlined,
+                                          color: Colors.white,
                                         ),
                                         SizedBox(
                                           width: 10,
                                         ),
-                                        Text("Đặt Hàng"),
+                                        Text("Đặt Hàng",style: TextStyle(color: Colors.white),),
                                       ],
                                     ),
                                     style: ElevatedButton.styleFrom(
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(50),
-                                      ),
+                                      ),backgroundColor: Colors.lightBlue,
                                     ),
                                   ),
                                 ),

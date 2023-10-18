@@ -20,24 +20,12 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
-        items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: ''),
-          BottomNavigationBarItem(icon: Icon(Icons.coffee_outlined), label: ''),
-          BottomNavigationBarItem(icon: Icon(Icons.store_outlined), label: ''),
-          BottomNavigationBarItem(icon: Icon(Icons.assignment), label: ''),
-          BottomNavigationBarItem(icon: Icon(Icons.segment_sharp), label: ''),
-        ],
-        currentIndex: _currentIndex,
-        selectedItemColor: Colors.blue,
-        unselectedItemColor: Colors.grey,
-        onTap: _changeItem, // Đổi màu khi nổi lên (chọn)
-      ),
+      
       appBar: AppBar(
         title: Row(
           children: [
-            Icon(Icons.arrow_back),
-            SizedBox(width: 90),
+         
+            SizedBox(width: 50),
             Text(
               "Cập nhật thông tin",
               style: GoogleFonts.inter( // Đặt font family là 'Inter' cho tiêu đề
@@ -219,10 +207,11 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                   style: GoogleFonts.inter( 
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
+                    color: Colors.black,
                   ),
                 ),
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.grey, 
+                  primary: Color.fromARGB(255, 230, 230, 230), 
                   textStyle: TextStyle(
                     color: Colors.black,
                   ),

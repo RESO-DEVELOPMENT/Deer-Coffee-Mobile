@@ -38,7 +38,7 @@ class _RewardState extends State<Reward> {
             onTap: onTabTapped,
             items: const [
               BottomNavigationBarItem(
-                  icon: Icon(Icons.home, size: 40), label: ""),
+                  icon: Icon(Icons.store, size: 40), label: ""),
               BottomNavigationBarItem(
                   icon: Icon(Icons.person_outline, size: 40), label: ""),
               BottomNavigationBarItem(
