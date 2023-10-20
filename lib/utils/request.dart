@@ -97,8 +97,8 @@ class MyRequest {
         Headers.contentTypeHeader: "application/json",
         Headers.acceptHeader: "text/plain"
       },
-      sendTimeout: Duration(seconds: 15),
-      receiveTimeout: Duration(seconds: 5));
+      sendTimeout: const Duration(seconds: 15),
+      receiveTimeout: const Duration(seconds: 5));
   late Dio _inner;
   MyRequest() {
     _inner = Dio(options);
@@ -126,10 +126,7 @@ class MyRequest {
           );
           Get.offAllNamed(RouteHandler.LOGIN);
         } else {
-          showAlertDialog(
-            title: "Lỗi",
-            content: e.response?.data["Error"],
-          );
+          showAlertDialog(title: "Lỗi", content: e.response.toString());
         }
         handler.next(e);
       },

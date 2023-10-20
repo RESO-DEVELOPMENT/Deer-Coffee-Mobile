@@ -4,6 +4,7 @@ import 'package:deer_coffee/views/tracking.dart';
 import 'package:deer_coffee/views/voucher_login.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../view_models/menu_view_model.dart';
 import 'home_page.dart';
 import 'order.dart';
 import 'other_page.dart';
@@ -38,6 +39,10 @@ class _RootScreenState extends State<RootScreen> {
     BottomNavigationBarItem(icon: Icon(Icons.assignment), label: 'Ưu đãi'),
     BottomNavigationBarItem(icon: Icon(Icons.segment_sharp), label: 'Khác'),
   ];
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

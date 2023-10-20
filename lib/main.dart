@@ -1,27 +1,13 @@
+import 'dart:io';
+
 import 'package:deer_coffee/views/login/login_otp.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:deer_coffee/views/cart.dart';
-import 'package:deer_coffee/views/home_page.dart';
-import 'package:deer_coffee/views/home_page_order_method.dart';
-import 'package:deer_coffee/views/order_confirmation.dart';
-import 'package:deer_coffee/views/order_determination.dart';
-import 'package:deer_coffee/views/available_rewards.dart';
-import 'package:deer_coffee/views/cart.dart';
-import 'package:deer_coffee/views/delivering.dart';
-import 'package:deer_coffee/views/drips.dart';
-import 'package:deer_coffee/views/notification.dart';
-import 'package:deer_coffee/views/order_determination.dart';
-import 'package:deer_coffee/views/reward.dart';
-import 'package:deer_coffee/views/store.dart';
 
-import 'package:deer_coffee/views/voucher.dart';
-import 'package:deer_coffee/views/voucher_login.dart';
-import 'package:deer_coffee/views/voucher_qr.dart';
-import 'package:deer_coffee/views/reward_coffee.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'firebase_options.dart';
 import 'setup.dart';
+import 'utils/request.dart';
 import 'utils/route_constrant.dart';
 import 'views/login/login.dart';
 import 'views/not_found_screen.dart';
@@ -29,6 +15,8 @@ import 'views/root_screen.dart';
 import 'views/splash_screen.dart';
 
 Future<void> main() async {
+  HttpOverrides.global = MyHttpOverrides();
+
   await WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
