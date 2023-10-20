@@ -1,5 +1,8 @@
 import 'package:deer_coffee/views/order_determination.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:ionicons/ionicons.dart';
 
 import 'home_page.dart';
 
@@ -14,50 +17,40 @@ class _TrackingState extends State<Tracking> {
   int _currentIndex = 0;
 
   final List<Widget> buttons = [
-    buildCircularButton('Siêu Deal-', '39k', 'FREESHIP', Colors.black),
-    buildCircularButton('', 'Cà Phê', '', Colors.black),
-    buildCircularButton('', 'CloudTea', '', Colors.black),
-    buildCircularButton('Hi-Tea ', 'Healthy', '', Colors.black),
-    buildCircularButton('Trà Trái Cây', '-Trà Sữa', '', Colors.black),
-    buildCircularButton('Trà Xanh ', 'Tây Bắc', '', Colors.black),
-    buildCircularButton('Đá xay ', 'Frosty', '', Colors.black),
-    buildCircularButton('Xem thêm', '', '', Colors.black),
+    buildCircularButton('Trà', Colors.black),
+    buildCircularButton('Cà Phê', Colors.black),
+    buildCircularButton('CloudTea', Colors.black),
+    buildCircularButton('Hi-Tea ', Colors.black),
+    buildCircularButton('Trà Trái Cây', Colors.black),
+    buildCircularButton('Trà Xanh ', Colors.black),
+    buildCircularButton('Đá xay ', Colors.black),
+    buildCircularButton('Xem thêm', Colors.black),
   ];
 
-  static Widget buildCircularButton(
-      String text1, String text2, String text3, Color textColor) {
+  static Widget buildCircularButton(String text1, Color textColor) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         InkWell(
           onTap: () {
             // Xử lý khi nhấn vào hình tròn ở đây
           },
-          child: Padding(
+          child: Container(
             padding: const EdgeInsets.all(10.0),
-            child: Container(
-              height: 70,
-              width: 60,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Colors.grey[300],
-              ),
+            height: 60,
+            width: 60,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.grey[300],
             ),
           ),
         ),
+        SizedBox(
+          height: 2,
+        ),
         Text(
           text1,
-          style: TextStyle(
-            color: textColor,
-          ),
-        ),
-        Text(
-          text2,
-          style: TextStyle(
-            color: textColor,
-          ),
-        ),
-        Text(
-          text3,
           style: TextStyle(
             color: textColor,
           ),
@@ -69,253 +62,245 @@ class _TrackingState extends State<Tracking> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 10,
-        toolbarHeight: 80,
-        automaticallyImplyLeading: false,
-        title: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
+      backgroundColor: Color(0xFFE5EDFF),
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: ListView(
           children: [
-            Image.asset(
-              'assets/images/5.png', // Đường dẫn đến ảnh chào buổi sáng
-              width: 40, // Đặt kích thước của ảnh
-              height: 40,
-            ),
-            SizedBox(width: 10), // Khoảng cách giữa ảnh và dòng chữ
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  'Chào buổi sáng',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 12,
-                  ),
+                Row(
+                  children: [
+                    Image.asset(
+                      'assets/images/waving_hand.png',
+                      width: 40,
+                      height: 40,
+                    ),
+                    SizedBox(width: 10),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Chào buổi sáng",
+                          style: GoogleFonts.getFont(
+                            'Inter',
+                            color: Colors.black,
+                            fontWeight: FontWeight.w300,
+                            fontSize: 13,
+                          ),
+                        ),
+                        Text(
+                          "Quốc Khánh",
+                          style: GoogleFonts.getFont(
+                            'Inter',
+                            color: Colors.black,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 18,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-                SizedBox(height: 5),
-                Text(
-                  'Quốc khánh',
-                  style: TextStyle(color: Colors.black),
+                Row(
+                  children: [
+                    Container(
+                      width: 55,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.rectangle,
+                        borderRadius: BorderRadius.circular(13),
+                        color: Colors.blue,
+                      ),
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.confirmation_num_outlined,
+                          color: Colors.white,
+                        ),
+                        onPressed: () {},
+                      ),
+                    ),
+                    SizedBox(width: 03),
+                    Container(
+                      width: 50,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.blue,
+                      ),
+                      child: IconButton(
+                        icon: Icon(
+                          Ionicons.notifications_outline,
+                          color: Colors.white,
+                        ),
+                        onPressed: () {},
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
-          ],
-        ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-            child: Container(
-              width: 70, // Đặt chiều cao và rộng của Container để tạo hình tròn
-              height: 50,
-              decoration: BoxDecoration(
-                  shape: BoxShape.rectangle, // Đặt hình dạng thành hình tròn
-                  color: Colors.blue, // Màu nền xanh
-                  borderRadius: BorderRadius.circular(20)),
-              child: IconButton(
-                icon: Icon(
-                  Icons.confirmation_number,
-                  color: Colors.white,
-                ),
-                onPressed: () {
-                  // Xử lý khi biểu tượng được nhấn
-                },
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Colors.blue, // Màu nền xanh
-              ),
-              child: Row(
-                children: [
-                  IconButton(
-                    icon: Icon(
-                      Icons.notifications,
-                      color: Colors.white,
-                    ),
-                    onPressed: () {
-                      // Xử lý khi nút biểu tượng thứ nhất được nhấn
-                    },
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
             SizedBox(
-              height: 10,
+              height: 16,
             ),
-            buildRowWithButtons(0, 3),
-            buildRowWithButtons(4, 7),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 15,
-                vertical: 15,
+            Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                height: 240,
+                width: Get.width,
+                padding: EdgeInsets.fromLTRB(0, 24, 0, 24),
+                child: GridView.count(
+                  crossAxisCount: 4,
+                  mainAxisSpacing: 2,
+                  crossAxisSpacing: 2,
+                  padding: EdgeInsets.all(4),
+                  children: buttons,
+                )),
+            SizedBox(
+              height: 24,
+            ),
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20),
               ),
-              child: Row(
+              width: Get.width,
+              padding: EdgeInsets.all(16),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     "Siêu Deal -39k FREESHIP",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                    ),
+                    style: Get.textTheme.bodyLarge
+                        ?.copyWith(fontWeight: FontWeight.bold),
                     textAlign: TextAlign.left, // Đặt chữ ở bên trái
+                  ),
+                  Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment
+                              .spaceBetween, // Đặt căn chỉnh các phần tử trong hàng lên trên cùng
+                          children: [
+                            Container(
+                              height: 100,
+                              child: Image.asset("assets/images/4.png"),
+                            ),
+                            SizedBox(
+                              width: 8,
+                            ),
+                            const Expanded(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment
+                                    .start, // Đặt căn chỉnh theo chiều ngang sang trái
+                                children: [
+                                  Text(
+                                    "Kiwi Yogurt",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 17,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                      height:
+                                          10), // Đặt khoảng cách giữa "Kiwi Yogurt" và "49.000đ"
+                                  Text(
+                                    "49.000 đ",
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            // Thêm nút "Add" và xử lý khi được nhấn
+                            IconButton.filled(
+                              icon: const Icon(
+                                Icons.add,
+                                size: 32,
+                              ),
+                              onPressed: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        Option(), // Replace with your VoucherQr page
+                                  ),
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment
+                              .spaceBetween, // Đặt căn chỉnh các phần tử trong hàng lên trên cùng
+                          children: [
+                            Container(
+                              height: 100,
+                              child: Image.asset("assets/images/4.png"),
+                            ),
+                            SizedBox(
+                              width: 8,
+                            ),
+                            Expanded(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment
+                                    .start, // Đặt căn chỉnh theo chiều ngang sang trái
+                                children: [
+                                  Text(
+                                    "Kiwi Yogurt",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 17,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                      height:
+                                          10), // Đặt khoảng cách giữa "Kiwi Yogurt" và "49.000đ"
+                                  Text(
+                                    "49.000 đ",
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            // Thêm nút "Add" và xử lý khi được nhấn
+                            IconButton.filled(
+                              icon: const Icon(
+                                Icons.add,
+                                size: 32,
+                              ),
+                              onPressed: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        Option(), // Replace with your VoucherQr page
+                                  ),
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
             ),
             // Đây là cột mới
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              child: Column(
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment
-                        .start, // Đặt căn chỉnh các phần tử trong hàng lên trên cùng
-                    children: [
-                      Container(
-                        height: 130,
-                        child: Image.asset("assets/images/4.png"),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment
-                              .start, // Đặt căn chỉnh theo chiều ngang sang trái
-                          children: [
-                            Text(
-                              "Kiwi Yogurt",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 17,
-                              ),
-                            ),
-                            SizedBox(
-                                height:
-                                    10), // Đặt khoảng cách giữa "Kiwi Yogurt" và "49.000đ"
-                            Text(
-                              "49.000đ",
-                              style: TextStyle(
-                                fontSize: 16,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        width: 70,
-                      ),
-                      // Thêm nút "Add" và xử lý khi được nhấn
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 40),
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    Option(), // Replace with your VoucherQr page
-                              ),
-                            );
-                          },
-                          child: Container(
-                            height: 40,
-                            width: 40,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Colors.blue[300],
-                            ),
-                            child: Icon(
-                              Icons.add,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              child: Column(
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment
-                        .start, // Đặt căn chỉnh các phần tử trong hàng lên trên cùng
-                    children: [
-                      Container(
-                        height: 130,
-                        child: Image.asset("assets/images/4.png"),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment
-                              .start, // Đặt căn chỉnh theo chiều ngang sang trái
-                          children: [
-                            Text(
-                              "Kiwi Yogurt",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 17,
-                              ),
-                            ),
-                            SizedBox(
-                                height:
-                                    10), // Đặt khoảng cách giữa "Kiwi Yogurt" và "49.000đ"
-                            Text(
-                              "49.000đ",
-                              style: TextStyle(
-                                fontSize: 16,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        width: 70,
-                      ),
-                      // Thêm nút "Add" và xử lý khi được nhấn
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 40),
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    Option(), // Replace with your VoucherQr page
-                              ),
-                            );
-                          },
-                          child: Container(
-                            height: 40,
-                            width: 40,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Colors.blue[300],
-                            ),
-                            child: Icon(
-                              Icons.add,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
           ],
         ),
       ),

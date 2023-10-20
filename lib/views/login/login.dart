@@ -46,7 +46,8 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false, // Không cho phép resize khi bàn phím xuất hiện
+      resizeToAvoidBottomInset:
+          false, // Không cho phép resize khi bàn phím xuất hiện
       body: Stack(
         children: [
           Container(
@@ -179,7 +180,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: ElevatedButton(
                             onPressed: () {
                               // Get.toNamed(RouteHandler.OTP);
-                           
+
                               Navigator.of(context).push(
                                 MaterialPageRoute(
                                   builder: (context) => MyOtp(),

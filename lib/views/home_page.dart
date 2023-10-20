@@ -1,5 +1,6 @@
 import 'package:deer_coffee/views/login/login.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -25,7 +26,8 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFFE5EDFF),
-      body: SafeArea(
+      body: Padding(
+        padding: const EdgeInsets.all(8),
         child: ListView(
           children: [
             Row(
@@ -102,21 +104,19 @@ class _HomePageState extends State<HomePage> {
                 ),
               ],
             ),
-
-            /// dang nhap  //
             SizedBox(
-              height: 20,
+              height: 24,
             ),
             Container(
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(20),
               ),
-              height: 291,
-              width: 356,
-              padding: EdgeInsets.symmetric(horizontal: 60, vertical: 0),
+              height: 260,
+              width: Get.width,
+              padding: EdgeInsets.fromLTRB(0, 24, 0, 24),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
@@ -128,34 +128,19 @@ class _HomePageState extends State<HomePage> {
                       color: Colors.black,
                     ),
                   ),
-                  SizedBox(height: 18),
-                  Text(
-                    'Sử dụng app để tích điểm và đổi những ưu đãi',
-                    style: GoogleFonts.getFont(
-                      'Inter',
-                      fontSize: 11,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black,
-                      letterSpacing: 0.1,
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(48, 0, 48, 0),
+                    child: Text(
+                      'Sử dụng app để tích điểm và đổi những ưu đãi chỉ dành riêng cho thành viên bạn nhé !',
+                      style: Get.textTheme.bodySmall,
+                      textAlign: TextAlign.center,
                     ),
-                    textAlign: TextAlign.center,
-                  ),
-                  SizedBox(height: 10),
-                  Text(
-                    'chỉ dành riêng cho thành viên bạn nhé !',
-                    style: GoogleFonts.getFont(
-                      'Inter',
-                      fontSize: 11,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black,
-                      letterSpacing: 0.1,
-                    ),
-                    textAlign: TextAlign.center,
                   ),
                   SizedBox(
-                    height: 30,
+                    height: 8,
                   ),
                   Stack(
+                    alignment: Alignment.center,
                     children: [
                       Image.asset(
                         'assets/images/hinhchunhat.png',
@@ -164,11 +149,10 @@ class _HomePageState extends State<HomePage> {
                         fit: BoxFit.cover,
                       ),
                       Positioned(
-                        right: 42,
-                        top: -10,
+                        top: -15,
                         child: Container(
-                          width: 190,
-                          height: 39,
+                          width: Get.width * 0.6,
+                          height: 42,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             gradient: LinearGradient(
@@ -202,15 +186,11 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                       ),
-                      SizedBox(
-                        height: 50,
-                      ),
                       Positioned(
-                        right: 15,
                         top: 70,
                         child: Container(
-                          width: 245,
-                          height: 39,
+                          width: Get.width * 0.6,
+                          height: 42,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             gradient: LinearGradient(
@@ -226,26 +206,21 @@ class _HomePageState extends State<HomePage> {
                           child: TextButton(
                             onPressed: () {},
                             child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      right: 5), // Thụt lề văn bản ra bên phải
-                                  child: Text(
-                                    'Deer Coffee House\'s Reward',
-                                    textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(0xffffffff),
-                                    ),
+                                Text(
+                                  'Deer Coffee House\'s Reward',
+                                  textAlign: TextAlign.start,
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w600,
+                                    color: Color(0xffffffff),
                                   ),
-                                ),
-                                SizedBox(
-                                  width: 35,
                                 ),
                                 Icon(
                                   Icons.chevron_right,
-                                  color: Colors.black,
+                                  color: Colors.white,
                                   size: 25,
                                 ),
                               ],
@@ -261,7 +236,7 @@ class _HomePageState extends State<HomePage> {
             ),
             // hop trang ben duoi
             SizedBox(
-              height: 50,
+              height: 8,
             ),
             Container(
               decoration: BoxDecoration(
@@ -287,104 +262,62 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                   Container(
-                    width: 280,
+                    width: Get.width * 0.6,
                     height: 100,
                     decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(30),
+                      borderRadius: BorderRadius.circular(24),
                       border: Border.all(
-                        color: Colors.black,
-                        width: 0.5,
+                        color: Get.theme.colorScheme.secondary,
+                        width: 1,
                       ),
                     ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            InkWell(
-                              onTap: () {},
-                              child: Container(
-                                width: 70,
-                                height: 70,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Colors.transparent,
-                                  border: Border.all(color: Colors.transparent),
+                        Expanded(
+                          child: InkWell(
+                            onTap: () {},
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.local_shipping_outlined,
+                                  color: Colors.black,
+                                  size: 40,
                                 ),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(
-                                      Icons.local_shipping_outlined,
-                                      color: Colors.black,
-                                      size: 30,
-                                    ),
-                                    SizedBox(height: 5),
-                                    Text(
-                                      "Giao hàng",
-                                      style: GoogleFonts.getFont(
-                                        'Inter',
-                                        color: Colors.black,
-                                        fontSize: 12,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
+                                Text("Giao hàng",
+                                    style: Get.textTheme.titleSmall),
+                              ],
                             ),
-                            SizedBox(width: 10),
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 45),
-                              child: Transform.rotate(
-                                angle: 90 * (3.14159265359 / 180),
-                                child: Container(
-                                  height: 2,
-                                  width: 49,
-                                  color: Colors.grey,
+                          ),
+                        ),
+                        const VerticalDivider(
+                          width: 3,
+                          indent: 4,
+                          endIndent: 4,
+                        ),
+                        Expanded(
+                          child: InkWell(
+                            onTap: () {},
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Icon(
+                                  Icons.delivery_dining_outlined,
+                                  color: Colors.black,
+                                  size: 40,
                                 ),
-                              ),
+                                Text("Mang đi",
+                                    style: Get.textTheme.titleSmall),
+                              ],
                             ),
-                            SizedBox(width: 10),
-                            InkWell(
-                              onTap: () {},
-                              child: Container(
-                                width: 70,
-                                height: 70,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Colors.transparent,
-                                  border: Border.all(color: Colors.transparent),
-                                ),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(
-                                      Icons.delivery_dining_outlined,
-                                      color: Colors.black,
-                                      size: 36,
-                                    ),
-                                    SizedBox(height: 5),
-                                    Text(
-                                      "Mang đi",
-                                      style: GoogleFonts.getFont(
-                                        'Inter',
-                                        color: Colors.black,
-                                        fontSize: 12,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
+                          ),
                         ),
                       ],
                     ),
                   ),
-                  SizedBox(height: 20),
                   Container(
                     padding: EdgeInsets.all(20),
                     child: CarouselSlider(
@@ -438,40 +371,14 @@ class _HomePageState extends State<HomePage> {
                   ),
                   SizedBox(
                     height:
-                        32, // Điều này tạo một khoảng trống để cuộn nội dung
+                        24, // Điều này tạo một khoảng trống để cuộn nội dung
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(
-                            left: 30), // Thêm khoảng cách bên phải
-                        child: Text(
-                          'Khám phá thêm',
-                          style: GoogleFonts.getFont(
-                            'Inter',
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 16,
-                      ),
-                      Image.asset(
-                        'assets/images/star.png',
-                        height: 32,
-                        width: 32,
-                      ),
-                      // Các phần tử khác ở dưới
-                    ],
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
+                  Text('Khám phá thêm',
+                      style: Get.textTheme.titleLarge,
+                      textAlign: TextAlign.start,
+                      textDirection: TextDirection.ltr),
                   SingleChildScrollView(
+                    padding: EdgeInsets.all(8),
                     scrollDirection: Axis.horizontal,
                     child: Row(
                       children: <Widget>[
@@ -524,7 +431,7 @@ class _HomePageState extends State<HomePage> {
                           child: InkWell(
                             borderRadius: BorderRadius.circular(30.0),
                             onTap: () {
-// Xử lý khi nút được nhấn
+                              // Xử lý khi nút được nhấn
                             },
                             child: Padding(
                               padding: EdgeInsets.symmetric(
@@ -576,86 +483,29 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                   SizedBox(
-                    height: 32,
+                    height: 24,
                   ),
-                  Column(
+                  GridView.count(
+                    crossAxisCount: 2,
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
                     children: [
-                      GridView.builder(
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 16.0,
-                          mainAxisSpacing: 100.0,
+                      Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.0),
                         ),
-                        itemCount: 6,
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemBuilder: (BuildContext context, int index) {
-                          List<String> bottomTexts = [
-                            'Text 1',
-                            'Text 2',
-                            'Text 3',
-                            'Text 4',
-                            'Text 5',
-                            'Text 6'
-                          ];
-                          List<String> dateTexts = [
-                            '01/08',
-                            '01/08',
-                            '01/08',
-                            '01/08',
-                            '01/08',
-                            '01/08'
-                          ];
-
-                          return Stack(
-                            children: [
-                              Card(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                ),
-                                color: Colors.grey,
-                                clipBehavior: Clip.none,
-                                child: Container(),
-                              ),
-                              Positioned(
-                                bottom: -50,
-                                left: 16,
-                                right: 16,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      bottomTexts[index].toUpperCase(),
-                                      style: TextStyle(
-                                        fontSize: 19,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    SizedBox(height: 8),
-                                    Row(
-                                      children: [
-                                        Icon(
-                                          Icons.calendar_month_outlined,
-                                          color: Colors.black,
-                                          size: 16,
-                                        ),
-                                        SizedBox(width: 4),
-                                        Text(
-                                          dateTexts[index],
-                                          style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.normal,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          );
-                        },
-                      )
+                        color: Colors.grey,
+                        clipBehavior: Clip.none,
+                        child: Container(),
+                      ),
+                      Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                        color: Colors.grey,
+                        clipBehavior: Clip.none,
+                        child: Container(),
+                      ),
                     ],
                   )
                 ],

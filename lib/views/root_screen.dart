@@ -41,6 +41,52 @@ class _RootScreenState extends State<RootScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: Visibility(
+        visible:
+            _selectedIndex == 0 || _selectedIndex == 1 || _selectedIndex == 2,
+        child: Align(
+          heightFactor: 0,
+          alignment: const Alignment(0, 3.5),
+          child: SizedBox(
+            width: Get.width * 0.9,
+            height: 60,
+            child: ElevatedButton(
+              onPressed: () {
+                showCustomBottomSheet(context);
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Giao hàng",
+                            style:
+                                TextStyle(color: Colors.black, fontSize: 12.0),
+                          ),
+                          Text(
+                            "Các sản phẩm sẽ được giao đến địa chỉ của bạn",
+                            style:
+                                TextStyle(color: Colors.black, fontSize: 12.0),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
+                      ),
+                    ),
+                    FilledButton(onPressed: () {}, child: Text("10000 d"))
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
       body: Stack(
         children: [
           Column(
@@ -49,10 +95,11 @@ class _RootScreenState extends State<RootScreen> {
                 child: portraitViews[_selectedIndex],
               ),
               BottomNavigationBar(
+                showUnselectedLabels: true,
                 items: items,
                 currentIndex: _selectedIndex,
-                selectedItemColor: Get.theme.primaryColor,
-                unselectedItemColor: Colors.grey,
+                selectedItemColor: Get.theme.colorScheme.primary,
+                unselectedItemColor: Colors.grey[700],
                 onTap: (int index) {
                   setState(() {
                     _selectedIndex = index;
@@ -60,55 +107,6 @@ class _RootScreenState extends State<RootScreen> {
                 },
               ),
             ],
-          ),
-          Align(
-            alignment: Alignment.center,
-            child: Visibility(
-              visible: _selectedIndex == 0, // Show only on the "Trang chủ" page
-              child: Padding(
-                padding: const EdgeInsets.only(top: 550),
-                child: Container(
-                  width: 350,
-                  height: 70,
-                  child: FloatingActionButton(
-                    backgroundColor: Colors.white,
-                    onPressed: () {
-                      showCustomBottomSheet(context);
-                    },
-                    child: Stack(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 20, right: 10),
-                          child: Center(
-                            child: Row(
-                              children: [
-                                Image.asset('assets/images/shipper.png',
-                                    height: 18, width: 18),
-                                SizedBox(width: 3),
-                                Text(
-                                  "Giao hàng",
-                                  style: TextStyle(
-                                      color: Colors.black, fontSize: 12.0),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          top: 40,
-                          left: 0,
-                          child: Text(
-                            "Các sản phẩm sẽ được giao đến địa chỉ của bạn",
-                            style:
-                                TextStyle(color: Colors.black, fontSize: 12.0),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
           ),
         ],
       ),
