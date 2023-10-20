@@ -1,3 +1,4 @@
+import 'package:deer_coffee/view_models/account_view_model.dart';
 import 'package:deer_coffee/views/login/login_otp.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -164,6 +165,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                                 Expanded(
                                   child: TextField(
+                                    controller: phoneNumber,
+                                    keyboardType: TextInputType.number,
                                     decoration: InputDecoration(
                                       border: InputBorder.none,
                                       hintText: "Nhập số điện thoại",
@@ -180,12 +183,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: ElevatedButton(
                             onPressed: () {
                               // Get.toNamed(RouteHandler.OTP);
-
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => MyOtp(),
-                                ),
-                              );
+                              Get.find<AccountViewModel>().onLoginWithPhone(
+                                  countrycode.text + phoneNumber.text);
                             },
                             child: Text("Đăng nhập"),
                             style: ElevatedButton.styleFrom(

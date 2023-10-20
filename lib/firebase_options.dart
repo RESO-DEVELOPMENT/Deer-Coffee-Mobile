@@ -52,7 +52,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '904970774154',
     projectId: 'pos-system-47f93',
     authDomain: 'pos-system-47f93.firebaseapp.com',
-    databaseURL: 'https://pos-system-47f93-default-rtdb.asia-southeast1.firebasedatabase.app',
+    databaseURL:
+        'https://pos-system-47f93-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'pos-system-47f93.appspot.com',
     measurementId: 'G-EKP16Y4LCD',
   );
@@ -62,7 +63,8 @@ class DefaultFirebaseOptions {
     appId: '1:904970774154:android:a2628acf5cf5cbbed56f73',
     messagingSenderId: '904970774154',
     projectId: 'pos-system-47f93',
-    databaseURL: 'https://pos-system-47f93-default-rtdb.asia-southeast1.firebasedatabase.app',
+    databaseURL:
+        'https://pos-system-47f93-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'pos-system-47f93.appspot.com',
   );
 
@@ -71,7 +73,8 @@ class DefaultFirebaseOptions {
     appId: '1:904970774154:ios:7d53185a4b0d1591d56f73',
     messagingSenderId: '904970774154',
     projectId: 'pos-system-47f93',
-    databaseURL: 'https://pos-system-47f93-default-rtdb.asia-southeast1.firebasedatabase.app',
+    databaseURL:
+        'https://pos-system-47f93-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'pos-system-47f93.appspot.com',
     iosBundleId: 'com.reso.deercoffee.deerCoffee',
   );

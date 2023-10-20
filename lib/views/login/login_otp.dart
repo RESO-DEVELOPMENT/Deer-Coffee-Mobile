@@ -1,7 +1,9 @@
 import 'dart:async';
 
+import 'package:deer_coffee/view_models/account_view_model.dart';
 import 'package:deer_coffee/views/home_page_order_method.dart';
 import 'package:flutter/material.dart';
+import 'package:get/instance_manager.dart';
 import 'package:pinput/pinput.dart';
 
 class MyOtp extends StatefulWidget {
@@ -12,11 +14,13 @@ class MyOtp extends StatefulWidget {
 }
 
 class _MyOtpState extends State<MyOtp> {
-  int _countdown = 180; // Đếm ngược từ 60 giây
+  int _countdown = 60; // Đếm ngược từ 60 giây
   late Timer _timer;
+  String? phoneNumber;
 
   @override
   void initState() {
+    phoneNumber = Get.find<AccountViewModel>().phoneNumber;
     super.initState();
     startCountdown();
   }
@@ -141,7 +145,7 @@ class _MyOtpState extends State<MyOtp> {
                             children: [
                               TextSpan(
                                 text:
-                                    "Một mã xác định gồm 6 số đã gửi đến số điện thoại 956215684 ",
+                                    "Một mã xác định gồm 6 số đã gửi đến số điện thoại $phoneNumber",
                                 style: TextStyle(
                                     fontSize: 18, color: Colors.black),
                               ),
@@ -182,23 +186,7 @@ class _MyOtpState extends State<MyOtp> {
                               PinputAutovalidateMode.onSubmit,
                           showCursor: true,
                           onSubmitted: (input) {
-                            if (input == "222222") {
-                              // Navigate to the OrderMethod page
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      OrderMethod(), // Replace with your OrderMethod page
-                                ),
-                              );
-                            } else {
-                              // Show an error message
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content:
-                                      Text('Mã không đúng. Vui lòng nhập lại.'),
-                                ),
-                              );
-                            }
+                            Get.find<AccountViewModel>().verifyOTPCode(input);
                           },
                         ),
                         SizedBox(

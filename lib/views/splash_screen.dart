@@ -1,4 +1,6 @@
+import 'package:deer_coffee/utils/route_constrant.dart';
 import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
 
 import 'root_screen.dart';
 
@@ -13,13 +15,9 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration(seconds: 3), () {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => RootScreen(),
-        ),
-      );
-    });
+    // Future.delayed(const Duration(seconds: 2), () {
+    //   Get.offAllNamed(RouteHandler.HOME);
+    // });
   }
 
   @override

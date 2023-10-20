@@ -1,3 +1,4 @@
+import 'package:deer_coffee/views/login/login_otp.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:deer_coffee/views/cart.dart';
 import 'package:deer_coffee/views/home_page.dart';
@@ -20,16 +21,19 @@ import 'package:deer_coffee/views/reward_coffee.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'firebase_options.dart';
+import 'setup.dart';
 import 'utils/route_constrant.dart';
 import 'views/login/login.dart';
 import 'views/not_found_screen.dart';
 import 'views/root_screen.dart';
 import 'views/splash_screen.dart';
 
-void main() {
-  Firebase.initializeApp(
+Future<void> main() async {
+  await WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  createRouteBindings();
   runApp(const MyApp());
 }
 
@@ -57,6 +61,10 @@ class MyApp extends StatelessWidget {
         GetPage(
             name: RouteHandler.LOGIN,
             page: () => LoginScreen(),
+            transition: Transition.zoom),
+        GetPage(
+            name: RouteHandler.OTP,
+            page: () => MyOtp(),
             transition: Transition.zoom),
         GetPage(
             name: RouteHandler.HOME,
