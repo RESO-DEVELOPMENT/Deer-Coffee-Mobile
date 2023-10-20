@@ -176,9 +176,10 @@ class _TrackingState extends State<Tracking> {
                   Text(
                     "Siêu Deal -39k FREESHIP",
                     style: Get.textTheme.bodyLarge
-                        ?.copyWith(fontWeight: FontWeight.bold),
+                        ?.copyWith(fontWeight: FontWeight.bold, fontSize: 20),
                     textAlign: TextAlign.left, // Đặt chữ ở bên trái
                   ),
+                  SizedBox(height: 10,),
                   Column(
                     children: [
                       Padding(
@@ -238,6 +239,7 @@ class _TrackingState extends State<Tracking> {
                           ],
                         ),
                       ),
+                      SizedBox(height: 10,),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Row(

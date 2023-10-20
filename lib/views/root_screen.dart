@@ -1,3 +1,4 @@
+import 'package:deer_coffee/views/order_determination.dart';
 import 'package:deer_coffee/views/store.dart';
 import 'package:deer_coffee/views/tracking.dart';
 import 'package:deer_coffee/views/voucher_login.dart';
@@ -56,30 +57,78 @@ class _RootScreenState extends State<RootScreen> {
                 showCustomBottomSheet(context);
               },
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(4.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Expanded(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Giao hàng",
-                            style:
-                                TextStyle(color: Colors.black, fontSize: 12.0),
+                        child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.person,
+                              color: Colors.black, // Màu của biểu tượng
+                              size: 24.0, // Kích thước của biểu tượng
+                            ),
+                            Text(
+                              "Giao hàng",
+                              style: TextStyle(
+                                  color: Colors.black, fontSize: 12.0),
+                            ),
+                          ],
+                        ),
+                        Text(
+                          "Các sản phẩm sẽ được giao đến địa chỉ của bạn",
+                          style: TextStyle(color: Colors.black, fontSize: 12.0),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    )),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => Option(),
+                          ),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.blue,
+                      ),
+                      child: Row(
+                        children: <Widget>[
+                          Container(
+                            width: 24.0, // Kích thước của hình tròn
+                            height: 24.0,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.white,
+                            ),
+                            child: Center(
+                              child: Text(
+                                "2",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 12.0,
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 6,
                           ),
                           Text(
-                            "Các sản phẩm sẽ được giao đến địa chỉ của bạn",
-                            style:
-                                TextStyle(color: Colors.black, fontSize: 12.0),
-                            overflow: TextOverflow.ellipsis,
+                            '10.000đ',
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
                           ),
                         ],
                       ),
                     ),
-                    FilledButton(onPressed: () {}, child: Text("10000 d"))
                   ],
                 ),
               ),

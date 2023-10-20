@@ -26,84 +26,86 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFFE5EDFF),
+      appBar: AppBar(
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            children: [
+              Image.asset(
+                'assets/images/waving_hand.png',
+                width: 40,
+                height: 40,
+              ),
+              SizedBox(width: 10),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Chào buổi sáng",
+                    style: GoogleFonts.inter(
+                      color: Colors.black,
+                      fontWeight: FontWeight.w300,
+                      fontSize: 13,
+                    ),
+                  ),
+                  Text(
+                    "Quốc Khánh",
+                    style: GoogleFonts.inter(
+                      color: Colors.black,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 18,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              Container(
+                width: 55,
+                height: 40,
+                decoration: BoxDecoration(
+                  shape: BoxShape.rectangle,
+                  borderRadius: BorderRadius.circular(13),
+                  color: Colors.blue,
+                ),
+                child: IconButton(
+                  icon: Icon(
+                    Icons.confirmation_num_outlined,
+                    color: Colors.white,
+                  ),
+                  onPressed: () {},
+                ),
+              ),
+              SizedBox(width: 3),
+              Container(
+                width: 50,
+                height: 40,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.blue,
+                ),
+                child: IconButton(
+                  icon: Icon(
+                    Ionicons.notifications_outline,
+                    color: Colors.white,
+                  ),
+                  onPressed: () {},
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+      backgroundColor: Colors.transparent,
+      elevation: 1,
+    ),
       body: Padding(
         padding: const EdgeInsets.all(8),
         child: ListView(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    Image.asset(
-                      'assets/images/waving_hand.png',
-                      width: 40,
-                      height: 40,
-                    ),
-                    SizedBox(width: 10),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Chào buổi sáng",
-                          style: GoogleFonts.getFont(
-                            'Inter',
-                            color: Colors.black,
-                            fontWeight: FontWeight.w300,
-                            fontSize: 13,
-                          ),
-                        ),
-                        Text(
-                          "Quốc Khánh",
-                          style: GoogleFonts.getFont(
-                            'Inter',
-                            color: Colors.black,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 18,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Container(
-                      width: 55,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.rectangle,
-                        borderRadius: BorderRadius.circular(13),
-                        color: Colors.blue,
-                      ),
-                      child: IconButton(
-                        icon: Icon(
-                          Icons.confirmation_num_outlined,
-                          color: Colors.white,
-                        ),
-                        onPressed: () {},
-                      ),
-                    ),
-                    SizedBox(width: 03),
-                    Container(
-                      width: 50,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.blue,
-                      ),
-                      child: IconButton(
-                        icon: Icon(
-                          Ionicons.notifications_outline,
-                          color: Colors.white,
-                        ),
-                        onPressed: () {},
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
             SizedBox(
               height: 24,
             ),
