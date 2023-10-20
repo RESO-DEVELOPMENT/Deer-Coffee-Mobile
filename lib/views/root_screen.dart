@@ -68,10 +68,10 @@ class _RootScreenState extends State<RootScreen> {
                       children: [
                         Row(
                           children: [
-                            Icon(
-                              Icons.person,
-                              color: Colors.black, // Màu của biểu tượng
-                              size: 24.0, // Kích thước của biểu tượng
+                            Image.asset(
+                              'assets/images/shipper.png',
+                              width: 20,
+                              height: 20,
                             ),
                             Text(
                               "Giao hàng",

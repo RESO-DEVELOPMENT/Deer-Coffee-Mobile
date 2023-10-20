@@ -325,7 +325,7 @@ class _HomePageState extends State<HomePage> {
                     child: CarouselSlider(
                       options: CarouselOptions(
                         scrollPhysics: const BouncingScrollPhysics(),
-                        height: 155.0, // Điều chỉnh chiều cao của slider
+                        height: 140.0, // Điều chỉnh chiều cao của slider
                         aspectRatio: 9,
                         autoPlay: true, // Tự động chuyển đổi ảnh
                         enlargeCenterPage: true,
