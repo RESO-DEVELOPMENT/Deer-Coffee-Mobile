@@ -75,10 +75,16 @@ class _LoginScreenState extends State<LoginScreen> {
                                 height: 50,
                               ),
                               Container(
-                                child: Icon(
-                                  Icons.cancel,
-                                  color: Colors.white,
-                                  size: 30,
+                                child: IconButton(
+                                  icon: Icon(
+                                    Icons.cancel,
+                                    color: Colors.white,
+                                    size: 30,
+                                  ),
+                                  onPressed: () {
+                                    Navigator.of(context)
+                                        .pop(); // Navigate back to the previous screen (LoginScreen)
+                                  },
                                 ),
                               ),
                             ],
