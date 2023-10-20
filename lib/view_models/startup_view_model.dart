@@ -10,6 +10,6 @@ class StartUpViewModel extends BaseViewModel {
   }
   Future handleStartUpLogic() async {
     await Future.delayed(const Duration(seconds: 2));
-    Get.offAndToNamed(RouteHandler.HOME);
+    Get.offAllNamed(RouteHandler.HOME);
   }
 }
