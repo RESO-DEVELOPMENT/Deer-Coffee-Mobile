@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:deer_coffee/views/cart.dart';
 import 'package:deer_coffee/views/login/login_otp.dart';
-import 'package:deer_coffee/views/order_determination.dart';
+import 'package:deer_coffee/views/product_details.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'package:flutter/material.dart';

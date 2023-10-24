@@ -71,7 +71,8 @@ class AccountViewModel extends BaseViewModel {
       await auth.signInWithCredential(credential).then((value) => {
             userCredential = value,
             print(
-                'User Login In Successful ${userCredential?.user?.phoneNumber ?? ""}')
+                'User Login In Successful ${userCredential?.user?.phoneNumber ?? ""}'),
+            print('User Login In Successful ${userCredential ?? ""}')
           });
 
       await Get.offAllNamed(RouteHandler.HOME);

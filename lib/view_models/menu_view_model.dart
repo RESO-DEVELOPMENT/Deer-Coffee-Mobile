@@ -54,11 +54,12 @@ class MenuViewModel extends BaseViewModel {
     }
   }
 
-  Product? getProductById(String id) {
-    return normalProducts!.firstWhereOrNull((element) => element.id == id);
+  Product getProductById(String id) {
+    return normalProducts!.firstWhere((element) => element.id == id);
   }
 
   List<Product> getProductsByCategory(String? categoryId) {
+    notifyListeners();
     return extraProducts!
         .where((element) => element.categoryId == categoryId)
         .toList();
@@ -70,5 +71,42 @@ class MenuViewModel extends BaseViewModel {
             ? false
             : element.collectionIds!.contains(collectionID)))
         .toList();
+    notifyListeners();
+  }
+
+  List<Category>? getExtraCategoryByNormalProduct(Product product) {
+    List<Category> listExtraCategory = [];
+    for (Category item in currentMenu!.categories!) {
+      if (product.extraCategoryIds!.contains(item.id)) {
+        listExtraCategory.add(item);
+      }
+    }
+    notifyListeners();
+    return listExtraCategory;
+  }
+
+  List<Product>? getChildProductByParentProduct(String? productId) {
+    List<Product> listChilds = childProducts!
+        .where((element) => element.parentProductId == productId)
+        .toList();
+
+    List<Product> listChildsSorted = [];
+    for (Product item in listChilds) {
+      if (item.size == ProductSizeEnum.SMALL) {
+        listChildsSorted.add(item);
+      }
+    }
+    for (Product item in listChilds) {
+      if (item.size == ProductSizeEnum.MEDIUM) {
+        listChildsSorted.add(item);
+      }
+    }
+    for (Product item in listChilds) {
+      if (item.size == ProductSizeEnum.LARGE) {
+        listChildsSorted.add(item);
+      }
+    }
+    notifyListeners();
+    return listChildsSorted;
   }
 }

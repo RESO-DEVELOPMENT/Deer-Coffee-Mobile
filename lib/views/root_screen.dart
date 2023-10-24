@@ -1,5 +1,5 @@
 import 'package:deer_coffee/utils/route_constrant.dart';
-import 'package:deer_coffee/views/order_determination.dart';
+import 'package:deer_coffee/views/product_details.dart';
 import 'package:deer_coffee/views/store.dart';
 import 'package:deer_coffee/views/orders_screen.dart';
 import 'package:deer_coffee/views/voucher_login.dart';

@@ -16,14 +16,14 @@ class ProductViewModel extends BaseViewModel {
   List<ProductAttribute> currentAttributes = [];
   List<Attribute> listAttribute = [];
   ProductViewModel() {
-    for (var attribute in listAttribute) {
-      currentAttributes.add(ProductAttribute(attribute.name ?? '', ""));
-    }
     listAttribute = [
-      Attribute(
-          name: "Mức đường", options: ["0%", "30%", "50%", "70%", "100%"]),
-      Attribute(name: "Mức đá", options: ["0%", "30%", "50%", "70%", "100%"])
+      Attribute(0, "Mức đường", ["0%", "30%", "50%", "70%", "100%"], "100%"),
+      Attribute(1, "Mức đá", ["0%", "30%", "50%", "70%", "100%"], "100%")
     ];
+    for (var attribute in listAttribute) {
+      currentAttributes
+          .add(ProductAttribute(attribute.name, attribute.options.last));
+    }
   }
   void addProductToCartItem(Product product) {
     productInCart = product;

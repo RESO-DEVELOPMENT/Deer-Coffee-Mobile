@@ -1,22 +1,8 @@
 class Attribute {
-  String? name;
-  List<String>? options;
+  int id;
+  String name;
+  List<String> options;
+  String selectedOptions;
 
-  Attribute({this.name, this.options});
-
-  Attribute.fromJson(Map<String, dynamic> json) {
-    name = json['name'];
-    options = json['options'].cast<String>();
-  }
-  Map<String, dynamic> toJson() {
-    Map<String, dynamic> data = <String, dynamic>{};
-    data['name'] = name;
-    data['options'] = options;
-    return data;
-  }
-
-  static List<Attribute> fromList(dynamic jsonList) {
-    var list = jsonList as List;
-    return list.map((map) => Attribute.fromJson(map)).toList();
-  }
+  Attribute(this.id, this.name, this.options, this.selectedOptions);
 }

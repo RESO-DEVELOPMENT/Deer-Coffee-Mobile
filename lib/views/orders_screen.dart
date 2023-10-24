@@ -1,7 +1,7 @@
 import 'package:deer_coffee/models/collection.dart';
 import 'package:deer_coffee/utils/format.dart';
 import 'package:deer_coffee/view_models/menu_view_model.dart';
-import 'package:deer_coffee/views/order_determination.dart';
+import 'package:deer_coffee/views/product_details.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
