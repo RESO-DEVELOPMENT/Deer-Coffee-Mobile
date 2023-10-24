@@ -184,7 +184,9 @@ class _OrdersScreenState extends State<OrdersScreen> {
           SizedBox(
             height: 80,
             width: 80,
-            child: Image.network(product.picUrl ?? ''),
+            child: Image.network(product!.picUrl!.isEmpty
+                ? 'https://i.imgur.com/X0WTML2.jpg'
+                : product!.picUrl!),
           ),
           SizedBox(
             width: 8,
