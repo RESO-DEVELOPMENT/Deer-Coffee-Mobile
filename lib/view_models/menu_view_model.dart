@@ -54,6 +54,10 @@ class MenuViewModel extends BaseViewModel {
     }
   }
 
+  Product? getProductById(String id) {
+    return normalProducts!.firstWhereOrNull((element) => element.id == id);
+  }
+
   List<Product> getProductsByCategory(String? categoryId) {
     return extraProducts!
         .where((element) => element.categoryId == categoryId)

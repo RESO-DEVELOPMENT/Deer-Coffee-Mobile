@@ -1,6 +1,8 @@
 import 'dart:io';
 
+import 'package:deer_coffee/views/cart.dart';
 import 'package:deer_coffee/views/login/login_otp.dart';
+import 'package:deer_coffee/views/order_determination.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'package:flutter/material.dart';
@@ -57,6 +59,16 @@ class MyApp extends StatelessWidget {
         GetPage(
             name: RouteHandler.HOME,
             page: () => RootScreen(),
+            transition: Transition.cupertino),
+        GetPage(
+            name: RouteHandler.CART,
+            page: () => CartScreen(),
+            transition: Transition.cupertino),
+        GetPage(
+            name: RouteHandler.PRODUCT_DETAIL,
+            page: () => Option(
+                  id: Get.parameters['id'] ?? '',
+                ),
             transition: Transition.cupertino),
       ],
       initialRoute: RouteHandler.WELCOME,

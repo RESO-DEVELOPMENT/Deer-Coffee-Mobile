@@ -1,6 +1,7 @@
+import 'package:deer_coffee/utils/route_constrant.dart';
 import 'package:deer_coffee/views/order_determination.dart';
 import 'package:deer_coffee/views/store.dart';
-import 'package:deer_coffee/views/tracking.dart';
+import 'package:deer_coffee/views/orders_screen.dart';
 import 'package:deer_coffee/views/voucher_login.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -24,7 +25,7 @@ class _RootScreenState extends State<RootScreen> {
 
   List<Widget> portraitViews = [
     HomePage(),
-    Tracking(),
+    OrdersScreen(),
     Store(),
     VoucherLogin(),
     OtherPage(),
@@ -54,88 +55,83 @@ class _RootScreenState extends State<RootScreen> {
         child: Align(
           heightFactor: 0,
           alignment: const Alignment(0, 3.5),
-          child: SizedBox(
-            width: Get.width * 0.9,
-            height: 60,
-            child: ElevatedButton(
-              onPressed: () {
-                showCustomBottomSheet(context);
-              },
-              child: Padding(
-                padding: const EdgeInsets.all(4.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                        child: Column(
+          child: Container(
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(24),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Colors.grey,
+                    blurRadius: 2.0,
+                  ),
+                ]),
+            padding: EdgeInsets.all(8),
+            width: Get.width * 0.95,
+            height: 50,
+            child: InkWell(
+              onTap: () => Get.toNamed(RouteHandler.CART),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
                           children: [
-                            Image.asset(
-                              'assets/images/shipper.png',
-                              width: 20,
-                              height: 20,
-                            ),
                             Text(
                               "Giao hàng",
-                              style: TextStyle(
-                                  color: Colors.black, fontSize: 12.0),
+                              style: Get.textTheme.bodySmall,
                             ),
                           ],
                         ),
                         Text(
                           "Các sản phẩm sẽ được giao đến địa chỉ của bạn",
-                          style: TextStyle(color: Colors.black, fontSize: 12.0),
+                          style: Get.textTheme.bodySmall,
                           overflow: TextOverflow.ellipsis,
                         ),
                       ],
-                    )),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => Option(),
-                          ),
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.blue,
-                      ),
-                      child: Row(
-                        children: <Widget>[
-                          Container(
-                            width: 24.0, // Kích thước của hình tròn
-                            height: 24.0,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Colors.white,
-                            ),
-                            child: Center(
-                              child: Text(
-                                "2",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 12.0,
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 6,
-                          ),
-                          Text(
-                            '10.000đ',
-                            style: TextStyle(
-                              color: Colors.white,
-                            ),
-                          ),
-                        ],
-                      ),
                     ),
-                  ],
-                ),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      Get.toNamed(RouteHandler.CART);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blue,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Container(
+                          width: 24.0, // Kích thước của hình tròn
+                          height: 24.0,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.white,
+                          ),
+                          child: Center(
+                            child: Text(
+                              "2",
+                              style: Get.textTheme.bodySmall,
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 2,
+                        ),
+                        Text(
+                          '10.000đ',
+                          style: Get.textTheme.bodySmall
+                              ?.copyWith(color: Colors.white),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
