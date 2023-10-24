@@ -241,7 +241,10 @@ class _OrdersScreenState extends State<OrdersScreen> {
               width: 60,
               decoration: BoxDecoration(
                   shape: BoxShape.rectangle,
-                  image: DecorationImage(image: NetworkImage(image))),
+                  image: DecorationImage(
+                      image: NetworkImage(image.isEmpty
+                          ? 'https://i.imgur.com/X0WTML2.jpg'
+                          : image))),
             ),
           ),
           Text(text1, style: Get.textTheme.bodyMedium),

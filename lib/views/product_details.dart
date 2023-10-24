@@ -94,7 +94,7 @@ class _OptionState extends State<Option> {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(16),
                           child: Image.network(
-                            product!.picUrl!.isEmpty
+                            product.picUrl!.isEmpty
                                 ? 'https://i.imgur.com/X0WTML2.jpg'
                                 : product.picUrl ?? '',
                             width: Get.width,
