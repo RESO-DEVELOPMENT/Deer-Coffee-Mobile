@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class voucherQr extends StatefulWidget {
-  const voucherQr({super.key});
+class VoucherDetails extends StatefulWidget {
+  final String id;
+  const VoucherDetails({super.key, required this.id});
 
   @override
-  State<voucherQr> createState() => _voucherQrState();
+  State<VoucherDetails> createState() => _VoucherDetailsState();
 }
 
-class _voucherQrState extends State<voucherQr> {
+class _VoucherDetailsState extends State<VoucherDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,7 +55,7 @@ class _voucherQrState extends State<voucherQr> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                             IconButton(
+                            IconButton(
                               icon: Icon(
                                 Icons.cancel,
                                 color: Colors.grey,
@@ -65,7 +66,6 @@ class _voucherQrState extends State<voucherQr> {
                                     .pop(); // Navigate back to the previous screen (LoginScreen)
                               },
                             ),
-                         
                           ],
                         ),
                         SizedBox(height: 10),
@@ -140,7 +140,6 @@ class _voucherQrState extends State<voucherQr> {
                                       fontSize: 14, color: Colors.lightBlue),
                                 ),
                               ),
-                              
                               SizedBox(
                                 width: 200,
                                 height: 45,
@@ -199,7 +198,6 @@ class _voucherQrState extends State<voucherQr> {
                                 color: Colors.grey[300],
                                 thickness: 1,
                               ),
-                          
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment
                                     .start, // Để căn bên trái theo chiều ngang
@@ -209,7 +207,7 @@ class _voucherQrState extends State<voucherQr> {
                                     style: TextStyle(fontSize: 14),
                                   ),
                                   Text(
-                                    '• Áp dụng tất cả nước',  
+                                    '• Áp dụng tất cả nước',
                                     style: TextStyle(fontSize: 14),
                                   ),
                                   Text(

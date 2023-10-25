@@ -1,9 +1,12 @@
 // ignore_for_file: unnecessary_import
 
+import 'package:deer_coffee/models/pointify/promotion_details_model.dart';
 import 'package:get/get.dart';
 
+import '../api/pointify/pointify_data.dart';
 import '../enums/view_status.dart';
 import '../models/cart.dart';
+import '../models/pointify/promotion_model.dart';
 import 'base_view_model.dart';
 
 class CartViewModel extends BaseViewModel {
@@ -17,6 +20,8 @@ class CartViewModel extends BaseViewModel {
   int _quantity = 0;
   // PromotionData? promotionData = PromotionData();
   // List<Promotion>? promotions = [];
+  PointifyData? promotionData = PointifyData();
+  List<PromotionPointify>? promotions = [];
   List<CartItem> get cartList => _cartList;
   num get finalAmount => _finalAmount;
   num get totalAmount => _totalAmount;
@@ -60,6 +65,28 @@ class CartViewModel extends BaseViewModel {
   //     setState(ViewStatus.Error, e.toString());
   //   }
   // }
+  void getListPromotion() async {
+    try {
+      setState(ViewStatus.Loading);
+      promotions = await promotionData?.getListPromotionOfPointify();
+      setState(ViewStatus.Completed);
+    } catch (e) {
+      setState(ViewStatus.Error, e.toString());
+    }
+  }
+
+  Future<PromotionDetailsModel?> getPromotionDetailsById(String id) async {
+    try {
+      setState(ViewStatus.Loading);
+      PromotionDetailsModel? promotionDetailsModel =
+          await promotionData?.getPromotionDetailsById(id);
+      setState(ViewStatus.Completed);
+      return promotionDetailsModel;
+    } catch (e) {
+      setState(ViewStatus.Error, e.toString());
+    }
+    return null;
+  }
 
   void addToCart(CartItem cartModel) {
     _cartList.add(cartModel);

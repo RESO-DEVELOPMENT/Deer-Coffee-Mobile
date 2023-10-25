@@ -1,8 +1,12 @@
+import 'dart:ffi';
 import 'dart:io';
 
 import 'package:deer_coffee/views/cart.dart';
 import 'package:deer_coffee/views/login/login_otp.dart';
 import 'package:deer_coffee/views/product_details.dart';
+import 'package:deer_coffee/views/promotion_details.dart';
+import 'package:deer_coffee/views/voucher.dart';
+import 'package:deer_coffee/views/voucher_details.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'package:flutter/material.dart';
@@ -58,15 +62,33 @@ class MyApp extends StatelessWidget {
             transition: Transition.zoom),
         GetPage(
             name: RouteHandler.HOME,
-            page: () => RootScreen(),
+            page: () => RootScreen(
+                  idx: int.parse(Get.parameters['idx'] ?? '0'),
+                ),
             transition: Transition.cupertino),
         GetPage(
             name: RouteHandler.CART,
             page: () => CartScreen(),
             transition: Transition.cupertino),
         GetPage(
+            name: RouteHandler.VOUCHER,
+            page: () => Voucher(),
+            transition: Transition.cupertino),
+        GetPage(
             name: RouteHandler.PRODUCT_DETAIL,
             page: () => Option(
+                  id: Get.parameters['id'] ?? '',
+                ),
+            transition: Transition.cupertino),
+        GetPage(
+            name: RouteHandler.VOUCHER_DETAIL,
+            page: () => VoucherDetails(
+                  id: Get.parameters['id'] ?? '',
+                ),
+            transition: Transition.cupertino),
+        GetPage(
+            name: RouteHandler.PROMOTION_DETAILS,
+            page: () => PromotionDetailsScreen(
                   id: Get.parameters['id'] ?? '',
                 ),
             transition: Transition.cupertino),

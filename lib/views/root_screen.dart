@@ -2,7 +2,7 @@ import 'package:deer_coffee/utils/route_constrant.dart';
 import 'package:deer_coffee/views/product_details.dart';
 import 'package:deer_coffee/views/store.dart';
 import 'package:deer_coffee/views/orders_screen.dart';
-import 'package:deer_coffee/views/voucher_login.dart';
+import 'package:deer_coffee/views/promotions_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../view_models/menu_view_model.dart';
@@ -14,7 +14,8 @@ import 'bottom_sheet_util.dart';
 import 'home_page_order_method.dart';
 
 class RootScreen extends StatefulWidget {
-  const RootScreen({super.key});
+  final int idx;
+  const RootScreen({super.key, required this.idx});
 
   @override
   State<RootScreen> createState() => _RootScreenState();
@@ -26,8 +27,8 @@ class _RootScreenState extends State<RootScreen> {
   List<Widget> portraitViews = [
     HomePage(),
     OrdersScreen(),
+    PromotionsScreen(),
     Store(),
-    VoucherLogin(),
     OtherPage(),
   ];
 
@@ -36,12 +37,14 @@ class _RootScreenState extends State<RootScreen> {
     BottomNavigationBarItem(
         icon: Icon(Icons.coffee_outlined), label: 'Đặt hàng'),
     BottomNavigationBarItem(
+        icon: Icon(Icons.qr_code_scanner_outlined), label: 'Thành viên'),
+    BottomNavigationBarItem(
         icon: Icon(Icons.store_outlined), label: 'Cửa hàng'),
-    BottomNavigationBarItem(icon: Icon(Icons.assignment), label: 'Ưu đãi'),
     BottomNavigationBarItem(icon: Icon(Icons.segment_sharp), label: 'Khác'),
   ];
   @override
   void initState() {
+    _selectedIndex = widget.idx;
     super.initState();
   }
 

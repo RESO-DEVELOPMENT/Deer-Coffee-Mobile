@@ -51,6 +51,9 @@ dependencies:
   scoped_model: ^2.0.0
   shared_preferences: ^2.2.2
   intl: ^0.18.1
+  qr_flutter: ^4.1.0
+  barcode: ^2.2.4
+  barcode_widget: ^2.0.4
 
 dev_dependencies:
   flutter_test:

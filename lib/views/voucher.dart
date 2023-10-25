@@ -1,5 +1,6 @@
-import 'package:deer_coffee/views/voucher_qr.dart';
+import 'package:deer_coffee/views/voucher_details.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class Voucher extends StatefulWidget {
   const Voucher({Key? key}) : super(key: key);
@@ -13,27 +14,11 @@ class _VoucherState extends State<Voucher> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: 60.0,
         backgroundColor: Colors.white,
-        elevation: 10.0,
-        title: Center(
-          child: Text(
-            'Phiếu ưu đãi của bạn',
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 20.0,
-            ),
-          ),
-        ),
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back,
-            color: Colors.black,
-          ),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
+        centerTitle: true,
+        title: Text('Phiếu ưu đãi của bạn',
+            style: Get.textTheme.titleLarge
+                ?.copyWith(fontWeight: FontWeight.bold)),
       ),
       body: Container(
         color: Color(0xFFF5F5F5), // Màu F5F5F5 cho nền body
@@ -44,14 +29,16 @@ class _VoucherState extends State<Voucher> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
+                  const Text(
                     'Sẵn sàng sử dụng',
                     style: TextStyle(
                       fontSize: 18.0,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(width: 10,),
+                  SizedBox(
+                    width: 10,
+                  ),
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     decoration: BoxDecoration(
@@ -59,10 +46,14 @@ class _VoucherState extends State<Voucher> {
                       color: Colors.white,
                     ),
                     child: DropdownButton<String>(
-                      items: <String?>[null, 'Option 1', 'Option 2', 'Option 3'].map((String? value) {
+                      items: <String>['Tại cửa hàng', 'Mang về', 'Giao hàng']
+                          .map((String value) {
                         return DropdownMenuItem<String>(
                           value: value,
-                          child: Text(value ?? 'Sử dụng tại quán', style: TextStyle(color: Colors.lightBlue),),
+                          child: Text(
+                            value ?? 'Tại cửa hàng',
+                            style: TextStyle(color: Colors.lightBlue),
+                          ),
                         );
                       }).toList(),
                       onChanged: (String? newValue) {
@@ -70,7 +61,8 @@ class _VoucherState extends State<Voucher> {
                           // Xử lý khi lựa chọn một tùy chọn trong Dropdown
                         }
                       },
-                      underline: Container(), // Loại bỏ đường gạch dưới DropdownButton
+                      underline:
+                          Container(), // Loại bỏ đường gạch dưới DropdownButton
                     ),
                   ),
                 ],
@@ -95,11 +87,12 @@ class TicketWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => voucherQr(), // Replace with your VoucherQr page
-          ),
-        );
+        // Navigator.of(context).push(
+        //   MaterialPageRoute(
+        //     builder: (context) =>
+        //         VoucherDetails(), // Replace with your VoucherQr page
+        //   ),
+        // );
       },
       child: Container(
         width: 50.0,
@@ -154,8 +147,6 @@ class TicketWidget extends StatelessWidget {
   }
 }
 
-
-
 class TicketPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
@@ -195,4 +186,3 @@ class DotPainter extends CustomPainter {
     return false;
   }
 }
-
