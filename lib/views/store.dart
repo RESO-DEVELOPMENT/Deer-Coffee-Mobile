@@ -1,7 +1,12 @@
+import 'package:deer_coffee/enums/view_status.dart';
+import 'package:deer_coffee/models/store.dart';
+import 'package:deer_coffee/view_models/cart_view_model.dart';
+import 'package:deer_coffee/view_models/menu_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 class Store extends StatefulWidget {
   const Store({Key? key}) : super(key: key);
@@ -12,199 +17,78 @@ class Store extends StatefulWidget {
 
 class _StoreState extends State<Store> {
   @override
+  void initState() {
+    Get.find<MenuViewModel>().getListStore();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: ListView(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
+      backgroundColor: Color(0xffF9F9F9),
+      appBar: AppBar(
+          title: Text(
+        "Danh sách cửa hàng",
+        style: Get.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+      )),
+      body: ScopedModel<MenuViewModel>(
+        model: Get.find<MenuViewModel>(),
+        child: ScopedModelDescendant<MenuViewModel>(
+            builder: (context, build, model) {
+          if (model.status == ViewStatus.Loading) {
+            return Center(child: CircularProgressIndicator());
+          } else if (model.storeList == []) {
+            return Center(child: Text("Không có cửa hàng nào"));
+          }
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ListView(
+                children: model.storeList!.map((e) => buildStore(e)).toList()),
+          );
+        }),
+      ),
+    );
+  }
+
+  Widget buildStore(StoreModel store) {
+    return Card(
+      surfaceTintColor: Colors.white,
+      child: ClipRRect(
+        borderRadius:
+            BorderRadius.circular(16), // Set border radius to round the corners
+        child: Container(
+          width: 500, // Set the desired width
+          height: 120, // Set the desired height
+          padding: EdgeInsets.all(8),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              // Image widget here
+              Image.asset(
+                'assets/images/logo.png',
+                height: 100.0,
+                width: 100.0,
+              ),
+              SizedBox(width: 4),
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Text(store.name ?? '',
+                        style: Get.textTheme.bodyLarge
+                            ?.copyWith(fontWeight: FontWeight.bold)),
                     Text(
-                      "Cửa hàng",
-                      style: Get.textTheme.titleLarge
-                          ?.copyWith(fontWeight: FontWeight.bold),
+                      store.address ?? '',
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ],
                 ),
-                Row(
-                  children: [
-                    Container(
-                      width: 55,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.rectangle,
-                        borderRadius: BorderRadius.circular(13),
-                        color: Colors.blue,
-                      ),
-                      child: IconButton(
-                        icon: Icon(
-                          Icons.confirmation_num_outlined,
-                          color: Colors.white,
-                        ),
-                        onPressed: () {},
-                      ),
-                    ),
-                    SizedBox(width: 03),
-                    Container(
-                      width: 50,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.blue,
-                      ),
-                      child: IconButton(
-                        icon: Icon(
-                          Ionicons.notifications_outline,
-                          color: Colors.white,
-                        ),
-                        onPressed: () {},
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            SizedBox(height: 10),
-            Card(
-              margin: EdgeInsets.all(10),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(
-                    20), // Set border radius to round the corners
-                child: Container(
-                  width: 500, // Set the desired width
-                  height: 120, // Set the desired height
-                  padding: EdgeInsets.all(10),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Image widget here
-                      Container(
-                        width: 80, // Set the desired width for the image
-                        height: 80, // Set the desired height for the image
-                        decoration: BoxDecoration(
-                          shape: BoxShape.rectangle,
-                          image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image: AssetImage(
-                                'assets/images/deercoffee-logopage-0001-2.png'), // Replace with the actual image path
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                          width:
-                              10), // Add some space between the image and text
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('Deer Coffee',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 18)),
-                          SizedBox(height: 5),
-                          Text('1 Nguyễn Xiễn'),
-                          SizedBox(height: 20),
-                          Text('Đang mở'),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
               ),
-            ),
-            Card(
-              margin: EdgeInsets.all(10),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(
-                    20), // Set border radius to round the corners
-                child: Container(
-                  width: 500, // Set the desired width
-                  height: 120, // Set the desired height
-                  padding: EdgeInsets.all(10),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Image widget here
-                      Container(
-                        width: 80, // Set the desired width for the image
-                        height: 80, // Set the desired height for the image
-                        decoration: BoxDecoration(
-                          shape: BoxShape.rectangle,
-                          image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image: AssetImage(
-                                'path_to_your_image'), // Replace with the actual image path
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                          width:
-                              10), // Add some space between the image and text
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('Deer Coffee',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 18)),
-                          SizedBox(height: 5),
-                          Text('1 Nguyễn Xiễn'),
-                          SizedBox(height: 20),
-                          Text('Đang mở'),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            Card(
-              margin: EdgeInsets.all(10),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(
-                    20), // Set border radius to round the corners
-                child: Container(
-                  width: 500, // Set the desired width
-                  height: 120, // Set the desired height
-                  padding: EdgeInsets.all(10),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Image widget here
-                      Container(
-                        width: 80, // Set the desired width for the image
-                        height: 80, // Set the desired height for the image
-                        decoration: BoxDecoration(
-                          shape: BoxShape.rectangle,
-                          image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image: AssetImage(
-                                'path_to_your_image'), // Replace with the actual image path
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                          width:
-                              10), // Add some space between the image and text
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('Deer Coffee',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 18)),
-                          SizedBox(height: 5),
-                          Text('1 Nguyễn Xiễn'),
-                          SizedBox(height: 20),
-                          Text('Đang mở'),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

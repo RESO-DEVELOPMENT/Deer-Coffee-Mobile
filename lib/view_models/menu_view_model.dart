@@ -1,4 +1,5 @@
 import 'package:deer_coffee/api/menu_api.dart';
+import 'package:deer_coffee/models/store.dart';
 import 'package:deer_coffee/view_models/base_view_model.dart';
 import 'package:get/get.dart';
 
@@ -18,6 +19,7 @@ class MenuViewModel extends BaseViewModel {
   List<Product>? extraProducts = [];
   List<Product>? childProducts = [];
   List<Product>? productsFilter = [];
+  List<StoreModel>? storeList = [];
   MenuViewModel() {
     menuAPI = MenuAPI();
     currentMenu = Menu();
@@ -52,6 +54,12 @@ class MenuViewModel extends BaseViewModel {
     } catch (e) {
       setState(ViewStatus.Error, e.toString());
     }
+  }
+
+  Future getListStore() async {
+    setState(ViewStatus.Loading);
+    storeList = await menuAPI?.getListStore();
+    setState(ViewStatus.Completed);
   }
 
   Product getProductById(String id) {

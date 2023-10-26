@@ -6,6 +6,9 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:scoped_model/scoped_model.dart';
 
+import '../enums/order_enum.dart';
+import 'bottom_sheet_util.dart';
+
 class CartScreen extends StatefulWidget {
   const CartScreen({Key? key}) : super(key: key);
 
@@ -143,64 +146,101 @@ class _CartScreenState extends State<CartScreen> {
               ),
               Container(
                 width: Get.width,
-                height: 100,
-                padding: EdgeInsets.all(16),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                height: 160,
+                padding: EdgeInsets.fromLTRB(16, 0, 16, 16),
+                child: Column(
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
+                    Divider(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text(
-                          'Tổng cộng',
-                          style: Get.textTheme.titleSmall,
-                        ),
-                        Text(formatPrice(model.totalAmount),
-                            style: Get.textTheme.titleMedium
-                                ?.copyWith(fontWeight: FontWeight.bold)),
+                        TextButton(
+                            onPressed: () {
+                              showCustomBottomSheet();
+                            },
+                            child: Row(
+                              children: [
+                                Text(showOrderType(model.deliveryType)),
+                              ],
+                            )),
+                        TextButton(
+                            onPressed: () {
+                              showCustomBottomSheet();
+                            },
+                            child: Row(
+                              children: [
+                                Text(showPaymentType(model.paymentType)),
+                              ],
+                            )),
+                        TextButton(
+                            onPressed: () {},
+                            child: Row(
+                              children: [
+                                Text("Khuyến mãi"),
+                              ],
+                            ))
                       ],
                     ),
-                    Expanded(
-                      child: Container(
-                        padding: EdgeInsets.only(left: 16),
-                        height: 50,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            showModalBottomSheet(
-                                context: context,
-                                isScrollControlled: true,
-                                isDismissible: false,
-                                builder: (context) {
-                                  return BottomSheetContent();
-                                });
-                          },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.shopping_cart_outlined,
-                                color: Colors.white,
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Text(
-                                "Đặt Hàng",
-                                style: Get.textTheme.titleMedium
-                                    ?.copyWith(color: Colors.white),
-                              ),
-                            ],
-                          ),
-                          style: ElevatedButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(50),
+                    Divider(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Tổng cộng',
+                              style: Get.textTheme.titleSmall,
                             ),
-                            backgroundColor: Colors.lightBlue,
+                            Text(formatPrice(model.totalAmount),
+                                style: Get.textTheme.titleMedium
+                                    ?.copyWith(fontWeight: FontWeight.bold)),
+                          ],
+                        ),
+                        Expanded(
+                          child: Container(
+                            padding: EdgeInsets.only(left: 16),
+                            height: 50,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                showModalBottomSheet(
+                                    context: context,
+                                    isScrollControlled: true,
+                                    isDismissible: false,
+                                    builder: (context) {
+                                      return BottomSheetContent();
+                                    });
+                              },
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.shopping_cart_outlined,
+                                    color: Colors.white,
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text(
+                                    "Đặt Hàng",
+                                    style: Get.textTheme.titleMedium
+                                        ?.copyWith(color: Colors.white),
+                                  ),
+                                ],
+                              ),
+                              style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(50),
+                                ),
+                                backgroundColor: Colors.lightBlue,
+                              ),
+                            ),
                           ),
                         ),
-                      ),
+                      ],
                     ),
                   ],
                 ),

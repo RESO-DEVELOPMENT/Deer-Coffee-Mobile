@@ -4,6 +4,7 @@ import 'package:deer_coffee/models/pointify/promotion_details_model.dart';
 import 'package:get/get.dart';
 
 import '../api/pointify/pointify_data.dart';
+import '../enums/order_enum.dart';
 import '../enums/view_status.dart';
 import '../models/cart.dart';
 import '../models/pointify/promotion_model.dart';
@@ -13,8 +14,9 @@ class CartViewModel extends BaseViewModel {
   List<CartItem> _cartList = [];
   // List<Promotion> promotionApplyList = [];
   num _finalAmount = 0;
-  int? _peopleNumber;
   num _totalAmount = 0;
+  String deliveryType = DeliType().eatIn.type;
+  String paymentType = PaymentTypeEnums.CASH;
   num _discountAmount = 0;
   num _productDiscount = 0;
   int _quantity = 0;
@@ -25,14 +27,9 @@ class CartViewModel extends BaseViewModel {
   List<CartItem> get cartList => _cartList;
   num get finalAmount => _finalAmount;
   num get totalAmount => _totalAmount;
-  int? get peopleNumber => _peopleNumber;
   num? get discountAmount => _discountAmount;
   int? get quantity => _quantity;
   num? get productDiscount => _productDiscount;
-
-  set setPeopleNumber(int value) {
-    _peopleNumber = value;
-  }
 
   set setTotalAmount(int value) {
     _totalAmount = value;

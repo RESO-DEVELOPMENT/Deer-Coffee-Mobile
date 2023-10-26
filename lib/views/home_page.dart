@@ -1,5 +1,7 @@
 import 'package:barcode/barcode.dart';
 import 'package:barcode_widget/barcode_widget.dart';
+import 'package:deer_coffee/enums/view_status.dart';
+import 'package:deer_coffee/view_models/account_view_model.dart';
 import 'package:deer_coffee/views/login/login.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -7,6 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 import '../utils/route_constrant.dart';
 
@@ -33,80 +36,84 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: const Color(0xFFE5EDFF),
       body: CustomScrollView(
         slivers: [
-          SliverAppBar(
-            expandedHeight: 340.0,
-            backgroundColor: const Color(0xFFE5EDFF),
-            floating: true,
-            pinned: true,
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
+          ScopedModel<AccountViewModel>(
+            model: Get.find<AccountViewModel>(),
+            child: SliverAppBar(
+              expandedHeight: 340.0,
+              backgroundColor: const Color(0xFFE5EDFF),
+              floating: true,
+              pinned: true,
+              title: ScopedModelDescendant<AccountViewModel>(
+                  builder: (context, build, model) {
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    Row(
                       children: [
-                        Text(
-                          "Chào buổi sáng",
-                          style: GoogleFonts.inter(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w300,
-                            fontSize: 13,
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("Chào ngày mới!",
+                                style: Get.textTheme.bodyMedium),
+                            Text(model.user?.userInfo?.fullName ?? '',
+                                style: Get.textTheme.titleMedium
+                                    ?.copyWith(fontWeight: FontWeight.bold)),
+                          ],
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Container(
+                          width: 55,
+                          height: 40,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.rectangle,
+                            borderRadius: BorderRadius.circular(13),
+                            color: Colors.blue,
+                          ),
+                          child: IconButton(
+                            icon: const Icon(
+                              Icons.confirmation_num_outlined,
+                              color: Colors.white,
+                            ),
+                            onPressed: () {
+                              Get.toNamed(RouteHandler.VOUCHER);
+                            },
                           ),
                         ),
-                        Text(
-                          "Quốc Khánh",
-                          style: GoogleFonts.inter(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 18,
+                        SizedBox(width: 3),
+                        Container(
+                          width: 50,
+                          height: 40,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.blue,
+                          ),
+                          child: IconButton(
+                            icon: Icon(
+                              Icons.notifications_outlined,
+                              color: Colors.white,
+                            ),
+                            onPressed: () {},
                           ),
                         ),
                       ],
                     ),
                   ],
-                ),
-                Row(
-                  children: [
-                    Container(
-                      width: 55,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.rectangle,
-                        borderRadius: BorderRadius.circular(13),
-                        color: Colors.blue,
-                      ),
-                      child: IconButton(
-                        icon: const Icon(
-                          Icons.confirmation_num_outlined,
-                          color: Colors.white,
-                        ),
-                        onPressed: () {
-                          Get.toNamed(RouteHandler.VOUCHER);
-                        },
-                      ),
-                    ),
-                    SizedBox(width: 3),
-                    Container(
-                      width: 50,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.blue,
-                      ),
-                      child: IconButton(
-                        icon: Icon(
-                          Icons.notifications_outlined,
-                          color: Colors.white,
-                        ),
-                        onPressed: () {},
-                      ),
-                    ),
-                  ],
-                ),
-              ],
+                );
+              }),
+              flexibleSpace: ScopedModelDescendant<AccountViewModel>(
+                  builder: (context, build, model) {
+                if (model.status == ViewStatus.Loading) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (model.user?.userInfo == null) {
+                  return FlexibleSpaceBar(background: loginCard());
+                } else {
+                  return FlexibleSpaceBar(background: userCard(model));
+                }
+              }),
             ),
-            flexibleSpace: FlexibleSpaceBar(background: userCard()),
           ),
           SliverList.list(
             children: [
@@ -403,138 +410,128 @@ class _HomePageState extends State<HomePage> {
 
   Widget loginCard() {
     return Container(
-      margin: EdgeInsets.only(top: 40),
-      padding: EdgeInsets.all(16),
-      width: Get.width,
-      height: 240,
-      child: Column(children: [
-        SizedBox(
-          height: 40,
-        ),
-        Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(20),
+      margin: const EdgeInsets.fromLTRB(16, 120, 16, 16),
+      padding: const EdgeInsets.all(24),
+      width: Get.width * 0.9,
+      height: 200,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            'Đăng nhập',
+            style:
+                Get.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
           ),
-          height: 240,
-          width: Get.width,
-          padding: EdgeInsets.all(16),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            crossAxisAlignment: CrossAxisAlignment.center,
+          Padding(
+            padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
+            child: Text(
+              'Sử dụng app để tích điểm và đổi những ưu đãi chỉ dành riêng cho thành viên bạn nhé !',
+              style: Get.textTheme.bodySmall,
+              textAlign: TextAlign.center,
+            ),
+          ),
+          SizedBox(
+            height: 8,
+          ),
+          Stack(
+            alignment: Alignment.center,
             children: [
-              Text(
-                'Đăng nhập',
-                style: Get.textTheme.titleLarge
-                    ?.copyWith(fontWeight: FontWeight.bold),
+              Image.asset(
+                'assets/images/hinhchunhat.png',
+                height: 100,
+                width: 329,
+                fit: BoxFit.cover,
               ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
-                child: Text(
-                  'Sử dụng app để tích điểm và đổi những ưu đãi chỉ dành riêng cho thành viên bạn nhé !',
-                  style: Get.textTheme.bodySmall,
-                  textAlign: TextAlign.center,
+              Positioned(
+                top: -15,
+                child: Container(
+                  width: Get.width * 0.6,
+                  height: 42,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    gradient: LinearGradient(
+                      begin: Alignment(-1, -1.133),
+                      end: Alignment(1, 1.367),
+                      colors: <Color>[Color(0xff549ffd), Color(0xffc8ddff)],
+                      stops: <double>[0.014, 1],
+                    ),
+                  ),
+                  child: TextButton(
+                    onPressed: () {
+                      LoginScreen loginScreen = LoginScreen();
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => loginScreen,
+                        ),
+                      );
+                    },
+                    child: Text(
+                      'Đăng nhập',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: Color(0xffffffff),
+                      ),
+                    ),
+                  ),
                 ),
               ),
-              SizedBox(
-                height: 8,
-              ),
-              Stack(
-                alignment: Alignment.center,
-                children: [
-                  Image.asset(
-                    'assets/images/hinhchunhat.png',
-                    height: 100,
-                    width: 329,
-                    fit: BoxFit.cover,
+              Positioned(
+                top: 70,
+                child: Container(
+                  width: Get.width * 0.6,
+                  height: 42,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    gradient: LinearGradient(
+                      begin: Alignment(-1, -1.133),
+                      end: Alignment(1, 1.367),
+                      colors: <Color>[Color(0xff549ffd), Color(0xffc8ddff)],
+                      stops: <double>[0.014, 1],
+                    ),
                   ),
-                  Positioned(
-                    top: -15,
-                    child: Container(
-                      width: Get.width * 0.6,
-                      height: 42,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        gradient: LinearGradient(
-                          begin: Alignment(-1, -1.133),
-                          end: Alignment(1, 1.367),
-                          colors: <Color>[Color(0xff549ffd), Color(0xffc8ddff)],
-                          stops: <double>[0.014, 1],
-                        ),
-                      ),
-                      child: TextButton(
-                        onPressed: () {
-                          LoginScreen loginScreen = LoginScreen();
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => loginScreen,
-                            ),
-                          );
-                        },
-                        child: Text(
-                          'Đăng nhập',
-                          textAlign: TextAlign.center,
+                  child: TextButton(
+                    onPressed: () {},
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Deer Coffee Reward',
+                          textAlign: TextAlign.start,
                           style: TextStyle(
-                            fontSize: 14,
+                            fontSize: 12,
                             fontWeight: FontWeight.w600,
                             color: Color(0xffffffff),
                           ),
                         ),
-                      ),
+                        Icon(
+                          Icons.chevron_right,
+                          color: Colors.white,
+                          size: 25,
+                        ),
+                      ],
                     ),
                   ),
-                  Positioned(
-                    top: 70,
-                    child: Container(
-                      width: Get.width * 0.6,
-                      height: 42,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        gradient: LinearGradient(
-                          begin: Alignment(-1, -1.133),
-                          end: Alignment(1, 1.367),
-                          colors: <Color>[Color(0xff549ffd), Color(0xffc8ddff)],
-                          stops: <double>[0.014, 1],
-                        ),
-                      ),
-                      child: TextButton(
-                        onPressed: () {},
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              'Deer Coffee Reward',
-                              textAlign: TextAlign.start,
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w600,
-                                color: Color(0xffffffff),
-                              ),
-                            ),
-                            Icon(
-                              Icons.chevron_right,
-                              color: Colors.white,
-                              size: 25,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-                clipBehavior: Clip.none,
+                ),
               ),
             ],
+            clipBehavior: Clip.none,
           ),
-        ),
-      ]),
+        ],
+      ),
     );
   }
 
-  Widget userCard() {
+  Widget userCard(AccountViewModel model) {
     return Container(
-      margin: const EdgeInsets.fromLTRB(16, 80, 16, 16),
+      margin: const EdgeInsets.fromLTRB(16, 120, 16, 16),
       padding: const EdgeInsets.all(16),
       width: Get.width * 0.9,
       height: 200,
@@ -561,7 +558,7 @@ class _HomePageState extends State<HomePage> {
                       Row(
                         children: [
                           Text(
-                            "Nguyễn Quốc Khánh",
+                            model.user?.userInfo?.fullName ?? '',
                             style: TextStyle(
                               fontSize: 20,
                               color: Colors.white,

@@ -1,3 +1,4 @@
+import 'package:deer_coffee/models/pointify/membership_model.dart';
 import 'package:deer_coffee/models/pointify/promotion_details_model.dart';
 
 import '../../models/pointify/promotion_model.dart';
@@ -24,5 +25,15 @@ class PointifyData {
         PromotionDetailsModel.fromJson(jsonList);
 
     return promotionDetailsModel;
+  }
+
+  Future<MemberShipModel> getMembershipDetails(String id) async {
+    final res = await pointifyRequest.get(
+      'memberships/$id',
+    );
+    var jsonList = res.data;
+    MemberShipModel memberShipModel = MemberShipModel.fromJson(jsonList);
+
+    return memberShipModel;
   }
 }
