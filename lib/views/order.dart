@@ -13,13 +13,12 @@ class _OrderScreenState extends State<OrderScreen> {
     return Scaffold(
       body: Container(
         child: Align(
-          alignment: Alignment.center, 
+          alignment: Alignment.center,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Container(
-           
-                child: Image.asset('assets/images/1.png.png'),
+                child: Image.asset('assets/images/1.png'),
                 margin: const EdgeInsets.only(top: 80),
               ),
               SizedBox(
@@ -71,7 +70,10 @@ class _OrderScreenState extends State<OrderScreen> {
                     //   ),
                     // );
                   },
-                  child: Text("Theo dõi đơn hàng của tôi",style: TextStyle(color: Colors.white),),
+                  child: Text(
+                    "Theo dõi đơn hàng của tôi",
+                    style: TextStyle(color: Colors.white),
+                  ),
                   style: ElevatedButton.styleFrom(
                     primary: Colors.lightBlue,
                     shape: RoundedRectangleBorder(

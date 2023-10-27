@@ -39,8 +39,11 @@ class _DeliveringState extends State<Delivering> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('24 June | 12:30 PM', style: TextStyle(color: Colors.grey)),
-                      Text('\$3.00', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                      Text('24 June | 12:30 PM',
+                          style: TextStyle(color: Colors.grey)),
+                      Text('\$3.00',
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold)),
                     ],
                   ),
                 ),
@@ -49,9 +52,12 @@ class _DeliveringState extends State<Delivering> {
                   padding: const EdgeInsets.only(left: 10),
                   child: Row(
                     children: [
-                      Icon(Icons.local_cafe, color: Colors.brown, size: 16), // Biểu tượng cafe
+                      Icon(Icons.local_cafe,
+                          color: Colors.brown, size: 16), // Biểu tượng cafe
                       SizedBox(width: 5),
-                      Text('Flat white', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
+                      Text('Flat white',
+                          style: TextStyle(
+                              fontSize: 12, fontWeight: FontWeight.bold)),
                     ],
                   ),
                 ),
@@ -60,11 +66,13 @@ class _DeliveringState extends State<Delivering> {
                   padding: const EdgeInsets.only(left: 10),
                   child: Row(
                     children: [
-                      Icon(Icons.location_on, color: Colors.grey, size: 16), // Biểu tượng vị trí
+                      Icon(Icons.location_on,
+                          color: Colors.grey, size: 16), // Biểu tượng vị trí
                       SizedBox(width: 5),
                       Text(
                         '3 addresion Court Chino Hills, HO56824, United States',
-                        style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontSize: 12, fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
@@ -80,8 +88,11 @@ class _DeliveringState extends State<Delivering> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('25 June | 1:30 PM', style: TextStyle(color: Colors.grey)),
-                      Text('\$3.00', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                      Text('25 June | 1:30 PM',
+                          style: TextStyle(color: Colors.grey)),
+                      Text('\$3.00',
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold)),
                     ],
                   ),
                 ),
@@ -90,9 +101,12 @@ class _DeliveringState extends State<Delivering> {
                   padding: const EdgeInsets.only(left: 10),
                   child: Row(
                     children: [
-                      Icon(Icons.local_cafe, color: Colors.brown, size: 16), // Biểu tượng cafe
+                      Icon(Icons.local_cafe,
+                          color: Colors.brown, size: 16), // Biểu tượng cafe
                       SizedBox(width: 5),
-                      Text('Cappuccino', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
+                      Text('Cappuccino',
+                          style: TextStyle(
+                              fontSize: 12, fontWeight: FontWeight.bold)),
                     ],
                   ),
                 ),
@@ -105,7 +119,8 @@ class _DeliveringState extends State<Delivering> {
                       SizedBox(width: 5),
                       Text(
                         '5 Elm Street San Diego, CA 12345, United States',
-                        style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontSize: 12, fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
@@ -121,8 +136,11 @@ class _DeliveringState extends State<Delivering> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('26 June | 2:00 PM', style: TextStyle(color: Colors.grey)),
-                      Text('\$3.00', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                      Text('26 June | 2:00 PM',
+                          style: TextStyle(color: Colors.grey)),
+                      Text('\$3.00',
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold)),
                     ],
                   ),
                 ),
@@ -133,7 +151,9 @@ class _DeliveringState extends State<Delivering> {
                     children: [
                       Icon(Icons.local_cafe, color: Colors.brown, size: 16),
                       SizedBox(width: 5),
-                      Text('Espresso', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
+                      Text('Espresso',
+                          style: TextStyle(
+                              fontSize: 12, fontWeight: FontWeight.bold)),
                     ],
                   ),
                 ),
@@ -146,7 +166,8 @@ class _DeliveringState extends State<Delivering> {
                       SizedBox(width: 5),
                       Text(
                         '123 Main Street New York, NY 10001, United States',
-                        style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontSize: 12, fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
@@ -162,14 +183,19 @@ class _DeliveringState extends State<Delivering> {
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-                 children: [
+              children: [
                 Padding(
                   padding: const EdgeInsets.only(top: 40, left: 10, right: 10),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('24 June | 12:30 PM', style: TextStyle(color: Colors.grey)),
-                      Text('\$3.00', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.grey)),
+                      Text('24 June | 12:30 PM',
+                          style: TextStyle(color: Colors.grey)),
+                      Text('\$3.00',
+                          style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.grey)),
                     ],
                   ),
                 ),
@@ -178,9 +204,14 @@ class _DeliveringState extends State<Delivering> {
                   padding: const EdgeInsets.only(left: 10),
                   child: Row(
                     children: [
-                      Icon(Icons.local_cafe, color: Colors.grey, size: 16), // Biểu tượng cafe
+                      Icon(Icons.local_cafe,
+                          color: Colors.grey, size: 16), // Biểu tượng cafe
                       SizedBox(width: 5),
-                      Text('Flat white', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold,color: Colors.grey)),
+                      Text('Flat white',
+                          style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.grey)),
                     ],
                   ),
                 ),
@@ -189,11 +220,15 @@ class _DeliveringState extends State<Delivering> {
                   padding: const EdgeInsets.only(left: 10),
                   child: Row(
                     children: [
-                      Icon(Icons.location_on, color: Colors.grey, size: 16), // Biểu tượng vị trí
+                      Icon(Icons.location_on,
+                          color: Colors.grey, size: 16), // Biểu tượng vị trí
                       SizedBox(width: 5),
                       Text(
                         '3 addresion Court Chino Hills, HO56824, United States',
-                        style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold,color: Colors.grey),
+                        style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.grey),
                       ),
                     ],
                   ),
@@ -209,8 +244,13 @@ class _DeliveringState extends State<Delivering> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('25 June | 1:30 PM', style: TextStyle(color: Colors.grey)),
-                      Text('\$3.00', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold,color: Colors.grey)),
+                      Text('25 June | 1:30 PM',
+                          style: TextStyle(color: Colors.grey)),
+                      Text('\$3.00',
+                          style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.grey)),
                     ],
                   ),
                 ),
@@ -219,9 +259,14 @@ class _DeliveringState extends State<Delivering> {
                   padding: const EdgeInsets.only(left: 10),
                   child: Row(
                     children: [
-                      Icon(Icons.local_cafe, color: Colors.grey, size: 16), // Biểu tượng cafe
+                      Icon(Icons.local_cafe,
+                          color: Colors.grey, size: 16), // Biểu tượng cafe
                       SizedBox(width: 5),
-                      Text('Cappuccino', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold,color: Colors.grey)),
+                      Text('Cappuccino',
+                          style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.grey)),
                     ],
                   ),
                 ),
@@ -234,7 +279,10 @@ class _DeliveringState extends State<Delivering> {
                       SizedBox(width: 5),
                       Text(
                         '5 Elm Street San Diego, CA 12345, United States',
-                        style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.grey),
+                        style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.grey),
                       ),
                     ],
                   ),
@@ -245,7 +293,6 @@ class _DeliveringState extends State<Delivering> {
                   thickness: 1,
                 ),
                 SizedBox(height: 10),
-              
               ],
             ),
           ],

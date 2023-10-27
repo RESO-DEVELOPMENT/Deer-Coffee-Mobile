@@ -146,101 +146,63 @@ class _CartScreenState extends State<CartScreen> {
               ),
               Container(
                 width: Get.width,
-                height: 160,
-                padding: EdgeInsets.fromLTRB(16, 0, 16, 16),
+                height: 100,
+                padding: EdgeInsets.fromLTRB(16, 0, 16, 24),
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Divider(),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        TextButton(
-                            onPressed: () {
-                              showCustomBottomSheet();
-                            },
-                            child: Row(
-                              children: [
-                                Text(showOrderType(model.deliveryType)),
-                              ],
-                            )),
-                        TextButton(
-                            onPressed: () {
-                              showCustomBottomSheet();
-                            },
-                            child: Row(
-                              children: [
-                                Text(showPaymentType(model.paymentType)),
-                              ],
-                            )),
-                        TextButton(
-                            onPressed: () {},
-                            child: Row(
-                              children: [
-                                Text("Khuyến mãi"),
-                              ],
-                            ))
+                        Text("Tổng cộng",
+                            style: Get.textTheme.titleMedium
+                                ?.copyWith(fontWeight: FontWeight.bold)),
+                        Text(formatPrice(model.totalAmount),
+                            style: Get.textTheme.titleMedium
+                                ?.copyWith(fontWeight: FontWeight.bold)),
                       ],
                     ),
-                    Divider(),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              'Tổng cộng',
-                              style: Get.textTheme.titleSmall,
-                            ),
-                            Text(formatPrice(model.totalAmount),
+                    SizedBox(
+                      height: 4,
+                    ),
+                    Expanded(
+                      child: Container(
+                        height: 50,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            showModalBottomSheet(
+                                context: context,
+                                isScrollControlled: true,
+                                isDismissible: false,
+                                builder: (context) {
+                                  return BottomSheetContent();
+                                });
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.shopping_cart_outlined,
+                                color: Colors.white,
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Text(
+                                "Đặt Hàng",
                                 style: Get.textTheme.titleMedium
-                                    ?.copyWith(fontWeight: FontWeight.bold)),
-                          ],
-                        ),
-                        Expanded(
-                          child: Container(
-                            padding: EdgeInsets.only(left: 16),
-                            height: 50,
-                            child: ElevatedButton(
-                              onPressed: () {
-                                showModalBottomSheet(
-                                    context: context,
-                                    isScrollControlled: true,
-                                    isDismissible: false,
-                                    builder: (context) {
-                                      return BottomSheetContent();
-                                    });
-                              },
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.shopping_cart_outlined,
-                                    color: Colors.white,
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Text(
-                                    "Đặt Hàng",
-                                    style: Get.textTheme.titleMedium
-                                        ?.copyWith(color: Colors.white),
-                                  ),
-                                ],
+                                    ?.copyWith(color: Colors.white),
                               ),
-                              style: ElevatedButton.styleFrom(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(50),
-                                ),
-                                backgroundColor: Colors.lightBlue,
-                              ),
+                            ],
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50),
                             ),
+                            backgroundColor: Colors.lightBlue,
                           ),
                         ),
-                      ],
+                      ),
                     ),
                   ],
                 ),
