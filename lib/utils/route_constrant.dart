@@ -11,4 +11,5 @@ class RouteHandler {
   static const String NAV = "/nav";
   static const String WELCOME = "/welcome";
   static const String NOT_FOUND = "/404";
+  static const String CATEGORY_DETAIL = "/category-detail";
 }

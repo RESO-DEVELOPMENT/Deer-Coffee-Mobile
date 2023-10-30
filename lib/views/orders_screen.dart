@@ -120,6 +120,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                               (e) => buildCircularButton(
                                 e.name ?? '',
                                 e.picUrl ?? '',
+                                e.id ?? '',
                               ),
                             )
                             .toList(),
@@ -221,35 +222,40 @@ class _OrdersScreenState extends State<OrdersScreen> {
     );
   }
 
-  Widget buildCircularButton(
-    String text1,
-    String image,
-  ) {
-    return SizedBox(
-      width: 80,
-      height: 80,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          InkWell(
-            onTap: () {
-              // Xử lý khi nhấn vào hình tròn ở đây
-            },
-            child: Container(
-              height: 60,
-              width: 60,
-              decoration: BoxDecoration(
-                  shape: BoxShape.rectangle,
-                  image: DecorationImage(
-                      image: NetworkImage(image.isEmpty
-                          ? 'https://i.imgur.com/X0WTML2.jpg'
-                          : image))),
-            ),
+Widget buildCircularButton(
+  String text1,
+  String image,
+  String categoryId, // Thêm tham số categoryId
+) {
+  return SizedBox(
+    width: 80,
+    height: 80,
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        InkWell(
+          onTap: () {
+            // Xử lý khi nhấn vào hình tròn ở đây
+            Get.toNamed(
+              "${RouteHandler.CATEGORY_DETAIL}?id=$categoryId",
+            );
+          },
+          child: Container(
+            height: 60,
+            width: 60,
+            decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                image: DecorationImage(
+                    image: NetworkImage(image.isEmpty
+                        ? 'https://i.imgur.com/X0WTML2.jpg'
+                        : image))),
           ),
-          Text(text1, style: Get.textTheme.bodyMedium),
-        ],
-      ),
-    );
-  }
+        ),
+        Text(text1, style: Get.textTheme.bodyMedium),
+      ],
+    ),
+  );
+}
+
 }
