@@ -2,7 +2,9 @@ import 'dart:ffi';
 import 'dart:io';
 
 import 'package:deer_coffee/views/cart.dart';
+import 'package:deer_coffee/views/category_detail.dart';
 import 'package:deer_coffee/views/login/login_otp.dart';
+import 'package:deer_coffee/views/order_details.dart';
 import 'package:deer_coffee/views/product_details.dart';
 import 'package:deer_coffee/views/promotion_details.dart';
 import 'package:deer_coffee/views/voucher.dart';
@@ -91,6 +93,12 @@ class MyApp extends StatelessWidget {
             page: () => PromotionDetailsScreen(
                   id: Get.parameters['id'] ?? '',
                 ),
+            transition: Transition.cupertino),
+         GetPage(
+            name: RouteHandler.CATEGORY_DETAIL,
+            page: () => CategoryDetailPage(
+              id: Get.parameters['id'] ?? '',
+            ),
             transition: Transition.cupertino),
       ],
       initialRoute: RouteHandler.WELCOME,
