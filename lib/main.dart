@@ -94,12 +94,12 @@ class MyApp extends StatelessWidget {
                   id: Get.parameters['id'] ?? '',
                 ),
             transition: Transition.cupertino),
-         GetPage(
-            name: RouteHandler.CATEGORY_DETAIL,
-            page: () => CategoryDetailPage(
-              id: Get.parameters['id'] ?? '',
-            ),
-            transition: Transition.cupertino),
+        //  GetPage(
+        //     name: RouteHandler.CATEGORY_DETAIL,
+        //     page: () => CategoryDetailPage(
+        //       id: Get.parameters['id'] ?? '',
+        //     ),
+        //     transition: Transition.cupertino),
       ],
       initialRoute: RouteHandler.WELCOME,
       unknownRoute:
