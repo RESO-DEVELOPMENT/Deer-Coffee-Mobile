@@ -5,12 +5,8 @@ import 'package:deer_coffee/view_models/account_view_model.dart';
 import 'package:deer_coffee/views/login/login.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:ionicons/ionicons.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 import 'package:scoped_model/scoped_model.dart';
-
 import '../utils/route_constrant.dart';
 
 class HomePage extends StatefulWidget {
@@ -24,7 +20,7 @@ final List<String> imageList = [
   'assets/images/1.png',
   'assets/images/2.png',
   'assets/images/3.png',
-  // Thêm các đường dẫn đến hình ảnh của bạn tại đây
+
 ];
 
 class _HomePageState extends State<HomePage> {

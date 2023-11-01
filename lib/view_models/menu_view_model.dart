@@ -80,12 +80,13 @@ class MenuViewModel extends BaseViewModel {
   }
 
   List<Product> getProductsByCollection(String? collectionID) {
+     notifyListeners();
     return normalProducts!
         .where((element) => ((element.collectionIds == null)
             ? false
             : element.collectionIds!.contains(collectionID)))
         .toList();
-    notifyListeners();
+   
   }
 
   List<Category>? getExtraCategoryByNormalProduct(Product product) {

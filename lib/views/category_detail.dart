@@ -1,17 +1,12 @@
 import 'package:deer_coffee/models/collection.dart';
 import 'package:deer_coffee/utils/format.dart';
 import 'package:deer_coffee/view_models/menu_view_model.dart';
-import 'package:deer_coffee/views/product_details.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:ionicons/ionicons.dart';
 import 'package:scoped_model/scoped_model.dart';
-
 import '../models/product.dart';
 import '../utils/route_constrant.dart';
-import '../widgets/app_bar/user_app_bar.dart';
-import 'home_page.dart';
+
 
 class CategoryDetailPage extends StatefulWidget {
   final String id;

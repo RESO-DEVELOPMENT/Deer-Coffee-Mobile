@@ -1,13 +1,8 @@
-import 'package:deer_coffee/models/collection.dart';
-import 'package:deer_coffee/models/product.dart';
-import 'package:deer_coffee/utils/format.dart';
-import 'package:deer_coffee/utils/route_constrant.dart';
 import 'package:deer_coffee/view_models/menu_view_model.dart';
 import 'package:deer_coffee/widgets/time_line.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class OrderDetails extends StatefulWidget {
@@ -283,7 +278,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                     ),
                   ),
                    SizedBox(height: 10),
-                  // Chi tiết đơn hàng
+                 
                   Divider(),
                   SizedBox(height: 10),
                   Padding(
