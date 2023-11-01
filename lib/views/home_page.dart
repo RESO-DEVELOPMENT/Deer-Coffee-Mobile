@@ -25,6 +25,10 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
+bool isUuDaiPressed = false;
+bool isCapNhatPressed = false;
+bool isCoffeePressed = false;
+
 final List<String> imageList = [
   'assets/images/1.png',
   'assets/images/2.png',

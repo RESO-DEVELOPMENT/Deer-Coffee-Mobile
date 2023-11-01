@@ -100,23 +100,28 @@ class _OrdersScreenState extends State<OrdersScreen> {
             ),
             SliverList.list(
               children: [
-                ScopedModelDescendant<MenuViewModel>(
-                    builder: (context, child, model) {
-                  return GridView.count(
-                    crossAxisCount: 4,
-                    mainAxisSpacing: 2,
-                    shrinkWrap: true,
-                    crossAxisSpacing: 2,
-                    children: model.categories!
-                        .map(
-                          (e) => buildCircularButton(
-                            e.name ?? '',
-                            e.picUrl ?? '',
-                          ),
-                        )
-                        .toList(),
-                  );
-                }),
+                Container(
+                    height: 240,
+                    width: Get.width,
+                    padding: EdgeInsets.fromLTRB(0, 24, 0, 24),
+                    child: ScopedModelDescendant<MenuViewModel>(
+                        builder: (context, child, model) {
+                      return GridView.count(
+                        crossAxisCount: 4,
+                        mainAxisSpacing: 2,
+                        crossAxisSpacing: 2,
+                        padding: EdgeInsets.all(4),
+                        children: model.categories!
+                            .map(
+                              (e) => buildCircularButton(
+                                e.name ?? '',
+                                e.picUrl ?? '',
+                                e.id ?? '',
+                              ),
+                            )
+                            .toList(),
+                      );
+                    })),
                 Container(
                   width: Get.width,
                   padding: EdgeInsets.all(16),
@@ -214,6 +219,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
   Widget buildCircularButton(
     String text1,
     String image,
+    String categoryId, // Thêm tham số categoryId
   ) {
     return SizedBox(
       width: 80,
@@ -225,6 +231,9 @@ class _OrdersScreenState extends State<OrdersScreen> {
           InkWell(
             onTap: () {
               // Xử lý khi nhấn vào hình tròn ở đây
+              Get.toNamed(
+                "${RouteHandler.CATEGORY_DETAIL}?id=$categoryId",
+              );
             },
             child: Container(
               height: 60,
@@ -237,11 +246,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                           : image))),
             ),
           ),
-          Text(
-            text1,
-            style: Get.textTheme.bodyMedium,
-            overflow: TextOverflow.ellipsis,
-          ),
+          Text(text1, style: Get.textTheme.bodyMedium),
         ],
       ),
     );

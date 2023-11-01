@@ -81,6 +81,12 @@ class MenuViewModel extends BaseViewModel {
         .where((element) => element.categoryId == categoryId)
         .toList();
   }
+   List<Product> getNormalProductsByCategory(String? categoryId) {
+    notifyListeners();
+    return normalProducts!
+        .where((element) => element.categoryId == categoryId)
+        .toList();
+  }
 
   List<Product> getProductsByCollection(String? collectionID) {
     return normalProducts!

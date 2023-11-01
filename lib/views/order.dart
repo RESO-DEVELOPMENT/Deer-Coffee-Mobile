@@ -1,3 +1,4 @@
+import 'package:deer_coffee/views/order_status.dart';
 import 'package:flutter/material.dart';
 
 class OrderScreen extends StatefulWidget {
@@ -66,12 +67,12 @@ class _OrderScreenState extends State<OrderScreen> {
                 height: 40,
                 child: ElevatedButton(
                   onPressed: () {
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //     builder: (context) => Tracking(), // Thay thế "SecondPage" bằng tên trang mới của bạn
-                    //   ),
-                    // );
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => OrderStatus(), // Thay thế "SecondPage" bằng tên trang mới của bạn
+                      ),
+                    );
                   },
                   child: Text(
                     "Theo dõi đơn hàng của tôi",
