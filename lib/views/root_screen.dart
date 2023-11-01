@@ -56,11 +56,12 @@ class _RootScreenState extends State<RootScreen> {
         visible:
             _selectedIndex == 0 || _selectedIndex == 1 || _selectedIndex == 2,
         child: FloatingActionButton(
+            backgroundColor: Colors.lightBlue,
             elevation: 10,
             onPressed: () {
               Get.toNamed(RouteHandler.CART);
             },
-            child: Icon(Icons.shopping_cart)),
+            child: Icon(Icons.shopping_cart_outlined, color: Colors.white,)),
       ),
       body: Stack(
         children: [

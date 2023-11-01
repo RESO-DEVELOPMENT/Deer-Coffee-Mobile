@@ -20,6 +20,10 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
+bool isUuDaiPressed = false;
+bool isCapNhatPressed = false;
+bool isCoffeePressed = false;
+
 final List<String> imageList = [
   'assets/images/1.png',
   'assets/images/2.png',
@@ -254,10 +258,19 @@ class _HomePageState extends State<HomePage> {
                       height:
                           24, // Điều này tạo một khoảng trống để cuộn nội dung
                     ),
-                    Text('Khám phá thêm',
-                        style: Get.textTheme.titleLarge,
-                        textAlign: TextAlign.start,
-                        textDirection: TextDirection.ltr),
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Align(
+                        alignment: Alignment
+                            .centerLeft, // This aligns the text to the left
+                        child: Text(
+                          'Khám phá thêm',
+                          style: Get.textTheme.titleLarge,
+                          textAlign: TextAlign.start,
+                          textDirection: TextDirection.ltr,
+                        ),
+                      ),
+                    ),
                     SingleChildScrollView(
                       padding: EdgeInsets.all(8),
                       scrollDirection: Axis.horizontal,
@@ -266,20 +279,16 @@ class _HomePageState extends State<HomePage> {
                           Container(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(30.0),
-                              gradient: LinearGradient(
-                                begin: Alignment(-1, -1.133),
-                                end: Alignment(1, 1.367),
-                                colors: <Color>[
-                                  Color(0xff549ffd),
-                                  Color(0xffc8ddff)
-                                ],
-                                stops: <double>[0.014, 1],
-                              ),
                             ),
                             child: InkWell(
                               borderRadius: BorderRadius.circular(30.0),
                               onTap: () {
                                 // Xử lý khi nút được nhấn
+                                setState(() {
+                                  isUuDaiPressed = true;
+                                  isCapNhatPressed = false;
+                                  isCoffeePressed = false;
+                                });
                               },
                               child: Padding(
                                 padding: EdgeInsets.symmetric(
@@ -289,30 +298,28 @@ class _HomePageState extends State<HomePage> {
                                   style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold,
-                                    color: Colors.white,
+                                    color: isUuDaiPressed
+                                        ? Colors.lightBlue
+                                        : Colors.black, // Thay đổi màu chữ
                                   ),
                                 ),
                               ),
                             ),
                           ),
-                          SizedBox(width: 8.0), // Khoảng cách giữa nút 1 và 2
+                          SizedBox(width: 8.0),
                           Container(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(30.0),
-                              gradient: LinearGradient(
-                                begin: Alignment(-1, -1.133),
-                                end: Alignment(1, 1.367),
-                                colors: <Color>[
-                                  Color(0xff549ffd),
-                                  Color(0xffc8ddff)
-                                ],
-                                stops: <double>[0.014, 1],
-                              ),
                             ),
                             child: InkWell(
                               borderRadius: BorderRadius.circular(30.0),
                               onTap: () {
                                 // Xử lý khi nút được nhấn
+                                setState(() {
+                                  isUuDaiPressed = false;
+                                  isCapNhatPressed = true;
+                                  isCoffeePressed = false;
+                                });
                               },
                               child: Padding(
                                 padding: EdgeInsets.symmetric(
@@ -322,29 +329,29 @@ class _HomePageState extends State<HomePage> {
                                   style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold,
-                                    color: Colors.white,
+                                    color: isCapNhatPressed
+                                        ? Colors.lightBlue
+                                        : Colors.black, // Thay đổi màu chữ
                                   ),
                                 ),
                               ),
                             ),
                           ),
-                          SizedBox(width: 8.0), // Khoảng cách giữa nút 2 và 3
+                          SizedBox(width: 8.0),
                           Container(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(30.0),
-                              gradient: LinearGradient(
-                                begin: Alignment(-1, -1.133),
-                                end: Alignment(1, 1.367),
-                                colors: <Color>[
-                                  Color(0xff549ffd),
-                                  Color(0xffc8ddff)
-                                ],
-                                stops: <double>[0.014, 1],
-                              ),
                             ),
                             child: InkWell(
                               borderRadius: BorderRadius.circular(30.0),
-                              onTap: () {},
+                              onTap: () {
+                                // Xử lý khi nút được nhấn
+                                setState(() {
+                                  isUuDaiPressed = false;
+                                  isCapNhatPressed = false;
+                                  isCoffeePressed = true;
+                                });
+                              },
                               child: Padding(
                                 padding: EdgeInsets.symmetric(
                                     horizontal: 16.0, vertical: 8.0),
@@ -353,7 +360,9 @@ class _HomePageState extends State<HomePage> {
                                   style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold,
-                                    color: Colors.white,
+                                    color: isCoffeePressed
+                                        ? Colors.lightBlue
+                                        : Colors.black, // Thay đổi màu chữ
                                   ),
                                 ),
                               ),
