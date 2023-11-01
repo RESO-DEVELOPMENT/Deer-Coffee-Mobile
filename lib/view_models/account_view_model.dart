@@ -4,6 +4,7 @@ import 'package:deer_coffee/models/pointify/membership_model.dart';
 import 'package:deer_coffee/models/user_create.dart';
 import 'package:deer_coffee/utils/request.dart';
 import 'package:deer_coffee/view_models/base_view_model.dart';
+import 'package:deer_coffee/view_models/startup_view_model.dart';
 import 'package:deer_coffee/widgets/other_dialogs/dialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
@@ -46,7 +47,8 @@ class AccountViewModel extends BaseViewModel {
         }
       },
       verificationFailed: (FirebaseAuthException e) async {
-        await showAlertDialog(title: "Xảy ra lỗi", content: e.message ?? 'Lỗi');
+        await showAlertDialog(
+            title: "Lỗi đăng nhập", content: e.message ?? 'Lỗi');
         Get.back();
       },
       codeSent: (String verificationId, int? resendToken) async {
@@ -78,45 +80,21 @@ class AccountViewModel extends BaseViewModel {
             print('User Login In Successful ${userCredential ?? ""}')
           });
       // TODO: Kiem tra xem user moi hay cu
-      if (userCredential?.additionalUserInfo?.isNewUser ?? false) {
-        // Navigate to sign up screen
-        UserCreate newUser = UserCreate(
-            phoneNunmer: userCredential?.user?.phoneNumber,
-            fullName: 'Người dùng',
-            gender: 'ORDER',
-            fireBaseUid: userCredential?.user?.uid);
-        await accountAPI.signUp(newUser).then((value) => user = value);
-
-        if (user == null || user?.userInfo == null) {
-          showAlertDialog(
-              title: 'Lỗi đăng nhập',
-              content: user?.message ?? 'Đăng nhập không thành công');
-          return;
-        } else {
-          requestObj.setToken = user?.accessToken ?? '';
-          await setUserInfo(user!);
-          await setToken(user!.accessToken ?? '');
-          await Get.offAllNamed(RouteHandler.HOME);
-        }
+      String? token = await auth.currentUser?.getIdToken();
+      await accountAPI.signIn(token ?? '').then((value) => user = value);
+      if (user == null || user?.userInfo == null) {
+        showAlertDialog(
+            title: 'Lỗi đăng nhập',
+            content: user?.message ?? 'Đăng nhập không thành công');
+        return;
       } else {
-        await accountAPI
-            .signIn(userCredential?.user?.phoneNumber ?? '',
-                userCredential?.user?.uid ?? '')
-            .then((value) => user = value);
-        if (user == null || user?.userInfo == null) {
-          showAlertDialog(
-              title: 'Lỗi đăng nhập',
-              content: user?.message ?? 'Đăng nhập không thành công');
-          return;
-        } else {
-          requestObj.setToken = user?.accessToken ?? '';
-          await setUserInfo(user!);
-          await setToken(user!.accessToken ?? '');
-          await Get.offAllNamed(RouteHandler.HOME);
-        }
-
-        // chuyen sang trang home
+        requestObj.setToken = user?.accessToken ?? '';
+        await setUserInfo(user!);
+        await setToken(user!.accessToken ?? '');
+        await Get.offAllNamed(RouteHandler.HOME);
       }
+
+      // chuyen sang trang home
     } catch (e) {
       await showAlertDialog(
           title: "Xảy ra lỗi", content: e.toString() ?? 'Lỗi');
@@ -132,10 +110,24 @@ class AccountViewModel extends BaseViewModel {
         await pointifyData
             ?.getMembershipDetails(user?.userInfo?.id ?? '')
             .then((value) => memberShipModel = value);
-        setState(ViewStatus.Completed);
       }
+      setState(ViewStatus.Completed);
     } catch (e) {
+      setState(ViewStatus.Completed);
       showAlertDialog(title: "Lỗi", content: e.toString());
+    }
+  }
+
+  Future<void> processSignOut() async {
+    var option = await showConfirmDialog();
+    if (option == true) {
+      showLoadingDialog();
+      user = null;
+      memberShipModel = null;
+      await auth.signOut();
+      await removeALL();
+      await Get.find<StartUpViewModel>().handleStartUpLogic();
+      hideDialog();
     }
   }
 }

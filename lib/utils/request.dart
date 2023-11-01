@@ -219,24 +219,14 @@ class PointifyRequest {
         if (kDebugMode) {
           print(e.response?.statusCode);
         }
-        if (e.response?.statusCode == 400) {
-          showAlertDialog(
-            title: "Lỗi",
-            content: e.response?.data["Error"],
-          );
-        } else if (e.response?.statusCode == 500) {
+        if (e.response?.statusCode == 500) {
           Future<bool> res = showConfirmDialog(
             title: "Lỗi hệ thống " + e.response?.data["StatusCode"],
             content: e.response?.data["Error"] + "/n Vui lòng đăng nhập lại",
           );
           res.then((value) => Get.offAllNamed(RouteHandler.LOGIN));
-        } else {
-          showAlertDialog(
-            title: "Lỗi",
-            content: e.response?.data["Error"],
-          );
         }
-        // handler.next(e);
+        handler.next(e);
       },
     ));
   }

@@ -17,8 +17,8 @@ class ProductViewModel extends BaseViewModel {
   List<Attribute> listAttribute = [];
   ProductViewModel() {
     listAttribute = [
-      Attribute(0, "Mức đường", ["0%", "30%", "50%", "70%", "100%"], "100%"),
-      Attribute(1, "Mức đá", ["0%", "30%", "50%", "70%", "100%"], "100%")
+      Attribute(0, "Đường", ["0%", "30%", "50%", "70%", "100%"], "100%"),
+      Attribute(1, "Đá", ["0%", "30%", "50%", "70%", "100%"], "100%")
     ];
     for (var attribute in listAttribute) {
       currentAttributes

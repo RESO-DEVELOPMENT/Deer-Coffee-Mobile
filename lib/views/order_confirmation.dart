@@ -1,3 +1,4 @@
+import 'package:deer_coffee/view_models/cart_view_model.dart';
 import 'package:deer_coffee/views/order.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -293,12 +294,7 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
                   height: 55,
                   child: ElevatedButton(
                     onPressed: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              OrderScreen(), // Replace with your VoucherQr page
-                        ),
-                      );
+                      Get.find<CartViewModel>().createOrder();
                     },
                     style: ElevatedButton.styleFrom(
                       primary: Colors.blue,

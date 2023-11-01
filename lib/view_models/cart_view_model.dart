@@ -1,31 +1,48 @@
 // ignore_for_file: unnecessary_import
 
+import 'package:deer_coffee/models/pointify/check_promotion_model.dart';
+import 'package:deer_coffee/models/pointify/membership_model.dart';
 import 'package:deer_coffee/models/pointify/promotion_details_model.dart';
+import 'package:deer_coffee/models/store.dart';
+import 'package:deer_coffee/models/user.dart';
+import 'package:deer_coffee/view_models/account_view_model.dart';
+import 'package:deer_coffee/view_models/menu_view_model.dart';
+import 'package:deer_coffee/views/store.dart';
+import 'package:deer_coffee/widgets/other_dialogs/dialog.dart';
+import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 
 import '../api/pointify/pointify_data.dart';
 import '../enums/order_enum.dart';
 import '../enums/view_status.dart';
 import '../models/cart.dart';
+import '../models/order.dart';
 import '../models/pointify/promotion_model.dart';
 import 'base_view_model.dart';
+import 'order_view_model.dart';
 
 class CartViewModel extends BaseViewModel {
   List<CartItem> _cartList = [];
-  // List<Promotion> promotionApplyList = [];
+  List<PromotionPointify> promotionApplyList = [];
   num _finalAmount = 0;
   num _totalAmount = 0;
-  String deliveryType = DeliType().eatIn.type;
+  String? deliveryType;
+  String? deliAddress;
   String paymentType = PaymentTypeEnums.CASH;
   num _discountAmount = 0;
   num _productDiscount = 0;
   int _quantity = 0;
+  num pointRedeem = 0;
+  StoreModel? selectedStore;
+  String? selectPromotionCode;
+  PointifyData api = PointifyData();
   // PromotionData? promotionData = PromotionData();
   // List<Promotion>? promotions = [];
   PointifyData? promotionData = PointifyData();
   List<PromotionPointify>? promotions = [];
   List<CartItem> get cartList => _cartList;
   num get finalAmount => _finalAmount;
+  CheckPromotionModel? selectedPromotionChecked;
   num get totalAmount => _totalAmount;
   num? get discountAmount => _discountAmount;
   int? get quantity => _quantity;
@@ -125,6 +142,11 @@ class CartViewModel extends BaseViewModel {
     notifyListeners();
   }
 
+  selectPromotion(String code) {
+    selectPromotionCode = code;
+    notifyListeners();
+  }
+
   void removeFromCart(int idx) {
     _totalAmount = _totalAmount - (_cartList[idx].totalAmount);
     _cartList.remove(_cartList[idx]);
@@ -150,262 +172,117 @@ class CartViewModel extends BaseViewModel {
     _discountAmount = 0;
     _productDiscount = 0;
     _quantity = 0;
+    selectPromotionCode;
+
     // promotionApplyList = [];
     notifyListeners();
   }
 
-  // bool isPromotionTypeExist(String type) {
-  //   Promotion? res =
-  //       promotionApplyList.firstWhereOrNull((element) => element.type == type);
-  //   if (res == null) {
-  //     return false;
-  //   }
-  //   return true;
-  // }
+  Future<void> checkPromotion() async {
+    try {
+      setState(ViewStatus.Loading);
+      MemberShipModel? memberShip =
+          Get.find<AccountViewModel>().memberShipModel;
+      List<CartItems> cartItems = <CartItems>[];
+      for (CartItem cart in _cartList) {
+        CartItems product = CartItems(
+          productCode: cart.product.code,
+          quantity: cart.quantity,
+          unitPrice: cart.product.sellingPrice,
+          total: cart.totalAmount,
+          discountFromOrder: 0,
+          subTotal: cart.totalAmount,
+          discount: cart.discount,
+        );
+        cartItems.add(product);
+      }
+      CustomerOrderInfo checkPromotionModel = CustomerOrderInfo(
+          apiKey: "7F77CA43-940B-403D-813A-38B3B3A7B667",
+          id: "DC-VH",
+          bookingDate: DateTime.now().toIso8601String(),
+          attributes: Attributes(
+            salesMode: 7,
+            paymentMethod: 63,
+            storeInfo: StoreInfo(
+                storeCode: 'DC-VH', brandCode: "DeerCoffee", applier: "3"),
+          ),
+          cartItems: cartItems,
+          vouchers: [Vouchers(promotionCode: selectPromotionCode)],
+          amount: _totalAmount,
+          shippingFee: 0,
+          users: Users(
+              membershipId: memberShip?.membershipId ?? '',
+              userGender: memberShip?.gender ?? 3));
+      await api
+          .checkPromotion(checkPromotionModel)
+          .then((value) => selectedPromotionChecked = value);
+      if (selectedPromotionChecked != null ||
+          selectedPromotionChecked?.order != null) {
+        selectedPromotionChecked!.order!.effects
+            ?.removeWhere((element) => element.promotionType == null);
+        _discountAmount = selectedPromotionChecked!.order!.discount ?? 0;
+        _productDiscount =
+            selectedPromotionChecked!.order!.discountOrderDetail ?? 0;
+        _finalAmount = selectedPromotionChecked!.order!.finalAmount ?? 0;
+        pointRedeem = selectedPromotionChecked!.order!.bonusPoint ?? 0;
+      }
+      print(selectedPromotionChecked?.message.toString());
+      setState(ViewStatus.Completed);
+    } on DioException catch (e) {
+      showAlertDialog(
+          title: e.response!.data["code"].toString(),
+          content: e.response!.data["message"].toString());
+      setState(ViewStatus.Error, e.response.toString());
+    }
+  }
 
-  // bool isPromotionExist(String id) {
-  //   Promotion? res =
-  //       promotionApplyList.firstWhereOrNull((element) => element.id == id);
-  //   if (res == null) {
-  //     return false;
-  //   }
-  //   return true;
-  // }
-
-  //UPDATE CART ITEM
-  // void checkPromotion(Promotion promotion) {
-  //   switch (promotion.type) {
-  //     case PromotionTypeEnums.AMOUNT:
-  //       if (isPromotionTypeExist(promotion.type!)) {
-  //         showAlertDialog(
-  //           title: "Lỗi",
-  //           content: "Loại khuyến mãi này đã được áp dụng rồi",
-  //         );
-  //       } else if (promotion.minConditionAmount! <= _totalAmount) {
-  //         promotion.quantity = 1;
-  //         promotion.discountInOrder = promotion.discountAmount;
-  //         promotionApplyList.add(promotion);
-  //         checkAvailablePromotion();
-  //       } else {
-  //         showAlertDialog(
-  //           title: "Lỗi",
-  //           content: "Khuyến mãi không hợp lệ",
-  //         );
-  //       }
-  //       break;
-  //     case PromotionTypeEnums.PERCENT:
-  //       if (isPromotionTypeExist(promotion.type!)) {
-  //         showAlertDialog(
-  //           title: "Lỗi",
-  //           content: "Loại khuyến mãi này đã được áp dụng rồi",
-  //         );
-  //       } else if (promotion.minConditionAmount! <= _totalAmount) {
-  //         promotion.quantity = 1;
-  //         promotion.discountInOrder =
-  //             (_totalAmount * promotion.discountPercent!) >
-  //                     promotion.maxDiscount!
-  //                 ? promotion.maxDiscount!
-  //                 : (_totalAmount * promotion.discountPercent!);
-  //         promotionApplyList.add(promotion);
-  //         checkAvailablePromotion();
-  //         hideDialog();
-  //       } else {
-  //         showAlertDialog(
-  //           title: "Lỗi",
-  //           content: "Khuyến mãi không hợp lệ",
-  //         );
-  //       }
-  //       break;
-  //     case PromotionTypeEnums.PRODUCT:
-  //       if (promotion.minConditionAmount! <= _totalAmount) {
-  //         for (var item in _cartList) {
-  //           for (var p in promotion.listProductApply!) {
-  //             if (item.product.id == p.productId) {
-  //               int idx = promotionApplyList
-  //                   .indexWhere((element) => element.id == promotion.id);
-  //               if (idx == -1) {
-  //                 promotion.quantity = item.quantity;
-  //                 promotion.discountInOrder =
-  //                     promotion.discountAmount! * promotion.quantity!;
-  //                 promotionApplyList.add(promotion);
-  //                 checkAvailablePromotion();
-  //               } else {
-  //                 promotionApplyList[idx].quantity =
-  //                     (promotionApplyList[idx].quantity! + item.quantity);
-  //                 promotionApplyList[idx].discountInOrder =
-  //                     (promotionApplyList[idx].discountInOrder! +
-  //                         (promotion.discountAmount! * item.quantity));
-  //                 checkAvailablePromotion();
-  //               }
-  //             }
-  //           }
-  //         }
-  //         if (promotion.type != PromotionTypeEnums.PRODUCT) {
-  //           showAlertDialog(
-  //             title: "Lỗi",
-  //             content: "Khuyến mãi không hợp lệ",
-  //           );
-  //         }
-  //       } else {
-  //         showAlertDialog(
-  //           title: "Lỗi",
-  //           content: "Khuyến mãi không hợp lệ",
-  //         );
-  //       }
-
-  //       break;
-  //     default:
-  //       showAlertDialog(
-  //         title: "Lỗi",
-  //         content: "Khuyến mãi không hợp lệ",
-  //       );
-  //       break;
-  //   }
-  //   notifyListeners();
-  // }
-
-  // void removePromotion(String promotionId) {
-  //   _discountAmount = 0;
-  //   promotionApplyList.removeWhere((element) => element.id == promotionId);
-  //   // checkAutoApplyPromotion();
-  //   checkAvailablePromotion();
-  //   hideDialog();
-  //   notifyListeners();
-  // }
-
-  // void checkAutoApplyPromotion() {
-  //   List<Promotion>? listAutoApplyPromotion = promotions
-  //       ?.where((element) =>
-  //           element.type == PromotionTypeEnums.AUTOAPPLY &&
-  //           element.isAvailable == true)
-  //       .toList();
-  //   if (listAutoApplyPromotion == null || listAutoApplyPromotion.isEmpty) {
-  //     return;
-  //   } else {
-  //     for (var item in _cartList) {
-  //       for (var autoApplyPromotion in listAutoApplyPromotion) {
-  //         for (var product in autoApplyPromotion.listProductApply!) {
-  //           if (item.product.id == product.productId) {
-  //             item.product.discountPrice =
-  //                 (autoApplyPromotion.discountAmount ?? 0 * item.quantity);
-  //           }
-  //         }
-  //       }
-  //     }
-  //   }
-  //   countCartAmount();
-  // }
-
-  // void checkAvailablePromotion() {
-  //   countCartAmount();
-  //   for (var promotion in promotionApplyList) {
-  //     switch (promotion.type) {
-  //       case PromotionTypeEnums.AMOUNT:
-  //         if (promotion.minConditionAmount! <= _totalAmount) {
-  //           continue;
-  //         } else {
-  //           promotionApplyList
-  //               .removeWhere((element) => element.id == promotion.id);
-  //           countCartAmount();
-  //         }
-  //         break;
-  //       case PromotionTypeEnums.PERCENT:
-  //         if (promotion.minConditionAmount! <= _totalAmount) {
-  //           promotion.discountInOrder =
-  //               (_totalAmount * promotion.discountPercent!) >
-  //                       promotion.maxDiscount!
-  //                   ? promotion.maxDiscount!
-  //                   : (_totalAmount * promotion.discountPercent!);
-  //           countCartAmount();
-  //         } else {
-  //           promotionApplyList
-  //               .removeWhere((element) => element.id == promotion.id);
-  //           countCartAmount();
-  //         }
-  //         break;
-  //       case PromotionTypeEnums.PRODUCT:
-  //         if ((promotion.minConditionAmount! * promotion.quantity!) <=
-  //             _totalAmount) {
-  //           for (var item in _cartList) {
-  //             for (var product in promotion.listProductApply!) {
-  //               if (item.product.id == product.productId) {
-  //                 return;
-  //               }
-  //             }
-  //           }
-  //           promotionApplyList
-  //               .removeWhere((element) => element.id == promotion.id);
-  //           countCartAmount();
-  //         } else {
-  //           showAlertDialog(
-  //             title: "Thông báo",
-  //             content: "Khuyến mãi không hợp lệ",
-  //           );
-  //           promotionApplyList
-  //               .removeWhere((element) => element.id == promotion.id);
-  //           countCartAmount();
-  //         }
-  //         break;
-  //       default:
-  //         showAlertDialog(
-  //           title: "Thông báo",
-  //           content: "Khuyến mãi đã bị xoá",
-  //         );
-  //         promotionApplyList
-  //             .removeWhere((element) => element.id == promotion.id);
-  //         countCartAmount();
-  //         break;
-  //     }
-  //   }
-
-  //   notifyListeners();
-  // }
-
-  // Future<void> createOrder() async {
-  //   String deliType = Get.find<OrderViewModel>().deliveryType;
-  //   List<ProductInOrder> productList = <ProductInOrder>[];
-  //   for (CartItem cart in _cartList) {
-  //     List<ExtraInOrder> extraList = <ExtraInOrder>[];
-  //     cart.extras?.forEach((element) {
-  //       ExtraInOrder extra = ExtraInOrder(
-  //           productInMenuId: element.menuProductId,
-  //           quantity: 1,
-  //           sellingPrice: element.sellingPrice,
-  //           discount: element.discountPrice! * cart.quantity);
-  //       extraList.add(extra);
-  //     });
-  //     ProductInOrder product = ProductInOrder(
-  //       productInMenuId: cart.product.menuProductId,
-  //       quantity: cart.quantity,
-  //       sellingPrice: cart.product.sellingPrice,
-  //       discount: cart.product.discountPrice! * cart.quantity,
-  //       note: cart.attributes == null && cart.note == null
-  //           ? null
-  //           : ("${cart.attributes!.map((e) => e.value).join(" ")} ${cart.note ?? ''}"),
-  //       extras: extraList,
-  //     );
-  //     productList.add(product);
-  //   }
-  //   OrderModel order = OrderModel(
-  //     orderType: deliType,
-  //     productsList: productList,
-  //     totalAmount: _totalAmount,
-  //     discountAmount: _discountAmount + _productDiscount,
-  //     finalAmount: _finalAmount,
-  //     promotionList: promotionApplyList
-  //         .map((e) => PromotionList(
-  //             promotionId: e.id,
-  //             promotionName: e.name,
-  //             quantity: e.quantity,
-  //             discountAmount: e.discountInOrder))
-  //         .toList(),
-  //   );
-  //   bool res = false;
-  //   Get.find<OrderViewModel>().placeOrder(order).then((value) => {
-  //         res = value,
-  //         if (res == true) {clearCartData()}
-  //       });
-  // }
+  Future<void> createOrder() async {
+    String deliType = Get.find<OrderViewModel>().deliveryType;
+    UserModel user = Get.find<AccountViewModel>().user!;
+    List<ProductsList> productList = <ProductsList>[];
+    for (CartItem cart in _cartList) {
+      List<Extras> extraList = <Extras>[];
+      cart.extras?.forEach((element) {
+        Extras extra = Extras(
+            productInMenuId: element.menuProductId,
+            quantity: 1,
+            sellingPrice: element.sellingPrice,
+            discount: element.discountPrice! * cart.quantity);
+        extraList.add(extra);
+      });
+      ProductsList product = ProductsList(
+        productInMenuId: cart.product.menuProductId,
+        quantity: cart.quantity,
+        sellingPrice: cart.product.sellingPrice,
+        discount: cart.product.discountPrice! * cart.quantity,
+        note: cart.attributes == null && cart.note == null
+            ? null
+            : ("${cart.attributes!.map((e) => e.value).join(" ")} ${cart.note ?? ''}"),
+        extras: extraList,
+      );
+      productList.add(product);
+    }
+    OrderModel order = OrderModel(
+      storeId: "4e2e7239-f551-43b1-b5cf-97998ba84301",
+      userId: user.userInfo?.id ?? '',
+      orderType: deliType,
+      paymentType: paymentType,
+      productsList: productList,
+      status: OrderStatusEnum.PENDING,
+      totalAmount: _totalAmount,
+      discountAmount: _discountAmount + _productDiscount,
+      finalAmount: _finalAmount,
+      promotionList: promotionApplyList
+          .map((e) => PromotionList(
+              promotionId: e.promotionId, discountAmount: _discountAmount))
+          .toList(),
+    );
+    bool res = false;
+    Get.find<OrderViewModel>().placeOrder(order).then((value) => {
+          res = value,
+          if (res == true) {clearCartData(), Get.back()}
+        });
+  }
 
   // List<PaymentProvider?> getListPayment() {
   //   List<PaymentProvider?> listPayment = [];

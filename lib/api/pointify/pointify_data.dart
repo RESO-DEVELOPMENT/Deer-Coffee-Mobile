@@ -1,3 +1,4 @@
+import 'package:deer_coffee/models/pointify/check_promotion_model.dart';
 import 'package:deer_coffee/models/pointify/membership_model.dart';
 import 'package:deer_coffee/models/pointify/promotion_details_model.dart';
 
@@ -35,5 +36,14 @@ class PointifyData {
     MemberShipModel memberShipModel = MemberShipModel.fromJson(jsonList);
 
     return memberShipModel;
+  }
+
+  Future<CheckPromotionModel> checkPromotion(
+      CustomerOrderInfo checkPromotionModel) async {
+    final res = await pointifyRequest.post('promotions/store/check-promotion',
+        data: checkPromotionModel.toJson());
+    var jsonList = res.data;
+    CheckPromotionModel model = CheckPromotionModel.fromJson(jsonList);
+    return model;
   }
 }

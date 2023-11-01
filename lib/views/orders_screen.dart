@@ -10,6 +10,7 @@ import 'package:scoped_model/scoped_model.dart';
 
 import '../models/product.dart';
 import '../utils/route_constrant.dart';
+import '../view_models/account_view_model.dart';
 import '../widgets/app_bar/user_app_bar.dart';
 import 'home_page.dart';
 
@@ -30,101 +31,92 @@ class _OrdersScreenState extends State<OrdersScreen> {
         model: Get.find<MenuViewModel>(),
         child: CustomScrollView(
           slivers: [
-            SliverAppBar(
-              floating: true,
-              pinned: true,
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
+            ScopedModel<AccountViewModel>(
+              model: Get.find<AccountViewModel>(),
+              child: SliverAppBar(
+                floating: true,
+                pinned: true,
+                title: ScopedModelDescendant<AccountViewModel>(
+                    builder: (context, build, model) {
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      Row(
                         children: [
-                          Text(
-                            "Chào buổi sáng",
-                            style: GoogleFonts.inter(
-                              color: Colors.black,
-                              fontWeight: FontWeight.w300,
-                              fontSize: 13,
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("Chào ngày mới!",
+                                  style: Get.textTheme.bodyMedium),
+                              Text(model.user?.userInfo?.fullName ?? '',
+                                  style: Get.textTheme.titleMedium
+                                      ?.copyWith(fontWeight: FontWeight.bold)),
+                            ],
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Container(
+                            width: 55,
+                            height: 40,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.rectangle,
+                              borderRadius: BorderRadius.circular(13),
+                              color: Colors.blue,
+                            ),
+                            child: IconButton(
+                              icon: const Icon(
+                                Icons.confirmation_num_outlined,
+                                color: Colors.white,
+                              ),
+                              onPressed: () {
+                                Get.toNamed(RouteHandler.VOUCHER);
+                              },
                             ),
                           ),
-                          Text(
-                            "Quốc Khánh",
-                            style: GoogleFonts.inter(
-                              color: Colors.black,
-                              fontWeight: FontWeight.w500,
-                              fontSize: 18,
+                          SizedBox(width: 3),
+                          Container(
+                            width: 50,
+                            height: 40,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.blue,
+                            ),
+                            child: IconButton(
+                              icon: Icon(
+                                Icons.notifications_outlined,
+                                color: Colors.white,
+                              ),
+                              onPressed: () {},
                             ),
                           ),
                         ],
                       ),
                     ],
-                  ),
-                  Row(
-                    children: [
-                      Container(
-                        width: 55,
-                        height: 40,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.rectangle,
-                          borderRadius: BorderRadius.circular(13),
-                          color: Colors.blue,
-                        ),
-                        child: IconButton(
-                          icon: const Icon(
-                            Icons.confirmation_num_outlined,
-                            color: Colors.white,
-                          ),
-                          onPressed: () {
-                            Get.toNamed(RouteHandler.CART);
-                          },
-                        ),
-                      ),
-                      SizedBox(width: 3),
-                      Container(
-                        width: 50,
-                        height: 40,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.blue,
-                        ),
-                        child: IconButton(
-                          icon: Icon(
-                            Icons.notifications_outlined,
-                            color: Colors.white,
-                          ),
-                          onPressed: () {},
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+                  );
+                }),
               ),
             ),
             SliverList.list(
               children: [
-                Container(
-                    height: 240,
-                    width: Get.width,
-                    padding: EdgeInsets.fromLTRB(0, 24, 0, 24),
-                    child: ScopedModelDescendant<MenuViewModel>(
-                        builder: (context, child, model) {
-                      return GridView.count(
-                        crossAxisCount: 4,
-                        mainAxisSpacing: 2,
-                        crossAxisSpacing: 2,
-                        padding: EdgeInsets.all(4),
-                        children: model.categories!
-                            .map(
-                              (e) => buildCircularButton(
-                                e.name ?? '',
-                                e.picUrl ?? '',
-                              ),
-                            )
-                            .toList(),
-                      );
-                    })),
+                ScopedModelDescendant<MenuViewModel>(
+                    builder: (context, child, model) {
+                  return GridView.count(
+                    crossAxisCount: 4,
+                    mainAxisSpacing: 2,
+                    shrinkWrap: true,
+                    crossAxisSpacing: 2,
+                    children: model.categories!
+                        .map(
+                          (e) => buildCircularButton(
+                            e.name ?? '',
+                            e.picUrl ?? '',
+                          ),
+                        )
+                        .toList(),
+                  );
+                }),
                 Container(
                   width: Get.width,
                   padding: EdgeInsets.all(16),
@@ -174,26 +166,33 @@ class _OrdersScreenState extends State<OrdersScreen> {
   }
 
   Widget productCard(Product product) {
-    return Padding(
+    return Container(
+      height: 100,
       padding: const EdgeInsets.all(8.0),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment
-            .spaceBetween, // Đặt căn chỉnh các phần tử trong hàng lên trên cùng
-        children: [
-          SizedBox(
-            height: 80,
-            width: 80,
-            child: Image.network(product!.picUrl!.isEmpty
-                ? 'https://i.imgur.com/X0WTML2.jpg'
-                : product!.picUrl!),
-          ),
-          SizedBox(
-            width: 8,
-          ),
-          Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
+      child: InkWell(
+        onTap: () {
+          Get.toNamed("${RouteHandler.PRODUCT_DETAIL}?id=${product.id}");
+        },
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment
+              .start, // Đặt căn chỉnh các phần tử trong hàng lên trên cùng
+          children: [
+            Container(
+              decoration:
+                  BoxDecoration(borderRadius: BorderRadius.circular(16)),
+              child: Image.network(
+                product.picUrl!.isEmpty
+                    ? 'https://i.imgur.com/X0WTML2.jpg'
+                    : product.picUrl!,
+                fit: BoxFit.contain,
+              ),
+            ),
+            SizedBox(
+              width: 8,
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment
                   .start, // Đặt căn chỉnh theo chiều ngang sang trái
               children: [
@@ -205,18 +204,9 @@ class _OrdersScreenState extends State<OrdersScreen> {
                     style: Get.textTheme.titleMedium),
               ],
             ),
-          ),
-          // Thêm nút "Add" và xử lý khi được nhấn
-          IconButton.filled(
-            icon: const Icon(
-              Icons.add,
-              size: 32,
-            ),
-            onPressed: () {
-              Get.toNamed("${RouteHandler.PRODUCT_DETAIL}?id=${product.id}");
-            },
-          ),
-        ],
+            // Thêm nút "Add" và xử lý khi được nhấn
+          ],
+        ),
       ),
     );
   }
@@ -247,7 +237,11 @@ class _OrdersScreenState extends State<OrdersScreen> {
                           : image))),
             ),
           ),
-          Text(text1, style: Get.textTheme.bodyMedium),
+          Text(
+            text1,
+            style: Get.textTheme.bodyMedium,
+            overflow: TextOverflow.ellipsis,
+          ),
         ],
       ),
     );

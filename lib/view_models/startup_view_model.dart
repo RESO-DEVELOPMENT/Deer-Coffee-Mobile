@@ -13,6 +13,10 @@ class StartUpViewModel extends BaseViewModel {
   Future handleStartUpLogic() async {
     await Future.delayed(const Duration(seconds: 2));
     Get.find<MenuViewModel>().getMenuOfBrand();
-    Get.offAllNamed(RouteHandler.HOME);
+    Get.find<MenuViewModel>().getListStore();
+    Get.find<MenuViewModel>().getListBlog();
+    Get.find<CartViewModel>().getListPromotion();
+    await Future.delayed(const Duration(seconds: 2));
+    await Get.offAllNamed(RouteHandler.HOME);
   }
 }

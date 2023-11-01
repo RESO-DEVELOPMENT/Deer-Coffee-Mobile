@@ -21,6 +21,7 @@ class CartItem {
   int quantity = 0;
   String? note;
   List<Product>? extras;
+  num discount = 0;
   num totalAmount = 0;
   List<ProductAttribute>? attributes = [];
 

@@ -34,29 +34,26 @@ Future<bool> showAlertDialog(
         children: <Widget>[
           Text(
             title,
-            style: Get.textTheme.titleLarge,
-          ),
-          Divider(
-            color: Get.theme.colorScheme.onBackground,
+            style: Get.textTheme.titleMedium
+                ?.copyWith(fontWeight: FontWeight.bold),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10),
             child: Text(
               content,
-              style: Get.textTheme.bodyLarge,
+              style: Get.textTheme.bodyMedium,
             ),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              TextButton(
+              FilledButton(
                 onPressed: () {
                   result = false;
                   hideDialog();
                 },
                 child: Text(
                   confirmText,
-                  style: Get.textTheme.bodyLarge,
                 ),
               ),
             ],
@@ -100,16 +97,14 @@ Future<bool> showConfirmDialog(
         children: <Widget>[
           Text(
             title,
-            style: Get.textTheme.titleLarge,
-          ),
-          Divider(
-            color: Get.theme.colorScheme.onBackground,
+            style: Get.textTheme.titleMedium
+                ?.copyWith(fontWeight: FontWeight.bold),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10),
             child: Text(
               content,
-              style: Get.textTheme.bodyLarge,
+              style: Get.textTheme.bodyMedium,
             ),
           ),
           Row(
@@ -176,7 +171,8 @@ showLoadingDialog() {
           ),
           Text(
             "Đang xử lý...",
-            style: Get.textTheme.titleLarge,
+            style: Get.textTheme.titleMedium
+                ?.copyWith(fontWeight: FontWeight.bold),
           ),
         ],
       ),

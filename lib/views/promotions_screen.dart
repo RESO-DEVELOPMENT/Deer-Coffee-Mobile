@@ -14,6 +14,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 import '../utils/route_constrant.dart';
+import '../widgets/promotion_widget.dart';
+import 'login/login.dart';
 
 class PromotionsScreen extends StatefulWidget {
   const PromotionsScreen({Key? key}) : super(key: key);
@@ -46,6 +48,9 @@ class _PromotionsScreenState extends State<PromotionsScreen> {
 
                 List<MemberWallet> wallet =
                     model.memberShipModel?.memberWallet ?? [];
+                if (model.memberShipModel == null) {
+                  return loginCard();
+                }
                 return Container(
                   height: 300,
                   decoration: BoxDecoration(
@@ -55,84 +60,81 @@ class _PromotionsScreenState extends State<PromotionsScreen> {
                     ),
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.only(top: 55, left: 20),
+                    padding: const EdgeInsets.only(
+                      top: 55,
+                    ),
                     child: Column(
                       children: <Widget>[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Align(
-                                  alignment: Alignment.topLeft,
-                                  child: Text('Hạng thành viên',
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text('Hạng thành viên',
                                       style: Get.textTheme.bodyLarge?.copyWith(
                                           color: Colors.white,
                                           fontWeight: FontWeight.bold)),
-                                ),
-                                Align(
-                                  alignment: Alignment.bottomLeft,
-                                  child: Text(
+                                  Text(
                                       model.memberShipModel?.memberLevel
                                               ?.name ??
                                           'Bronze',
                                       style: Get.textTheme.titleLarge?.copyWith(
                                           color: Colors.white,
                                           fontWeight: FontWeight.bold)),
-                                ),
-                              ],
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(right: 8.0),
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          Voucher(), // Replace with your OrderMethod page
-                                    ),
-                                  );
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  primary: Colors.white,
-                                ),
-                                child: Row(
-                                  children: <Widget>[
-                                    Icon(
-                                      Icons.confirmation_number,
-                                      color: Colors.lightBlue,
-                                    ),
-                                    SizedBox(
-                                      width: 4,
-                                    ),
-                                    Text(
-                                      'Voucher của tôi',
-                                      style: TextStyle(
+                                ],
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(right: 8.0),
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            Voucher(), // Replace with your OrderMethod page
+                                      ),
+                                    );
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    primary: Colors.white,
+                                  ),
+                                  child: Row(
+                                    children: <Widget>[
+                                      Icon(
+                                        Icons.confirmation_number,
                                         color: Colors.lightBlue,
                                       ),
-                                    ),
-                                  ],
+                                      SizedBox(
+                                        width: 4,
+                                      ),
+                                      Text(
+                                        'Voucher của tôi',
+                                        style: TextStyle(
+                                          color: Colors.lightBlue,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(4),
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: wallet
-                                  .map(
-                                    (e) => Text("${e.name} :${e.balance} ",
-                                        style: Get.textTheme.titleMedium
-                                            ?.copyWith(color: Colors.white)),
-                                  )
-                                  .toList()),
-                        ),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: wallet
+                                .map(
+                                  (e) => Text("${e.name} :${e.balance} ",
+                                      style: Get.textTheme.titleMedium
+                                          ?.copyWith(color: Colors.white)),
+                                )
+                                .toList()),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Container(
@@ -143,7 +145,7 @@ class _PromotionsScreenState extends State<PromotionsScreen> {
                                 width: Get.width *
                                     0.9, // Chỉnh độ cao của container chứa ảnh
                                 padding:
-                                    const EdgeInsets.all(16), // Loại bỏ padding
+                                    const EdgeInsets.all(8), // Loại bỏ padding
                                 child: BarcodeWidget(
                                     barcode: Barcode.code128(),
                                     data: model.memberShipModel?.phoneNumber ??
@@ -165,13 +167,6 @@ class _PromotionsScreenState extends State<PromotionsScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text(
-                    "Tiện ích",
-                    style: GoogleFonts.inter(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
                   Row(
                     children: [
                       Expanded(child: buildUtilityWidget("Hạng thành viên")),
@@ -197,16 +192,14 @@ class _PromotionsScreenState extends State<PromotionsScreen> {
                   return CircularProgressIndicator();
                 }
                 return Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        'Phần thưởng khả dụng',
-                        style: TextStyle(
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                      child: Text('Khuyến mãi khả dụng',
+                          style: Get.textTheme.titleMedium
+                              ?.copyWith(fontWeight: FontWeight.bold)),
                     ),
                     Column(
                       children: model.promotions!
@@ -221,6 +214,114 @@ class _PromotionsScreenState extends State<PromotionsScreen> {
             // Add more TicketWidgets as needed
           ],
         ),
+      ),
+    );
+  }
+
+  Widget loginCard() {
+    return Container(
+      margin: const EdgeInsets.fromLTRB(8, 110, 8, 16),
+      padding: const EdgeInsets.all(8),
+      width: Get.width * 0.9,
+      height: 200,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            'Đăng nhập',
+            style: Get.textTheme.titleMedium
+                ?.copyWith(fontWeight: FontWeight.bold),
+          ),
+          Text(
+            'Sử dụng app để tích điểm và đổi những ưu đãi chỉ dành riêng cho thành viên bạn nhé !',
+            style: Get.textTheme.bodySmall,
+            textAlign: TextAlign.center,
+          ),
+          SizedBox(
+            height: 8,
+          ),
+          Stack(
+            alignment: Alignment.center,
+            children: [
+              Image.asset(
+                'assets/images/hinhchunhat.png',
+                height: 100,
+                width: 329,
+                fit: BoxFit.cover,
+              ),
+              Positioned(
+                top: -15,
+                child: Container(
+                  width: Get.width * 0.6,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    gradient: LinearGradient(
+                      begin: Alignment(-1, -1.133),
+                      end: Alignment(1, 1.367),
+                      colors: <Color>[Colors.blueAccent, Color(0xffc8ddff)],
+                      stops: <double>[0.014, 1],
+                    ),
+                  ),
+                  child: TextButton(
+                    onPressed: () {
+                      Get.toNamed(RouteHandler.LOGIN);
+                    },
+                    child: Text('Đăng nhập',
+                        textAlign: TextAlign.center,
+                        style: Get.textTheme.bodyLarge
+                            ?.copyWith(color: Colors.white)),
+                  ),
+                ),
+              ),
+              Positioned(
+                top: 80,
+                child: Container(
+                  width: Get.width * 0.6,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    gradient: LinearGradient(
+                      begin: Alignment(-1, -1.133),
+                      end: Alignment(1, 1.367),
+                      colors: <Color>[Colors.blueAccent, Color(0xffc8ddff)],
+                      stops: <double>[0.014, 1],
+                    ),
+                  ),
+                  child: TextButton(
+                    onPressed: () {},
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Deer Coffee Reward',
+                          textAlign: TextAlign.start,
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xffffffff),
+                          ),
+                        ),
+                        Icon(
+                          Icons.chevron_right,
+                          color: Colors.white,
+                          size: 25,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+            clipBehavior: Clip.none,
+          ),
+        ],
       ),
     );
   }
@@ -272,98 +373,5 @@ class _PromotionsScreenState extends State<PromotionsScreen> {
         ),
       ),
     );
-  }
-
-  Widget buildTicketWidget(PromotionPointify promotion) {
-    return InkWell(
-      onTap: () {
-        Get.toNamed(
-            "${RouteHandler.PROMOTION_DETAILS}?id=${promotion.promotionId}");
-      },
-      child: Container(
-        width: double.infinity,
-        height: 127.0,
-        margin: const EdgeInsets.all(10.0),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(12.0),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            CustomPaint(
-              size: const Size(120.0, 120.0),
-              painter: TicketPainter(),
-              foregroundPainter: DotPainter(),
-              child: Image.network(
-                width: 120.0,
-                height: 120.0,
-                'https://i.imgur.com/X0WTML2.jpg',
-                fit: BoxFit.contain,
-              ),
-            ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text(promotion.promotionName ?? '',
-                        style: Get.textTheme.bodyMedium
-                            ?.copyWith(fontWeight: FontWeight.bold),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis),
-                    Text(promotion.promotionCode ?? '',
-                        style: Get.textTheme.bodySmall),
-                    Text('txt', style: Get.textTheme.bodySmall),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class TicketPainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    // Custom ticket drawing code here
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) {
-    return false;
-  }
-}
-
-class DotPainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final Paint paint = Paint()..color = Color(0xFFF5F5F5);
-    final double dotSpacing = 15.0;
-    final double edgeDotSpacing = 30.0;
-    final double leftOffset = 120.0;
-    final double bottomOffset = size.height - 25.0;
-
-    for (int i = 0; i < 10; i++) {
-      double y = i * dotSpacing;
-
-      if (i == 0 || i == 8) {
-        canvas.drawCircle(Offset(leftOffset, y), 10.0, paint);
-      } else if (i == 1 || i == 8) {
-        canvas.drawCircle(Offset(leftOffset, y), 3.0, paint);
-      } else {
-        canvas.drawCircle(Offset(leftOffset, y), 3.0, paint);
-      }
-    }
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) {
-    return false;
   }
 }

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:core';
 import 'dart:math';
 import 'package:deer_coffee/models/user.dart';
+import 'package:deer_coffee/utils/route_constrant.dart';
 import 'package:deer_coffee/utils/share_pref.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -93,11 +94,13 @@ class OrderViewModel extends BaseViewModel {
 
   Future<bool> placeOrder(OrderModel order) async {
     showLoadingDialog();
-    UserModel? userInfo = await getUserInfo();
-    // await api.placeOrder(order, userInfo!.storeId).then((value) => {
-    //       hideDialog(),
-    //       showPaymentBotomSheet(value),
-    //     });
+    await api.placeOrder(order).then((value) => {
+          currentOrderId = value,
+          showAlertDialog(title: "Thành công", content: "Đặt hàng thành công")
+              .then((value) => value == true
+                  ? Get.offAllNamed(RouteHandler.HOME)
+                  : Get.offAllNamed(RouteHandler.HOME)),
+        });
     return true;
   }
 

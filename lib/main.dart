@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
       debugShowMaterialGrid: false,
       title: 'Deer Coffee',
       theme: ThemeData(
-        colorSchemeSeed: const Color(0xFF2182F2),
+        colorSchemeSeed: const Color(0xff8FBEFF),
         useMaterial3: true,
         brightness: Brightness.light,
       ),

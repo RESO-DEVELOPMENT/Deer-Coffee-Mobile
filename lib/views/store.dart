@@ -18,18 +18,17 @@ class Store extends StatefulWidget {
 class _StoreState extends State<Store> {
   @override
   void initState() {
-    Get.find<MenuViewModel>().getListStore();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffF9F9F9),
+      backgroundColor: Colors.white,
       appBar: AppBar(
           title: Text(
         "Danh sách cửa hàng",
-        style: Get.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+        style: Get.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
       )),
       body: ScopedModel<MenuViewModel>(
         model: Get.find<MenuViewModel>(),
@@ -51,45 +50,44 @@ class _StoreState extends State<Store> {
   }
 
   Widget buildStore(StoreModel store) {
-    return Card(
-      surfaceTintColor: Colors.white,
-      child: ClipRRect(
-        borderRadius:
-            BorderRadius.circular(16), // Set border radius to round the corners
-        child: Container(
-          width: 500, // Set the desired width
-          height: 120, // Set the desired height
-          padding: EdgeInsets.all(8),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              // Image widget here
-              Image.asset(
-                'assets/images/logo.png',
-                height: 100.0,
-                width: 100.0,
-              ),
-              SizedBox(width: 4),
-              Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(store.name ?? '',
-                        style: Get.textTheme.bodyLarge
-                            ?.copyWith(fontWeight: FontWeight.bold)),
-                    Text(
-                      store.address ?? '',
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ],
-                ),
-              ),
-            ],
+    return Container(
+      margin: EdgeInsets.only(top: 8),
+      width: Get.width,
+      height: 110,
+      padding: const EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(16),
+        color: const Color(0xFFF7F8FB),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          // Image widget here
+          Image.asset(
+            'assets/images/logo.png',
+            height: 80.0,
+            width: 80.0,
           ),
-        ),
+          SizedBox(width: 4),
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(store.name ?? '',
+                    style: Get.textTheme.bodyMedium
+                        ?.copyWith(fontWeight: FontWeight.bold)),
+                Text(
+                  store.address ?? '',
+                  style: Get.textTheme.bodySmall,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -18,7 +18,10 @@ class _OrderScreenState extends State<OrderScreen> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Container(
-                child: Image.asset('assets/images/1.png'),
+                child: Icon(
+                  Icons.coffee_outlined,
+                  size: 48,
+                ),
                 margin: const EdgeInsets.only(top: 80),
               ),
               SizedBox(

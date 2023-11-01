@@ -21,7 +21,7 @@ class TakeAway {
 class EatIn {
   String type = 'EAT_IN';
   IconData icon = Icons.store;
-  String label = 'Tại quán';
+  String label = 'Tại cửa hàng';
 }
 
 class Delivery {
@@ -34,6 +34,12 @@ class OrderStatusEnum {
   static const String PENDING = 'PENDING';
   static const String CANCELED = 'CANCELED';
   static const String PAID = 'PAID';
+}
+
+class OrderTypeEnum {
+  static const String EAT_IN = 'EAT_IN';
+  static const String DELIVERY = 'DELIVERY';
+  static const String TAKE_AWAY = 'TAKE_AWAY';
 }
 
 String showOrderStatus(String status) {
@@ -52,11 +58,11 @@ String showOrderStatus(String status) {
 String showPaymentType(String payment) {
   switch (payment) {
     case PaymentTypeEnums.CASH:
-      return 'Tiền mặt';
+      return 'TIỀN MẶT';
     case PaymentTypeEnums.POINTIFY_WALLET:
-      return 'Ví thành viên';
+      return 'THẺ THÀNH VIÊN';
     default:
-      return 'Tiền mặt';
+      return 'TIỀN MẶT';
   }
 }
 

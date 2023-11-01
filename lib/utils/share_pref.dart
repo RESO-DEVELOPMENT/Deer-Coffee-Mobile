@@ -1,9 +1,11 @@
 import 'dart:convert';
 
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/user.dart';
+import '../setup.dart';
 
 Future<bool> setToken(String value) async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -43,4 +45,9 @@ Future<UserModel?> getUserInfo() async {
     userInfo = UserModel.fromJson(jsonDecode(userData));
   }
   return userInfo;
+}
+
+Future<void> removeALL() async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  await prefs.clear();
 }

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:deer_coffee/view_models/account_view_model.dart';
 import 'package:deer_coffee/views/home_page_order_method.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get/instance_manager.dart';
 import 'package:pinput/pinput.dart';
 
@@ -85,7 +86,7 @@ class _MyOtpState extends State<MyOtp> {
                   child: Column(
                     children: [
                       SizedBox(
-                        height: 50,
+                        height: 30,
                       )
                     ],
                   ),
@@ -128,17 +129,13 @@ class _MyOtpState extends State<MyOtp> {
                         ),
                         Text(
                           "Xác Nhận Mã OTP",
-                          style: Theme.of(context)
-                              .textTheme
-                              .headlineSmall!
-                              .copyWith(
-                                fontSize: 25,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                              ),
+                          style: Get.textTheme.titleLarge?.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
                         ),
                         SizedBox(
-                          height: 20,
+                          height: 8,
                         ),
                         Text.rich(
                           TextSpan(
@@ -146,51 +143,37 @@ class _MyOtpState extends State<MyOtp> {
                               TextSpan(
                                 text:
                                     "Một mã xác định gồm 6 số đã gửi đến số điện thoại $phoneNumber",
-                                style: TextStyle(
-                                    fontSize: 18, color: Colors.black),
+                                style: Get.textTheme.bodyMedium,
                               ),
                             ],
                           ),
                           textAlign: TextAlign.center,
                         ),
                         SizedBox(
-                          height: 50,
+                          height: 24,
                         ),
                         Text.rich(
                           TextSpan(
                             children: [
                               TextSpan(
                                 text: "Nhập mã để tiếp tục ",
-                                style: TextStyle(
-                                    fontSize: 20, color: Colors.black),
+                                style: Get.textTheme.bodyLarge,
                               ),
                             ],
                           ),
                           textAlign: TextAlign.center,
-                        ),
-                        Row(
-                          children: [],
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 50.0,
-                            vertical: 5.0,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 10,
                         ),
                         Pinput(
                           length: 6,
                           pinputAutovalidateMode:
                               PinputAutovalidateMode.onSubmit,
                           showCursor: true,
-                          onSubmitted: (input) {
+                          onCompleted: (input) {
                             Get.find<AccountViewModel>().verifyOTPCode(input);
                           },
                         ),
                         SizedBox(
-                          height: 15,
+                          height: 8,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,

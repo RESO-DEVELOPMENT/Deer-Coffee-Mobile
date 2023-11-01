@@ -1,3 +1,4 @@
+import 'package:deer_coffee/models/blog.dart';
 import 'package:deer_coffee/models/store.dart';
 
 import '../models/menu.dart';
@@ -21,6 +22,19 @@ class MenuAPI {
     final res = await request.get('brands/stores', queryParameters: params);
     var jsonList = res.data['items'];
     List<StoreModel> stores = StoreModel.fromList(jsonList);
+
+    return stores;
+  }
+
+  Future<List<BlogModel>> getListBlog() async {
+    var params = <String, dynamic>{
+      'brandCode': 'DeerCoffee',
+      'page': 1,
+      'size': 20,
+    };
+    final res = await request.get('users/blog', queryParameters: params);
+    var jsonList = res.data['items'];
+    List<BlogModel> stores = BlogModel.fromList(jsonList);
 
     return stores;
   }

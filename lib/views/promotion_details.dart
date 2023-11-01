@@ -72,11 +72,10 @@ class _PromotionDetailsScreenState extends State<PromotionDetailsScreen> {
                                   icon: Icon(
                                     Icons.cancel,
                                     color: Colors.grey,
-                                    size: 30,
+                                    size: 32,
                                   ),
                                   onPressed: () {
-                                    Navigator.of(context)
-                                        .pop(); // Navigate back to the previous screen (LoginScreen)
+                                    Get.back();
                                   },
                                 ),
                               ],
@@ -84,7 +83,7 @@ class _PromotionDetailsScreenState extends State<PromotionDetailsScreen> {
                             // Create the ticket-like UI
                             Container(
                               width: Get.width * 0.8,
-                              height: Get.height * 0.8,
+                              height: Get.height * 0.75,
                               decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(20),
@@ -157,11 +156,15 @@ class _PromotionDetailsScreenState extends State<PromotionDetailsScreen> {
                                     width: 200,
                                     child: ElevatedButton(
                                       onPressed: () {
+                                        model.selectPromotion(
+                                            promotionDetailsModel
+                                                    ?.promotionCode ??
+                                                '');
                                         Get.offAllNamed(
                                             "${RouteHandler.HOME}?idx=1");
                                       },
                                       child: Text(
-                                        "Bắt đầu đặt hàng",
+                                        "Chọn khuyến mãi",
                                         style: TextStyle(
                                             color: Colors.white, fontSize: 16),
                                       ),

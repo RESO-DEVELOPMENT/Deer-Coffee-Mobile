@@ -24,213 +24,219 @@ class _OtherPageState extends State<OtherPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xffF9F9F9),
-      body: CustomScrollView(
-        slivers: [
-          ScopedModel<AccountViewModel>(
-            model: Get.find<AccountViewModel>(),
-            child: SliverAppBar(
-              expandedHeight: 280.0,
-              backgroundColor: const Color(0xFFE5EDFF),
-              floating: true,
-              pinned: true,
-              flexibleSpace: ScopedModelDescendant<AccountViewModel>(
-                  builder: (context, build, model) {
-                if (model.status == ViewStatus.Loading) {
-                  return const Center(child: CircularProgressIndicator());
-                } else if (model.user?.userInfo == null) {
-                  return FlexibleSpaceBar(background: loginCard());
-                } else {
-                  return FlexibleSpaceBar(background: userCard(model));
-                }
-              }),
-            ),
-          ),
-          SliverList.list(
-            children: [
-              Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Tài khoản",
-                      style: GoogleFonts.inter(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => Delivering(),
-                                ),
-                              );
-                            },
-                            child: Container(
-                              margin: EdgeInsets.all(8),
-                              height: 100,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(16),
-                                color: Colors.white,
-                              ),
-                              child: Stack(
-                                children: [
-                                  Align(
-                                    alignment: Alignment.bottomLeft,
-                                    child: Padding(
-                                      padding:
-                                          EdgeInsets.only(bottom: 10, left: 10),
-                                      child: Text(
-                                        'Lịch sử đơn hàng',
-                                        style: GoogleFonts.inter(
-                                          color: Colors.black,
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => UpdateProfilePage(),
-                                ),
-                              );
-                            },
-                            child: Container(
-                              margin: EdgeInsets.all(8),
-                              height: 100,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(13),
-                                color: Colors.white,
-                              ),
-                              child: Stack(
-                                children: [
-                                  Align(
-                                    alignment: Alignment.bottomLeft,
-                                    child: Padding(
-                                      padding:
-                                          EdgeInsets.only(bottom: 10, left: 10),
-                                      child: Text(
-                                        'Thông tin cá nhân',
-                                        style: GoogleFonts.inter(
-                                          color: Colors.black,
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 8,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: Container(
-                        width: Get.width,
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 10), // Khoảng cách xung quanh nội dung
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(13)),
-                          //   border: Border.all(
-                          // color: Colors.grey, // Màu của đường viền nếu cần
-
-                          //   ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.white, // Màu của bóng đổ
-                              offset: Offset(0, 0.5),
-                            ),
-                          ],
-                        ),
-                        child: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Địa chỉ đã lưu',
-                                  style: GoogleFonts.inter(
-                                      color: Colors.black,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                IconButton(
-                                  icon: Icon(Icons.arrow_forward),
-                                  onPressed: () {
-                                    // Xử lý khi nút mũi tên được nhấn
-                                  },
-                                ),
-                              ],
-                            ),
-                            const Divider(),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Cài đặt',
-                                  style: GoogleFonts.inter(
-                                      color: Colors.black,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                IconButton(
-                                  icon: Icon(Icons.arrow_forward),
-                                  onPressed: () {
-                                    // Xử lý khi nút mũi tên được nhấn
-                                  },
-                                ),
-                              ],
-                            ),
-                            Divider(),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Đăng xuất',
-                                  style: GoogleFonts.inter(
-                                      color: Colors.black,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                IconButton(
-                                  icon: Icon(Icons.arrow_forward),
-                                  onPressed: () {
-                                    // Xử lý khi nút mũi tên được nhấn
-                                  },
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ],
-          ),
+      appBar: AppBar(
+        title: Text(
+          "Tài khoản",
+          style:
+              Get.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+        ),
+        actions: [
+          IconButton(
+              onPressed: () {
+                Get.find<AccountViewModel>().processSignOut();
+              },
+              icon: const Icon(Icons.logout))
         ],
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => Delivering(),
+                              ),
+                            );
+                          },
+                          child: Container(
+                            margin: EdgeInsets.all(8),
+                            height: 100,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(16),
+                              color: Colors.white,
+                            ),
+                            child: Stack(
+                              children: [
+                                Align(
+                                  alignment: Alignment.bottomLeft,
+                                  child: Padding(
+                                    padding:
+                                        EdgeInsets.only(bottom: 10, left: 10),
+                                    child: Text(
+                                      'Lịch sử đơn hàng',
+                                      style: GoogleFonts.inter(
+                                        color: Colors.black,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => UpdateProfilePage(),
+                              ),
+                            );
+                          },
+                          child: Container(
+                            margin: EdgeInsets.all(8),
+                            height: 100,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(13),
+                              color: Colors.white,
+                            ),
+                            child: Stack(
+                              children: [
+                                Align(
+                                  alignment: Alignment.bottomLeft,
+                                  child: Padding(
+                                    padding:
+                                        EdgeInsets.only(bottom: 10, left: 10),
+                                    child: Text(
+                                      'Thông tin cá nhân',
+                                      style: GoogleFonts.inter(
+                                        color: Colors.black,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: Container(
+                      width: Get.width,
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 10), // Khoảng cách xung quanh nội dung
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(13)),
+                        //   border: Border.all(
+                        // color: Colors.grey, // Màu của đường viền nếu cần
+
+                        //   ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.white, // Màu của bóng đổ
+                            offset: Offset(0, 0.5),
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Địa chỉ đã lưu',
+                                style: GoogleFonts.inter(
+                                    color: Colors.black,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              IconButton(
+                                icon: Icon(Icons.arrow_forward),
+                                onPressed: () {
+                                  // Xử lý khi nút mũi tên được nhấn
+                                },
+                              ),
+                            ],
+                          ),
+                          const Divider(),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Cài đặt',
+                                style: GoogleFonts.inter(
+                                    color: Colors.black,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              IconButton(
+                                icon: Icon(Icons.arrow_forward),
+                                onPressed: () {
+                                  // Xử lý khi nút mũi tên được nhấn
+                                },
+                              ),
+                            ],
+                          ),
+                          Divider(),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Điều khoản',
+                                style: GoogleFonts.inter(
+                                    color: Colors.black,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              IconButton(
+                                icon: Icon(Icons.arrow_forward),
+                                onPressed: () {
+                                  // Xử lý khi nút mũi tên được nhấn
+                                },
+                              ),
+                            ],
+                          ),
+                          Divider(),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Đăng xuất',
+                                style: GoogleFonts.inter(
+                                    color: Colors.black,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              IconButton(
+                                icon: Icon(Icons.arrow_forward),
+                                onPressed: () {
+                                  Get.find<AccountViewModel>().processSignOut();
+                                  // Xử lý khi nút mũi tên được nhấn
+                                },
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

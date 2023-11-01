@@ -3,9 +3,9 @@ import '../models/order_response.dart';
 import '../utils/request.dart';
 
 class OrderAPI {
-  Future placeOrder(OrderModel order, String storeId) async {
+  Future placeOrder(OrderModel order) async {
     var dataJson = order.toJson();
-    final res = await request.post('stores/$storeId/orders', data: dataJson);
+    final res = await request.post('users/order', data: dataJson);
     var jsonList = res.data;
     return jsonList;
   }

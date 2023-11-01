@@ -54,6 +54,7 @@ dependencies:
   qr_flutter: ^4.1.0
   barcode: ^2.2.4
   barcode_widget: ^2.0.4
+  cached_network_image: ^3.3.0
 
 dev_dependencies:
   flutter_test:

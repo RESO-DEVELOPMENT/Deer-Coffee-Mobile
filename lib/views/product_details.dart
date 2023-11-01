@@ -73,8 +73,7 @@ class _OptionState extends State<Option> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title:
-            Text(product.name ?? 'Sản phẩm', style: Get.textTheme.titleMedium),
+        title: Text('Tuỳ chọn', style: Get.textTheme.titleMedium),
       ),
       body: ScopedModel<ProductViewModel>(
         model: productViewModel,
@@ -175,7 +174,7 @@ class _OptionState extends State<Option> {
         children: attributes
             .map(
               (e) => Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(e.name,
@@ -185,26 +184,21 @@ class _OptionState extends State<Option> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: e.options
-                        .map((option) => Padding(
-                              padding: const EdgeInsets.all(4),
-                              child: TextButton(
-                                  style: ButtonStyle(
-                                    backgroundColor: MaterialStateProperty.all<
-                                        Color>(option ==
-                                            selectedAttributes[e.id].value
-                                        ? Get.theme.colorScheme.primaryContainer
-                                        : Colors.transparent),
-                                  ),
-                                  onPressed: () {
-                                    setAttributes(e.id, option);
-                                    model.setAttributes(
-                                        selectedAttributes[e.id]);
-                                  },
-                                  child: Text(
-                                    option,
-                                    style: Get.textTheme.bodySmall,
-                                  )),
-                            ))
+                        .map((option) => TextButton(
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all<Color>(
+                                  option == selectedAttributes[e.id].value
+                                      ? Get.theme.colorScheme.primaryContainer
+                                      : Colors.transparent),
+                            ),
+                            onPressed: () {
+                              setAttributes(e.id, option);
+                              model.setAttributes(selectedAttributes[e.id]);
+                            },
+                            child: Text(
+                              option,
+                              style: Get.textTheme.bodySmall,
+                            )))
                         .toList(),
                   ),
                   Divider()
@@ -323,7 +317,7 @@ class _OptionState extends State<Option> {
         Row(
           children: [
             Text(
-              'Yêu cầu khác', // Đây là tiêu đề yêu cầu khác
+              'Ghi chú', // Đây là tiêu đề yêu cầu khác
               style: Get.textTheme.bodyMedium
                   ?.copyWith(fontWeight: FontWeight.bold),
             ),
@@ -335,10 +329,9 @@ class _OptionState extends State<Option> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Ghi chú', style: Get.textTheme.bodyMedium),
               Container(
                 height: 50,
-                width: Get.width * 0.7,
+                width: Get.width * 0.9,
                 decoration: BoxDecoration(
                   color: const Color(0xFFF4F5F7),
                   borderRadius: BorderRadius.circular(20),

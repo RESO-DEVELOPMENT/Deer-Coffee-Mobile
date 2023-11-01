@@ -1,4 +1,5 @@
 import 'package:deer_coffee/api/menu_api.dart';
+import 'package:deer_coffee/models/blog.dart';
 import 'package:deer_coffee/models/store.dart';
 import 'package:deer_coffee/view_models/base_view_model.dart';
 import 'package:get/get.dart';
@@ -19,7 +20,9 @@ class MenuViewModel extends BaseViewModel {
   List<Product>? extraProducts = [];
   List<Product>? childProducts = [];
   List<Product>? productsFilter = [];
+
   List<StoreModel>? storeList = [];
+  List<BlogModel>? blogList = [];
   MenuViewModel() {
     menuAPI = MenuAPI();
     currentMenu = Menu();
@@ -62,6 +65,12 @@ class MenuViewModel extends BaseViewModel {
     setState(ViewStatus.Completed);
   }
 
+  Future getListBlog() async {
+    setState(ViewStatus.Loading);
+    blogList = await menuAPI?.getListBlog();
+    setState(ViewStatus.Completed);
+  }
+
   Product getProductById(String id) {
     return normalProducts!.firstWhere((element) => element.id == id);
   }
@@ -79,7 +88,6 @@ class MenuViewModel extends BaseViewModel {
             ? false
             : element.collectionIds!.contains(collectionID)))
         .toList();
-    notifyListeners();
   }
 
   List<Category>? getExtraCategoryByNormalProduct(Product product) {
