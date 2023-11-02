@@ -1,30 +1,42 @@
+import 'package:deer_coffee/enums/order_enum.dart';
+import 'package:deer_coffee/utils/format.dart';
+import 'package:deer_coffee/utils/theme.dart';
+import 'package:deer_coffee/views/order_status.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class TimelineWidget extends StatelessWidget {
+  final String status;
+
+  TimelineWidget({super.key, required this.status});
+
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        TimelineItem(
-          title: 'Đặt hàng',
-          subTitle: '',
-          isGray: false, // Hình tròn này sẽ có màu xanh
+        Expanded(
+          child: TimelineItem(
+            title: showOrderStatus(OrderStatusEnum.PENDING),
+            subTitle: "",
+            isGray: !(status == OrderStatusEnum.PENDING ||
+                status == OrderStatusEnum.PAID), // Hình tròn này sẽ có màu xanh
+          ),
         ),
-        TimelineItem(
-          title: 'Processing',
-          subTitle: '',
-          isGray: false, // Hình tròn này sẽ có màu xanh
+        Expanded(
+          child: TimelineItem(
+            title: showOrderStatus(OrderStatusEnum.PAID),
+            subTitle: "",
+            isGray: !(status ==
+                OrderStatusEnum.PAID), // Hình tròn này sẽ có màu xám
+          ),
         ),
-        TimelineItem(
-          title: 'Giao hàng',
-          subTitle: '',
-          isGray: true, // Hình tròn này sẽ có màu xám
-        ),
-        TimelineItem(
-          title: 'Đã giao',
-          subTitle: '',
-          isGray: true, // Hình tròn này sẽ có màu xám
-        ),
+        // TimelineItem(
+        //   title: 'Đã giao',
+        //   subTitle: '',
+        //   isGray: true, // Hình tròn này sẽ có màu xám
+        // ),
       ],
     );
   }
@@ -35,26 +47,28 @@ class TimelineItem extends StatelessWidget {
   final String subTitle;
   final bool isGray; // Thuộc tính để xác định màu xám
 
-  TimelineItem({required this.title, required this.subTitle, this.isGray = false});
+  TimelineItem(
+      {required this.title, required this.subTitle, this.isGray = false});
 
   @override
   Widget build(BuildContext context) {
     return CustomPaint(
-      size: Size(100.0, 60.0),
+      size: Size(80.0, 40.0),
       painter: LinePainter(),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
             width: 40,
             height: 40,
             margin: EdgeInsets.only(
-              left: 38.0,
               top: 50,
             ),
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: isGray ? Colors.grey : Colors.blue, // Sử dụng màu xám nếu isGray là true
+              color: isGray
+                  ? Colors.grey
+                  : ThemeColor.primary, // Sử dụng màu xám nếu isGray là true
             ),
             child: Icon(
               Icons.check,
@@ -62,23 +76,16 @@ class TimelineItem extends StatelessWidget {
               size: 24,
             ),
           ),
-
           SizedBox(height: 10),
-          Container(
-            margin: EdgeInsets.only(
-              left: 29.0,
-              bottom: 0,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                Text(subTitle),
-              ],
-            ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              Text(subTitle),
+            ],
           ),
         ],
       ),
@@ -90,12 +97,12 @@ class LinePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = Colors.blue // Màu đường nối
+      ..color = ThemeColor.primary // Màu đường nối
       ..strokeWidth = 2.0; // Độ rộng của đường nối
     final startX = 0.0; // X-coordinate của điểm bắt đầu đường nối
     final startY = size.height /
         2; // Y-coordinate của điểm bắt đầu đường nối (trung tâm của TimelineItem)
-    final endX = size.width * 1.6; // X-coordinate của điểm kết thúc đường nối
+    final endX = Get.width; // X-coordinate của điểm kết thúc đường nối
     final endY = size.height /
         2; // Y-coordinate của điểm kết thúc đường nối (trung tâm của TimelineItem tiếp theo)
 

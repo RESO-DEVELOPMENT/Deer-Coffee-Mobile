@@ -8,6 +8,7 @@ import 'package:deer_coffee/widgets/other_dialogs/dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:scoped_model/scoped_model.dart';
+import '../utils/theme.dart';
 import '../view_models/menu_view_model.dart';
 import 'home_page.dart';
 import 'order.dart';
@@ -63,7 +64,7 @@ class _RootScreenState extends State<RootScreen> {
               builder: (context, build, model) {
             return FloatingActionButton(
                 elevation: 10,
-                backgroundColor: Colors.blueAccent,
+                backgroundColor: ThemeColor.primary,
                 onPressed: () {
                   if (model.cartList.isEmpty || model.cartList == null) {
                     showAlertDialog(
@@ -97,7 +98,7 @@ class _RootScreenState extends State<RootScreen> {
         showUnselectedLabels: true,
         items: items,
         currentIndex: _selectedIndex,
-        selectedItemColor: Get.theme.colorScheme.primary,
+        selectedItemColor: ThemeColor.primary,
         unselectedItemColor: Colors.grey[700],
         onTap: (int index) {
           setState(() {

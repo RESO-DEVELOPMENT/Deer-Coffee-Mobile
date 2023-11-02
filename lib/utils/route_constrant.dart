@@ -3,6 +3,7 @@ class RouteHandler {
   static const String OTP = "/otp";
   static const String HOME = "/home";
   static const String ORDER = "/order";
+  static const String ORDER_DETAILS = "/order-details";
   static const String CART = "/cart";
   static const String VOUCHER = "/voucher";
   static const String VOUCHER_DETAIL = "/voucher-detail";
@@ -12,4 +13,5 @@ class RouteHandler {
   static const String WELCOME = "/welcome";
   static const String NOT_FOUND = "/404";
   static const String CATEGORY_DETAIL = "/category-detail";
+  static const String COLLECTION_DETAIL = "/collection-detail";
 }

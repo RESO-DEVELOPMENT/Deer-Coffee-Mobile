@@ -23,7 +23,7 @@ import 'order_view_model.dart';
 
 class CartViewModel extends BaseViewModel {
   List<CartItem> _cartList = [];
-  List<PromotionPointify> promotionApplyList = [];
+  List<Effects> promotionApplyList = [];
   num _finalAmount = 0;
   num _totalAmount = 0;
   String? deliveryType;
@@ -142,7 +142,7 @@ class CartViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  selectPromotion(String code) {
+  selectPromotion(String? code) {
     selectPromotionCode = code;
     notifyListeners();
   }
@@ -220,12 +220,21 @@ class CartViewModel extends BaseViewModel {
           selectedPromotionChecked?.order != null) {
         selectedPromotionChecked!.order!.effects
             ?.removeWhere((element) => element.promotionType == null);
+
         _discountAmount = selectedPromotionChecked!.order!.discount ?? 0;
+
+        if (selectedPromotionChecked?.order?.effects != null) {
+          for (var element in selectedPromotionChecked!.order!.effects!) {
+            promotionApplyList.add(element);
+          }
+        }
+        print(promotionApplyList.length);
         _productDiscount =
             selectedPromotionChecked!.order!.discountOrderDetail ?? 0;
         _finalAmount = selectedPromotionChecked!.order!.finalAmount ?? 0;
         pointRedeem = selectedPromotionChecked!.order!.bonusPoint ?? 0;
       }
+
       print(selectedPromotionChecked?.message.toString());
       setState(ViewStatus.Completed);
     } on DioException catch (e) {
@@ -236,10 +245,35 @@ class CartViewModel extends BaseViewModel {
     }
   }
 
+  void setAddress(String? address) {
+    deliAddress = address;
+    notifyListeners();
+  }
+
+  void setPromotion(String promotion) {
+    selectPromotionCode = promotion;
+    notifyListeners();
+  }
+
+  void setStore(StoreModel store) {
+    selectedStore = store;
+    notifyListeners();
+  }
+
   Future<void> createOrder() async {
     String deliType = Get.find<OrderViewModel>().deliveryType;
     UserModel user = Get.find<AccountViewModel>().user!;
     List<ProductsList> productList = <ProductsList>[];
+    List<PromotionList> promotionList = [];
+    if (promotionApplyList.isNotEmpty) {
+      for (var element in promotionApplyList) {
+        promotionList.add(PromotionList(
+            promotionId: element.promotionId,
+            discountAmount: element.effectType == "GET_POINT"
+                ? pointRedeem
+                : element.prop?.value ?? 0));
+      }
+    }
     for (CartItem cart in _cartList) {
       List<Extras> extraList = <Extras>[];
       cart.extras?.forEach((element) {
@@ -257,31 +291,30 @@ class CartViewModel extends BaseViewModel {
         discount: cart.product.discountPrice! * cart.quantity,
         note: cart.attributes == null && cart.note == null
             ? null
-            : ("${cart.attributes!.map((e) => e.value).join(" ")} ${cart.note ?? ''}"),
+            : ("${cart.attributes!.map((e) => '${e.name}:${e.value}').join(" ")} ${cart.note ?? ''}"),
         extras: extraList,
       );
       productList.add(product);
     }
     OrderModel order = OrderModel(
-      storeId: "4e2e7239-f551-43b1-b5cf-97998ba84301",
-      userId: user.userInfo?.id ?? '',
-      orderType: deliType,
-      paymentType: paymentType,
-      productsList: productList,
-      status: OrderStatusEnum.PENDING,
-      totalAmount: _totalAmount,
-      discountAmount: _discountAmount + _productDiscount,
-      finalAmount: _finalAmount,
-      promotionList: promotionApplyList
-          .map((e) => PromotionList(
-              promotionId: e.promotionId, discountAmount: _discountAmount))
-          .toList(),
-    );
+        storeId: selectedStore?.id ?? '',
+        userId: user.userInfo?.id ?? '',
+        orderType: deliType,
+        address: deliAddress,
+        paymentType: paymentType,
+        productsList: productList,
+        status: OrderStatusEnum.PENDING,
+        totalAmount: _totalAmount,
+        discountAmount: _discountAmount + _productDiscount,
+        finalAmount: _finalAmount,
+        promotionList: promotionList);
     bool res = false;
-    Get.find<OrderViewModel>().placeOrder(order).then((value) => {
-          res = value,
-          if (res == true) {clearCartData(), Get.back()}
-        });
+    await Get.find<OrderViewModel>()
+        .placeOrder(order)
+        .then((value) => res = value);
+    if (res) {
+      clearCartData();
+    }
   }
 
   // List<PaymentProvider?> getListPayment() {

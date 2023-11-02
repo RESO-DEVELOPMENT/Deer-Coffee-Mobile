@@ -3,6 +3,7 @@ import 'package:barcode_widget/barcode_widget.dart';
 import 'package:deer_coffee/enums/order_enum.dart';
 import 'package:deer_coffee/enums/view_status.dart';
 import 'package:deer_coffee/utils/format.dart';
+import 'package:deer_coffee/utils/theme.dart';
 import 'package:deer_coffee/view_models/account_view_model.dart';
 import 'package:deer_coffee/view_models/cart_view_model.dart';
 import 'package:deer_coffee/view_models/menu_view_model.dart';
@@ -16,6 +17,7 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 import '../utils/route_constrant.dart';
+import '../widgets/other_dialogs/dialog.dart';
 import 'bottom_sheet_util.dart';
 
 class HomePage extends StatefulWidget {
@@ -47,7 +49,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFE5EDFF),
+      backgroundColor: Color(0xFFE5EDFF),
       body: CustomScrollView(
         slivers: [
           ScopedModel<AccountViewModel>(
@@ -85,7 +87,7 @@ class _HomePageState extends State<HomePage> {
                           decoration: BoxDecoration(
                             shape: BoxShape.rectangle,
                             borderRadius: BorderRadius.circular(12),
-                            color: Colors.blueAccent,
+                            color: ThemeColor.primary,
                           ),
                           child: IconButton(
                             icon: const Icon(
@@ -102,7 +104,7 @@ class _HomePageState extends State<HomePage> {
                           height: 40,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            color: Colors.blueAccent,
+                            color: ThemeColor.primary,
                           ),
                           child: IconButton(
                             icon: Icon(
@@ -150,7 +152,7 @@ class _HomePageState extends State<HomePage> {
                           child: Container(
                             height: 5,
                             width: 60,
-                            color: Colors.blueAccent,
+                            color: ThemeColor.primary,
                           ),
                         ),
                       ),
@@ -174,13 +176,13 @@ class _HomePageState extends State<HomePage> {
                                   children: [
                                     Icon(
                                       Icons.store,
-                                      color: Colors.blueAccent,
+                                      color: ThemeColor.primary,
                                       size: 32,
                                     ),
                                     Text("Tại cửa hàng",
                                         style: Get.textTheme.bodyMedium
                                             ?.copyWith(
-                                                color: Colors.blueAccent,
+                                                color: ThemeColor.primary,
                                                 fontWeight: FontWeight.bold)),
                                   ],
                                 ),
@@ -191,7 +193,13 @@ class _HomePageState extends State<HomePage> {
                                 onTap: () {
                                   Get.find<CartViewModel>().deliveryType =
                                       OrderTypeEnum.DELIVERY;
-                                  showSelectStore();
+                                  inputDialog(
+                                          "Giao hàng",
+                                          "Vui lòng nhập địa chỉ",
+                                          Get.find<CartViewModel>().deliAddress,
+                                          isNum: false)
+                                      .then((value) => Get.find<CartViewModel>()
+                                          .setAddress(value));
                                 },
                                 child: Column(
                                   mainAxisAlignment:
@@ -200,13 +208,13 @@ class _HomePageState extends State<HomePage> {
                                   children: [
                                     Icon(
                                       Icons.delivery_dining,
-                                      color: Colors.blue,
+                                      color: ThemeColor.primary,
                                       size: 32,
                                     ),
                                     Text("Giao hàng",
                                         style: Get.textTheme.bodyMedium
                                             ?.copyWith(
-                                                color: Colors.blueAccent,
+                                                color: ThemeColor.primary,
                                                 fontWeight: FontWeight.bold)),
                                   ],
                                 ),
@@ -225,13 +233,13 @@ class _HomePageState extends State<HomePage> {
                                   children: [
                                     Icon(
                                       Icons.coffee_maker,
-                                      color: Colors.blueAccent,
+                                      color: ThemeColor.primary,
                                       size: 36,
                                     ),
                                     Text("Mang đi",
                                         style: Get.textTheme.bodyMedium
                                             ?.copyWith(
-                                                color: Colors.blueAccent,
+                                                color: ThemeColor.primary,
                                                 fontWeight: FontWeight.bold)),
                                   ],
                                 ),
@@ -280,10 +288,11 @@ class _HomePageState extends State<HomePage> {
                           child: ScopedModelDescendant<MenuViewModel>(
                               builder: (context, child, model) {
                             return GridView.count(
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
                               crossAxisCount: 4,
                               mainAxisSpacing: 2,
                               crossAxisSpacing: 2,
-                              shrinkWrap: true,
                               padding: EdgeInsets.all(4),
                               children: model.categories!
                                   .map(
@@ -536,7 +545,7 @@ class _HomePageState extends State<HomePage> {
               padding: const EdgeInsets.all(8), // Loại bỏ padding
               child: BarcodeWidget(
                   barcode: Barcode.code128(),
-                  data: "0358817512",
+                  data: model.memberShipModel?.phoneNumber ?? '',
                   style: Get.textTheme.titleMedium
                       ?.copyWith(fontWeight: FontWeight.bold)),
             ),

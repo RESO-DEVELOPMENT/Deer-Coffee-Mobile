@@ -1,5 +1,5 @@
 import 'package:barcode_widget/barcode_widget.dart';
-import 'package:deer_coffee/views/delivering.dart';
+import 'package:deer_coffee/views/order_history.dart';
 import 'package:deer_coffee/views/update_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -53,11 +53,7 @@ class _OtherPageState extends State<OtherPage> {
                       Expanded(
                         child: GestureDetector(
                           onTap: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => Delivering(),
-                              ),
-                            );
+                            Get.toNamed(RouteHandler.ORDER);
                           },
                           child: Container(
                             margin: EdgeInsets.all(8),

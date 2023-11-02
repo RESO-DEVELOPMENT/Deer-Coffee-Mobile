@@ -9,20 +9,20 @@ import '../models/product.dart';
 import '../utils/format.dart';
 import '../utils/route_constrant.dart';
 
-class CategoryDetailsScreen extends StatefulWidget {
+class CollectionDetailsScreen extends StatefulWidget {
   final String id;
-  const CategoryDetailsScreen({super.key, required this.id});
+  const CollectionDetailsScreen({super.key, required this.id});
 
   @override
-  State<CategoryDetailsScreen> createState() => _CategoryDetailsScreenState();
+  State<CollectionDetailsScreen> createState() =>
+      _CollectionDetailsScreenState();
 }
 
-class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
+class _CollectionDetailsScreenState extends State<CollectionDetailsScreen> {
   List<Product> productList = [];
   @override
   void initState() {
-    productList =
-        Get.find<MenuViewModel>().getNormalProductsByCategory(widget.id);
+    productList = Get.find<MenuViewModel>().getProductsByCollection(widget.id);
     super.initState();
   }
 

@@ -1,3 +1,4 @@
+import 'package:deer_coffee/utils/theme.dart';
 import 'package:deer_coffee/view_models/cart_view_model.dart';
 import 'package:deer_coffee/views/order.dart';
 import 'package:flutter/material.dart';
@@ -297,7 +298,7 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
                       Get.find<CartViewModel>().createOrder();
                     },
                     style: ElevatedButton.styleFrom(
-                      primary: Colors.blue,
+                      backgroundColor: ThemeColor.primary,
                     ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,

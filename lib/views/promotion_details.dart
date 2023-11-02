@@ -2,6 +2,7 @@ import 'package:deer_coffee/enums/view_status.dart';
 import 'package:deer_coffee/models/pointify/promotion_details_model.dart';
 import 'package:deer_coffee/utils/format.dart';
 import 'package:deer_coffee/utils/route_constrant.dart';
+import 'package:deer_coffee/utils/theme.dart';
 import 'package:deer_coffee/view_models/cart_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -103,21 +104,19 @@ class _PromotionDetailsScreenState extends State<PromotionDetailsScreen> {
                                 children: [
                                   Text(
                                     'Deer Coffee',
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                    ),
+                                    style: Get.textTheme.bodyLarge
+                                        ?.copyWith(fontWeight: FontWeight.bold),
                                   ),
-                                  SizedBox(height: 15),
                                   Text(
                                     promotionDetailsModel?.promotionName ?? '',
-                                    style: const TextStyle(
-                                      fontSize: 22,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                                    style: Get.textTheme.bodyLarge
+                                        ?.copyWith(fontWeight: FontWeight.bold),
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 2,
                                     textAlign: TextAlign.center,
                                   ),
                                   CustomPaint(
-                                    size: Size(500,
+                                    size: const Size(500,
                                         12), // Điều chỉnh kích thước của đường kẻ
                                     painter: DotPainter(),
                                   ),
@@ -128,12 +127,12 @@ class _PromotionDetailsScreenState extends State<PromotionDetailsScreen> {
                                               ?.promotionCode ??
                                           '',
                                       version: QrVersions.auto,
-                                      size: 200.0,
+                                      size: 180.0,
                                     ),
                                   ),
                                   Text(
                                     promotionDetailsModel?.promotionCode ?? "",
-                                    style: Get.textTheme.titleMedium
+                                    style: Get.textTheme.bodyMedium
                                         ?.copyWith(fontWeight: FontWeight.bold),
                                   ),
                                   TextButton(
@@ -148,7 +147,7 @@ class _PromotionDetailsScreenState extends State<PromotionDetailsScreen> {
                                     child: Text(
                                       'Sao chép',
                                       style: Get.textTheme.bodyMedium?.copyWith(
-                                          color: Colors.blue,
+                                          color: Colors.blueAccent,
                                           fontWeight: FontWeight.bold),
                                     ),
                                   ),
@@ -156,20 +155,30 @@ class _PromotionDetailsScreenState extends State<PromotionDetailsScreen> {
                                     width: 200,
                                     child: ElevatedButton(
                                       onPressed: () {
-                                        model.selectPromotion(
-                                            promotionDetailsModel
-                                                    ?.promotionCode ??
-                                                '');
-                                        Get.offAllNamed(
-                                            "${RouteHandler.HOME}?idx=1");
+                                        if (model.selectPromotionCode ==
+                                            promotionDetailsModel!
+                                                .promotionCode!) {
+                                          model.selectPromotion(null);
+                                          Get.offAllNamed(RouteHandler.CART);
+                                        } else {
+                                          model.selectPromotion(
+                                              promotionDetailsModel
+                                                      ?.promotionCode ??
+                                                  '');
+                                          Get.offAllNamed(RouteHandler.CART);
+                                        }
                                       },
                                       child: Text(
-                                        "Chọn khuyến mãi",
+                                        model.selectPromotionCode ==
+                                                promotionDetailsModel!
+                                                    .promotionCode
+                                            ? "Huỷ chọn "
+                                            : "Chọn khuyến mãi",
                                         style: TextStyle(
                                             color: Colors.white, fontSize: 16),
                                       ),
                                       style: ElevatedButton.styleFrom(
-                                        primary: Colors.blue,
+                                        backgroundColor: ThemeColor.primary,
                                         shape: RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(20),
@@ -186,12 +195,12 @@ class _PromotionDetailsScreenState extends State<PromotionDetailsScreen> {
                                         .spaceBetween, // Căn giữa và đặt cách đều hai phần tử
                                     children: [
                                       Text('Ngày hết hạn :',
-                                          style: Get.textTheme.bodyMedium),
+                                          style: Get.textTheme.bodySmall),
                                       Text(
                                           formatOnlyDate(
                                               promotionDetailsModel?.endDate ??
                                                   "2025-01-01T00:00:00"),
-                                          style: Get.textTheme.bodyMedium),
+                                          style: Get.textTheme.bodySmall),
                                     ],
                                   ),
                                   Divider(
@@ -206,7 +215,7 @@ class _PromotionDetailsScreenState extends State<PromotionDetailsScreen> {
                                       Text(
                                         promotionDetailsModel?.description ??
                                             '',
-                                        style: Get.textTheme.bodyMedium,
+                                        style: Get.textTheme.bodySmall,
                                         maxLines: 5,
                                         overflow: TextOverflow.ellipsis,
                                       ),

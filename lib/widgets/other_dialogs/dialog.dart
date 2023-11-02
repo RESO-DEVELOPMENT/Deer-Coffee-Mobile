@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 
 import 'package:get/get.dart';
 
+import '../../utils/theme.dart';
+
 Future<bool> showAlertDialog(
     {String title = "Thông báo",
     String content = "Nội dung thông báo",
@@ -238,7 +240,12 @@ Future<String?> inputDialog(String title, String hint, String? value,
   hideDialog();
   String? result;
   await Get.dialog(AlertDialog(
-    title: Text(title),
+    backgroundColor: Colors.white,
+    surfaceTintColor: Colors.white,
+    title: Text(
+      title,
+      style: Get.textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold),
+    ),
     content: TextField(
       keyboardType: isNum ? TextInputType.number : TextInputType.text,
       inputFormatters:
@@ -252,14 +259,20 @@ Future<String?> inputDialog(String title, String hint, String? value,
     actions: [
       TextButton(
           onPressed: () {
-            Get.back(result: result);
-          },
-          child: Text('Cập nhật')),
-      TextButton(
-          onPressed: () {
             Get.back(result: value);
           },
-          child: Text('Huỷ')),
+          child: const Text('Huỷ')),
+      ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: ThemeColor.primary,
+          ),
+          onPressed: () {
+            Get.back(result: result);
+          },
+          child: const Text(
+            'Cập nhật',
+            style: TextStyle(color: Colors.white),
+          )),
     ],
   ));
   return result;

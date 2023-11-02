@@ -77,14 +77,14 @@ class _PromotionsScreenState extends State<PromotionsScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text('Hạng thành viên',
-                                      style: Get.textTheme.bodyLarge?.copyWith(
+                                      style: Get.textTheme.bodyMedium?.copyWith(
                                           color: Colors.white,
                                           fontWeight: FontWeight.bold)),
                                   Text(
                                       model.memberShipModel?.memberLevel
                                               ?.name ??
                                           'Bronze',
-                                      style: Get.textTheme.titleLarge?.copyWith(
+                                      style: Get.textTheme.bodyLarge?.copyWith(
                                           color: Colors.white,
                                           fontWeight: FontWeight.bold)),
                                 ],
@@ -93,30 +93,25 @@ class _PromotionsScreenState extends State<PromotionsScreen> {
                                 padding: const EdgeInsets.only(right: 8.0),
                                 child: ElevatedButton(
                                   onPressed: () {
-                                    Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            Voucher(), // Replace with your OrderMethod page
-                                      ),
-                                    );
+                                    Get.toNamed(RouteHandler.VOUCHER);
                                   },
                                   style: ElevatedButton.styleFrom(
-                                    primary: Colors.white,
+                                    backgroundColor: Colors.white,
                                   ),
                                   child: Row(
                                     children: <Widget>[
                                       Icon(
                                         Icons.confirmation_number,
-                                        color: Colors.lightBlue,
+                                        color: Colors.blueAccent,
                                       ),
                                       SizedBox(
                                         width: 4,
                                       ),
                                       Text(
                                         'Voucher của tôi',
-                                        style: TextStyle(
-                                          color: Colors.lightBlue,
-                                        ),
+                                        style: Get.textTheme.bodyMedium
+                                            ?.copyWith(
+                                                color: Colors.blueAccent),
                                       ),
                                     ],
                                   ),
@@ -203,7 +198,8 @@ class _PromotionsScreenState extends State<PromotionsScreen> {
                     ),
                     Column(
                       children: model.promotions!
-                          .map((e) => buildTicketWidget(e))
+                          .map((e) => buildTicketWidget(
+                              e, model.selectPromotionCode == e.promotionCode))
                           .toList(),
                     ),
                   ],

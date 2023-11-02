@@ -1,5 +1,6 @@
 import 'package:deer_coffee/enums/view_status.dart';
 import 'package:deer_coffee/models/user.dart';
+import 'package:deer_coffee/utils/theme.dart';
 import 'package:deer_coffee/view_models/account_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -36,7 +37,9 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Cập nhật thông tin", style: Get.textTheme.titleLarge),
+        title: Text("Cập nhật thông tin",
+            style: Get.textTheme.titleMedium
+                ?.copyWith(fontWeight: FontWeight.bold)),
         centerTitle: true,
       ),
       body: ScopedModel<AccountViewModel>(
@@ -83,7 +86,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                                 color: Colors.black, // Màu biểu tượng
                               ),
                               style: ElevatedButton.styleFrom(
-                                primary: Colors
+                                backgroundColor: Colors
                                     .transparent, // Đặt nền của nút là trong suốt
                                 elevation: 0, // Loại bỏ bóng đổ
                               ),
@@ -94,10 +97,6 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: 16,
-                ),
-                // Họ
 
                 // Tên
                 Container(
@@ -109,12 +108,6 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                     decoration: InputDecoration(
                       labelText: 'Họ và tên',
                       border: OutlineInputBorder(),
-                      labelStyle: GoogleFonts.inter(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    style: GoogleFonts.inter(
-                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
@@ -128,12 +121,6 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                     decoration: InputDecoration(
                       labelText: 'Họ và tên',
                       border: OutlineInputBorder(),
-                      labelStyle: GoogleFonts.inter(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    style: GoogleFonts.inter(
-                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
@@ -147,12 +134,6 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                     decoration: InputDecoration(
                       labelText: 'Email',
                       border: OutlineInputBorder(),
-                      labelStyle: GoogleFonts.inter(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    style: GoogleFonts.inter(
-                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
@@ -201,9 +182,6 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                           value: value,
                           child: Text(
                             value,
-                            style: GoogleFonts.inter(
-                              fontWeight: FontWeight.bold,
-                            ),
                           ),
                         );
                       },
@@ -211,9 +189,6 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                     decoration: InputDecoration(
                       labelText: 'Giới tính',
                       border: OutlineInputBorder(),
-                      labelStyle: GoogleFonts.inter(
-                        fontWeight: FontWeight.bold,
-                      ),
                     ),
                   ),
                 ),
@@ -222,28 +197,21 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                 ),
                 Container(
                   height: 50,
-                  width: 375,
+                  width: Get.width * 0.8,
                   child: ElevatedButton(
                     onPressed: () {},
-                    child: Text(
-                      'Cập Nhật Tài Khoản',
-                      style: GoogleFonts.inter(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                        color: Colors.black,
-                      ),
-                    ),
+                    child: Text('Cập Nhật Tài Khoản',
+                        style: Get.textTheme.bodyMedium
+                            ?.copyWith(color: Colors.white)),
                     style: ElevatedButton.styleFrom(
-                      primary: Color.fromARGB(255, 230, 230, 230),
-                      textStyle: TextStyle(
-                        color: Colors.black,
+                      backgroundColor: ThemeColor.primary,
+                      textStyle: const TextStyle(
+                        color: Colors.white,
                       ),
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: 0,
-                ),
+
                 Container(
                   height: 80,
                   width: double.infinity,

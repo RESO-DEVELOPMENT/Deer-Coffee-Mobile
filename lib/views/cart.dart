@@ -1,5 +1,6 @@
 import 'package:deer_coffee/enums/view_status.dart';
 import 'package:deer_coffee/utils/format.dart';
+import 'package:deer_coffee/utils/theme.dart';
 import 'package:deer_coffee/view_models/cart_view_model.dart';
 import 'package:deer_coffee/views/order_confirmation.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ import 'package:scoped_model/scoped_model.dart';
 
 import '../enums/order_enum.dart';
 import '../utils/route_constrant.dart';
+import '../widgets/other_dialogs/dialog.dart';
 import 'bottom_sheet_util.dart';
 
 class CartScreen extends StatefulWidget {
@@ -33,6 +35,11 @@ class _CartScreenState extends State<CartScreen> {
       child: Scaffold(
         backgroundColor: Color(0xFFF7F8FB),
         appBar: AppBar(
+          leading: IconButton(
+              onPressed: () {
+                Get.offAllNamed(RouteHandler.HOME);
+              },
+              icon: Icon(Icons.arrow_back_ios)),
           title: Text("Giỏ hàng",
               style: Get.textTheme.titleMedium
                   ?.copyWith(fontWeight: FontWeight.bold)),
@@ -51,14 +58,21 @@ class _CartScreenState extends State<CartScreen> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  showOrderType(model.deliveryType ?? ''),
+                  showOrderType(model.deliveryType ?? 'Vui lòng chọn địa chỉ'),
                   style: Get.textTheme.bodyLarge
                       ?.copyWith(fontWeight: FontWeight.w500),
                 ),
               ),
               InkWell(
                 onTap: () {
-                  showSelectStore();
+                  if (model.deliveryType == OrderTypeEnum.DELIVERY) {
+                    inputDialog("Giao hàng đến", "Vui lòng nhập địa chỉ",
+                            model.deliAddress,
+                            isNum: false)
+                        .then((value) => model.setAddress(value ?? ''));
+                  } else {
+                    showSelectStore();
+                  }
                 },
                 child: Container(
                     width: Get.width,
@@ -71,8 +85,10 @@ class _CartScreenState extends State<CartScreen> {
                         Icon(Icons.location_on),
                         Expanded(
                           child: Text(
-                            model.deliAddress ?? '',
+                            model.deliAddress ??
+                                "Vui lòng chọn địa chỉ nhận hàng",
                             maxLines: 2,
+                            style: Get.textTheme.bodySmall,
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
@@ -203,7 +219,7 @@ class _CartScreenState extends State<CartScreen> {
             width: Get.width,
             color: Colors.white,
             height: 140,
-            padding: EdgeInsets.fromLTRB(16, 0, 16, 24),
+            padding: EdgeInsets.fromLTRB(8, 0, 8, 24),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -223,7 +239,7 @@ class _CartScreenState extends State<CartScreen> {
                             Get.toNamed(RouteHandler.VOUCHER);
                           },
                           child: Text(
-                              model.selectPromotionCode ?? ' THÊM KHUYẾN MÃI')),
+                              model.selectPromotionCode ?? 'THÊM KHUYẾN MÃI')),
                     ),
                   ],
                 ),
@@ -250,24 +266,24 @@ class _CartScreenState extends State<CartScreen> {
                           padding: const EdgeInsets.fromLTRB(4, 0, 0, 0),
                           child: ElevatedButton(
                             onPressed: () {
-                              showModalBottomSheet(
-                                  context: context,
-                                  isScrollControlled: true,
-                                  isDismissible: false,
-                                  builder: (context) {
-                                    return BottomSheetContent();
-                                  });
+                              if (model.deliAddress == null) {
+                                showAlertDialog(
+                                    title: "Chọn địa chỉ",
+                                    content: "Vui lòng chọn địa chỉ nhận hàng");
+                              } else {
+                                model.createOrder();
+                              }
                             },
                             style: ElevatedButton.styleFrom(
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(50),
                               ),
-                              backgroundColor: Colors.lightBlue,
+                              backgroundColor: ThemeColor.primary,
                             ),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Icon(
+                                const Icon(
                                   Icons.shopping_cart_outlined,
                                   color: Colors.white,
                                 ),
@@ -314,11 +330,11 @@ class _CartScreenState extends State<CartScreen> {
             children: [
               Text(
                 "Tạm tính",
-                style: Get.textTheme.bodyLarge,
+                style: Get.textTheme.bodyMedium,
               ),
               Text(
                 formatPrice(model.totalAmount),
-                style: Get.textTheme.bodyLarge,
+                style: Get.textTheme.bodyMedium,
               )
             ],
           ),
@@ -329,10 +345,16 @@ class _CartScreenState extends State<CartScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text(e.promotionName ?? ''),
-                        Text(e.effectType == "GET_POINT"
-                            ? (model.pointRedeem.toInt().toString())
-                            : formatPrice(e.prop?.value ?? 0))
+                        Text(
+                          e.promotionName ?? '',
+                          style: Get.textTheme.bodySmall,
+                        ),
+                        Text(
+                          e.effectType == "GET_POINT"
+                              ? ("+${model.pointRedeem.toInt()} Điểm")
+                              : ("- ${formatPrice(e.prop?.value ?? 0)}"),
+                          style: Get.textTheme.bodySmall,
+                        )
                       ],
                     ),
                   )

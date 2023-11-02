@@ -1,8 +1,12 @@
+import 'package:deer_coffee/enums/order_enum.dart';
+import 'package:deer_coffee/enums/view_status.dart';
 import 'package:deer_coffee/models/collection.dart';
+import 'package:deer_coffee/models/order_details.dart';
 import 'package:deer_coffee/models/product.dart';
 import 'package:deer_coffee/utils/format.dart';
 import 'package:deer_coffee/utils/route_constrant.dart';
 import 'package:deer_coffee/view_models/menu_view_model.dart';
+import 'package:deer_coffee/view_models/order_view_model.dart';
 import 'package:deer_coffee/widgets/time_line.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -11,350 +15,237 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class OrderDetails extends StatefulWidget {
-  const OrderDetails({super.key});
+  final String id;
+  const OrderDetails({super.key, required this.id});
 
   @override
   State<OrderDetails> createState() => _OrderDetailsState();
 }
 
 class _OrderDetailsState extends State<OrderDetails> {
+  OrderDetailsModel? orderDetails;
+  @override
+  void initState() {
+    Get.find<OrderViewModel>()
+        .getOrderDetails(widget.id)
+        .then((value) => orderDetails = value);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+            onPressed: () {
+              Get.back();
+            },
+            icon: Icon(Icons.arrow_back_ios)),
         title: Center(
-          child: Text('Chi Tiết Đơn Hàng',
-              style: TextStyle(fontWeight: FontWeight.bold)),
+          child: Text('Chi tiết đơn hàng',
+              style: Get.textTheme.titleMedium
+                  ?.copyWith(fontWeight: FontWeight.bold)),
         ),
       ),
-      body: ScopedModel<MenuViewModel>(
-        model: Get.find<MenuViewModel>(),
-        child: CustomScrollView(
-          slivers: [
-            SliverToBoxAdapter(
-              child: TimelineWidget(),
-            ),
-            SliverList(
-              delegate: SliverChildListDelegate(
-                [
-                  Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white12,
-                        borderRadius: BorderRadius.circular(20)),
-                    child: Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 30),
-                          child: Text('Deer Coffee',
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.bold)),
-                        ),
-                        Spacer(),
-                        InkWell(
-                          onTap: () {},
-                          child: Row(
+      body: ScopedModel<OrderViewModel>(
+        model: Get.find<OrderViewModel>(),
+        child: ScopedModelDescendant<OrderViewModel>(
+            builder: (context, build, model) {
+          if (model.status == ViewStatus.Loading) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          if (orderDetails == null) {
+            return Center(
+              child: Text("Đơn hàng không tồn tại"),
+            );
+          }
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: CustomScrollView(
+              slivers: [
+                SliverToBoxAdapter(
+                  child: TimelineWidget(
+                    status:
+                        orderDetails?.orderStatus ?? OrderStatusEnum.PENDING,
+                  ),
+                ),
+                SliverList(
+                  delegate: SliverChildListDelegate(
+                    [
+                      Divider(),
+                      Column(
+                        children: orderDetails!.productList!
+                            .map((e) => productCard(e))
+                            .toList(),
+                      ),
+
+                      // Chi tiết đơn hàng
+                      Divider(),
+                      Text('Chi tiết thanh toán : ',
+                          style: Get.textTheme.bodyMedium
+                              ?.copyWith(fontWeight: FontWeight.bold)),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Tạm tính",
+                            style: Get.textTheme.bodySmall,
+                          ),
+                          Text(
+                            formatPrice(orderDetails?.totalAmount ?? 0),
+                            style: Get.textTheme.bodySmall,
+                          )
+                        ],
+                      ),
+                      buildOrderPromotion(orderDetails!),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Giảm giá",
+                            style: Get.textTheme.bodySmall,
+                          ),
+                          Text(
+                            "-" + formatPrice(orderDetails?.discount ?? 0),
+                            style: Get.textTheme.bodySmall,
+                          )
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Tổng cộng",
+                            style: Get.textTheme.bodyMedium,
+                          ),
+                          Text(
+                            formatPrice(orderDetails?.finalAmount ?? 0),
+                            style: Get.textTheme.bodyMedium,
+                          )
+                        ],
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text('Chi tiết đơn hàng : ',
+                              style: Get.textTheme.bodyMedium
+                                  ?.copyWith(fontWeight: FontWeight.bold)),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Text('Giảm giá ',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.red)),
-                              Text('100.000',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.red)),
+                              Text(
+                                'Mã đơn',
+                                style: Get.textTheme.bodySmall,
+                              ),
+                              Text(
+                                orderDetails?.invoiceId ?? '',
+                                style: Get.textTheme.bodySmall,
+                              ),
                             ],
                           ),
-                        ),
-                        IconButton(
-                            onPressed: () {},
-                            icon: Icon(Icons.arrow_forward_ios)),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 0, right: 10),
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  margin: EdgeInsets.all(10.0),
-                                  child: Text('Cà phê sữa đá',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15)),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 10.0),
-                                  child: Text(
-                                    'x1',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 15),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Expanded(
-                              child: Align(
-                                alignment: Alignment.centerRight,
-                                child: Text('25.000đ',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 15)),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  margin: EdgeInsets.all(10.0),
-                                  child: Text('Cà phê đá',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15)),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 10.0),
-                                  child: Text(
-                                    'x1',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 15),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Expanded(
-                              child: Align(
-                                alignment: Alignment.centerRight,
-                                child: Text('25.000đ',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 15)),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  margin: EdgeInsets.all(10.0),
-                                  child: Text('Kiwi Ice Tea',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15)),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 10.0),
-                                  child: Text(
-                                    'x1',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 15),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Expanded(
-                              child: Align(
-                                alignment: Alignment.centerRight,
-                                child: Text('25.000đ',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 15)),
-                              ),
-                            ),
-                          ],
-                        ),
                           Row(
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  margin: EdgeInsets.all(10.0),
-                                  child: Text('Pink Ice Tea',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15)),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 10.0),
-                                  child: Text(
-                                    'x1',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 15),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Expanded(
-                              child: Align(
-                                alignment: Alignment.centerRight,
-                                child: Text('25.000đ',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 15)),
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text('Ngày đặt hàng',
+                                  style: Get.textTheme.bodySmall),
+                              Text(
+                                formatTime(orderDetails?.checkInDate ??
+                                    "2023-01-01T00:00:00.00000"),
+                                style: Get.textTheme.bodySmall,
                               ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text('Phương thức thanh toán',
+                                  style: Get.textTheme.bodySmall),
+                              Text(
+                                showPaymentType(orderDetails?.paymentType ??
+                                    PaymentTypeEnums.CASH),
+                                style: Get.textTheme.bodySmall,
+                              ),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text('Địa chỉ', style: Get.textTheme.bodySmall),
+                              Text(
+                                orderDetails?.customerInfo?.address ?? '',
+                                style: Get.textTheme.bodySmall,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
-
-                  SizedBox(height: 10),
-
-                  Padding(
-                    padding: const EdgeInsets.only(top: 0, left: 10,right: 10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Tổng quan đơn hàng : ',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 16)),
-                        Row(
-                          children: [
-                            Text('Tổng phụ',
-                                style:
-                                    TextStyle(fontWeight: FontWeight.normal)),
-                            Expanded(
-                              child: Align(
-                                alignment: Alignment.centerRight,
-                                child: Text('200.000đ'),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Text('Vận chuyển',
-                                style:
-                                    TextStyle(fontWeight: FontWeight.normal)),
-                            Expanded(
-                              child: Align(
-                                alignment: Alignment.centerRight,
-                                child: Text('0đ'),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Text('Giảm giá',
-                                style:
-                                    TextStyle(fontWeight: FontWeight.normal)),
-                            Expanded(
-                              child: Align(
-                                alignment: Alignment.centerRight,
-                                child: Text('-100.000đ'),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Text('Tổng',
-                                style: TextStyle(fontWeight: FontWeight.bold)),
-                            Expanded(
-                              child: Align(
-                                alignment: Alignment.centerRight,
-                                child: Text('100.000đ'),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                   SizedBox(height: 10),
-                  // Chi tiết đơn hàng
-                  Divider(),
-                  SizedBox(height: 10),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 0, left: 10,right: 10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Chi tiết đơn hàng : ',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 16)),
-                        Row(
-                          children: [
-                            Text('Số đơn hàng',
-                                style:
-                                    TextStyle(fontWeight: FontWeight.normal)),
-                            Expanded(
-                              child: Align(
-                                alignment: Alignment.centerRight,
-                                child: Text('5780713690057732'),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Text('Ngày đặt hàng',
-                                style:
-                                    TextStyle(fontWeight: FontWeight.normal)),
-                            Expanded(
-                              child: Align(
-                                alignment: Alignment.centerRight,
-                                child: Text('Oct 30, 2023 2:45 PM'),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Text('Phương thức thanh toán',
-                                style:
-                                    TextStyle(fontWeight: FontWeight.normal)),
-                            Expanded(
-                              child: Align(
-                                alignment: Alignment.centerRight,
-                                child: Text('Cash on delivery'),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Text('Đang theo dõi hàng',
-                                style:
-                                    TextStyle(fontWeight: FontWeight.normal)),
-                            Expanded(
-                              child: Align(
-                                alignment: Alignment.centerRight,
-                                child: Text('855769580385'),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
-        ),
+          );
+        }),
       ),
     );
+  }
+
+  Widget productCard(ProductList e) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Expanded(
+              flex: 2,
+              child: Text(e.name ?? '', style: Get.textTheme.bodySmall)),
+          Text(
+            ' x${e.quantity}  ',
+            style: Get.textTheme.bodySmall,
+          ),
+          Text(
+            formatPrice(e.finalAmount ?? 0),
+            style: Get.textTheme.bodySmall,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget buildOrderPromotion(OrderDetailsModel orderDetailsModel) {
+    if (orderDetailsModel.promotionList == null) {
+      return const Placeholder();
+    }
+
+    return Column(
+        children: orderDetailsModel.promotionList!
+            .map(
+              (e) => Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    e.promotionName ?? '',
+                    style: Get.textTheme.bodySmall,
+                  ),
+                  Text(
+                    ("- ${formatPrice(e.discountAmount ?? 0)}"),
+                    style: Get.textTheme.bodySmall,
+                  )
+                ],
+              ),
+            )
+            .toList());
   }
 }

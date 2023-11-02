@@ -70,7 +70,8 @@ class _OrderScreenState extends State<OrderScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => OrderStatus(), // Thay thế "SecondPage" bằng tên trang mới của bạn
+                        builder: (context) =>
+                            OrderStatus(), // Thay thế "SecondPage" bằng tên trang mới của bạn
                       ),
                     );
                   },

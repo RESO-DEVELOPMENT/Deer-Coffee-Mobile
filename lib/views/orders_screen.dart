@@ -10,6 +10,7 @@ import 'package:scoped_model/scoped_model.dart';
 
 import '../models/product.dart';
 import '../utils/route_constrant.dart';
+import '../utils/theme.dart';
 import '../view_models/account_view_model.dart';
 import '../widgets/app_bar/user_app_bar.dart';
 import 'home_page.dart';
@@ -40,6 +41,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                     builder: (context, build, model) {
                   return Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Row(
                         children: [
@@ -62,8 +64,8 @@ class _OrdersScreenState extends State<OrdersScreen> {
                             height: 40,
                             decoration: BoxDecoration(
                               shape: BoxShape.rectangle,
-                              borderRadius: BorderRadius.circular(13),
-                              color: Colors.blue,
+                              borderRadius: BorderRadius.circular(12),
+                              color: ThemeColor.primary,
                             ),
                             child: IconButton(
                               icon: const Icon(
@@ -75,13 +77,12 @@ class _OrdersScreenState extends State<OrdersScreen> {
                               },
                             ),
                           ),
-                          SizedBox(width: 3),
                           Container(
                             width: 50,
                             height: 40,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              color: Colors.blue,
+                              color: ThemeColor.primary,
                             ),
                             child: IconButton(
                               icon: Icon(
@@ -107,6 +108,8 @@ class _OrdersScreenState extends State<OrdersScreen> {
                     child: ScopedModelDescendant<MenuViewModel>(
                         builder: (context, child, model) {
                       return GridView.count(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
                         crossAxisCount: 4,
                         mainAxisSpacing: 2,
                         crossAxisSpacing: 2,
@@ -158,10 +161,17 @@ class _OrdersScreenState extends State<OrdersScreen> {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          collection.name ?? '',
-          style: Get.textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold),
-          textAlign: TextAlign.left, // Đặt chữ ở bên trái
+        TextButton(
+          onPressed: () {
+            Get.toNamed(
+                "${RouteHandler.COLLECTION_DETAIL}?id=${collection.id}");
+          },
+          child: Text(
+            collection.name ?? '',
+            style:
+                Get.textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold),
+            textAlign: TextAlign.left, // Đặt chữ ở bên trái
+          ),
         ),
         Column(
           children: products.map((e) => productCard(e)).toList(),
@@ -184,6 +194,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
               .start, // Đặt căn chỉnh các phần tử trong hàng lên trên cùng
           children: [
             Container(
+              width: 80,
               decoration:
                   BoxDecoration(borderRadius: BorderRadius.circular(16)),
               child: Image.network(
@@ -194,7 +205,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
               ),
             ),
             SizedBox(
-              width: 8,
+              width: 12,
             ),
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -246,7 +257,11 @@ class _OrdersScreenState extends State<OrdersScreen> {
                           : image))),
             ),
           ),
-          Text(text1, style: Get.textTheme.bodyMedium),
+          Text(
+            text1,
+            style: Get.textTheme.bodySmall,
+            overflow: TextOverflow.ellipsis,
+          ),
         ],
       ),
     );

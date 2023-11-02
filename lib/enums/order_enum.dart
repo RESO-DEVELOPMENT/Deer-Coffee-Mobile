@@ -45,13 +45,13 @@ class OrderTypeEnum {
 String showOrderStatus(String status) {
   switch (status) {
     case OrderStatusEnum.PENDING:
-      return 'Chờ thanh toán';
+      return 'Đang xử lý';
     case OrderStatusEnum.CANCELED:
       return 'Đã huỷ';
     case OrderStatusEnum.PAID:
-      return 'Đã thanh toán';
+      return 'Hoành thành';
     default:
-      return 'Chờ thanh toán';
+      return 'Đang xử lý';
   }
 }
 

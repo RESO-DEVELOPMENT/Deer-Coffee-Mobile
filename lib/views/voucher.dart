@@ -52,7 +52,8 @@ class _VoucherState extends State<Voucher> {
                   ),
                   Column(
                       children: model.promotions!
-                          .map((e) => buildTicketWidget(e))
+                          .map((e) => buildTicketWidget(
+                              e, model.selectPromotionCode == e.promotionCode))
                           .toList()),
                   Text(
                     "Khuyến mãi có sẵn",
@@ -61,7 +62,8 @@ class _VoucherState extends State<Voucher> {
                   ),
                   Column(
                       children: model.promotions!
-                          .map((e) => buildTicketWidget(e))
+                          .map((e) => buildTicketWidget(
+                              e, model.selectPromotionCode == e.promotionCode))
                           .toList()),
                 ],
               ),

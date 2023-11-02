@@ -1,4 +1,6 @@
 import '../models/order.dart';
+import '../models/order_details.dart';
+import '../models/order_in_list.dart';
 import '../models/order_response.dart';
 import '../utils/request.dart';
 
@@ -51,41 +53,31 @@ class OrderAPI {
   //   return makePaymentResponse;
   // }
 
-  // Future<List<OrderInList>> getListOrderOfStore(String storeId,
-  //     {bool isToday = false,
-  //     bool isYesterday = false,
-  //     int page = 1,
-  //     String? orderType,
-  //     String? orderStatus}) async {
-  //   DateTime now = DateTime.now();
-  //   DateTime startDate = now;
-  //   DateTime endDate = now;
-  //   if (isToday == true) {
-  //     startDate = DateTime(now.year, now.month, now.day);
-  //     endDate = DateTime(now.year, now.month, now.day + 1);
-  //   } else if (isYesterday = true) {
-  //     startDate = DateTime(now.year, now.month, now.day - 1);
-  //     endDate = DateTime(now.year, now.month, now.day);
-  //   } else {
-  //     startDate = now.subtract(Duration(days: 7));
-  //     endDate = DateTime(now.year, now.month, now.day + 1);
-  //   }
-  //   if (orderStatus == "ALL") {}
-  //   var params = <String, dynamic>{
-  //     'page': page,
-  //     'size': 20,
-  //     'endDate': endDate.toIso8601String(),
-  //     'startDate': startDate.toIso8601String(),
-  //     'status': orderStatus == "ALL" ? null : orderStatus
-  //   };
-  //   final res =
-  //       await request.get('stores/$storeId/orders', queryParameters: params);
-  //   var jsonList = res.data['items'];
-  //   List<OrderInList> listOrder = [];
-  //   for (var item in jsonList) {
-  //     OrderInList orderResponse = OrderInList.fromJson(item);
-  //     listOrder.add(orderResponse);
-  //   }
-  //   return listOrder;
-  // }
+  Future<List<OrderInList>> getListOrderOfUser(String userId,
+      {String? orderStatus}) async {
+    var params = <String, dynamic>{
+      'page': 1,
+      'size': 100,
+      'status': orderStatus
+    };
+    final res =
+        await request.get('users/$userId/orders', queryParameters: params);
+    var jsonList = res.data['items'];
+    List<OrderInList> listOrder = [];
+    for (var item in jsonList) {
+      OrderInList orderResponse = OrderInList.fromJson(item);
+      listOrder.add(orderResponse);
+    }
+    return listOrder;
+  }
+
+  Future<OrderDetailsModel> getOrderDetails(
+    String orderId,
+  ) async {
+    final res = await request.get('users/orders/$orderId');
+    var json = res.data;
+
+    OrderDetailsModel orderResponse = OrderDetailsModel.fromJson(json);
+    return orderResponse;
+  }
 }

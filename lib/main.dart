@@ -1,8 +1,9 @@
-import 'dart:ffi';
 import 'dart:io';
 
 import 'package:deer_coffee/views/cart.dart';
 import 'package:deer_coffee/views/category_detail.dart';
+import 'package:deer_coffee/views/collection_detail.dart';
+import 'package:deer_coffee/views/order_history.dart';
 import 'package:deer_coffee/views/login/login_otp.dart';
 import 'package:deer_coffee/views/order_details.dart';
 import 'package:deer_coffee/views/product_details.dart';
@@ -77,6 +78,10 @@ class MyApp extends StatelessWidget {
             page: () => Voucher(),
             transition: Transition.cupertino),
         GetPage(
+            name: RouteHandler.ORDER,
+            page: () => OrderHistory(),
+            transition: Transition.cupertino),
+        GetPage(
             name: RouteHandler.PRODUCT_DETAIL,
             page: () => Option(
                   id: Get.parameters['id'] ?? '',
@@ -94,12 +99,24 @@ class MyApp extends StatelessWidget {
                   id: Get.parameters['id'] ?? '',
                 ),
             transition: Transition.cupertino),
-        //  GetPage(
-        //     name: RouteHandler.CATEGORY_DETAIL,
-        //     page: () => CategoryDetailPage(
-        //       id: Get.parameters['id'] ?? '',
-        //     ),
-        //     transition: Transition.cupertino),
+        GetPage(
+            name: RouteHandler.ORDER_DETAILS,
+            page: () => OrderDetails(
+                  id: Get.parameters['id'] ?? '',
+                ),
+            transition: Transition.cupertino),
+        GetPage(
+            name: RouteHandler.CATEGORY_DETAIL,
+            page: () => CategoryDetailsScreen(
+                  id: Get.parameters['id'] ?? '',
+                ),
+            transition: Transition.cupertino),
+        GetPage(
+            name: RouteHandler.COLLECTION_DETAIL,
+            page: () => CollectionDetailsScreen(
+                  id: Get.parameters['id'] ?? '',
+                ),
+            transition: Transition.cupertino),
       ],
       initialRoute: RouteHandler.WELCOME,
       unknownRoute:

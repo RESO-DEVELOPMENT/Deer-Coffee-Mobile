@@ -8,6 +8,7 @@ class PromotionPointify {
   int? actionType;
   int? saleMode;
   String? imgUrl;
+  String? endDate;
   int? promotionType;
   int? tierIndex;
 
@@ -19,6 +20,7 @@ class PromotionPointify {
       this.description,
       this.forMembership,
       this.actionType,
+      this.endDate,
       this.saleMode,
       this.imgUrl,
       this.promotionType,
@@ -29,6 +31,7 @@ class PromotionPointify {
     promotionTierId = json['promotionTierId'];
     promotionName = json['promotionName'];
     promotionCode = json['promotionCode'];
+    endDate = json['endDate'];
     description = json['description'];
     forMembership = json['forMembership'];
     actionType = json['actionType'];

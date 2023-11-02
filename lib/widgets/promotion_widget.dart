@@ -1,10 +1,13 @@
+import 'package:deer_coffee/view_models/cart_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../models/pointify/promotion_model.dart';
+import '../utils/format.dart';
 import '../utils/route_constrant.dart';
+import '../utils/theme.dart';
 
-Widget buildTicketWidget(PromotionPointify promotion) {
+Widget buildTicketWidget(PromotionPointify promotion, bool isSelected) {
   return InkWell(
     onTap: () {
       Get.toNamed(
@@ -12,10 +15,10 @@ Widget buildTicketWidget(PromotionPointify promotion) {
     },
     child: Container(
       width: double.infinity,
-      height: 127.0,
-      margin: const EdgeInsets.all(10.0),
+      margin: const EdgeInsets.all(4),
+      height: 120,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: isSelected ? ThemeColor.primary : Colors.white,
         borderRadius: BorderRadius.circular(12.0),
       ),
       child: Row(
@@ -34,19 +37,24 @@ Widget buildTicketWidget(PromotionPointify promotion) {
           ),
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(8.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Text(promotion.promotionName ?? '',
-                      style: Get.textTheme.bodyMedium
-                          ?.copyWith(fontWeight: FontWeight.bold),
+                      style: Get.textTheme.bodySmall?.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: isSelected ? Colors.white : Colors.black),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis),
                   Text(promotion.promotionCode ?? '',
-                      style: Get.textTheme.bodySmall),
-                  Text('txt', style: Get.textTheme.bodySmall),
+                      style: Get.textTheme.bodySmall?.copyWith(
+                          color: isSelected ? Colors.white : Colors.black)),
+                  Text(
+                      "HSD:${formatOnlyDate(promotion.endDate ?? "2025-01-01T00:00:00")}",
+                      style: Get.textTheme.bodySmall?.copyWith(
+                          color: isSelected ? Colors.white : Colors.black)),
                 ],
               ),
             ),

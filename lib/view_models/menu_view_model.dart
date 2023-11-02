@@ -2,6 +2,7 @@ import 'package:deer_coffee/api/menu_api.dart';
 import 'package:deer_coffee/models/blog.dart';
 import 'package:deer_coffee/models/store.dart';
 import 'package:deer_coffee/view_models/base_view_model.dart';
+import 'package:deer_coffee/view_models/cart_view_model.dart';
 import 'package:get/get.dart';
 
 import '../enums/product_enum.dart';
@@ -62,6 +63,7 @@ class MenuViewModel extends BaseViewModel {
   Future getListStore() async {
     setState(ViewStatus.Loading);
     storeList = await menuAPI?.getListStore();
+    Get.find<CartViewModel>().setStore(storeList![0]);
     setState(ViewStatus.Completed);
   }
 
@@ -81,7 +83,8 @@ class MenuViewModel extends BaseViewModel {
         .where((element) => element.categoryId == categoryId)
         .toList();
   }
-   List<Product> getNormalProductsByCategory(String? categoryId) {
+
+  List<Product> getNormalProductsByCategory(String? categoryId) {
     notifyListeners();
     return normalProducts!
         .where((element) => element.categoryId == categoryId)

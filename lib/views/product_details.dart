@@ -298,7 +298,13 @@ class _OptionState extends State<Option> {
     return Container(
       width: Get.width,
       padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-      child: FilledButton(
+      child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(50),
+            ),
+            backgroundColor: Colors.blueAccent,
+          ),
           onPressed: () {
             model.addProductToCart();
           },

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:core';
 import 'dart:math';
+import 'package:deer_coffee/models/order_details.dart';
 import 'package:deer_coffee/models/user.dart';
 import 'package:deer_coffee/utils/route_constrant.dart';
 import 'package:deer_coffee/utils/share_pref.dart';
@@ -12,6 +13,7 @@ import '../enums/order_enum.dart';
 import '../enums/view_status.dart';
 import '../models/cart.dart';
 import '../models/order.dart';
+import '../models/order_in_list.dart';
 import '../models/order_response.dart';
 import '../models/payment_provider.dart';
 import '../widgets/other_dialogs/dialog.dart';
@@ -29,7 +31,7 @@ class OrderViewModel extends BaseViewModel {
   List<PaymentProvider?> listPayment = [];
   PaymentProvider? selectedPaymentMethod;
 
-  // List<OrderInList> listOrder = [];
+  List<OrderInList> listOrder = [];
   PaymentStatusResponse? paymentStatus;
   String currentPaymentStatusMessage = "Chưa thanh toán";
   String paymentCheckingStatus = PaymentStatusEnum.CANCELED;
@@ -94,13 +96,8 @@ class OrderViewModel extends BaseViewModel {
 
   Future<bool> placeOrder(OrderModel order) async {
     showLoadingDialog();
-    await api.placeOrder(order).then((value) => {
-          currentOrderId = value,
-          showAlertDialog(title: "Thành công", content: "Đặt hàng thành công")
-              .then((value) => value == true
-                  ? Get.offAllNamed(RouteHandler.HOME)
-                  : Get.offAllNamed(RouteHandler.HOME)),
-        });
+    await api.placeOrder(order).then(
+        (value) => {Get.toNamed("${RouteHandler.ORDER_DETAILS}?id=$value")});
     return true;
   }
 
@@ -160,58 +157,33 @@ class OrderViewModel extends BaseViewModel {
   //   notifyListeners();
   // }
 
-  // void getListOrder(
-  //     {bool isToday = true,
-  //     bool isYesterday = false,
-  //     int page = 1,
-  //     String? orderStatus,
-  //     String? orderType}) async {
-  //   try {
-  //     setState(ViewStatus.Loading);
-  //     UserModel? userInfo = await getUserInfo();
-  //     listOrder = await api.getListOrderOfStore(userInfo!.storeId,
-  //         isToday: isToday,
-  //         isYesterday: isYesterday,
-  //         page: page,
-  //         orderStatus: orderStatus,
-  //         orderType: orderType);
-  //     setState(ViewStatus.Completed);
-  //   } catch (e) {
-  //     setState(ViewStatus.Completed);
-  //     showAlertDialog(title: "Lỗi đơn hàng", content: e.toString());
-  //   }
-  // }
+  void getListOrder(String orderStatus) async {
+    try {
+      setState(ViewStatus.Loading);
+      UserModel? userInfo = await getUserInfo();
+      listOrder = await api.getListOrderOfUser(
+        userInfo!.userInfo!.id ?? '',
+        orderStatus: orderStatus,
+      );
+      setState(ViewStatus.Completed);
+    } catch (e) {
+      setState(ViewStatus.Completed);
+      showAlertDialog(title: "Lỗi đơn hàng", content: e.toString());
+    }
+  }
 
-  // void getOrderByStore(String orderId) async {
-  //   setState(ViewStatus.Loading);
-  //   qrCodeData = null;
-  //   customerMoney = 0;
-  //   Account? userInfo = await getUserInfo();
-
-  //   await api.getOrderOfStore(userInfo!.storeId, orderId).then((value) => {
-  //         currentOrder = value,
-  //         value.orderStatus == OrderStatusEnum.PENDING
-  //             ? currentPaymentStatusMessage =
-  //                 "Vui lòng chọn phương thức thanh toán"
-  //             : "Chưa thanh toán",
-  //         setState(ViewStatus.Completed)
-  //       });
-  //   currentOrder!.discountProduct = 0;
-  //   currentOrder!.productList?.forEach((element) {
-  //     currentOrder!.discountProduct =
-  //         currentOrder!.discountProduct! + element.discount!;
-  //   });
-  //   currentOrder!.discountPromotion = 0;
-  //   currentOrder!.discountPromotion =
-  //       currentOrder!.discount! - currentOrder!.discountProduct!;
-  //   for (var element in listPayment) {
-  //     if (element!.code! == currentOrder!.paymentType) {
-  //       selectedPaymentMethod = element;
-  //     }
-  //   }
-  //   paymentCheckingStatus = PaymentStatusEnum.CANCELED;
-  //   setState(ViewStatus.Completed);
-  // }
+  Future<OrderDetailsModel?> getOrderDetails(String orderId) async {
+    try {
+      setState(ViewStatus.Loading);
+      OrderDetailsModel orderDetailsModel = await api.getOrderDetails(orderId);
+      setState(ViewStatus.Completed);
+      print(orderDetailsModel.invoiceId ?? '');
+      return orderDetailsModel;
+    } catch (e) {
+      setState(ViewStatus.Error, e.toString());
+      return null;
+    }
+  }
 
   // Future<void> completeOrder(
   //   String orderId,

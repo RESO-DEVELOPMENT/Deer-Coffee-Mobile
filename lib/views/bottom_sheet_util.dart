@@ -53,8 +53,9 @@ void showSelectStore() {
                   children: model.storeList!
                       .map((e) => InkWell(
                             onTap: () {
-                              Get.find<CartViewModel>().deliAddress =
-                                  '${e.name} \n${e.address}';
+                              Get.find<CartViewModel>().setStore(e);
+                              Get.find<CartViewModel>()
+                                  .setAddress('${e.name} \n${e.address}');
                               Get.back();
                             },
                             child: Container(
