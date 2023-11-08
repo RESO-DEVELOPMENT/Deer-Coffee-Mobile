@@ -224,6 +224,7 @@ class CartViewModel extends BaseViewModel {
         _discountAmount = selectedPromotionChecked!.order!.discount ?? 0;
 
         if (selectedPromotionChecked?.order?.effects != null) {
+          promotionApplyList.clear();
           for (var element in selectedPromotionChecked!.order!.effects!) {
             promotionApplyList.add(element);
           }
