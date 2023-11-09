@@ -4,7 +4,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-
 import '../models/product.dart';
 import '../utils/format.dart';
 import '../utils/route_constrant.dart';

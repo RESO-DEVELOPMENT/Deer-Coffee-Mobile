@@ -141,7 +141,7 @@ class _HomePageState extends State<HomePage> {
                       topRight: Radius.circular(20),
                     ),
                   ),
-                  padding: EdgeInsets.only(bottom: 120),
+                  padding: EdgeInsets.only(bottom: 100),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
@@ -397,7 +397,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget loginCard() {
     return Container(
-      margin: const EdgeInsets.fromLTRB(8, 110, 8, 16),
+      margin: const EdgeInsets.fromLTRB(8, 80, 8, 8),
       padding: const EdgeInsets.all(8),
       width: Get.width * 0.9,
       height: 180,
@@ -420,19 +420,22 @@ class _HomePageState extends State<HomePage> {
             textAlign: TextAlign.center,
           ),
           SizedBox(
-            height: 8,
+            height: 6,
           ),
           Stack(
             alignment: Alignment.center,
             children: [
-              Image.asset(
-                'assets/images/hinhchunhat.png',
-                height: 100,
-                width: 329,
-                fit: BoxFit.cover,
+              Padding(
+                padding: const EdgeInsets.only(top:6.0,bottom: 16.0,left: 8.0,right:8.0),
+                child: Image.asset(
+                  'assets/images/hinhchunhat.png',
+                  height: 80,
+                  width: 329,
+                  fit: BoxFit.cover,
+                ),
               ),
               Positioned(
-                top: -15,
+                top: -12,
                 child: Container(
                   width: Get.width * 0.6,
                   height: 40,
@@ -462,7 +465,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               Positioned(
-                top: 80,
+                top: 60,
                 child: Container(
                   width: Get.width * 0.6,
                   height: 40,
