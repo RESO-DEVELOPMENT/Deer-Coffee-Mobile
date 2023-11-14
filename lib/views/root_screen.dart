@@ -1,4 +1,6 @@
+import 'package:deer_coffee/models/user.dart';
 import 'package:deer_coffee/utils/route_constrant.dart';
+import 'package:deer_coffee/utils/share_pref.dart';
 import 'package:deer_coffee/view_models/cart_view_model.dart';
 import 'package:deer_coffee/views/product_details.dart';
 import 'package:deer_coffee/views/store.dart';
@@ -27,6 +29,7 @@ class RootScreen extends StatefulWidget {
 
 class _RootScreenState extends State<RootScreen> {
   int _selectedIndex = 0;
+  UserModel? userModel;
 
   List<Widget> portraitViews = [
     HomePage(),
@@ -48,6 +51,7 @@ class _RootScreenState extends State<RootScreen> {
   @override
   void initState() {
     _selectedIndex = widget.idx;
+    getUserInfo().then((value) => userModel = value);
     super.initState();
   }
 
@@ -66,11 +70,17 @@ class _RootScreenState extends State<RootScreen> {
                 elevation: 10,
                 backgroundColor: ThemeColor.primary,
                 onPressed: () {
-                  if (model.cartList.isEmpty || model.cartList == null) {
+                  if (model.cart.productList == null ||
+                      model.cart.productList!.isEmpty) {
                     showAlertDialog(
                         title: "Giỏ hàng trống",
                         content:
                             "Giỏ hàng đang trống, vui lòng đặt sản phảm bạn nhé");
+                  } else if (userModel == null) {
+                    showAlertDialog(
+                        title: "Người dùng chưa đăng nhập",
+                        content:
+                            "Vui lòng đăng nhập để đặt đơn và nhận ưu đãi nhé");
                   } else {
                     Get.toNamed(RouteHandler.CART);
                   }

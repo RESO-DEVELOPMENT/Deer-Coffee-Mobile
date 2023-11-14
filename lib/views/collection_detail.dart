@@ -30,8 +30,9 @@ class _CollectionDetailsScreenState extends State<CollectionDetailsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text(
-          "Danh sách sản phẩm",
+          "Sản phẩm trong bộ sưu tập",
           style:
               Get.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
         ),
@@ -60,6 +61,20 @@ class _CollectionDetailsScreenState extends State<CollectionDetailsScreen> {
               decoration:
                   BoxDecoration(borderRadius: BorderRadius.circular(16)),
               child: Image.network(
+                loadingBuilder: (BuildContext context, Widget child,
+                    ImageChunkEvent? loadingProgress) {
+                  if (loadingProgress == null) {
+                    return child;
+                  }
+                  return Center(
+                    child: CircularProgressIndicator(
+                      value: loadingProgress.expectedTotalBytes != null
+                          ? loadingProgress.cumulativeBytesLoaded /
+                              loadingProgress.expectedTotalBytes!
+                          : null,
+                    ),
+                  );
+                },
                 product.picUrl!.isEmpty
                     ? 'https://i.imgur.com/X0WTML2.jpg'
                     : product.picUrl!,

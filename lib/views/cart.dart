@@ -24,7 +24,7 @@ class _CartScreenState extends State<CartScreen> {
   @override
   @override
   void initState() {
-    Get.find<CartViewModel>().checkPromotion();
+    Get.find<CartViewModel>().prepareOrder();
     super.initState();
   }
 
@@ -58,14 +58,15 @@ class _CartScreenState extends State<CartScreen> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  showOrderType(model.deliveryType ?? 'Vui lòng chọn địa chỉ'),
-                  style: Get.textTheme.bodyLarge
+                  showOrderType(
+                      model.cart.orderType ?? 'Vui lòng chọn địa chỉ'),
+                  style: Get.textTheme.bodyMedium
                       ?.copyWith(fontWeight: FontWeight.w500),
                 ),
               ),
               InkWell(
                 onTap: () {
-                  if (model.deliveryType == OrderTypeEnum.DELIVERY) {
+                  if (model.cart.orderType == OrderTypeEnum.DELIVERY) {
                     inputDialog("Giao hàng đến", "Vui lòng nhập địa chỉ",
                             model.deliAddress,
                             isNum: false)
@@ -100,16 +101,17 @@ class _CartScreenState extends State<CartScreen> {
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   "Danh sách món",
-                  style: Get.textTheme.bodyLarge
+                  style: Get.textTheme.bodyMedium
                       ?.copyWith(fontWeight: FontWeight.w500),
                 ),
               ),
               ListView.builder(
                 shrinkWrap: true,
-                itemCount: model.cartList.length,
+                itemCount: model.cart.productList!.length,
                 itemBuilder: (context, index) {
                   return Slidable(
-                    key: Key(model.cartList[index].product.id ?? ''),
+                    key: Key(
+                        model.cart.productList![index].productInMenuId ?? ''),
                     endActionPane: ActionPane(
                       motion: ScrollMotion(),
                       children: [
@@ -138,10 +140,29 @@ class _CartScreenState extends State<CartScreen> {
                               width: 60,
                               height: 60,
                               child: Image.network(
-                                model.cartList[index].product.picUrl!.isEmpty
+                                loadingBuilder: (BuildContext context,
+                                    Widget child,
+                                    ImageChunkEvent? loadingProgress) {
+                                  if (loadingProgress == null) {
+                                    return child;
+                                  }
+                                  return Center(
+                                    child: CircularProgressIndicator(
+                                      value:
+                                          loadingProgress.expectedTotalBytes !=
+                                                  null
+                                              ? loadingProgress
+                                                      .cumulativeBytesLoaded /
+                                                  loadingProgress
+                                                      .expectedTotalBytes!
+                                              : null,
+                                    ),
+                                  );
+                                },
+                                model.cart.productList![index].picUrl == null
                                     ? 'https://i.imgur.com/X0WTML2.jpg'
-                                    : model.cartList[index].product.picUrl ??
-                                        '',
+                                    : model.cart.productList![index].picUrl ??
+                                        'https://i.imgur.com/X0WTML2.jpg',
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -157,41 +178,40 @@ class _CartScreenState extends State<CartScreen> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(model.cartList[index].product.name!,
+                                    Text(model.cart.productList![index].name!,
                                         style: Get.textTheme.bodyMedium),
-                                    Text("x ${model.cartList[index].quantity}",
-                                        style: Get.textTheme.bodyMedium)
+                                    Text(
+                                        formatPrice(model
+                                                .cart
+                                                .productList![index]
+                                                .totalAmount ??
+                                            0),
+                                        style: Get.textTheme.bodyMedium
+                                            ?.copyWith(
+                                                fontWeight: FontWeight.bold)),
                                   ],
                                 ),
                                 Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      '${model.cartList[index].attributes?[0].name}' +
-                                          ' ${model.cartList[index].attributes![0].value}',
+                                      '${model.cart.productList![index].attributes?[0].name} ${model.cart.productList![index].attributes![0].value} ${model.cart.productList![index].attributes?[1].name} ${model.cart.productList![index].attributes![1].value}',
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                       style: Get.textTheme.bodySmall,
                                     ),
                                     Text(
-                                      '| ${model.cartList[index].attributes?[1].name}' +
-                                          ' ${model.cartList[index].attributes![1].value}',
-                                      style: Get.textTheme.bodySmall,
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
+                                        "x ${model.cart.productList![index].quantity}",
+                                        style: Get.textTheme.bodyMedium),
                                   ],
                                 ),
                                 Text(
-                                  model.cartList[index].note ?? '',
+                                  model.cart.productList![index].note ?? '',
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   style: Get.textTheme.bodySmall,
                                 ),
-                                Text(
-                                    formatPrice(
-                                        model.cartList[index].totalAmount),
-                                    style: Get.textTheme.bodyMedium?.copyWith(
-                                        fontWeight: FontWeight.bold)),
                               ],
                             ),
                           ),
@@ -205,7 +225,7 @@ class _CartScreenState extends State<CartScreen> {
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   "Thanh toán",
-                  style: Get.textTheme.bodyLarge
+                  style: Get.textTheme.bodyMedium
                       ?.copyWith(fontWeight: FontWeight.w500),
                 ),
               ),
@@ -219,7 +239,7 @@ class _CartScreenState extends State<CartScreen> {
             width: Get.width,
             color: Colors.white,
             height: 140,
-            padding: EdgeInsets.fromLTRB(8, 0, 8, 24),
+            padding: const EdgeInsets.fromLTRB(8, 8, 8, 24),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -230,7 +250,8 @@ class _CartScreenState extends State<CartScreen> {
                       child: TextButton(
                           onPressed: () {},
                           child: Text(
-                            showPaymentType(model.paymentType),
+                            showPaymentType(model.cart.paymentType ??
+                                PaymentTypeEnums.CASH),
                           )),
                     ),
                     Expanded(
@@ -239,7 +260,7 @@ class _CartScreenState extends State<CartScreen> {
                             Get.toNamed(RouteHandler.VOUCHER);
                           },
                           child: Text(
-                              model.selectPromotionCode ?? 'THÊM KHUYẾN MÃI')),
+                              model.cart.promotionCode ?? 'THÊM KHUYẾN MÃI')),
                     ),
                   ],
                 ),
@@ -252,9 +273,13 @@ class _CartScreenState extends State<CartScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text("Tổng cộng"),
                           Text(
-                            formatPrice(model.finalAmount),
+                            "Tổng cộng",
+                            style: Get.textTheme.bodyMedium
+                                ?.copyWith(fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            formatPrice(model.cart.finalAmount ?? 0),
                             style: Get.textTheme.bodyLarge
                                 ?.copyWith(fontWeight: FontWeight.bold),
                           )
@@ -263,7 +288,7 @@ class _CartScreenState extends State<CartScreen> {
                       Expanded(
                         child: Container(
                           height: 50,
-                          padding: const EdgeInsets.fromLTRB(4, 0, 0, 0),
+                          padding: const EdgeInsets.fromLTRB(8, 0, 0, 0),
                           child: ElevatedButton(
                             onPressed: () {
                               if (model.deliAddress == null) {
@@ -312,9 +337,8 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   Widget buildPromotionEffect(CartViewModel model) {
-    if (model.selectedPromotionChecked == null ||
-        model.selectedPromotionChecked?.order?.effects == null) {
-      return SizedBox(
+    if (model.cart.promotionList == null) {
+      return const SizedBox(
         width: 1,
       );
     }
@@ -333,32 +357,46 @@ class _CartScreenState extends State<CartScreen> {
                 style: Get.textTheme.bodyMedium,
               ),
               Text(
-                formatPrice(model.totalAmount),
+                formatPrice(model.cart.totalAmount ?? 0),
                 style: Get.textTheme.bodyMedium,
               )
             ],
           ),
           Column(
-              children: model.selectedPromotionChecked!.order!.effects!
+              children: model.cart.promotionList!
                   .map(
                     (e) => Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                          e.promotionName ?? '',
+                          " - ${e.name}",
                           style: Get.textTheme.bodySmall,
                         ),
                         Text(
                           e.effectType == "GET_POINT"
-                              ? ("+${model.pointRedeem.toInt()} Điểm")
-                              : ("- ${formatPrice(e.prop?.value ?? 0)}"),
+                              ? ("+${e.discountAmount} Điểm")
+                              : ("- ${formatPrice(e.discountAmount ?? 0)}"),
                           style: Get.textTheme.bodySmall,
                         )
                       ],
                     ),
                   )
                   .toList()),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                "Giảm giá",
+                style: Get.textTheme.bodyMedium,
+              ),
+              Text(
+                formatPrice(model.cart.discountAmount ?? 0),
+                style: Get.textTheme.bodyMedium,
+              )
+            ],
+          ),
         ],
       ),
     );

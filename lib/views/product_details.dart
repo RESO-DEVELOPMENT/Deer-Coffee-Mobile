@@ -1,4 +1,5 @@
 import 'package:deer_coffee/enums/view_status.dart';
+import 'package:deer_coffee/models/cart_model.dart';
 import 'package:deer_coffee/view_models/menu_view_model.dart';
 import 'package:deer_coffee/view_models/product_view_model.dart';
 import 'package:deer_coffee/views/cart.dart';
@@ -8,7 +9,6 @@ import 'package:get/get.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 import '../enums/product_enum.dart';
-import '../models/cart.dart';
 import '../models/category.dart';
 import '../models/product.dart';
 import '../models/product_attribute.dart';
@@ -31,7 +31,7 @@ class _OptionState extends State<Option> {
   List<Category> extraCategory = [];
   String? selectedSize;
   List<Attribute> listAttribute = [];
-  List<ProductAttribute> selectedAttributes = [];
+  List<Attributes> selectedAttributes = [];
   @override
   void initState() {
     // TODO: implement initState
@@ -47,7 +47,7 @@ class _OptionState extends State<Option> {
       productViewModel.addProductToCartItem(childProducts[0]);
     }
     listAttribute = productViewModel.listAttribute;
-    selectedAttributes = productViewModel.currentAttributes;
+    selectedAttributes = productViewModel.productInCart.attributes!;
     super.initState();
   }
 
@@ -93,6 +93,21 @@ class _OptionState extends State<Option> {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(16),
                           child: Image.network(
+                            loadingBuilder: (BuildContext context, Widget child,
+                                ImageChunkEvent? loadingProgress) {
+                              if (loadingProgress == null) {
+                                return child;
+                              }
+                              return Center(
+                                child: CircularProgressIndicator(
+                                  value: loadingProgress.expectedTotalBytes !=
+                                          null
+                                      ? loadingProgress.cumulativeBytesLoaded /
+                                          loadingProgress.expectedTotalBytes!
+                                      : null,
+                                ),
+                              );
+                            },
                             product.picUrl!.isEmpty
                                 ? 'https://i.imgur.com/X0WTML2.jpg'
                                 : product.picUrl ?? '',
@@ -131,7 +146,7 @@ class _OptionState extends State<Option> {
                                   },
                                   child: Icon(CupertinoIcons.minus),
                                 ),
-                                Text(model.quantity.toString()),
+                                Text(model.productInCart.quantity.toString()),
                                 GestureDetector(
                                   onTap: () {
                                     model.increaseQuantity();
@@ -154,7 +169,7 @@ class _OptionState extends State<Option> {
                         height: 10,
                       ),
                       productSize(model),
-                      buildAttribute(listAttribute, model),
+                      productAttributes(model),
                       addExtra(model),
                       buildNote(model)
                     ],
@@ -169,43 +184,85 @@ class _OptionState extends State<Option> {
     );
   }
 
-  Widget buildAttribute(List<Attribute> attributes, ProductViewModel model) {
+  // Widget buildAttribute(List<Attribute> attributes, ProductViewModel model) {
+  //   return Column(
+  //       children: attributes
+  //           .map(
+  //             (e) => Column(
+  //               mainAxisAlignment: MainAxisAlignment.center,
+  //               crossAxisAlignment: CrossAxisAlignment.start,
+  //               children: [
+  //                 Text(e.name,
+  //                     style: Get.textTheme.bodyMedium
+  //                         ?.copyWith(fontWeight: FontWeight.bold)),
+  //                 Row(
+  //                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //                   crossAxisAlignment: CrossAxisAlignment.center,
+  //                   children: e.options
+  //                       .map((option) => TextButton(
+  //                           style: ButtonStyle(
+  //                             backgroundColor: MaterialStateProperty.all<Color>(
+  //                                 option == selectedAttributes[i].value
+  //                                     ? Get.theme.colorScheme.primaryContainer
+  //                                     : Colors.transparent),
+  //                           ),
+  //                           onPressed: () {
+  //                             setAttributes(e.id, option);
+  //                             model.setAttributes(selectedAttributes[e.id]);
+  //                           },
+  //                           child: Text(
+  //                             option,
+  //                             style: Get.textTheme.bodySmall,
+  //                           )))
+  //                       .toList(),
+  //                 ),
+  //                 Divider()
+  //               ],
+  //             ),
+  //           )
+  //           .toList());
+  // }
+
+  Widget productAttributes(ProductViewModel model) {
     return Column(
-        children: attributes
-            .map(
-              (e) => Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(e.name,
-                      style: Get.textTheme.bodyMedium
-                          ?.copyWith(fontWeight: FontWeight.bold)),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: e.options
-                        .map((option) => TextButton(
-                            style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all<Color>(
-                                  option == selectedAttributes[e.id].value
-                                      ? Get.theme.colorScheme.primaryContainer
-                                      : Colors.transparent),
-                            ),
-                            onPressed: () {
-                              setAttributes(e.id, option);
-                              model.setAttributes(selectedAttributes[e.id]);
-                            },
-                            child: Text(
-                              option,
-                              style: Get.textTheme.bodySmall,
-                            )))
-                        .toList(),
-                  ),
-                  Divider()
-                ],
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        for (int i = 0; i < listAttribute.length; i++)
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(listAttribute[i].name,
+                  style: Get.textTheme.bodyMedium
+                      ?.copyWith(fontWeight: FontWeight.bold)),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: listAttribute[i]
+                    .options
+                    .map((option) => TextButton(
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                              option == selectedAttributes[i].value
+                                  ? Get.theme.colorScheme.primaryContainer
+                                  : Colors.transparent),
+                        ),
+                        onPressed: () {
+                          setAttributes(i, option);
+                          model.setAttributes(selectedAttributes[i]);
+                        },
+                        child: Text(
+                          option,
+                          style: Get.textTheme.bodySmall,
+                        )))
+                    .toList(),
               ),
-            )
-            .toList());
+              Divider()
+            ],
+          ),
+      ],
+    );
   }
 
   Widget addExtra(ProductViewModel model) {
@@ -310,7 +367,8 @@ class _OptionState extends State<Option> {
           },
           child: Padding(
             padding: const EdgeInsets.fromLTRB(4, 16, 4, 16),
-            child: Text("Thêm ${formatPrice(model.totalAmount!)}",
+            child: Text(
+                "Thêm ${formatPrice(model.productInCart.finalAmount ?? 0)}",
                 style: Get.textTheme.titleMedium
                     ?.copyWith(color: Get.theme.colorScheme.background)),
           )),

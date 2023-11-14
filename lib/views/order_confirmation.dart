@@ -295,7 +295,7 @@ class _BottomSheetContentState extends State<BottomSheetContent> {
                   height: 55,
                   child: ElevatedButton(
                     onPressed: () {
-                      Get.find<CartViewModel>().createOrder();
+                      Get.find<CartViewModel>().prepareOrder();
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: ThemeColor.primary,

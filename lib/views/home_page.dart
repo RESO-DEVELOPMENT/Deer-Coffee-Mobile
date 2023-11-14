@@ -166,8 +166,8 @@ class _HomePageState extends State<HomePage> {
                             Expanded(
                               child: InkWell(
                                 onTap: () {
-                                  Get.find<CartViewModel>().deliveryType =
-                                      OrderTypeEnum.EAT_IN;
+                                  Get.find<CartViewModel>()
+                                      .setOrderType(OrderTypeEnum.EAT_IN);
                                   showSelectStore();
                                 },
                                 child: Column(
@@ -191,8 +191,9 @@ class _HomePageState extends State<HomePage> {
                             Expanded(
                               child: InkWell(
                                 onTap: () {
-                                  Get.find<CartViewModel>().deliveryType =
-                                      OrderTypeEnum.DELIVERY;
+                                  Get.find<CartViewModel>()
+                                      .setOrderType(OrderTypeEnum.DELIVERY);
+
                                   inputDialog(
                                           "Giao hàng",
                                           "Vui lòng nhập địa chỉ",
@@ -223,8 +224,8 @@ class _HomePageState extends State<HomePage> {
                             Expanded(
                               child: InkWell(
                                 onTap: () {
-                                  Get.find<CartViewModel>().deliveryType =
-                                      OrderTypeEnum.TAKE_AWAY;
+                                  Get.find<CartViewModel>()
+                                      .setOrderType(OrderTypeEnum.TAKE_AWAY);
                                   showSelectStore();
                                 },
                                 child: Column(
@@ -296,10 +297,8 @@ class _HomePageState extends State<HomePage> {
                               padding: EdgeInsets.all(4),
                               children: model.categories!
                                   .map(
-                                    (e) => buildCircularButton(
-                                      e.name ?? '',
-                                      e.picUrl ?? '',
-                                    ),
+                                    (e) => buildCircularButton(e.name ?? '',
+                                        e.picUrl ?? '', e.id ?? ''),
                                   )
                                   .toList(),
                             );
@@ -362,6 +361,7 @@ class _HomePageState extends State<HomePage> {
   Widget buildCircularButton(
     String text1,
     String image,
+    String categoryId,
   ) {
     return SizedBox(
       width: 80,
@@ -373,6 +373,9 @@ class _HomePageState extends State<HomePage> {
           InkWell(
             onTap: () {
               // Xử lý khi nhấn vào hình tròn ở đây
+              Get.toNamed(
+                "${RouteHandler.CATEGORY_DETAIL}?id=$categoryId",
+              );
             },
             child: Container(
               height: 60,
@@ -530,10 +533,10 @@ class _HomePageState extends State<HomePage> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: model.memberShipModel!.memberWallet!
                   .map((e) => Text(
-                        '${e.name ?? ''}: ${(e.name ?? '') == "Ví Tiền" ? formatPrice(e.balance ?? 0) : e.balance.toString()}',
+                        '${e.name ?? ''}: ${(e.name ?? '') == "Số dư" ? formatPrice(e.balance ?? 0) : formatPriceWithoutUnit(e.balance ?? 0)}',
                         style: Get.textTheme.bodyLarge?.copyWith(
                             color: Colors.white, fontWeight: FontWeight.bold),
                       ))
@@ -542,9 +545,10 @@ class _HomePageState extends State<HomePage> {
             child: Container(
               height: 100,
               width: Get.width, // Chỉnh độ cao của container chứa ảnh
-              padding: const EdgeInsets.all(8), // Loại bỏ padding
+              padding: const EdgeInsets.all(16), // Loại bỏ padding
               child: BarcodeWidget(
                   barcode: Barcode.code128(),
+                  drawText: false,
                   data: model.memberShipModel?.phoneNumber ?? '',
                   style: Get.textTheme.titleMedium
                       ?.copyWith(fontWeight: FontWeight.bold)),

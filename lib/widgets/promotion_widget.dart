@@ -7,7 +7,8 @@ import '../utils/format.dart';
 import '../utils/route_constrant.dart';
 import '../utils/theme.dart';
 
-Widget buildTicketWidget(PromotionPointify promotion, bool isSelected) {
+Widget buildTicketWidget(
+    PromotionPointify promotion, bool isSelected, CartViewModel model) {
   return InkWell(
     onTap: () {
       Get.toNamed(
@@ -29,6 +30,20 @@ Widget buildTicketWidget(PromotionPointify promotion, bool isSelected) {
             painter: TicketPainter(),
             foregroundPainter: DotPainter(),
             child: Image.network(
+              loadingBuilder: (BuildContext context, Widget child,
+                  ImageChunkEvent? loadingProgress) {
+                if (loadingProgress == null) {
+                  return child;
+                }
+                return Center(
+                  child: CircularProgressIndicator(
+                    value: loadingProgress.expectedTotalBytes != null
+                        ? loadingProgress.cumulativeBytesLoaded /
+                            loadingProgress.expectedTotalBytes!
+                        : null,
+                  ),
+                );
+              },
               width: 120.0,
               height: 120.0,
               'https://i.imgur.com/X0WTML2.jpg',
@@ -51,10 +66,38 @@ Widget buildTicketWidget(PromotionPointify promotion, bool isSelected) {
                   Text(promotion.promotionCode ?? '',
                       style: Get.textTheme.bodySmall?.copyWith(
                           color: isSelected ? Colors.white : Colors.black)),
-                  Text(
-                      "HSD:${formatOnlyDate(promotion.endDate ?? "2025-01-01T00:00:00")}",
-                      style: Get.textTheme.bodySmall?.copyWith(
-                          color: isSelected ? Colors.white : Colors.black)),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                          "HSD:${formatOnlyDate(promotion.endDate ?? "2025-01-01T00:00:00")}",
+                          style: Get.textTheme.bodySmall?.copyWith(
+                              color: isSelected ? Colors.white : Colors.black)),
+                      TextButton(
+                          onPressed: () {
+                            if (model.cart.promotionCode ==
+                                promotion.promotionCode) {
+                              model.removePromotion();
+                              Get.back();
+                            } else {
+                              model.selectPromotion(
+                                  promotion.promotionCode ?? '');
+                              Get.back();
+                            }
+                          },
+                          child: Text(
+                            model.cart.promotionCode == promotion.promotionCode
+                                ? "Huỷ chọn"
+                                : "Áp dụng",
+                            style: TextStyle(
+                                color: model.cart.promotionCode ==
+                                        promotion.promotionCode
+                                    ? Colors.white
+                                    : ThemeColor.primary),
+                          ))
+                    ],
+                  ),
                 ],
               ),
             ),

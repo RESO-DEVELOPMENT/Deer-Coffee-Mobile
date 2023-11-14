@@ -1,3 +1,4 @@
+import '../models/cart_model.dart';
 import '../models/order.dart';
 import '../models/order_details.dart';
 import '../models/order_in_list.dart';
@@ -5,18 +6,26 @@ import '../models/order_response.dart';
 import '../utils/request.dart';
 
 class OrderAPI {
-  Future placeOrder(OrderModel order) async {
+  Future placeOrder(CartModel order) async {
     var dataJson = order.toJson();
     final res = await request.post('users/order', data: dataJson);
     var jsonList = res.data;
     return jsonList;
   }
 
-  Future<OrderResponseModel> getOrderOfStore(
-      String storeId, String orderId) async {
-    final res = await request.get('stores/$storeId/orders/$orderId');
+  Future prepareOrder(CartModel cart) async {
+    var dataJson = cart.toJson();
+    final res = await request.post('/orders/prepare', data: dataJson);
     var jsonList = res.data;
-    OrderResponseModel orderResponse = OrderResponseModel.fromJson(jsonList);
+    print(jsonList);
+    return CartModel.fromJson(jsonList);
+  }
+
+  Future<OrderDetailsModel> getOrderOfStore(
+      String storeId, String orderId) async {
+    final res = await request.get('users/orders/$orderId');
+    var jsonList = res.data;
+    OrderDetailsModel orderResponse = OrderDetailsModel.fromJson(jsonList);
     return orderResponse;
   }
 

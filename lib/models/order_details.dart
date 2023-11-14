@@ -91,18 +91,21 @@ class PromotionList {
   String? promotionName;
   num? discountAmount;
   num? quantity;
+  String? effectType;
 
   PromotionList(
       {this.promotionId,
       this.promotionName,
       this.discountAmount,
-      this.quantity});
+      this.quantity,
+      this.effectType});
 
   PromotionList.fromJson(Map<String, dynamic> json) {
     promotionId = json['promotionId'];
     promotionName = json['promotionName'];
     discountAmount = json['discountAmount'];
     quantity = json['quantity'];
+    effectType = json['effectType'];
   }
 
   Map<String, dynamic> toJson() {
@@ -111,6 +114,7 @@ class PromotionList {
     data['promotionName'] = this.promotionName;
     data['discountAmount'] = this.discountAmount;
     data['quantity'] = this.quantity;
+    data['effectType'] = this.effectType;
     return data;
   }
 }
@@ -221,14 +225,24 @@ class CustomerInfo {
   String? name;
   String? phone;
   String? address;
+  String? customerType;
+  String? deliStatus;
 
-  CustomerInfo({this.id, this.name, this.phone, this.address});
+  CustomerInfo(
+      {this.id,
+      this.name,
+      this.phone,
+      this.address,
+      this.customerType,
+      this.deliStatus});
 
   CustomerInfo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     phone = json['phone'];
     address = json['address'];
+    customerType = json['customerType'];
+    deliStatus = json['deliStatus'];
   }
 
   Map<String, dynamic> toJson() {
@@ -237,6 +251,8 @@ class CustomerInfo {
     data['name'] = this.name;
     data['phone'] = this.phone;
     data['address'] = this.address;
+    data['customerType'] = this.customerType;
+    data['deliStatus'] = this.deliStatus;
     return data;
   }
 }

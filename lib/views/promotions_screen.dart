@@ -13,6 +13,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:scoped_model/scoped_model.dart';
 
+import '../utils/format.dart';
 import '../utils/route_constrant.dart';
 import '../widgets/promotion_widget.dart';
 import 'login/login.dart';
@@ -52,7 +53,6 @@ class _PromotionsScreenState extends State<PromotionsScreen> {
                   return loginCard();
                 }
                 return Container(
-                  height: 300,
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage('assets/images/tree1.png'),
@@ -60,9 +60,7 @@ class _PromotionsScreenState extends State<PromotionsScreen> {
                     ),
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.only(
-                      top: 55,
-                    ),
+                    padding: const EdgeInsets.fromLTRB(16, 60, 16, 16),
                     child: Column(
                       children: <Widget>[
                         Padding(
@@ -122,33 +120,27 @@ class _PromotionsScreenState extends State<PromotionsScreen> {
                         ),
                         Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: wallet
-                                .map(
-                                  (e) => Text("${e.name} :${e.balance} ",
-                                      style: Get.textTheme.titleMedium
-                                          ?.copyWith(color: Colors.white)),
-                                )
+                            children: model.memberShipModel!.memberWallet!
+                                .map((e) => Text(
+                                      '${e.name ?? ''}: ${(e.name ?? '') == "Số dư" ? formatPrice(e.balance ?? 0) : formatPriceWithoutUnit(e.balance ?? 0)}',
+                                      style: Get.textTheme.bodyLarge?.copyWith(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold),
+                                    ))
                                 .toList()),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
+                        Card(
                           child: Container(
-                            width: 400,
-                            child: Card(
-                              child: Container(
-                                height: 120,
-                                width: Get.width *
-                                    0.9, // Chỉnh độ cao của container chứa ảnh
-                                padding:
-                                    const EdgeInsets.all(8), // Loại bỏ padding
-                                child: BarcodeWidget(
-                                    barcode: Barcode.code128(),
-                                    data: model.memberShipModel?.phoneNumber ??
-                                        '000000000000',
-                                    style: Get.textTheme.bodyLarge?.copyWith(
-                                        fontWeight: FontWeight.bold)),
-                              ),
-                            ),
+                            height: 100,
+                            width: Get
+                                .width, // Chỉnh độ cao của container chứa ảnh
+                            padding:
+                                const EdgeInsets.all(16), // Loại bỏ padding
+                            child: BarcodeWidget(
+                                barcode: Barcode.code128(),
+                                drawText: false,
+                                data: model.memberShipModel?.phoneNumber ?? '',
+                                style: Get.textTheme.titleMedium
+                                    ?.copyWith(fontWeight: FontWeight.bold)),
                           ),
                         ),
                       ],
@@ -199,7 +191,9 @@ class _PromotionsScreenState extends State<PromotionsScreen> {
                     Column(
                       children: model.promotions!
                           .map((e) => buildTicketWidget(
-                              e, model.selectPromotionCode == e.promotionCode))
+                              e,
+                              model.cart.promotionCode == e.promotionCode,
+                              model))
                           .toList(),
                     ),
                   ],

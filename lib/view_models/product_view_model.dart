@@ -1,129 +1,133 @@
-import 'package:flutter/foundation.dart';
+import 'package:deer_coffee/models/cart_model.dart';
 import 'package:get/get.dart';
 
-import '../models/cart.dart';
+import '../models/category.dart';
 import '../models/product.dart';
 import '../models/product_attribute.dart';
 import 'base_view_model.dart';
 import 'cart_view_model.dart';
+import 'menu_view_model.dart';
 
 class ProductViewModel extends BaseViewModel {
-  num? totalAmount;
-  Product? productInCart;
-  int quantity = 1;
-  List<Product> extras = [];
-  String? notes;
-  List<ProductAttribute> currentAttributes = [];
-  List<Attribute> listAttribute = [];
-  ProductViewModel() {
-    listAttribute = [
-      Attribute(0, "Đường", ["0%", "30%", "50%", "70%", "100%"], "100%"),
-      Attribute(1, "Đá", ["0%", "30%", "50%", "70%", "100%"], "100%")
-    ];
-    for (var attribute in listAttribute) {
-      currentAttributes
-          .add(ProductAttribute(attribute.name, attribute.options.last));
-    }
-  }
+  ProductList productInCart = ProductList();
+  List<Attribute> listAttribute = Get.find<CartViewModel>().listAttribute;
+  List<Category>? listCategory = Get.find<MenuViewModel>().categories;
+
   void addProductToCartItem(Product product) {
-    productInCart = product;
+    productInCart = ProductList(
+        productInMenuId: product.menuProductId,
+        parentProductId: product.parentProductId,
+        name: product.name,
+        type: product.type,
+        quantity: 1,
+        code: product.code,
+        picUrl: product.picUrl,
+        categoryCode: listCategory!
+            .firstWhereOrNull((element) => element.id == product.categoryId)
+            ?.code,
+        sellingPrice: product.sellingPrice,
+        totalAmount: product.sellingPrice,
+        finalAmount: product.sellingPrice,
+        discount: 0,
+        extras: [],
+        attributes: []);
+    for (var attribute in listAttribute) {
+      productInCart.attributes!
+          .add(Attributes(name: attribute.name, value: attribute.options.last));
+    }
     countAmount();
     notifyListeners();
   }
 
   void addProductToCart() {
-    CartItem cartItem = CartItem(
-      productInCart!,
-      quantity,
-      totalAmount!,
-      note: notes,
-      extras: extras,
-      attributes: currentAttributes,
-    );
-    Get.find<CartViewModel>().addToCart(cartItem);
+    Get.find<CartViewModel>().addToCart(productInCart);
     Get.back();
   }
 
-  void setAttributes(ProductAttribute attribute) {
-    currentAttributes
-        .firstWhere((element) => element.name == attribute.name)
-        .value = attribute.value;
+  void setAttributes(Attributes attribute) {
+    bool isExist = false;
+    for (var element in productInCart.attributes!) {
+      if (element.name == attribute.name) {
+        element.value = attribute.value;
+        isExist = true;
+      }
+    }
+    if (isExist == false) {
+      productInCart.attributes!.add(attribute);
+    }
     notifyListeners();
   }
 
   void increaseQuantity() {
-    quantity += 1;
+    productInCart.quantity = (productInCart.quantity! + 1);
     countAmount();
     notifyListeners();
   }
 
   void decreaseQuantity() {
-    if (quantity == 0) {
+    if (productInCart.quantity == 0) {
       return;
     }
-    quantity -= 1;
+    productInCart.quantity = (productInCart.quantity! - 1);
     countAmount();
     notifyListeners();
   }
 
   void addOrRemoveExtra(Product extra) {
     if (isExtraExist(extra.id!)) {
-      extras.removeWhere((element) => element.id == extra.id);
+      productInCart.extras?.removeWhere(
+          (element) => element.productInMenuId == extra.menuProductId);
       countAmount();
     } else {
-      extras.add(extra);
+      productInCart.extras?.add(Extras(
+          productInMenuId: extra.menuProductId,
+          name: extra.name,
+          quantity: 1,
+          totalAmount: extra.sellingPrice,
+          sellingPrice: extra.sellingPrice));
       countAmount();
     }
     notifyListeners();
   }
 
   countAmount() {
-    totalAmount = productInCart!.sellingPrice! * quantity;
+    productInCart.totalAmount =
+        productInCart.sellingPrice! * productInCart.quantity!;
     addExtraAmount();
+    productInCart.finalAmount =
+        productInCart.totalAmount! - productInCart.discount!;
   }
 
   addExtraAmount() {
-    for (int index = 0; index < extras.length; index++) {
-      totalAmount = totalAmount! + extras[index].sellingPrice!;
+    for (int index = 0; index < productInCart.extras!.length; index++) {
+      productInCart.totalAmount = productInCart!.totalAmount! +
+          productInCart.extras![index].sellingPrice!;
     }
     notifyListeners();
   }
 
   void setNotes(String note) {
-    notes = note;
+    productInCart.note = note;
     notifyListeners();
   }
 
   bool isExtraExist(String id) {
-    for (int index = 0; index < extras.length; index++) {
-      if (extras[index].id == id) {
+    for (int index = 0; index < productInCart.extras!.length; index++) {
+      if (productInCart.extras![index].productInMenuId == id) {
         return true;
       }
     }
     return false;
   }
 
-  void getCartItemToUpdate(CartItem cartItem) {
-    notes = cartItem.note;
-    productInCart = cartItem.product;
-    quantity = cartItem.quantity;
-    extras = cartItem.extras!;
-    // notes = cartItem.note;
-    totalAmount = cartItem.totalAmount;
-    currentAttributes = cartItem.attributes!;
+  void getCartItemToUpdate(ProductList cartItem) {
     // countAmount();
+    productInCart = cartItem;
     notifyListeners();
   }
 
   void updateCartItemInCart(int idx) {
-    CartItem cartItem = CartItem(
-      productInCart!,
-      quantity,
-      totalAmount!,
-      note: notes,
-      extras: extras,
-      attributes: currentAttributes,
-    );
+    ProductList cartItem = productInCart;
     Get.find<CartViewModel>().updateCart(cartItem, idx);
     Get.back();
   }

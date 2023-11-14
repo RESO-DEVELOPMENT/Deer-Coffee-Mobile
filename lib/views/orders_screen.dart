@@ -198,6 +198,20 @@ class _OrdersScreenState extends State<OrdersScreen> {
               decoration:
                   BoxDecoration(borderRadius: BorderRadius.circular(16)),
               child: Image.network(
+                loadingBuilder: (BuildContext context, Widget child,
+                    ImageChunkEvent? loadingProgress) {
+                  if (loadingProgress == null) {
+                    return child;
+                  }
+                  return Center(
+                    child: CircularProgressIndicator(
+                      value: loadingProgress.expectedTotalBytes != null
+                          ? loadingProgress.cumulativeBytesLoaded /
+                              loadingProgress.expectedTotalBytes!
+                          : null,
+                    ),
+                  );
+                },
                 product.picUrl!.isEmpty
                     ? 'https://i.imgur.com/X0WTML2.jpg'
                     : product.picUrl!,

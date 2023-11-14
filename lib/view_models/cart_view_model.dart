@@ -1,84 +1,44 @@
-// ignore_for_file: unnecessary_import
-
-import 'package:deer_coffee/models/pointify/check_promotion_model.dart';
-import 'package:deer_coffee/models/pointify/membership_model.dart';
 import 'package:deer_coffee/models/pointify/promotion_details_model.dart';
 import 'package:deer_coffee/models/store.dart';
 import 'package:deer_coffee/models/user.dart';
-import 'package:deer_coffee/view_models/account_view_model.dart';
-import 'package:deer_coffee/view_models/menu_view_model.dart';
-import 'package:deer_coffee/views/store.dart';
+import 'package:deer_coffee/utils/share_pref.dart';
 import 'package:deer_coffee/widgets/other_dialogs/dialog.dart';
-import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 
+import '../api/order_api.dart';
 import '../api/pointify/pointify_data.dart';
 import '../enums/order_enum.dart';
 import '../enums/view_status.dart';
-import '../models/cart.dart';
-import '../models/order.dart';
+import '../models/cart_model.dart';
+import '../models/payment_provider.dart';
 import '../models/pointify/promotion_model.dart';
+import '../models/product_attribute.dart';
 import 'base_view_model.dart';
 import 'order_view_model.dart';
 
 class CartViewModel extends BaseViewModel {
-  List<CartItem> _cartList = [];
-  List<Effects> promotionApplyList = [];
-  num _finalAmount = 0;
-  num _totalAmount = 0;
-  String? deliveryType;
-  String? deliAddress;
-  String paymentType = PaymentTypeEnums.CASH;
-  num _discountAmount = 0;
-  num _productDiscount = 0;
-  int _quantity = 0;
-  num pointRedeem = 0;
-  StoreModel? selectedStore;
-  String? selectPromotionCode;
-  PointifyData api = PointifyData();
-  // PromotionData? promotionData = PromotionData();
-  // List<Promotion>? promotions = [];
+  CartModel cart = CartModel();
+  int? peopleNumber;
+  List<Attribute> listAttribute = [
+    Attribute("Đường", ["0%", "30%", "50%", "70%", "100%"]),
+    Attribute("Đá", ["0%", "30%", "50%", "70%", "100%"])
+  ];
+  late OrderAPI orderAPI = OrderAPI();
   PointifyData? promotionData = PointifyData();
   List<PromotionPointify>? promotions = [];
-  List<CartItem> get cartList => _cartList;
-  num get finalAmount => _finalAmount;
-  CheckPromotionModel? selectedPromotionChecked;
-  num get totalAmount => _totalAmount;
-  num? get discountAmount => _discountAmount;
-  int? get quantity => _quantity;
-  num? get productDiscount => _productDiscount;
-
-  set setTotalAmount(int value) {
-    _totalAmount = value;
+  StoreModel? selectedStore;
+  String? deliAddress;
+  CartViewModel() {
+    cart.orderType = OrderTypeEnum.EAT_IN;
+    cart.productList = [];
+    cart.promotionList = [];
+    cart.paymentType = PaymentTypeEnums.CASH;
+    cart.totalAmount = 0;
+    cart.finalAmount = 0;
+    cart.bonusPoint = 0;
+    cart.shippingFee = 0;
   }
 
-  int isExistInCart(
-    int productId,
-    String? variationType,
-    bool isUpdate,
-    int? cartIndex,
-  ) {
-    for (int index = 0; index < _cartList.length; index++) {
-      if (_cartList[index].product.id == productId) {
-        if ((isUpdate && index == cartIndex)) {
-          return -1;
-        } else {
-          return index;
-        }
-      }
-    }
-    return -1;
-  }
-
-  // void getListPromotion() async {
-  //   try {
-  //     setState(ViewStatus.Loading);
-  //     promotions = await promotionData?.getListPromotionOfStore();
-  //     setState(ViewStatus.Completed);
-  //   } catch (e) {
-  //     setState(ViewStatus.Error, e.toString());
-  //   }
-  // }
   void getListPromotion() async {
     try {
       setState(ViewStatus.Loading);
@@ -102,148 +62,100 @@ class CartViewModel extends BaseViewModel {
     return null;
   }
 
-  void addToCart(CartItem cartModel) {
-    _cartList.add(cartModel);
-    // checkAvailablePromotion();
+  void addToCart(ProductList cartModel) {
+    cart.productList!.add(cartModel);
     countCartAmount();
     countCartQuantity();
     notifyListeners();
   }
 
-  void updateCart(CartItem cartModel, int cartIndex) {
-    _cartList[cartIndex] = cartModel;
-    // checkAvailablePromotion();
+  void updateCart(ProductList cartModel, int cartIndex) {
+    cart.productList![cartIndex] = cartModel;
     countCartAmount();
     countCartQuantity();
     notifyListeners();
   }
 
   void countCartAmount() {
-    _totalAmount = 0;
-    _productDiscount = 0;
-    _discountAmount = 0;
-    for (CartItem cart in _cartList) {
-      _totalAmount = _totalAmount + cart.totalAmount;
-      _productDiscount =
-          _productDiscount + cart.product.discountPrice! * cart.quantity;
+    cart.totalAmount = 0;
+    cart.discountAmount = 0;
+    for (ProductList item in cart.productList!) {
+      cart.totalAmount = cart.totalAmount! + item.totalAmount!;
     }
-    // for (Promotion promotion in promotionApplyList) {
-    //   _discountAmount += ((promotion.discountInOrder ?? 0));
-    // }
-    _finalAmount = _totalAmount - _discountAmount - _productDiscount;
+    cart.finalAmount = cart.totalAmount! - cart.discountAmount!;
     notifyListeners();
   }
 
   countCartQuantity() {
-    _quantity = 0;
-    for (CartItem cart in _cartList) {
-      _quantity = _quantity + cart.quantity;
+    num quantity = 0;
+    for (ProductList item in cart.productList!) {
+      quantity = quantity + item.quantity!;
     }
-    notifyListeners();
-  }
-
-  selectPromotion(String? code) {
-    selectPromotionCode = code;
-    notifyListeners();
+    return quantity;
   }
 
   void removeFromCart(int idx) {
-    _totalAmount = _totalAmount - (_cartList[idx].totalAmount);
-    _cartList.remove(_cartList[idx]);
-    // checkAvailablePromotion();
+    cart.productList!.remove(cart.productList![idx]);
     countCartAmount();
-    countCartQuantity();
     notifyListeners();
   }
 
-  // bool isPromotionApplied(String promotionId) {
-  //   for (var promotion in promotionApplyList) {
-  //     if (promotion.id == promotionId) {
-  //       return true;
-  //     }
-  //   }
-  //   return false;
-  // }
+  bool isPromotionApplied(String code) {
+    return cart.promotionCode == code;
+  }
 
   void clearCartData() {
-    _cartList = [];
-    _finalAmount = 0;
-    _totalAmount = 0;
-    _discountAmount = 0;
-    _productDiscount = 0;
-    _quantity = 0;
-    selectPromotionCode;
-
-    // promotionApplyList = [];
+    cart.productList = [];
+    cart.finalAmount = 0;
+    cart.totalAmount = 0;
+    cart.discountAmount = 0;
+    cart.promotionList = [];
+    cart.promotionCode = null;
+    cart.voucherCode = null;
     notifyListeners();
   }
 
-  Future<void> checkPromotion() async {
-    try {
-      setState(ViewStatus.Loading);
-      MemberShipModel? memberShip =
-          Get.find<AccountViewModel>().memberShipModel;
-      List<CartItems> cartItems = <CartItems>[];
-      for (CartItem cart in _cartList) {
-        CartItems product = CartItems(
-          productCode: cart.product.code,
-          quantity: cart.quantity,
-          unitPrice: cart.product.sellingPrice,
-          total: cart.totalAmount,
-          discountFromOrder: 0,
-          subTotal: cart.totalAmount,
-          discount: cart.discount,
-        );
-        cartItems.add(product);
-      }
-      CustomerOrderInfo checkPromotionModel = CustomerOrderInfo(
-          apiKey: "7F77CA43-940B-403D-813A-38B3B3A7B667",
-          id: "DC-VH",
-          bookingDate: DateTime.now().toIso8601String(),
-          attributes: Attributes(
-            salesMode: 7,
-            paymentMethod: 63,
-            storeInfo: StoreInfo(
-                storeCode: 'DC-VH', brandCode: "DeerCoffee", applier: "3"),
-          ),
-          cartItems: cartItems,
-          vouchers: [Vouchers(promotionCode: selectPromotionCode)],
-          amount: _totalAmount,
-          shippingFee: 0,
-          users: Users(
-              membershipId: memberShip?.membershipId ?? '',
-              userGender: memberShip?.gender ?? 3));
-      await api
-          .checkPromotion(checkPromotionModel)
-          .then((value) => selectedPromotionChecked = value);
-      if (selectedPromotionChecked != null ||
-          selectedPromotionChecked?.order != null) {
-        selectedPromotionChecked!.order!.effects
-            ?.removeWhere((element) => element.promotionType == null);
+  bool isPromotionExist(String code) {
+    return cart.promotionCode == code;
+  }
 
-        _discountAmount = selectedPromotionChecked!.order!.discount ?? 0;
+  Future<void> removePromotion() async {
+    cart.promotionCode = null;
+    await prepareOrder();
+    notifyListeners();
+  }
 
-        if (selectedPromotionChecked?.order?.effects != null) {
-          promotionApplyList.clear();
-          for (var element in selectedPromotionChecked!.order!.effects!) {
-            promotionApplyList.add(element);
-          }
-        }
-        print(promotionApplyList.length);
-        _productDiscount =
-            selectedPromotionChecked!.order!.discountOrderDetail ?? 0;
-        _finalAmount = selectedPromotionChecked!.order!.finalAmount ?? 0;
-        pointRedeem = selectedPromotionChecked!.order!.bonusPoint ?? 0;
-      }
+  Future<void> selectPromotion(String code) async {
+    cart.promotionCode = code;
+    await prepareOrder();
+    notifyListeners();
+  }
 
-      print(selectedPromotionChecked?.message.toString());
-      setState(ViewStatus.Completed);
-    } on DioException catch (e) {
-      showAlertDialog(
-          title: e.response!.data["code"].toString(),
-          content: e.response!.data["message"].toString());
-      setState(ViewStatus.Error, e.response.toString());
+  List<PaymentProvider?> getListPayment() {
+    List<PaymentProvider?> listPayment = [];
+    listPayment = Get.find<OrderViewModel>().listPayment;
+    return listPayment;
+  }
+
+  Future<bool> prepareOrder() async {
+    UserModel? userInfo = await getUserInfo();
+    cart.paymentType = PaymentTypeEnums.CASH;
+    cart.storeId = selectedStore?.id ?? '';
+    cart.customerId = userInfo?.userInfo?.id;
+    cart.discountAmount = 0;
+    cart.finalAmount = cart.totalAmount;
+    cart.deliveryAddress = deliAddress;
+    for (var element in cart.productList!) {
+      element.discount = 0;
+      element.finalAmount = element.totalAmount;
+      element.promotionCodeApplied = null;
     }
+    cart.promotionList!.clear();
+    await orderAPI.prepareOrder(cart).then((value) => {
+          cart = value,
+        });
+    notifyListeners();
+    return true;
   }
 
   void setAddress(String? address) {
@@ -251,8 +163,8 @@ class CartViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  void setPromotion(String promotion) {
-    selectPromotionCode = promotion;
+  void setOrderType(String? type) {
+    cart.orderType = type;
     notifyListeners();
   }
 
@@ -262,56 +174,9 @@ class CartViewModel extends BaseViewModel {
   }
 
   Future<void> createOrder() async {
-    String deliType = Get.find<OrderViewModel>().deliveryType;
-    UserModel user = Get.find<AccountViewModel>().user!;
-    List<ProductsList> productList = <ProductsList>[];
-    List<PromotionList> promotionList = [];
-    if (promotionApplyList.isNotEmpty) {
-      for (var element in promotionApplyList) {
-        promotionList.add(PromotionList(
-            promotionId: element.promotionId,
-            discountAmount: element.effectType == "GET_POINT"
-                ? pointRedeem
-                : element.prop?.value ?? 0));
-      }
-    }
-    for (CartItem cart in _cartList) {
-      List<Extras> extraList = <Extras>[];
-      cart.extras?.forEach((element) {
-        Extras extra = Extras(
-            productInMenuId: element.menuProductId,
-            quantity: 1,
-            sellingPrice: element.sellingPrice,
-            discount: element.discountPrice! * cart.quantity);
-        extraList.add(extra);
-      });
-      ProductsList product = ProductsList(
-        productInMenuId: cart.product.menuProductId,
-        quantity: cart.quantity,
-        sellingPrice: cart.product.sellingPrice,
-        discount: cart.product.discountPrice! * cart.quantity,
-        note: cart.attributes == null && cart.note == null
-            ? null
-            : ("${cart.attributes!.map((e) => '${e.name}:${e.value}').join(" ")} ${cart.note ?? ''}"),
-        extras: extraList,
-      );
-      productList.add(product);
-    }
-    OrderModel order = OrderModel(
-        storeId: selectedStore?.id ?? '',
-        userId: user.userInfo?.id ?? '',
-        orderType: deliType,
-        address: deliAddress,
-        paymentType: paymentType,
-        productsList: productList,
-        status: OrderStatusEnum.PENDING,
-        totalAmount: _totalAmount,
-        discountAmount: _discountAmount + _productDiscount,
-        finalAmount: _finalAmount,
-        promotionList: promotionList);
     bool res = false;
     await Get.find<OrderViewModel>()
-        .placeOrder(order)
+        .placeOrder(cart)
         .then((value) => res = value);
     if (res) {
       clearCartData();

@@ -155,34 +155,34 @@ class _PromotionDetailsScreenState extends State<PromotionDetailsScreen> {
                                     width: 200,
                                     child: ElevatedButton(
                                       onPressed: () {
-                                        if (model.selectPromotionCode ==
+                                        if (model.cart.promotionCode ==
                                             promotionDetailsModel!
                                                 .promotionCode!) {
-                                          model.selectPromotion(null);
-                                          Get.offAllNamed(RouteHandler.CART);
+                                          model.removePromotion();
+                                          Get.back();
                                         } else {
                                           model.selectPromotion(
                                               promotionDetailsModel
                                                       ?.promotionCode ??
                                                   '');
-                                          Get.offAllNamed(RouteHandler.CART);
+                                          Get.back();
                                         }
                                       },
-                                      child: Text(
-                                        model.selectPromotionCode ==
-                                                promotionDetailsModel!
-                                                    .promotionCode
-                                            ? "Huỷ chọn "
-                                            : "Chọn khuyến mãi",
-                                        style: TextStyle(
-                                            color: Colors.white, fontSize: 16),
-                                      ),
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor: ThemeColor.primary,
                                         shape: RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(20),
                                         ),
+                                      ),
+                                      child: Text(
+                                        model.cart.promotionCode ==
+                                                promotionDetailsModel!
+                                                    .promotionCode
+                                            ? "Huỷ chọn "
+                                            : "Chọn khuyến mãi",
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 16),
                                       ),
                                     ),
                                   ),

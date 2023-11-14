@@ -111,8 +111,9 @@ class MyRequest {
         if (e.response?.statusCode == 400) {
           showAlertDialog(
             title: "Lỗi",
-            content: e.response?.data["Error"],
+            content: e.response?.data,
           );
+          print(e.response?.data ?? '');
         } else if (e.response?.statusCode == 500) {
           Future<bool> res = showConfirmDialog(
             title: "Lỗi hệ thống",

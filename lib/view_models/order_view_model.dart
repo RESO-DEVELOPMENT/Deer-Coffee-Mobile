@@ -11,7 +11,7 @@ import 'package:get/get.dart';
 import '../api/order_api.dart';
 import '../enums/order_enum.dart';
 import '../enums/view_status.dart';
-import '../models/cart.dart';
+import '../models/cart_model.dart';
 import '../models/order.dart';
 import '../models/order_in_list.dart';
 import '../models/order_response.dart';
@@ -21,8 +21,6 @@ import 'base_view_model.dart';
 
 class OrderViewModel extends BaseViewModel {
   int selectedTable = 01;
-  String deliveryType = DeliType().takeAway.type;
-  Cart? currentCart;
   late OrderAPI api = OrderAPI();
   String? currentOrderId;
   num customerMoney = 0;
@@ -75,12 +73,12 @@ class OrderViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  void chooseDeliveryType(String type) {
-    deliveryType = type;
-    hideDialog();
+  // void chooseDeliveryType(String type) {
+  //   deliveryType = type;
+  //   hideDialog();
 
-    notifyListeners();
-  }
+  //   notifyListeners();
+  // }
 
   void chooseTable(int table) {
     selectedTable = table;
@@ -94,10 +92,10 @@ class OrderViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  Future<bool> placeOrder(OrderModel order) async {
+  Future<bool> placeOrder(CartModel order) async {
     showLoadingDialog();
-    await api.placeOrder(order).then(
-        (value) => {Get.toNamed("${RouteHandler.ORDER_DETAILS}?id=$value")});
+    await api.placeOrder(order).then((value) =>
+        {hideDialog(), Get.toNamed("${RouteHandler.ORDER_DETAILS}?id=$value")});
     return true;
   }
 

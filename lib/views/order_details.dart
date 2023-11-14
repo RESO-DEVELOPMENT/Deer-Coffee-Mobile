@@ -36,16 +36,15 @@ class _OrderDetailsState extends State<OrderDetails> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         leading: IconButton(
             onPressed: () {
               Get.back();
             },
             icon: Icon(Icons.arrow_back_ios)),
-        title: Center(
-          child: Text('Chi tiết đơn hàng',
-              style: Get.textTheme.titleMedium
-                  ?.copyWith(fontWeight: FontWeight.bold)),
-        ),
+        title: Text('Chi tiết đơn hàng',
+            style: Get.textTheme.titleMedium
+                ?.copyWith(fontWeight: FontWeight.bold)),
       ),
       body: ScopedModel<OrderViewModel>(
         model: Get.find<OrderViewModel>(),
@@ -65,16 +64,12 @@ class _OrderDetailsState extends State<OrderDetails> {
             padding: const EdgeInsets.all(8.0),
             child: CustomScrollView(
               slivers: [
-                SliverToBoxAdapter(
-                  child: TimelineWidget(
-                    status:
-                        orderDetails?.orderStatus ?? OrderStatusEnum.PENDING,
-                  ),
-                ),
                 SliverList(
                   delegate: SliverChildListDelegate(
                     [
-                      Divider(),
+                      Text('Sản phẩn',
+                          style: Get.textTheme.bodyMedium
+                              ?.copyWith(fontWeight: FontWeight.bold)),
                       Column(
                         children: orderDetails!.productList!
                             .map((e) => productCard(e))
@@ -83,7 +78,7 @@ class _OrderDetailsState extends State<OrderDetails> {
 
                       // Chi tiết đơn hàng
                       Divider(),
-                      Text('Chi tiết thanh toán : ',
+                      Text('Thanh toán',
                           style: Get.textTheme.bodyMedium
                               ?.copyWith(fontWeight: FontWeight.bold)),
                       Row(
@@ -129,63 +124,57 @@ class _OrderDetailsState extends State<OrderDetails> {
                           )
                         ],
                       ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
+                      Divider(),
+                      Text('Chi tiết đơn hàng',
+                          style: Get.textTheme.bodyMedium
+                              ?.copyWith(fontWeight: FontWeight.bold)),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text('Chi tiết đơn hàng : ',
-                              style: Get.textTheme.bodyMedium
-                                  ?.copyWith(fontWeight: FontWeight.bold)),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(
-                                'Mã đơn',
-                                style: Get.textTheme.bodySmall,
-                              ),
-                              Text(
-                                orderDetails?.invoiceId ?? '',
-                                style: Get.textTheme.bodySmall,
-                              ),
-                            ],
+                          Text(
+                            'Mã đơn',
+                            style: Get.textTheme.bodyMedium,
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text('Ngày đặt hàng',
-                                  style: Get.textTheme.bodySmall),
-                              Text(
-                                formatTime(orderDetails?.checkInDate ??
-                                    "2023-01-01T00:00:00.00000"),
-                                style: Get.textTheme.bodySmall,
-                              ),
-                            ],
+                          Text(
+                            orderDetails?.invoiceId ?? '',
+                            style: Get.textTheme.bodyMedium,
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text('Phương thức thanh toán',
-                                  style: Get.textTheme.bodySmall),
-                              Text(
-                                showPaymentType(orderDetails?.paymentType ??
-                                    PaymentTypeEnums.CASH),
-                                style: Get.textTheme.bodySmall,
-                              ),
-                            ],
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text('Ngày đặt hàng',
+                              style: Get.textTheme.bodyMedium),
+                          Text(
+                            formatTime(orderDetails?.checkInDate ??
+                                "2023-01-01T00:00:00.00000"),
+                            style: Get.textTheme.bodyMedium,
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text('Địa chỉ', style: Get.textTheme.bodySmall),
-                              Text(
-                                orderDetails?.customerInfo?.address ?? '',
-                                style: Get.textTheme.bodySmall,
-                              ),
-                            ],
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text('Thanh toán', style: Get.textTheme.bodyMedium),
+                          Text(
+                            showPaymentType(orderDetails?.paymentType ??
+                                PaymentTypeEnums.CASH),
+                            style: Get.textTheme.bodyMedium,
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text('Địa chỉ', style: Get.textTheme.bodyMedium),
+                          Text(
+                            orderDetails?.customerInfo?.address ?? '',
+                            style: Get.textTheme.bodyMedium,
                           ),
                         ],
                       ),
@@ -209,14 +198,14 @@ class _OrderDetailsState extends State<OrderDetails> {
         children: [
           Expanded(
               flex: 2,
-              child: Text(e.name ?? '', style: Get.textTheme.bodySmall)),
+              child: Text(e.name ?? '', style: Get.textTheme.bodyMedium)),
           Text(
             ' x${e.quantity}  ',
-            style: Get.textTheme.bodySmall,
+            style: Get.textTheme.bodyMedium,
           ),
           Text(
             formatPrice(e.finalAmount ?? 0),
-            style: Get.textTheme.bodySmall,
+            style: Get.textTheme.bodyMedium,
           ),
         ],
       ),
@@ -236,11 +225,13 @@ class _OrderDetailsState extends State<OrderDetails> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    e.promotionName ?? '',
+                    " - ${e.promotionName}",
                     style: Get.textTheme.bodySmall,
                   ),
                   Text(
-                    ("- ${formatPrice(e.discountAmount ?? 0)}"),
+                    e.effectType == "GET_POINT"
+                        ? ("+${e.discountAmount} Điểm")
+                        : ("- ${formatPrice(e.discountAmount ?? 0)}"),
                     style: Get.textTheme.bodySmall,
                   )
                 ],
