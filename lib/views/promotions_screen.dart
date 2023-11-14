@@ -36,6 +36,7 @@ class _PromotionsScreenState extends State<PromotionsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xffF5F5F5),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
@@ -210,7 +211,7 @@ class _PromotionsScreenState extends State<PromotionsScreen> {
 
   Widget loginCard() {
     return Container(
-      margin: const EdgeInsets.fromLTRB(8, 110, 8, 16),
+      margin: const EdgeInsets.fromLTRB(8, 80, 8, 16),
       padding: const EdgeInsets.all(8),
       width: Get.width * 0.9,
       height: 200,
@@ -238,11 +239,14 @@ class _PromotionsScreenState extends State<PromotionsScreen> {
           Stack(
             alignment: Alignment.center,
             children: [
-              Image.asset(
-                'assets/images/hinhchunhat.png',
-                height: 100,
-                width: 329,
-                fit: BoxFit.cover,
+              Padding(
+                padding: const EdgeInsets.only(bottom: 20.0),
+                child: Image.asset(
+                  'assets/images/hinhchunhat.png',
+                  height: 80,
+                  width: 329,
+                  fit: BoxFit.cover,
+                ),
               ),
               Positioned(
                 top: -15,
@@ -270,7 +274,7 @@ class _PromotionsScreenState extends State<PromotionsScreen> {
                 ),
               ),
               Positioned(
-                top: 80,
+                top: 60,
                 child: Container(
                   width: Get.width * 0.6,
                   height: 40,

@@ -22,13 +22,16 @@ class _OtherPageState extends State<OtherPage> {
   int _currentIndex = 0;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Color(0xffF9F9F9),
+    return Scaffold(  
+      backgroundColor: Color(0xffF5F5F5),
       appBar: AppBar(
-        title: Text(
-          "Tài khoản",
-          style:
-              Get.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+        title: Center(
+          child: Text(
+            "Tài khoản",
+            style:
+                Get.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+                
+          ),
         ),
         actions: [
           IconButton(

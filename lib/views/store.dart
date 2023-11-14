@@ -24,7 +24,7 @@ class _StoreState extends State<Store> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Color(0xFFF7F8FB),
       appBar: AppBar(
           title: Text(
         "Danh sách cửa hàng",
@@ -57,7 +57,7 @@ class _StoreState extends State<Store> {
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
-        color: const Color(0xFFF7F8FB),
+        color: Colors.white,
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
