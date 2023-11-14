@@ -26,7 +26,7 @@ class _OtherPageState extends State<OtherPage> {
       backgroundColor: Color(0xffF9F9F9),
       appBar: AppBar(
         title: Text(
-          "Tài khoản",
+          "Tài khoản" ,
           style:
               Get.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
         ),
