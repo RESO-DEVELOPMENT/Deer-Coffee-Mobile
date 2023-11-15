@@ -53,8 +53,8 @@ class MenuViewModel extends BaseViewModel {
       productsFilter = normalProducts;
       productsFilter
           ?.sort((a, b) => b.displayOrder!.compareTo(a.displayOrder!));
+      await getListBlog();
       setState(ViewStatus.Completed);
-      print(currentMenu);
     } catch (e) {
       setState(ViewStatus.Error, e.toString());
     }

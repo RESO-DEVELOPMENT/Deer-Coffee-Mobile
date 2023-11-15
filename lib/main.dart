@@ -1,18 +1,19 @@
 import 'dart:io';
 
 import 'package:deer_coffee/views/cart.dart';
-import 'package:deer_coffee/views/category_detail.dart';
-import 'package:deer_coffee/views/collection_detail.dart';
-import 'package:deer_coffee/views/order_history.dart';
+import 'package:deer_coffee/views/orders_screen/category_detail.dart';
+import 'package:deer_coffee/views/orders_screen/collection_detail.dart';
+import 'package:deer_coffee/views/profile_screen/order_history.dart';
 import 'package:deer_coffee/views/login/login_otp.dart';
-import 'package:deer_coffee/views/order_details.dart';
-import 'package:deer_coffee/views/product_details.dart';
-import 'package:deer_coffee/views/promotion_details.dart';
-import 'package:deer_coffee/views/voucher.dart';
-import 'package:deer_coffee/views/voucher_details.dart';
+import 'package:deer_coffee/views/profile_screen/order_details.dart';
+import 'package:deer_coffee/views/orders_screen/product_details.dart';
+import 'package:deer_coffee/views/membership_screen/promotion_details.dart';
+import 'package:deer_coffee/views/membership_screen/voucher.dart';
+import 'package:deer_coffee/views/membership_screen/voucher_details.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'firebase_options.dart';
 import 'setup.dart';
@@ -24,9 +25,11 @@ import 'views/root_screen.dart';
 import 'views/splash_screen.dart';
 
 Future<void> main() async {
-  HttpOverrides.global = MyHttpOverrides();
+  if (!GetPlatform.isWeb) {
+    HttpOverrides.global = MyHttpOverrides();
+  }
 
-  await WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -40,24 +43,28 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       debugShowMaterialGrid: false,
       title: 'Deer Coffee',
       theme: ThemeData(
-        colorSchemeSeed: const Color(0xff8FBEFF),
-        useMaterial3: true,
-        brightness: Brightness.light,
-      ),
+          colorSchemeSeed: const Color(0xff8FBEFF),
+          useMaterial3: true,
+          brightness: Brightness.light,
+          fontFamily: 'Inter'),
       themeMode: ThemeMode.light,
       getPages: [
         GetPage(
             name: RouteHandler.WELCOME,
-            page: () => SplashScreen(),
+            page: () => const SplashScreen(),
             transition: Transition.zoom),
         GetPage(
             name: RouteHandler.LOGIN,
-            page: () => LoginScreen(),
+            page: () => const LoginScreen(),
             transition: Transition.zoom),
         GetPage(
             name: RouteHandler.OTP,
@@ -119,9 +126,9 @@ class MyApp extends StatelessWidget {
             transition: Transition.cupertino),
       ],
       initialRoute: RouteHandler.WELCOME,
-      unknownRoute:
-          GetPage(name: RouteHandler.NOT_FOUND, page: () => NotFoundScreen()),
-      home: SplashScreen(),
+      unknownRoute: GetPage(
+          name: RouteHandler.NOT_FOUND, page: () => const NotFoundScreen()),
+      home: const SplashScreen(),
     );
   }
 }

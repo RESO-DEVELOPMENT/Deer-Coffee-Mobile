@@ -7,6 +7,7 @@ import 'package:deer_coffee/view_models/base_view_model.dart';
 import 'package:deer_coffee/view_models/startup_view_model.dart';
 import 'package:deer_coffee/widgets/other_dialogs/dialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 
 import '../api/pointify/pointify_data.dart';
@@ -20,7 +21,7 @@ class AccountViewModel extends BaseViewModel {
   AccountAPI accountAPI = AccountAPI();
   PointifyData? pointifyData = PointifyData();
   UserModel? user;
-  MemberShipModel? memberShipModel;
+  UserDetails? memberShipModel;
   String? phoneNumber;
   var verId = '';
   int? resendTok = 0;
@@ -52,13 +53,50 @@ class AccountViewModel extends BaseViewModel {
         Get.back();
       },
       codeSent: (String verificationId, int? resendToken) async {
-        print(verificationId);
-        print(resendToken ?? 0);
+        if (kDebugMode) {
+          print(verificationId);
+          print(resendToken ?? 0);
+        }
         receivedID = verificationId;
         resendTok = resendToken;
         await Get.offNamed(
           RouteHandler.OTP,
         );
+      },
+      codeAutoRetrievalTimeout: (String verificationId) {
+        verId = verificationId;
+      },
+    );
+  }
+
+  Future<void> resendOtp() async {
+    auth.verifyPhoneNumber(
+      phoneNumber: phoneNumber,
+      timeout: const Duration(seconds: 60),
+      verificationCompleted: (PhoneAuthCredential credential) async {
+        try {
+          await auth
+              .signInWithCredential(credential)
+              .then((value) => userCredential = value);
+          await Get.offAllNamed(RouteHandler.HOME);
+        } catch (e) {
+          await showAlertDialog(
+              title: "Xảy ra lỗi", content: e.toString() ?? 'Lỗi');
+          Get.back();
+        }
+      },
+      verificationFailed: (FirebaseAuthException e) async {
+        await showAlertDialog(
+            title: "Lỗi đăng nhập", content: e.message ?? 'Lỗi');
+        Get.back();
+      },
+      codeSent: (String verificationId, int? resendToken) async {
+        if (kDebugMode) {
+          print(verificationId);
+          print(resendToken ?? 0);
+        }
+        receivedID = verificationId;
+        resendTok = resendToken;
       },
       codeAutoRetrievalTimeout: (String verificationId) {
         verId = verificationId;
@@ -75,11 +113,8 @@ class AccountViewModel extends BaseViewModel {
       showLoadingDialog();
       await auth.signInWithCredential(credential).then((value) => {
             userCredential = value,
-            print(
-                'User Login In Successful ${userCredential?.user?.phoneNumber ?? ""}'),
-            print('User Login In Successful ${userCredential ?? ""}')
           });
-      // TODO: Kiem tra xem user moi hay cu
+
       String? token = await auth.currentUser?.getIdToken();
       await accountAPI.signIn(token ?? '').then((value) => user = value);
       if (user == null || user?.userInfo == null) {
@@ -93,8 +128,6 @@ class AccountViewModel extends BaseViewModel {
         await setToken(user!.accessToken ?? '');
         await Get.offAllNamed(RouteHandler.HOME);
       }
-
-      // chuyen sang trang home
     } catch (e) {
       await showAlertDialog(
           title: "Xảy ra lỗi", content: e.toString() ?? 'Lỗi');
@@ -107,8 +140,8 @@ class AccountViewModel extends BaseViewModel {
       setState(ViewStatus.Loading);
       if (user?.userInfo == null) {
       } else {
-        await pointifyData
-            ?.getMembershipDetails(user?.userInfo?.id ?? '')
+        await accountAPI
+            .getUserById(user?.userInfo?.id ?? '')
             .then((value) => memberShipModel = value);
       }
       setState(ViewStatus.Completed);

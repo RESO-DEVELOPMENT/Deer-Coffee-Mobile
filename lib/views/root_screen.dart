@@ -1,20 +1,21 @@
 import 'package:deer_coffee/models/user.dart';
 import 'package:deer_coffee/utils/route_constrant.dart';
 import 'package:deer_coffee/utils/share_pref.dart';
+import 'package:deer_coffee/view_models/account_view_model.dart';
 import 'package:deer_coffee/view_models/cart_view_model.dart';
-import 'package:deer_coffee/views/product_details.dart';
-import 'package:deer_coffee/views/store.dart';
-import 'package:deer_coffee/views/orders_screen.dart';
-import 'package:deer_coffee/views/promotions_screen.dart';
+import 'package:deer_coffee/views/orders_screen/product_details.dart';
+import 'package:deer_coffee/views/stores_screen/store.dart';
+import 'package:deer_coffee/views/orders_screen/orders_screen.dart';
+import 'package:deer_coffee/views/membership_screen/promotions_screen.dart';
 import 'package:deer_coffee/widgets/other_dialogs/dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:scoped_model/scoped_model.dart';
 import '../utils/theme.dart';
 import '../view_models/menu_view_model.dart';
-import 'home_page.dart';
+import 'home_screen/home_page.dart';
 import 'order.dart';
-import 'other_page.dart';
+import 'profile_screen/other_page.dart';
 import 'home_page_order_method.dart';
 import 'bottom_sheet_util.dart';
 import 'home_page_order_method.dart';
@@ -52,6 +53,7 @@ class _RootScreenState extends State<RootScreen> {
   void initState() {
     _selectedIndex = widget.idx;
     getUserInfo().then((value) => userModel = value);
+    Get.find<AccountViewModel>().getMembershipInfo();
     super.initState();
   }
 

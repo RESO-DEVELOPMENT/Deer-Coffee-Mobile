@@ -43,6 +43,7 @@ class CartViewModel extends BaseViewModel {
     try {
       setState(ViewStatus.Loading);
       promotions = await promotionData?.getListPromotionOfPointify();
+      promotions?.removeWhere((element) => element.promotionType == 1);
       setState(ViewStatus.Completed);
     } catch (e) {
       setState(ViewStatus.Error, e.toString());
@@ -171,6 +172,10 @@ class CartViewModel extends BaseViewModel {
   void setStore(StoreModel store) {
     selectedStore = store;
     notifyListeners();
+  }
+
+  PromotionPointify? getPromotionById(String id) {
+    return promotions?.firstWhere((element) => element.promotionId == id);
   }
 
   Future<void> createOrder() async {

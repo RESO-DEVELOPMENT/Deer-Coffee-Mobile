@@ -49,14 +49,20 @@ Future<bool> showAlertDialog(
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              FilledButton(
+              ElevatedButton(
                 onPressed: () {
                   result = false;
                   hideDialog();
                 },
-                child: Text(
-                  confirmText,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: ThemeColor.primary,
+                  textStyle: const TextStyle(
+                    color: Colors.white,
+                  ),
                 ),
+                child: Text(confirmText,
+                    style: Get.textTheme.bodyMedium
+                        ?.copyWith(color: Colors.white)),
               ),
             ],
           ),
@@ -121,17 +127,20 @@ Future<bool> showConfirmDialog(
                   style: Get.textTheme.titleMedium,
                 ),
               ),
-              FilledButton(
+              ElevatedButton(
                 onPressed: () {
                   hideDialog();
                   result = true;
                 },
-                child: Text(
-                  confirmText,
-                  style: Get.textTheme.titleMedium!.copyWith(
-                    color: Get.theme.colorScheme.background,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: ThemeColor.primary,
+                  textStyle: const TextStyle(
+                    color: Colors.white,
                   ),
                 ),
+                child: Text(confirmText,
+                    style: Get.textTheme.bodyMedium
+                        ?.copyWith(color: Colors.white)),
               ),
             ],
           )
@@ -182,41 +191,6 @@ showLoadingDialog() {
   ));
 }
 
-Widget dashboardCard({required String title, required String value}) {
-  return Card(
-    child: Container(
-      padding: EdgeInsets.all(16),
-      height: 160,
-      width: 200,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Expanded(
-            child: Center(
-              child: Text(
-                title,
-                style: Get.textTheme.titleMedium,
-                textAlign: TextAlign.center,
-              ),
-            ),
-          ),
-          Divider(
-            color: Get.theme.colorScheme.onBackground,
-          ),
-          Expanded(
-              child: Center(
-            child: Text(
-              value,
-              style: Get.textTheme.titleLarge,
-            ),
-          )),
-        ],
-      ),
-    ),
-  );
-}
-
 void hideDialog() {
   if (Get.isDialogOpen ?? false) {
     Get.back();
@@ -263,16 +237,18 @@ Future<String?> inputDialog(String title, String hint, String? value,
           },
           child: const Text('Huỷ')),
       ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: ThemeColor.primary,
+        onPressed: () {
+          Get.back(result: result);
+        },
+        style: ElevatedButton.styleFrom(
+          backgroundColor: ThemeColor.primary,
+          textStyle: const TextStyle(
+            color: Colors.white,
           ),
-          onPressed: () {
-            Get.back(result: result);
-          },
-          child: const Text(
-            'Cập nhật',
-            style: TextStyle(color: Colors.white),
-          )),
+        ),
+        child: Text("Thêm",
+            style: Get.textTheme.bodyMedium?.copyWith(color: Colors.white)),
+      ),
     ],
   ));
   return result;

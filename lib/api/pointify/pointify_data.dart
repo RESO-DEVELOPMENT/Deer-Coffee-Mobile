@@ -1,14 +1,15 @@
 import 'package:deer_coffee/models/pointify/check_promotion_model.dart';
 import 'package:deer_coffee/models/pointify/membership_model.dart';
 import 'package:deer_coffee/models/pointify/promotion_details_model.dart';
+import 'package:dio/dio.dart';
 
 import '../../models/pointify/promotion_model.dart';
 import '../../utils/request.dart';
 
 class PointifyData {
   Future<List<PromotionPointify>> getListPromotionOfPointify() async {
-    final res = await pointifyRequest.get(
-      'channels/list-promotions?brandCode=DeerCoffee&ChannelType=2',
+    final res = await request.get(
+      'users/promotions?brandCode=DeerCoffee',
     );
     var jsonList = res.data;
     List<PromotionPointify> listPromotion =

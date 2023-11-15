@@ -1,15 +1,15 @@
 import 'package:barcode_widget/barcode_widget.dart';
-import 'package:deer_coffee/views/order_history.dart';
-import 'package:deer_coffee/views/update_profile.dart';
+import 'package:deer_coffee/views/profile_screen/order_history.dart';
+import 'package:deer_coffee/views/profile_screen/update_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-import '../enums/view_status.dart';
-import '../utils/route_constrant.dart';
-import '../view_models/account_view_model.dart';
+import '../../enums/view_status.dart';
+import '../../utils/route_constrant.dart';
+import '../../view_models/account_view_model.dart';
 
 class OtherPage extends StatefulWidget {
   const OtherPage({super.key});
@@ -238,7 +238,6 @@ class _OtherPageState extends State<OtherPage> {
   }
 
   void _changeItem(int value) {
-    print(value);
     setState(() {
       _currentIndex = value;
     });

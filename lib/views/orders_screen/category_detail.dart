@@ -5,24 +5,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
-import '../models/product.dart';
-import '../utils/format.dart';
-import '../utils/route_constrant.dart';
+import '../../models/product.dart';
+import '../../utils/format.dart';
+import '../../utils/route_constrant.dart';
 
-class CollectionDetailsScreen extends StatefulWidget {
+class CategoryDetailsScreen extends StatefulWidget {
   final String id;
-  const CollectionDetailsScreen({super.key, required this.id});
+  const CategoryDetailsScreen({super.key, required this.id});
 
   @override
-  State<CollectionDetailsScreen> createState() =>
-      _CollectionDetailsScreenState();
+  State<CategoryDetailsScreen> createState() => _CategoryDetailsScreenState();
 }
 
-class _CollectionDetailsScreenState extends State<CollectionDetailsScreen> {
+class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
   List<Product> productList = [];
   @override
   void initState() {
-    productList = Get.find<MenuViewModel>().getProductsByCollection(widget.id);
+    productList =
+        Get.find<MenuViewModel>().getNormalProductsByCategory(widget.id);
     super.initState();
   }
 
@@ -32,7 +32,7 @@ class _CollectionDetailsScreenState extends State<CollectionDetailsScreen> {
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          "Sản phẩm trong bộ sưu tập",
+          "Sản phẩm trong danh mục",
           style:
               Get.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
         ),

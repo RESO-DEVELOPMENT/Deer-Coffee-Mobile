@@ -28,4 +28,11 @@ class AccountAPI {
     UserModel userInfo = UserModel.fromJson(json);
     return userInfo;
   }
+
+  Future<UserDetails> getUserById(String id) async {
+    final res = await request.get('users/$id');
+    var json = res.data;
+    UserDetails userInfo = UserDetails.fromJson(json);
+    return userInfo;
+  }
 }

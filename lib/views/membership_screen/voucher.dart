@@ -1,11 +1,11 @@
 import 'package:deer_coffee/enums/view_status.dart';
 import 'package:deer_coffee/view_models/cart_view_model.dart';
-import 'package:deer_coffee/views/voucher_details.dart';
+import 'package:deer_coffee/views/membership_screen/voucher_details.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-import '../widgets/promotion_widget.dart';
+import '../../widgets/promotion_widget.dart';
 
 class Voucher extends StatefulWidget {
   const Voucher({Key? key}) : super(key: key);

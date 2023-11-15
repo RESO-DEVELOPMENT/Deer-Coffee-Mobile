@@ -175,7 +175,6 @@ class OrderViewModel extends BaseViewModel {
       setState(ViewStatus.Loading);
       OrderDetailsModel orderDetailsModel = await api.getOrderDetails(orderId);
       setState(ViewStatus.Completed);
-      print(orderDetailsModel.invoiceId ?? '');
       return orderDetailsModel;
     } catch (e) {
       setState(ViewStatus.Error, e.toString());

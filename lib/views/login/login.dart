@@ -1,3 +1,4 @@
+import 'package:deer_coffee/utils/theme.dart';
 import 'package:deer_coffee/view_models/account_view_model.dart';
 import 'package:deer_coffee/views/login/login_otp.dart';
 import 'package:flutter/material.dart';
@@ -126,16 +127,16 @@ class _LoginScreenState extends State<LoginScreen> {
                             Theme.of(context).textTheme.headlineSmall!.copyWith(
                                   fontSize: 35,
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.blue[900],
+                                  color: ThemeColor.primary,
                                 ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 50.0,
+                        padding: EdgeInsets.symmetric(
+                          horizontal: Get.width * 0.1,
                           vertical: 20.0,
                         ),
                         child: Container(
-                          width: 550,
+                          width: 280,
                           decoration: BoxDecoration(
                             border: Border.all(
                               width: 1,
@@ -145,23 +146,14 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           child: Row(
                             children: [
-                              SizedBox(
-                                width: 10,
-                              ),
-                              SizedBox(
-                                width: 40,
+                              Container(
+                                padding: EdgeInsets.fromLTRB(16, 4, 4, 4),
+                                width: 60,
                                 child: TextField(
                                   controller: countrycode,
                                   decoration: InputDecoration(
                                     border: InputBorder.none,
                                   ),
-                                ),
-                              ),
-                              Text(
-                                "|",
-                                style: TextStyle(
-                                  fontSize: 33,
-                                  color: Colors.grey,
                                 ),
                               ),
                               Expanded(
@@ -179,7 +171,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       SizedBox(
-                        width: 300,
+                        width: 240,
                         height: 50,
                         child: ElevatedButton(
                           onPressed: () {
@@ -187,17 +179,19 @@ class _LoginScreenState extends State<LoginScreen> {
                             Get.find<AccountViewModel>().onLoginWithPhone(
                                 countrycode.text + phoneNumber.text);
                           },
-                          child: Text("Đăng nhập"),
+                          child: Text('Đăng nhập',
+                              style: Get.textTheme.bodyLarge
+                                  ?.copyWith(color: Colors.white)),
                           style: ElevatedButton.styleFrom(
-                            primary: Colors.grey[300],
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
+                            backgroundColor: ThemeColor.primary,
+                            textStyle: const TextStyle(
+                              color: Colors.white,
                             ),
                           ),
                         ),
                       ),
                       SizedBox(
-                        height: 120,
+                        height: 60,
                       ),
                       SizedBox(
                         child: InkWell(

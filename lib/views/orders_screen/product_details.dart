@@ -8,11 +8,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-import '../enums/product_enum.dart';
-import '../models/category.dart';
-import '../models/product.dart';
-import '../models/product_attribute.dart';
-import '../utils/format.dart';
+import '../../enums/product_enum.dart';
+import '../../models/category.dart';
+import '../../models/product.dart';
+import '../../models/product_attribute.dart';
+import '../../utils/format.dart';
 
 class Option extends StatefulWidget {
   final String id;

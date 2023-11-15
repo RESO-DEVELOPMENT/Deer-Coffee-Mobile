@@ -1,5 +1,6 @@
 import 'package:deer_coffee/enums/view_status.dart';
 import 'package:deer_coffee/models/pointify/promotion_details_model.dart';
+import 'package:deer_coffee/models/pointify/promotion_model.dart';
 import 'package:deer_coffee/utils/format.dart';
 import 'package:deer_coffee/utils/route_constrant.dart';
 import 'package:deer_coffee/utils/theme.dart';
@@ -19,15 +20,11 @@ class PromotionDetailsScreen extends StatefulWidget {
 }
 
 class _PromotionDetailsScreenState extends State<PromotionDetailsScreen> {
-  PromotionDetailsModel? promotionDetailsModel;
+  PromotionPointify? promotionDetailsModel;
   @override
   void initState() {
-    Get.find<CartViewModel>()
-        .getPromotionDetailsById(widget.id)
-        .then((value) => {
-              promotionDetailsModel = value,
-              print(promotionDetailsModel?.promotionName ?? 'asdas')
-            });
+    promotionDetailsModel =
+        Get.find<CartViewModel>().getPromotionById(widget.id);
     super.initState();
   }
 
@@ -41,6 +38,15 @@ class _PromotionDetailsScreenState extends State<PromotionDetailsScreen> {
             builder: (context, build, model) {
           if (model.status == ViewStatus.Loading) {
             return const Center(child: CircularProgressIndicator());
+          }
+          if (promotionDetailsModel == null) {
+            return Scaffold(
+              appBar: AppBar(),
+              body: Center(
+                  child: Text(
+                "Không tìm thấy khuyến mãi",
+              )),
+            );
           }
           return Stack(
             children: [

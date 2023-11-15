@@ -95,10 +95,11 @@ class MyRequest {
       // baseUrl: 'https://localhost:7131/api/v1/',
       headers: {
         Headers.contentTypeHeader: "application/json",
-        Headers.acceptHeader: "text/plain"
+        Headers.acceptHeader: "text/plain",
       },
       sendTimeout: const Duration(seconds: 15),
       receiveTimeout: const Duration(seconds: 5));
+
   late Dio _inner;
   MyRequest() {
     _inner = Dio(options);
@@ -176,7 +177,7 @@ class PaymentRequest {
             title: "Lỗi hệ thống " + e.response?.data["StatusCode"],
             content: e.response?.data["Error"] + "/n Vui lòng đăng nhập lại",
           );
-          res.then((value) => Get.offAllNamed(RouteHandler.LOGIN));
+          res.then((value) => Get.offAllNamed(RouteHandler.WELCOME));
         } else {
           showAlertDialog(
             title: "Lỗi",
@@ -205,6 +206,7 @@ class PointifyRequest {
         Headers.contentTypeHeader: "application/json",
         Headers.acceptHeader: "text/plain",
       },
+      connectTimeout: Duration(seconds: 15),
       sendTimeout: Duration(seconds: 15),
       receiveTimeout: Duration(seconds: 5));
   late Dio _inner;
@@ -225,7 +227,7 @@ class PointifyRequest {
             title: "Lỗi hệ thống " + e.response?.data["StatusCode"],
             content: e.response?.data["Error"] + "/n Vui lòng đăng nhập lại",
           );
-          res.then((value) => Get.offAllNamed(RouteHandler.LOGIN));
+          res.then((value) => Get.offAllNamed(RouteHandler.WELCOME));
         }
         handler.next(e);
       },

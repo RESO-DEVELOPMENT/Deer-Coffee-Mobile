@@ -1,19 +1,19 @@
 import 'package:deer_coffee/models/collection.dart';
 import 'package:deer_coffee/utils/format.dart';
 import 'package:deer_coffee/view_models/menu_view_model.dart';
-import 'package:deer_coffee/views/product_details.dart';
+import 'package:deer_coffee/views/orders_screen/product_details.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-import '../models/product.dart';
-import '../utils/route_constrant.dart';
-import '../utils/theme.dart';
-import '../view_models/account_view_model.dart';
-import '../widgets/app_bar/user_app_bar.dart';
-import 'home_page.dart';
+import '../../models/product.dart';
+import '../../utils/route_constrant.dart';
+import '../../utils/theme.dart';
+import '../../view_models/account_view_model.dart';
+import '../../widgets/app_bar/user_app_bar.dart';
+import '../home_screen/home_page.dart';
 
 class OrdersScreen extends StatefulWidget {
   OrdersScreen({Key? key}) : super(key: key);
@@ -102,18 +102,16 @@ class _OrdersScreenState extends State<OrdersScreen> {
             SliverList.list(
               children: [
                 Container(
-                    height: 240,
-                    width: Get.width,
-                    padding: EdgeInsets.fromLTRB(0, 24, 0, 24),
+                    padding: const EdgeInsets.all(8),
                     child: ScopedModelDescendant<MenuViewModel>(
                         builder: (context, child, model) {
                       return GridView.count(
                         shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
+                        physics: const NeverScrollableScrollPhysics(),
                         crossAxisCount: 4,
                         mainAxisSpacing: 2,
                         crossAxisSpacing: 2,
-                        padding: EdgeInsets.all(4),
+                        padding: const EdgeInsets.all(4),
                         children: model.categories!
                             .map(
                               (e) => buildCircularButton(
@@ -149,7 +147,6 @@ class _OrdersScreenState extends State<OrdersScreen> {
   }
 
   void _changeItem(int value) {
-    print(value);
     setState(() {
       _currentIndex = value;
     });

@@ -17,7 +17,6 @@ class OrderAPI {
     var dataJson = cart.toJson();
     final res = await request.post('/orders/prepare', data: dataJson);
     var jsonList = res.data;
-    print(jsonList);
     return CartModel.fromJson(jsonList);
   }
 

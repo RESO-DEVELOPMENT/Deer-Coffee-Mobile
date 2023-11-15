@@ -16,9 +16,10 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-import '../utils/route_constrant.dart';
-import '../widgets/other_dialogs/dialog.dart';
-import 'bottom_sheet_util.dart';
+import '../../utils/route_constrant.dart';
+import '../../widgets/other_dialogs/dialog.dart';
+import '../bottom_sheet_util.dart';
+import '../login/login_card.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -43,7 +44,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     // TODO: implement initState
-    Get.find<AccountViewModel>().getMembershipInfo();
+    // Get.find<AccountViewModel>().getMembershipInfo();
   }
 
   @override
@@ -122,7 +123,7 @@ class _HomePageState extends State<HomePage> {
               flexibleSpace: ScopedModelDescendant<AccountViewModel>(
                   builder: (context, build, model) {
                 if (model.user?.userInfo == null) {
-                  return FlexibleSpaceBar(background: loginCard());
+                  return const FlexibleSpaceBar(background: LoginCard());
                 } else {
                   return FlexibleSpaceBar(background: userCard(model));
                 }
@@ -141,7 +142,7 @@ class _HomePageState extends State<HomePage> {
                       topRight: Radius.circular(20),
                     ),
                   ),
-                  padding: EdgeInsets.only(bottom: 120),
+                  padding: EdgeInsets.only(bottom: 60),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
@@ -352,7 +353,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _changeItem(int value) {
-    print(value);
     setState(() {
       _currentIndex = value;
     });
@@ -398,125 +398,12 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget loginCard() {
-    return Container(
-      margin: const EdgeInsets.fromLTRB(8, 110, 8, 16),
-      padding: const EdgeInsets.all(8),
-      width: Get.width * 0.9,
-      height: 180,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text(
-            'Đăng nhập',
-            style: Get.textTheme.titleMedium
-                ?.copyWith(fontWeight: FontWeight.bold),
-          ),
-          Text(
-            'Sử dụng app để tích điểm và đổi những ưu đãi chỉ dành riêng cho thành viên bạn nhé !',
-            style: Get.textTheme.bodySmall,
-            textAlign: TextAlign.center,
-          ),
-          SizedBox(
-            height: 8,
-          ),
-          Stack(
-            alignment: Alignment.center,
-            children: [
-              Image.asset(
-                'assets/images/hinhchunhat.png',
-                height: 100,
-                width: 329,
-                fit: BoxFit.cover,
-              ),
-              Positioned(
-                top: -15,
-                child: Container(
-                  width: Get.width * 0.6,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    gradient: LinearGradient(
-                      begin: Alignment(-1, -1.133),
-                      end: Alignment(1, 1.367),
-                      colors: <Color>[Colors.blueAccent, Color(0xffc8ddff)],
-                      stops: <double>[0.014, 1],
-                    ),
-                  ),
-                  child: TextButton(
-                    onPressed: () {
-                      LoginScreen loginScreen = LoginScreen();
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => loginScreen,
-                        ),
-                      );
-                    },
-                    child: Text('Đăng nhập',
-                        textAlign: TextAlign.center,
-                        style: Get.textTheme.bodyLarge
-                            ?.copyWith(color: Colors.white)),
-                  ),
-                ),
-              ),
-              Positioned(
-                top: 80,
-                child: Container(
-                  width: Get.width * 0.6,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    gradient: LinearGradient(
-                      begin: Alignment(-1, -1.133),
-                      end: Alignment(1, 1.367),
-                      colors: <Color>[Colors.blueAccent, Color(0xffc8ddff)],
-                      stops: <double>[0.014, 1],
-                    ),
-                  ),
-                  child: TextButton(
-                    onPressed: () {},
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Deer Coffee Reward',
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w600,
-                            color: Color(0xffffffff),
-                          ),
-                        ),
-                        Icon(
-                          Icons.chevron_right,
-                          color: Colors.white,
-                          size: 25,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ],
-            clipBehavior: Clip.none,
-          ),
-        ],
-      ),
-    );
-  }
-
   Widget userCard(AccountViewModel model) {
     if (model.memberShipModel == null) {
       return SizedBox();
     }
     return Container(
-      margin: const EdgeInsets.fromLTRB(16, 120, 16, 16),
+      margin: const EdgeInsets.fromLTRB(16, 80, 16, 16),
       padding: const EdgeInsets.all(16),
       width: Get.width * 0.9,
       height: 200,
@@ -534,7 +421,7 @@ class _HomePageState extends State<HomePage> {
         children: [
           Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: model.memberShipModel!.memberWallet!
+              children: model.memberShipModel!.wallets!
                   .map((e) => Text(
                         '${e.name ?? ''}: ${(e.name ?? '') == "Số dư" ? formatPrice(e.balance ?? 0) : formatPriceWithoutUnit(e.balance ?? 0)}',
                         style: Get.textTheme.bodyLarge?.copyWith(

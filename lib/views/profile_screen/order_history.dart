@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-import '../utils/route_constrant.dart';
+import '../../utils/route_constrant.dart';
 
 class OrderHistory extends StatefulWidget {
   const OrderHistory({Key? key});

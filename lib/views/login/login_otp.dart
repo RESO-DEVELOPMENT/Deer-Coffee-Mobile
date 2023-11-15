@@ -15,7 +15,7 @@ class MyOtp extends StatefulWidget {
 }
 
 class _MyOtpState extends State<MyOtp> {
-  int _countdown = 60; // Đếm ngược từ 60 giây
+  int _countdown = 6; // Đếm ngược từ 60 giây
   late Timer _timer;
   String? phoneNumber;
 
@@ -27,7 +27,7 @@ class _MyOtpState extends State<MyOtp> {
   }
 
   void startCountdown() {
-    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() {
         if (_countdown > 0) {
           _countdown--;
@@ -181,13 +181,13 @@ class _MyOtpState extends State<MyOtp> {
                             Text("Bạn không nhận mã?"),
                             TextButton(
                               onPressed: () {
-                                setState(() {
-                                  _countdown = 180;
-                                });
-                                startCountdown();
+                                if (_countdown == 0) {
+                                  Get.find<AccountViewModel>().resendOtp();
+                                }
                               },
-                              child: Text('Gửi lại '),
+                              child: Text('Gửi lại'),
                             ),
+                            Text("sau "),
                             Text(
                               '($_countdown)',
                               style: TextStyle(color: Colors.black),
