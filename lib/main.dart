@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:deer_coffee/views/cart.dart';
+import 'package:deer_coffee/views/home_screen/blog_details.dart';
 import 'package:deer_coffee/views/orders_screen/category_detail.dart';
 import 'package:deer_coffee/views/orders_screen/collection_detail.dart';
 import 'package:deer_coffee/views/profile_screen/order_history.dart';
@@ -10,8 +11,8 @@ import 'package:deer_coffee/views/orders_screen/product_details.dart';
 import 'package:deer_coffee/views/membership_screen/promotion_details.dart';
 import 'package:deer_coffee/views/membership_screen/voucher.dart';
 import 'package:deer_coffee/views/membership_screen/voucher_details.dart';
+import 'package:deer_coffee/views/stores_screen/store_details.dart';
 import 'package:firebase_core/firebase_core.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -53,7 +54,6 @@ class MyApp extends StatelessWidget {
       title: 'Deer Coffee',
       theme: ThemeData(
           colorSchemeSeed: const Color(0xff8FBEFF),
-          useMaterial3: true,
           brightness: Brightness.light,
           fontFamily: 'Inter'),
       themeMode: ThemeMode.light,
@@ -121,6 +121,18 @@ class MyApp extends StatelessWidget {
         GetPage(
             name: RouteHandler.COLLECTION_DETAIL,
             page: () => CollectionDetailsScreen(
+                  id: Get.parameters['id'] ?? '',
+                ),
+            transition: Transition.cupertino),
+        GetPage(
+            name: RouteHandler.BLOG,
+            page: () => BannerDetailScreen(
+                  id: Get.parameters['id'] ?? '',
+                ),
+            transition: Transition.cupertino),
+        GetPage(
+            name: RouteHandler.STORE,
+            page: () => StoreDetailScreen(
                   id: Get.parameters['id'] ?? '',
                 ),
             transition: Transition.cupertino),

@@ -73,6 +73,10 @@ class MenuViewModel extends BaseViewModel {
     setState(ViewStatus.Completed);
   }
 
+  BlogModel? getBlogDetailById(String id) {
+    return blogList?.firstWhere((element) => element.id == id);
+  }
+
   Product getProductById(String id) {
     return normalProducts!.firstWhere((element) => element.id == id);
   }

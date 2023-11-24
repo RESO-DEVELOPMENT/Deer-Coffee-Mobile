@@ -10,10 +10,11 @@ class LoginCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.fromLTRB(16, 80, 16, 16),
-      padding: const EdgeInsets.all(8),
+      margin: GetPlatform.isIOS
+          ? const EdgeInsets.fromLTRB(16, 120, 16, 16)
+          : const EdgeInsets.fromLTRB(16, 100, 16, 16),
+      padding: const EdgeInsets.all(4),
       width: Get.width * 0.9,
-      height: 200,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),

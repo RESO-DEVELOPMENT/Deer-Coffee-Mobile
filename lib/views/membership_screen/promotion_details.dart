@@ -1,6 +1,7 @@
 import 'package:deer_coffee/enums/view_status.dart';
 import 'package:deer_coffee/models/pointify/promotion_details_model.dart';
 import 'package:deer_coffee/models/pointify/promotion_model.dart';
+import 'package:deer_coffee/models/pointify/voucher_model.dart';
 import 'package:deer_coffee/utils/format.dart';
 import 'package:deer_coffee/utils/route_constrant.dart';
 import 'package:deer_coffee/utils/theme.dart';
@@ -21,10 +22,21 @@ class PromotionDetailsScreen extends StatefulWidget {
 
 class _PromotionDetailsScreenState extends State<PromotionDetailsScreen> {
   PromotionPointify? promotionDetailsModel;
+  List<VoucherModel>? vouchers;
+  String? selectedCode;
   @override
   void initState() {
     promotionDetailsModel =
         Get.find<CartViewModel>().getPromotionById(widget.id);
+    vouchers = Get.find<CartViewModel>().getListVoucherOfPromotions(widget.id);
+    vouchers?.removeWhere((element) => element.isUsed ?? false);
+    // ignore: prefer_is_not_empty
+    if (promotionDetailsModel?.promotionType == 3 && !(vouchers!.isEmpty)) {
+      selectedCode =
+          '${promotionDetailsModel?.promotionCode}-${vouchers?.first.voucherCode ?? ''}';
+    } else {
+      selectedCode = promotionDetailsModel?.promotionCode ?? '';
+    }
     super.initState();
   }
 
@@ -90,7 +102,7 @@ class _PromotionDetailsScreenState extends State<PromotionDetailsScreen> {
                             // Create the ticket-like UI
                             Container(
                               width: Get.width * 0.8,
-                              height: Get.height * 0.75,
+                              height: Get.height * 0.8,
                               decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(20),
@@ -121,32 +133,28 @@ class _PromotionDetailsScreenState extends State<PromotionDetailsScreen> {
                                     maxLines: 2,
                                     textAlign: TextAlign.center,
                                   ),
-                                  CustomPaint(
-                                    size: const Size(500,
-                                        12), // Điều chỉnh kích thước của đường kẻ
-                                    painter: DotPainter(),
-                                  ),
+                                  // CustomPaint(
+                                  //   size: Size(Get.width,
+                                  //       12), // Điều chỉnh kích thước của đường kẻ
+                                  //   painter: DotPainter(),
+                                  // ),
                                   Padding(
                                     padding: const EdgeInsets.all(16),
                                     child: QrImageView(
-                                      data: promotionDetailsModel
-                                              ?.promotionCode ??
-                                          '',
+                                      data: selectedCode ?? '',
                                       version: QrVersions.auto,
                                       size: 180.0,
                                     ),
                                   ),
                                   Text(
-                                    promotionDetailsModel?.promotionCode ?? "",
+                                    selectedCode ?? "",
                                     style: Get.textTheme.bodyMedium
                                         ?.copyWith(fontWeight: FontWeight.bold),
                                   ),
                                   TextButton(
                                     onPressed: () {
                                       Clipboard.setData(ClipboardData(
-                                          text: promotionDetailsModel
-                                                  ?.promotionCode ??
-                                              ''));
+                                          text: selectedCode ?? ''));
                                       Get.snackbar("Đã sao chép",
                                           '${promotionDetailsModel?.promotionCode}');
                                     },
@@ -168,9 +176,10 @@ class _PromotionDetailsScreenState extends State<PromotionDetailsScreen> {
                                           Get.back();
                                         } else {
                                           model.selectPromotion(
+                                              selectedCode ?? '',
                                               promotionDetailsModel
-                                                      ?.promotionCode ??
-                                                  '');
+                                                      ?.promotionType ??
+                                                  2);
                                           Get.back();
                                         }
                                       },
@@ -206,6 +215,26 @@ class _PromotionDetailsScreenState extends State<PromotionDetailsScreen> {
                                           formatOnlyDate(
                                               promotionDetailsModel?.endDate ??
                                                   "2025-01-01T00:00:00"),
+                                          style: Get.textTheme.bodySmall),
+                                    ],
+                                  ),
+                                  Divider(
+                                    color: Colors.grey[300],
+                                    thickness: 1,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment
+                                        .spaceBetween, // Căn giữa và đặt cách đều hai phần tử
+                                    children: [
+                                      Text('Lượt sử dụng còn lại',
+                                          style: Get.textTheme.bodySmall),
+                                      Text(
+                                          promotionDetailsModel
+                                                      ?.promotionType ==
+                                                  3
+                                              ? (vouchers?.length ?? 0)
+                                                  .toString()
+                                              : "Vô hạn",
                                           style: Get.textTheme.bodySmall),
                                     ],
                                   ),

@@ -13,6 +13,7 @@ import '../../utils/route_constrant.dart';
 import '../../utils/theme.dart';
 import '../../view_models/account_view_model.dart';
 import '../../widgets/app_bar/user_app_bar.dart';
+import 'product_card.dart';
 import '../home_screen/home_page.dart';
 
 class OrdersScreen extends StatefulWidget {
@@ -50,8 +51,8 @@ class _OrdersScreenState extends State<OrdersScreen> {
                             children: [
                               Text("Chào ngày mới!",
                                   style: Get.textTheme.bodyMedium),
-                              Text(model.user?.userInfo?.fullName ?? '',
-                                  style: Get.textTheme.titleMedium
+                              Text(model.memberShipModel?.fullName ?? '',
+                                  style: Get.textTheme.bodyLarge
                                       ?.copyWith(fontWeight: FontWeight.bold)),
                             ],
                           ),
@@ -171,70 +172,9 @@ class _OrdersScreenState extends State<OrdersScreen> {
           ),
         ),
         Column(
-          children: products.map((e) => productCard(e)).toList(),
+          children: products.map((e) => ProductCard(product: e)).toList(),
         )
       ],
-    );
-  }
-
-  Widget productCard(Product product) {
-    return Container(
-      height: 100,
-      padding: const EdgeInsets.all(8.0),
-      child: InkWell(
-        onTap: () {
-          Get.toNamed("${RouteHandler.PRODUCT_DETAIL}?id=${product.id}");
-        },
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment
-              .start, // Đặt căn chỉnh các phần tử trong hàng lên trên cùng
-          children: [
-            Container(
-              width: 80,
-              decoration:
-                  BoxDecoration(borderRadius: BorderRadius.circular(16)),
-              child: Image.network(
-                loadingBuilder: (BuildContext context, Widget child,
-                    ImageChunkEvent? loadingProgress) {
-                  if (loadingProgress == null) {
-                    return child;
-                  }
-                  return Center(
-                    child: CircularProgressIndicator(
-                      value: loadingProgress.expectedTotalBytes != null
-                          ? loadingProgress.cumulativeBytesLoaded /
-                              loadingProgress.expectedTotalBytes!
-                          : null,
-                    ),
-                  );
-                },
-                product.picUrl!.isEmpty
-                    ? 'https://i.imgur.com/X0WTML2.jpg'
-                    : product.picUrl!,
-                fit: BoxFit.contain,
-              ),
-            ),
-            SizedBox(
-              width: 12,
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              crossAxisAlignment: CrossAxisAlignment
-                  .start, // Đặt căn chỉnh theo chiều ngang sang trái
-              children: [
-                Text(product.name ?? "", style: Get.textTheme.titleSmall),
-                SizedBox(
-                    height:
-                        10), // Đặt khoảng cách giữa "Kiwi Yogurt" và "49.000đ"
-                Text(formatPrice(product.sellingPrice ?? 0),
-                    style: Get.textTheme.titleMedium),
-              ],
-            ),
-            // Thêm nút "Add" và xử lý khi được nhấn
-          ],
-        ),
-      ),
     );
   }
 

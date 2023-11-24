@@ -14,4 +14,6 @@ class RouteHandler {
   static const String NOT_FOUND = "/404";
   static const String CATEGORY_DETAIL = "/category-detail";
   static const String COLLECTION_DETAIL = "/collection-detail";
+  static const String BLOG = "/blog";
+  static const String STORE = "/store";
 }

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:barcode/barcode.dart';
 import 'package:barcode_widget/barcode_widget.dart';
 import 'package:deer_coffee/enums/order_enum.dart';
@@ -7,6 +9,7 @@ import 'package:deer_coffee/utils/theme.dart';
 import 'package:deer_coffee/view_models/account_view_model.dart';
 import 'package:deer_coffee/view_models/cart_view_model.dart';
 import 'package:deer_coffee/view_models/menu_view_model.dart';
+import 'package:deer_coffee/views/home_screen/banner_home.dart';
 import 'package:deer_coffee/views/login/login.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -50,72 +53,59 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFE5EDFF),
+      backgroundColor: const Color(0xFFE5EDFF),
       body: CustomScrollView(
         slivers: [
           ScopedModel<AccountViewModel>(
             model: Get.find<AccountViewModel>(),
             child: SliverAppBar(
-              expandedHeight: 280.0,
+              expandedHeight: 240.0,
               backgroundColor: const Color(0xFFE5EDFF),
               floating: true,
               pinned: true,
               title: ScopedModelDescendant<AccountViewModel>(
                   builder: (context, build, model) {
                 return Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Row(
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text("Chào ngày mới!",
-                                style: Get.textTheme.bodyMedium),
-                            Text(model.user?.userInfo?.fullName ?? '',
-                                style: Get.textTheme.titleMedium
-                                    ?.copyWith(fontWeight: FontWeight.bold)),
-                          ],
-                        ),
-                      ],
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text("Chào ngày mới!",
+                              style: Get.textTheme.bodyMedium),
+                          Text(model.memberShipModel?.fullName ?? '',
+                              style: Get.textTheme.bodyLarge
+                                  ?.copyWith(fontWeight: FontWeight.bold)),
+                        ],
+                      ),
                     ),
-                    Row(
-                      children: [
-                        Container(
-                          width: 55,
-                          height: 40,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.rectangle,
-                            borderRadius: BorderRadius.circular(12),
-                            color: ThemeColor.primary,
-                          ),
-                          child: IconButton(
-                            icon: const Icon(
-                              Icons.confirmation_num_outlined,
-                              color: Colors.white,
-                            ),
-                            onPressed: () {
-                              Get.toNamed(RouteHandler.VOUCHER);
-                            },
-                          ),
-                        ),
-                        Container(
-                          width: 50,
-                          height: 40,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: ThemeColor.primary,
-                          ),
-                          child: IconButton(
-                            icon: Icon(
-                              Icons.notifications_outlined,
-                              color: Colors.white,
-                            ),
-                            onPressed: () {},
-                          ),
-                        ),
-                      ],
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: ThemeColor.primary,
+                      ),
+                      child: const Icon(
+                        Icons.confirmation_num_outlined,
+                        size: 24,
+                        color: Colors.white,
+                      ),
+                      onPressed: () {
+                        Get.toNamed(RouteHandler.VOUCHER);
+                      },
+                    ),
+                    const SizedBox(width: 8),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: ThemeColor.primary,
+                          padding: const EdgeInsets.fromLTRB(0, 0, 0, 0)),
+                      child: const Icon(
+                        Icons.notifications_outlined,
+                        size: 24,
+                        color: Colors.white,
+                      ),
+                      onPressed: () {},
                     ),
                   ],
                 );
@@ -135,14 +125,14 @@ class _HomePageState extends State<HomePage> {
             child: SliverList.list(
               children: [
                 Container(
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(20),
                       topRight: Radius.circular(20),
                     ),
                   ),
-                  padding: EdgeInsets.only(bottom: 60),
+                  padding: const EdgeInsets.only(bottom: 60),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
@@ -176,7 +166,7 @@ class _HomePageState extends State<HomePage> {
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
                                     Icon(
-                                      Icons.store,
+                                      Icons.local_cafe_outlined,
                                       color: ThemeColor.primary,
                                       size: 32,
                                     ),
@@ -209,7 +199,7 @@ class _HomePageState extends State<HomePage> {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     Icon(
-                                      Icons.delivery_dining,
+                                      Icons.electric_moped_outlined,
                                       color: ThemeColor.primary,
                                       size: 32,
                                     ),
@@ -234,7 +224,7 @@ class _HomePageState extends State<HomePage> {
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
                                     Icon(
-                                      Icons.coffee_maker,
+                                      Icons.home_outlined,
                                       color: ThemeColor.primary,
                                       size: 36,
                                     ),
@@ -253,7 +243,7 @@ class _HomePageState extends State<HomePage> {
                       ScopedModelDescendant<MenuViewModel>(
                           builder: (context, build, model) {
                         return Container(
-                          padding: EdgeInsets.all(16),
+                          padding: const EdgeInsets.all(16),
                           child: CarouselSlider(
                             options: CarouselOptions(
                               scrollPhysics: const BouncingScrollPhysics(),
@@ -270,13 +260,22 @@ class _HomePageState extends State<HomePage> {
                             items: model.blogList?.map((blog) {
                               return Builder(
                                 builder: (BuildContext context) {
-                                  return Container(
-                                    width: MediaQuery.of(context).size.width,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(8.0),
-                                      image: DecorationImage(
-                                          image: NetworkImage(blog.image ?? ""),
-                                          fit: BoxFit.cover),
+                                  return InkWell(
+                                    onTap: () {
+                                      Get.toNamed(
+                                        "${RouteHandler.BLOG}?id=${blog.id}",
+                                      );
+                                    },
+                                    child: Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                        image: DecorationImage(
+                                            image:
+                                                NetworkImage(blog.image ?? ""),
+                                            fit: BoxFit.cover),
+                                      ),
                                     ),
                                   );
                                 },
@@ -286,16 +285,16 @@ class _HomePageState extends State<HomePage> {
                         );
                       }),
                       Container(
-                          padding: EdgeInsets.fromLTRB(0, 24, 0, 24),
+                          padding: const EdgeInsets.fromLTRB(0, 24, 0, 24),
                           child: ScopedModelDescendant<MenuViewModel>(
                               builder: (context, child, model) {
                             return GridView.count(
                               shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
+                              physics: const NeverScrollableScrollPhysics(),
                               crossAxisCount: 4,
                               mainAxisSpacing: 2,
                               crossAxisSpacing: 2,
-                              padding: EdgeInsets.all(4),
+                              padding: const EdgeInsets.all(4),
                               children: model.categories!
                                   .map(
                                     (e) => buildCircularButton(e.name ?? '',
@@ -312,7 +311,7 @@ class _HomePageState extends State<HomePage> {
                         return GridView.count(
                             crossAxisCount: 2,
                             shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
+                            physics: const NeverScrollableScrollPhysics(),
                             children: model.blogList!
                                 .map((e) => Padding(
                                       padding: const EdgeInsets.all(8.0),
@@ -323,16 +322,41 @@ class _HomePageState extends State<HomePage> {
                                         ),
                                         color: Colors.grey,
                                         clipBehavior: Clip.none,
-                                        child: Container(
-                                          width:
-                                              MediaQuery.of(context).size.width,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(8.0),
-                                            image: DecorationImage(
-                                                image:
-                                                    NetworkImage(e.image ?? ""),
-                                                fit: BoxFit.cover),
+                                        child: InkWell(
+                                          onTap: () {
+                                            Get.toNamed(
+                                              "${RouteHandler.BLOG}?id=${e.id}",
+                                            );
+                                          },
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(8.0),
+                                              image: DecorationImage(
+                                                  image: NetworkImage(
+                                                      e.image ?? ""),
+                                                  fit: BoxFit.cover),
+                                            ),
+                                            child: Align(
+                                                alignment:
+                                                    Alignment.bottomCenter,
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(4),
+                                                  child: Text(
+                                                    e.title ?? '',
+                                                    maxLines: 2,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    style: Get
+                                                        .textTheme.bodyMedium
+                                                        ?.copyWith(
+                                                            color: Colors.white,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                  ),
+                                                )),
                                           ),
                                         ),
                                       ),
@@ -400,48 +424,35 @@ class _HomePageState extends State<HomePage> {
 
   Widget userCard(AccountViewModel model) {
     if (model.memberShipModel == null) {
-      return SizedBox();
+      return const SizedBox();
     }
     return Container(
-      margin: const EdgeInsets.fromLTRB(16, 80, 16, 16),
+      margin: GetPlatform.isWeb
+          ? const EdgeInsets.fromLTRB(16, 80, 16, 16)
+          : const EdgeInsets.fromLTRB(16, 120, 16, 16),
       padding: const EdgeInsets.all(16),
       width: Get.width * 0.9,
-      height: 200,
+      height: 100,
       decoration: BoxDecoration(
-        image: DecorationImage(
+        image: const DecorationImage(
           image: AssetImage('assets/images/homepage.png'),
           fit: BoxFit.cover,
         ),
         color: Colors.blueAccent,
         borderRadius: BorderRadius.circular(24),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: model.memberShipModel!.wallets!
-                  .map((e) => Text(
-                        '${e.name ?? ''}: ${(e.name ?? '') == "Số dư" ? formatPrice(e.balance ?? 0) : formatPriceWithoutUnit(e.balance ?? 0)}',
-                        style: Get.textTheme.bodyLarge?.copyWith(
-                            color: Colors.white, fontWeight: FontWeight.bold),
-                      ))
-                  .toList()),
-          Card(
-            child: Container(
-              height: 100,
-              width: Get.width, // Chỉnh độ cao của container chứa ảnh
-              padding: const EdgeInsets.all(16), // Loại bỏ padding
-              child: BarcodeWidget(
-                  barcode: Barcode.code128(),
-                  drawText: false,
-                  data: model.memberShipModel?.phoneNumber ?? '',
-                  style: Get.textTheme.titleMedium
-                      ?.copyWith(fontWeight: FontWeight.bold)),
-            ),
-          ),
-        ],
+      child: Card(
+        child: Container(
+          height: 80,
+          width: Get.width, // Chỉnh độ cao của container chứa ảnh
+          padding: const EdgeInsets.all(16), // Loại bỏ padding
+          child: BarcodeWidget(
+              barcode: Barcode.code128(),
+              drawText: false,
+              data: model.memberShipModel?.phoneNumber ?? '',
+              style: Get.textTheme.titleMedium
+                  ?.copyWith(fontWeight: FontWeight.bold)),
+        ),
       ),
     );
   }

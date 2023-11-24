@@ -1,15 +1,20 @@
+import 'dart:io' as io;
 import 'package:deer_coffee/enums/view_status.dart';
 import 'package:deer_coffee/models/user.dart';
+import 'package:deer_coffee/models/user_create.dart';
 import 'package:deer_coffee/utils/theme.dart';
 import 'package:deer_coffee/view_models/account_view_model.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:pinput/pinput.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 class UpdateProfilePage extends StatefulWidget {
-  const UpdateProfilePage({Key? key});
+  const UpdateProfilePage({super.key});
 
   @override
   _UpdateProfilePageState createState() => _UpdateProfilePageState();
@@ -17,19 +22,21 @@ class UpdateProfilePage extends StatefulWidget {
 
 class _UpdateProfilePageState extends State<UpdateProfilePage> {
   // Các biến để lưu giá trị nhập
-  TextEditingController _nameController = TextEditingController();
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _phoneController = TextEditingController();
-  DateTime _selectedDate = DateTime.now();
-  String _selectedGender = 'Nam';
-  UserModel? user;
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
+  String _selectedGender = 'ORTHER';
+  String? downloadURL;
+  UserDetails? user;
 
   @override
   void initState() {
-    user = Get.find<AccountViewModel>().user;
-    _nameController.setText(user?.userInfo?.fullName ?? '');
-    _emailController.setText(user?.userInfo?.email ?? '');
-    _phoneController.setText(user?.userInfo?.phoneNumber ?? '');
+    user = Get.find<AccountViewModel>().memberShipModel;
+    _nameController.setText(user?.fullName ?? '');
+    _emailController.setText(user?.email ?? '');
+    _phoneController.setText(user?.phoneNumber ?? '');
+    _selectedGender = user?.gender ?? 'ORTHER';
+    downloadURL = user?.urlImg;
     super.initState();
   }
 
@@ -37,7 +44,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Cập nhật thông tin",
+        title: Text("Thông tin người dùng",
             style: Get.textTheme.titleMedium
                 ?.copyWith(fontWeight: FontWeight.bold)),
         centerTitle: true,
@@ -52,7 +59,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
 
           if (user == null) {
             return Center(
-              child: Text("Không có user"),
+              child: Text("Không có thông tin người dùng"),
             );
           }
           return SingleChildScrollView(
@@ -69,8 +76,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                       fit: StackFit.expand,
                       children: [
                         CircleAvatar(
-                          backgroundImage:
-                              NetworkImage(user?.userInfo?.urlImg ?? ""),
+                          backgroundImage: NetworkImage(downloadURL ?? ""),
                         ),
                         Positioned(
                           bottom: 0,
@@ -79,17 +85,15 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                             height: 50,
                             width: 50,
                             child: ElevatedButton(
-                              onPressed:
-                                  () {}, // Gọi hàm xử lý khi người dùng bấm vào biểu tượng máy ảnh
-                              child: Icon(
-                                Icons.camera_alt,
-                                color: Colors.black, // Màu biểu tượng
-                              ),
+                              onPressed: _pickImage,
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors
                                     .transparent, // Đặt nền của nút là trong suốt
                                 elevation: 0, // Loại bỏ bóng đổ
-                              ),
+                              ), // Gọi hàm xử lý khi người dùng bấm vào biểu tượng máy ảnh
+                              child: Icon(Icons.camera_alt,
+                                  color: ThemeColor.primary // Màu biểu tượng
+                                  ),
                             ),
                           ),
                         ),
@@ -100,9 +104,9 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
 
                 // Tên
                 Container(
-                  height: 70,
+                  height: 50,
                   width: double.infinity,
-                  padding: EdgeInsets.all(10),
+                  margin: EdgeInsets.all(8),
                   child: TextField(
                     controller: _nameController,
                     decoration: InputDecoration(
@@ -112,23 +116,23 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                   ),
                 ),
                 Container(
-                  height: 70,
+                  height: 50,
                   width: double.infinity,
-                  padding: EdgeInsets.all(10),
+                  margin: EdgeInsets.all(8),
                   child: TextField(
                     readOnly: true,
                     controller: _phoneController,
                     decoration: InputDecoration(
-                      labelText: 'Họ và tên',
+                      labelText: "Số điện thoại",
                       border: OutlineInputBorder(),
                     ),
                   ),
                 ),
                 // Email
                 Container(
-                  height: 70,
+                  height: 50,
                   width: double.infinity,
-                  padding: EdgeInsets.all(10),
+                  margin: EdgeInsets.all(8),
                   child: TextField(
                     controller: _emailController,
                     decoration: InputDecoration(
@@ -137,38 +141,10 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                     ),
                   ),
                 ),
-
-                // Container(
-                //   height: 70,
-                //   width: double.infinity,
-                //   padding: EdgeInsets.all(10),
-                //   child: TextFormField(
-                //     readOnly: true,
-                //     onTap: () {
-                //       // _selectDate(context);
-                //     },
-                //     controller: TextEditingController(
-                //       text:
-                //           "Ngày sinh: ${_selectedDate.toLocal()}".split(' ')[0],
-                //     ),
-                //     decoration: InputDecoration(
-                //       labelText: 'Ngày ',
-                //       border: OutlineInputBorder(),
-                //       suffixIcon: Icon(Icons.calendar_month),
-                //       labelStyle: GoogleFonts.inter(
-                //         fontWeight: FontWeight.bold,
-                //       ),
-                //     ),
-                //     style: GoogleFonts.inter(
-                //       fontWeight: FontWeight.bold,
-                //     ),
-                //   ),
-                // ),
-
                 Container(
-                  height: 80,
+                  height: 60,
                   width: double.infinity,
-                  padding: EdgeInsets.all(10),
+                  margin: EdgeInsets.all(8),
                   child: DropdownButtonFormField<String>(
                     value: _selectedGender,
                     onChanged: (newValue) {
@@ -176,17 +152,22 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                         _selectedGender = newValue!;
                       });
                     },
-                    items: ['Nam', 'Nữ', 'Khác'].map<DropdownMenuItem<String>>(
+                    items: ['MALE', 'FEMALE', 'ORTHER']
+                        .map<DropdownMenuItem<String>>(
                       (String value) {
                         return DropdownMenuItem<String>(
                           value: value,
                           child: Text(
-                            value,
+                            value == "MALE"
+                                ? "Nam"
+                                : value == "FEMALE"
+                                    ? 'Nữ'
+                                    : "Khác",
                           ),
                         );
                       },
                     ).toList(),
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Giới tính',
                       border: OutlineInputBorder(),
                     ),
@@ -197,51 +178,102 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                 ),
                 Container(
                   height: 50,
-                  width: Get.width * 0.8,
                   child: ElevatedButton(
-                    onPressed: () {},
-                    child: Text('Cập Nhật Tài Khoản',
-                        style: Get.textTheme.bodyMedium
-                            ?.copyWith(color: Colors.white)),
+                    onPressed: () async {
+                      UserUpdate userUpdate = UserUpdate(
+                          fullName: _nameController.text,
+                          gender: _selectedGender,
+                          email: _emailController.text,
+                          urlImg: downloadURL);
+                      await model.updateUser(userUpdate, user?.id ?? '');
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: ThemeColor.primary,
                       textStyle: const TextStyle(
                         color: Colors.white,
                       ),
                     ),
+                    child: Text('Cập Nhật Thông tin',
+                        style: Get.textTheme.bodyMedium
+                            ?.copyWith(color: Colors.white)),
                   ),
                 ),
-
-                Container(
-                  height: 80,
-                  width: double.infinity,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          // Xử lý xóa tài khoản ở đây
-                        },
-                        icon: Icon(Icons.delete_outline),
-                      ),
-                      SizedBox(
-                        width: 0,
-                      ),
-                      Text(
-                        'Xóa tài khoản',
-                        style: GoogleFonts.inter(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                // Container(
+                //   height: 80,
+                //   width: double.infinity,
+                //   child: Row(
+                //     mainAxisAlignment: MainAxisAlignment.center,
+                //     crossAxisAlignment: CrossAxisAlignment.center,
+                //     children: [
+                //       IconButton(
+                //         onPressed: () {
+                //           // Xử lý xóa tài khoản ở đây
+                //         },
+                //         icon: Icon(Icons.delete_outline),
+                //       ),
+                //       SizedBox(
+                //         width: 0,
+                //       ),
+                //       Text(
+                //         'Xóa tài khoản',
+                //         style: GoogleFonts.inter(
+                //           fontWeight: FontWeight.bold,
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // ),
               ],
             ),
           );
         }),
       ),
     );
+  }
+
+  void _pickImage() async {
+    io.File? image = await pickImage();
+    if (image != null) {
+      await uploadImage(image);
+    }
+  }
+
+  Future<io.File?> pickImage() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      return io.File(pickedFile.path);
+    } else {
+      print('No image selected.');
+      return null;
+    }
+  }
+
+  Future<UploadTask?> uploadImage(io.File imageFile) async {
+    try {
+      UploadTask uploadTask;
+      String fileName = DateTime.now().millisecondsSinceEpoch.toString();
+      Reference reference =
+          FirebaseStorage.instance.ref().child('files').child('/$fileName.jpg');
+
+      final metadata = SettableMetadata(
+        contentType: 'image/jpeg',
+        customMetadata: {'files': imageFile.path},
+      );
+      if (GetPlatform.isWeb) {
+        uploadTask = reference.putData(await imageFile.readAsBytes(), metadata);
+      } else {
+        uploadTask = reference.putFile(io.File(imageFile.path), metadata);
+      }
+      final url = await reference.getDownloadURL();
+      setState(() {
+        downloadURL = url;
+      });
+
+      print('Image uploaded. Download URL: $url');
+    } catch (e) {
+      print('Error uploading image: $e');
+    }
   }
 }

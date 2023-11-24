@@ -1,23 +1,24 @@
-class UserCreate {
+class UserUpdate {
   String? phoneNunmer;
   String? fullName;
   String? gender;
   String? email;
-  String? fireBaseUid;
+  String? urlImg;
 
-  UserCreate(
-      {this.phoneNunmer,
-      this.fullName,
-      this.gender,
-      this.email,
-      this.fireBaseUid});
+  UserUpdate({
+    this.phoneNunmer,
+    this.fullName,
+    this.gender,
+    this.email,
+    this.urlImg,
+  });
 
-  UserCreate.fromJson(Map<String, dynamic> json) {
+  UserUpdate.fromJson(Map<String, dynamic> json) {
     phoneNunmer = json['phoneNunmer'];
     fullName = json['fullName'];
     gender = json['gender'];
     email = json['email'];
-    fireBaseUid = json['fireBaseUid'];
+    urlImg = json['urlImg'];
   }
 
   Map<String, dynamic> toJson() {
@@ -26,7 +27,7 @@ class UserCreate {
     data['fullName'] = fullName;
     data['gender'] = gender;
     data['email'] = email;
-    data['fireBaseUid'] = fireBaseUid;
+    data['urlImg'] = urlImg;
     return data;
   }
 }

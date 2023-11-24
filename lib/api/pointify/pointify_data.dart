@@ -1,12 +1,23 @@
 import 'package:deer_coffee/models/pointify/check_promotion_model.dart';
 import 'package:deer_coffee/models/pointify/membership_model.dart';
 import 'package:deer_coffee/models/pointify/promotion_details_model.dart';
+import 'package:deer_coffee/models/pointify/voucher_model.dart';
 import 'package:dio/dio.dart';
 
 import '../../models/pointify/promotion_model.dart';
 import '../../utils/request.dart';
 
 class PointifyData {
+  Future<List<VoucherModel>?> getListUserVoucher(String userId) async {
+    final res = await request.get(
+      'users/$userId/voucher',
+    );
+    var jsonList = res.data;
+    List<VoucherModel> listPromotion = VoucherModel().fromList(jsonList);
+
+    return listPromotion;
+  }
+
   Future<List<PromotionPointify>> getListPromotionOfPointify() async {
     final res = await request.get(
       'users/promotions?brandCode=DeerCoffee',

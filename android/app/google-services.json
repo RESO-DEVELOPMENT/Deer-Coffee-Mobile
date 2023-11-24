@@ -44,9 +44,9 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:904970774154:android:a2628acf5cf5cbbed56f73",
+        "mobilesdk_app_id": "1:904970774154:android:717bb0e2bef3eedcd56f73",
         "android_client_info": {
-          "package_name": "com.reso.deercoffee.deer_coffee"
+          "package_name": "com.reso.deercoffee"
         }
       },
       "oauth_client": [

@@ -7,7 +7,8 @@ import 'package:scoped_model/scoped_model.dart';
 import '../enums/view_status.dart';
 import '../utils/route_constrant.dart';
 
-void showSelectStore() {
+Future<void> showSelectStore() async {
+  await Get.find<MenuViewModel>().getListStore();
   Get.bottomSheet(ScopedModel<MenuViewModel>(
     model: Get.find<MenuViewModel>(),
     child:

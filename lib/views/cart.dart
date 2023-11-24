@@ -170,7 +170,7 @@ class _CartScreenState extends State<CartScreen> {
                           const SizedBox(width: 8),
                           Expanded(
                             child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Row(
@@ -211,6 +211,44 @@ class _CartScreenState extends State<CartScreen> {
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   style: Get.textTheme.bodySmall,
+                                ),
+                                ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: model
+                                      .cart.productList![index].extras?.length,
+                                  physics: ScrollPhysics(),
+                                  itemBuilder: (context, i) {
+                                    return Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Expanded(
+                                          flex: 6,
+                                          child: Text(
+                                            " +${model.cart.productList![index].extras![i].name!}",
+                                            style: Get.textTheme.bodySmall,
+                                          ),
+                                        ),
+                                        Expanded(
+                                          flex: 2,
+                                          child: Align(
+                                            alignment:
+                                                AlignmentDirectional.centerEnd,
+                                            child: Text(
+                                              formatPrice(model
+                                                  .cart
+                                                  .productList![index]
+                                                  .extras![i]
+                                                  .sellingPrice!),
+                                              style: Get.textTheme.bodySmall,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    );
+                                  },
                                 ),
                               ],
                             ),

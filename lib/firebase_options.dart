@@ -48,19 +48,19 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions web = FirebaseOptions(
     apiKey: 'AIzaSyA92TKfx9laKndRLpbSt4rkLXlUzF0T2Lw',
-    appId: '1:904970774154:web:97a8bd750c4939a0d56f73',
+    appId: '1:904970774154:web:128332adf12a3203d56f73',
     messagingSenderId: '904970774154',
     projectId: 'pos-system-47f93',
     authDomain: 'pos-system-47f93.firebaseapp.com',
     databaseURL:
         'https://pos-system-47f93-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'pos-system-47f93.appspot.com',
-    measurementId: 'G-EKP16Y4LCD',
+    measurementId: 'G-81WL5LQVBK',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyDi7bzpU4d2mA9mns_91IveIItDd2sEjHA',
-    appId: '1:904970774154:android:a2628acf5cf5cbbed56f73',
+    appId: '1:904970774154:android:717bb0e2bef3eedcd56f73',
     messagingSenderId: '904970774154',
     projectId: 'pos-system-47f93',
     databaseURL:

@@ -1,5 +1,6 @@
 import 'package:deer_coffee/enums/view_status.dart';
 import 'package:deer_coffee/models/cart_model.dart';
+import 'package:deer_coffee/utils/theme.dart';
 import 'package:deer_coffee/view_models/menu_view_model.dart';
 import 'package:deer_coffee/view_models/product_view_model.dart';
 import 'package:deer_coffee/views/cart.dart';
@@ -73,7 +74,12 @@ class _OptionState extends State<Option> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Tuỳ chọn', style: Get.textTheme.titleMedium),
+        centerTitle: true,
+        title: Text(
+          'Tuỳ chọn',
+          style:
+              Get.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+        ),
       ),
       body: ScopedModel<ProductViewModel>(
         model: productViewModel,
@@ -86,35 +92,30 @@ class _OptionState extends State<Option> {
                   padding: const EdgeInsets.all(8.0),
                   child: ListView(
                     children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(16),
-                          child: Image.network(
-                            loadingBuilder: (BuildContext context, Widget child,
-                                ImageChunkEvent? loadingProgress) {
-                              if (loadingProgress == null) {
-                                return child;
-                              }
-                              return Center(
-                                child: CircularProgressIndicator(
-                                  value: loadingProgress.expectedTotalBytes !=
-                                          null
-                                      ? loadingProgress.cumulativeBytesLoaded /
-                                          loadingProgress.expectedTotalBytes!
-                                      : null,
-                                ),
-                              );
-                            },
-                            product.picUrl!.isEmpty
-                                ? 'https://i.imgur.com/X0WTML2.jpg'
-                                : product.picUrl ?? '',
-                            width: Get.width,
-                            height: 160,
-                            fit: BoxFit.cover,
-                          ),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(16),
+                        child: Image.network(
+                          loadingBuilder: (BuildContext context, Widget child,
+                              ImageChunkEvent? loadingProgress) {
+                            if (loadingProgress == null) {
+                              return child;
+                            }
+                            return Center(
+                              child: CircularProgressIndicator(
+                                value: loadingProgress.expectedTotalBytes !=
+                                        null
+                                    ? loadingProgress.cumulativeBytesLoaded /
+                                        loadingProgress.expectedTotalBytes!
+                                    : null,
+                              ),
+                            );
+                          },
+                          product.picUrl!.isEmpty
+                              ? 'https://i.imgur.com/X0WTML2.jpg'
+                              : product.picUrl ?? '',
+                          width: Get.width,
+                          height: 240,
+                          fit: BoxFit.cover,
                         ),
                       ),
                       const SizedBox(
@@ -131,11 +132,13 @@ class _OptionState extends State<Option> {
                           Container(
                             height: 40,
                             width: 100,
-                            padding: EdgeInsets.all(8),
+                            padding: const EdgeInsets.all(8),
                             decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(20),
-                                border: Border.all(color: Colors.grey)),
+                                border: Border.all(
+                                  color: ThemeColor.primary,
+                                )),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.center,
@@ -144,14 +147,20 @@ class _OptionState extends State<Option> {
                                   onTap: () {
                                     model.decreaseQuantity();
                                   },
-                                  child: Icon(CupertinoIcons.minus),
+                                  child: Icon(
+                                    CupertinoIcons.minus,
+                                    color: ThemeColor.primary,
+                                  ),
                                 ),
                                 Text(model.productInCart.quantity.toString()),
                                 GestureDetector(
                                   onTap: () {
                                     model.increaseQuantity();
                                   },
-                                  child: Icon(CupertinoIcons.plus),
+                                  child: Icon(
+                                    CupertinoIcons.plus,
+                                    color: ThemeColor.primary,
+                                  ),
                                 ),
                               ],
                             ),
@@ -159,14 +168,7 @@ class _OptionState extends State<Option> {
                         ],
                       ),
                       SizedBox(
-                        height: 10,
-                      ),
-                      Divider(
-                        color: Colors.grey[300],
-                        thickness: 1,
-                      ),
-                      SizedBox(
-                        height: 10,
+                        height: 16,
                       ),
                       productSize(model),
                       productAttributes(model),
@@ -245,7 +247,7 @@ class _OptionState extends State<Option> {
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all<Color>(
                               option == selectedAttributes[i].value
-                                  ? Get.theme.colorScheme.primaryContainer
+                                  ? ThemeColor.primary
                                   : Colors.transparent),
                         ),
                         onPressed: () {
@@ -254,11 +256,13 @@ class _OptionState extends State<Option> {
                         },
                         child: Text(
                           option,
-                          style: Get.textTheme.bodySmall,
+                          style: Get.textTheme.bodySmall?.copyWith(
+                              color: option == selectedAttributes[i].value
+                                  ? Colors.white
+                                  : Colors.black),
                         )))
                     .toList(),
               ),
-              Divider()
             ],
           ),
       ],
@@ -285,6 +289,7 @@ class _OptionState extends State<Option> {
                 physics: const ScrollPhysics(),
                 itemBuilder: (context, i) {
                   return CheckboxListTile(
+                    activeColor: ThemeColor.primary,
                     dense: true,
                     visualDensity: const VisualDensity(
                       horizontal: VisualDensity.maximumDensity,
@@ -297,8 +302,10 @@ class _OptionState extends State<Option> {
                         Text("+ ${formatPrice(extraProduct[i].sellingPrice!)}"),
                       ],
                     ),
-                    value: model.isExtraExist(extraProduct[i].id ?? ""),
-                    selected: model.isExtraExist(extraProduct[i].id ?? ""),
+                    value:
+                        model.isExtraExist(extraProduct[i].menuProductId ?? ""),
+                    selected:
+                        model.isExtraExist(extraProduct[i].menuProductId ?? ""),
                     onChanged: (value) {
                       model.addOrRemoveExtra(extraProduct[i]);
                     },
@@ -324,6 +331,7 @@ class _OptionState extends State<Option> {
           physics: NeverScrollableScrollPhysics(),
           itemBuilder: (context, i) {
             return RadioListTile(
+              activeColor: ThemeColor.primary,
               dense: true,
               visualDensity: VisualDensity(
                 horizontal: VisualDensity.maximumDensity,
@@ -360,7 +368,7 @@ class _OptionState extends State<Option> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(50),
             ),
-            backgroundColor: Colors.blueAccent,
+            backgroundColor: ThemeColor.primary,
           ),
           onPressed: () {
             model.addProductToCart();
@@ -402,7 +410,7 @@ class _OptionState extends State<Option> {
                 ),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
-                      horizontal: 20.0, vertical: 5.0),
+                      horizontal: 16.0, vertical: 4.0),
                   child: Row(
                     children: [
                       Expanded(
@@ -418,10 +426,9 @@ class _OptionState extends State<Option> {
                       ),
                       SizedBox(
                           width: 10), // Tạo khoảng cách giữa văn bản và icon
-                      Icon(
-                        Icons.edit, // Icon cây viết
-                        color: Colors.grey, // Màu của icon
-                      ),
+                      Icon(Icons.edit, // Icon cây viết
+                          color: ThemeColor.primary // Màu của icon
+                          ),
                     ],
                   ),
                 ),

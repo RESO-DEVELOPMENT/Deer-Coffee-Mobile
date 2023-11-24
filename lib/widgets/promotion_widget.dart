@@ -2,6 +2,7 @@ import 'package:deer_coffee/view_models/cart_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../enums/promotion_enums.dart';
 import '../models/pointify/promotion_model.dart';
 import '../utils/format.dart';
 import '../utils/route_constrant.dart';
@@ -58,7 +59,7 @@ Widget buildTicketWidget(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Text(promotion.promotionName ?? '',
-                      style: Get.textTheme.bodySmall?.copyWith(
+                      style: Get.textTheme.bodyMedium?.copyWith(
                           fontWeight: FontWeight.bold,
                           color: isSelected ? Colors.white : Colors.black),
                       maxLines: 2,
@@ -66,38 +67,10 @@ Widget buildTicketWidget(
                   Text(promotion.promotionCode ?? '',
                       style: Get.textTheme.bodySmall?.copyWith(
                           color: isSelected ? Colors.white : Colors.black)),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                          "HSD:${formatOnlyDate(promotion.endDate ?? "2025-01-01T00:00:00")}",
-                          style: Get.textTheme.bodySmall?.copyWith(
-                              color: isSelected ? Colors.white : Colors.black)),
-                      TextButton(
-                          onPressed: () {
-                            if (model.cart.promotionCode ==
-                                promotion.promotionCode) {
-                              model.removePromotion();
-                              Get.back();
-                            } else {
-                              model.selectPromotion(
-                                  promotion.promotionCode ?? '');
-                              Get.back();
-                            }
-                          },
-                          child: Text(
-                            model.cart.promotionCode == promotion.promotionCode
-                                ? "Huỷ chọn"
-                                : "Áp dụng",
-                            style: TextStyle(
-                                color: model.cart.promotionCode ==
-                                        promotion.promotionCode
-                                    ? Colors.white
-                                    : ThemeColor.primary),
-                          ))
-                    ],
-                  ),
+                  Text(
+                      "HSD:${formatOnlyDate(promotion.endDate ?? "2025-01-01T00:00:00")}",
+                      style: Get.textTheme.bodySmall?.copyWith(
+                          color: isSelected ? Colors.white : Colors.black)),
                 ],
               ),
             ),

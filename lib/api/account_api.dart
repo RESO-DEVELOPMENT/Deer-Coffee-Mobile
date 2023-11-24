@@ -13,7 +13,7 @@ class AccountAPI {
     return token != null;
   }
 
-  Future<UserModel?> signUp(UserCreate user) async {
+  Future<UserModel?> signUp(UserUpdate user) async {
     final res = await request.post('users/sign-up',
         queryParameters: {'brandCode': "DeerCoffee"}, data: user.toJson());
     var json = res.data;
@@ -34,5 +34,11 @@ class AccountAPI {
     var json = res.data;
     UserDetails userInfo = UserDetails.fromJson(json);
     return userInfo;
+  }
+
+  Future<dynamic> updateUser(String id, UserUpdate update) async {
+    final res = await request.patch('users/$id', data: update.toJson());
+    var json = res.data;
+    return json;
   }
 }

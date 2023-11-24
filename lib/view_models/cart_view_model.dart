@@ -1,4 +1,8 @@
+import 'dart:math';
+
+import 'package:deer_coffee/enums/promotion_enums.dart';
 import 'package:deer_coffee/models/pointify/promotion_details_model.dart';
+import 'package:deer_coffee/models/pointify/voucher_model.dart';
 import 'package:deer_coffee/models/store.dart';
 import 'package:deer_coffee/models/user.dart';
 import 'package:deer_coffee/utils/share_pref.dart';
@@ -26,6 +30,9 @@ class CartViewModel extends BaseViewModel {
   late OrderAPI orderAPI = OrderAPI();
   PointifyData? promotionData = PointifyData();
   List<PromotionPointify>? promotions = [];
+  List<PromotionPointify>? promotionsHasVoucher = [];
+  List<PromotionPointify>? promotionsUsingPromotionCode = [];
+  List<VoucherModel>? listUserVoucher = [];
   StoreModel? selectedStore;
   String? deliAddress;
   CartViewModel() {
@@ -39,15 +46,45 @@ class CartViewModel extends BaseViewModel {
     cart.shippingFee = 0;
   }
 
-  void getListPromotion() async {
+  Future<void> getListPromotion() async {
     try {
       setState(ViewStatus.Loading);
       promotions = await promotionData?.getListPromotionOfPointify();
-      promotions?.removeWhere((element) => element.promotionType == 1);
+      promotions?.removeWhere(
+          (element) => element.promotionType == PromotionTypeEnum.Automatic);
+      promotionsHasVoucher = promotions
+          ?.where((element) =>
+              element.promotionType == PromotionTypeEnum.Using_Voucher)
+          .toList();
+      promotionsUsingPromotionCode = promotions
+          ?.where((element) =>
+              element.promotionType == PromotionTypeEnum.Using_PromoCode)
+          .toList();
+
       setState(ViewStatus.Completed);
     } catch (e) {
       setState(ViewStatus.Error, e.toString());
     }
+  }
+
+  Future<void> getListUserVoucher() async {
+    try {
+      setState(ViewStatus.Loading);
+      UserModel? userInfo = await getUserInfo();
+      listUserVoucher =
+          await promotionData?.getListUserVoucher(userInfo?.userInfo?.id ?? "");
+
+      print(listUserVoucher);
+      setState(ViewStatus.Completed);
+    } catch (e) {
+      setState(ViewStatus.Error, e.toString());
+    }
+  }
+
+  List<VoucherModel>? getListVoucherOfPromotions(String id) {
+    return listUserVoucher
+        ?.where((element) => element.promotionId == id)
+        .toList();
   }
 
   Future<PromotionDetailsModel?> getPromotionDetailsById(String id) async {
@@ -122,12 +159,20 @@ class CartViewModel extends BaseViewModel {
 
   Future<void> removePromotion() async {
     cart.promotionCode = null;
+    cart.voucherCode = null;
     await prepareOrder();
     notifyListeners();
   }
 
-  Future<void> selectPromotion(String code) async {
-    cart.promotionCode = code;
+  Future<void> selectPromotion(String code, num type) async {
+    if (type == 3) {
+      List<String> parts = code.split("-");
+      cart.promotionCode = parts[0];
+      cart.voucherCode = parts[1];
+    } else {
+      cart.promotionCode = code;
+      cart.promotionCode = null;
+    }
     await prepareOrder();
     notifyListeners();
   }

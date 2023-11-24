@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:deer_coffee/models/user.dart';
 import 'package:deer_coffee/utils/route_constrant.dart';
 import 'package:deer_coffee/utils/share_pref.dart';
@@ -13,6 +15,7 @@ import 'package:get/get.dart';
 import 'package:scoped_model/scoped_model.dart';
 import '../utils/theme.dart';
 import '../view_models/menu_view_model.dart';
+import 'home_screen/banner_home.dart';
 import 'home_screen/home_page.dart';
 import 'order.dart';
 import 'profile_screen/other_page.dart';
@@ -54,6 +57,13 @@ class _RootScreenState extends State<RootScreen> {
     _selectedIndex = widget.idx;
     getUserInfo().then((value) => userModel = value);
     Get.find<AccountViewModel>().getMembershipInfo();
+    if (Get.find<MenuViewModel>().blogList != null &&
+        (Get.find<MenuViewModel>()
+                .blogList!
+                .firstWhere((element) => element.isDialog == true) !=
+            null)) {
+      Timer.run(showImageDialog);
+    }
     super.initState();
   }
 
@@ -61,14 +71,15 @@ class _RootScreenState extends State<RootScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      floatingActionButton: Visibility(
-        visible:
-            _selectedIndex == 0 || _selectedIndex == 1 || _selectedIndex == 2,
-        child: ScopedModel<CartViewModel>(
-          model: Get.find<CartViewModel>(),
-          child: ScopedModelDescendant<CartViewModel>(
-              builder: (context, build, model) {
-            return FloatingActionButton(
+      floatingActionButton: ScopedModel<CartViewModel>(
+        model: Get.find<CartViewModel>(),
+        child: ScopedModelDescendant<CartViewModel>(
+            builder: (context, build, model) {
+          return Visibility(
+            visible: _selectedIndex == 0 ||
+                _selectedIndex == 1 ||
+                _selectedIndex == 2,
+            child: FloatingActionButton(
                 elevation: 10,
                 backgroundColor: ThemeColor.primary,
                 onPressed: () {
@@ -91,9 +102,9 @@ class _RootScreenState extends State<RootScreen> {
                 child: Icon(
                   Icons.shopping_cart,
                   color: Colors.white,
-                ));
-          }),
-        ),
+                )),
+          );
+        }),
       ),
       body: Stack(
         children: [

@@ -138,8 +138,7 @@ class AccountViewModel extends BaseViewModel {
   Future<void> getMembershipInfo() async {
     try {
       setState(ViewStatus.Loading);
-      if (user?.userInfo == null) {
-      } else {
+      if (user?.userInfo != null) {
         await accountAPI
             .getUserById(user?.userInfo?.id ?? '')
             .then((value) => memberShipModel = value);
@@ -162,5 +161,13 @@ class AccountViewModel extends BaseViewModel {
       await Get.find<StartUpViewModel>().handleStartUpLogic();
       hideDialog();
     }
+  }
+
+  Future<void> updateUser(UserUpdate user, String id) async {
+    showLoadingDialog();
+    var res = await accountAPI.updateUser(id, user);
+    memberShipModel = await accountAPI.getUserById(id);
+    hideDialog();
+    await showAlertDialog(content: res);
   }
 }

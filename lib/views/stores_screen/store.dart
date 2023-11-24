@@ -8,6 +8,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:scoped_model/scoped_model.dart';
 
+import '../../utils/route_constrant.dart';
+
 class Store extends StatefulWidget {
   const Store({Key? key}) : super(key: key);
 
@@ -51,44 +53,51 @@ class _StoreState extends State<Store> {
   }
 
   Widget buildStore(StoreModel store) {
-    return Container(
-      margin: EdgeInsets.only(top: 8),
-      width: Get.width,
-      height: 110,
-      padding: const EdgeInsets.all(8),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
-        color: Colors.white,
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          // Image widget here
-          Image.asset(
-            'assets/images/logo.png',
-            height: 80.0,
-            width: 80.0,
-          ),
-          SizedBox(width: 4),
-          Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(store.name ?? '',
-                    style: Get.textTheme.bodyMedium
-                        ?.copyWith(fontWeight: FontWeight.bold)),
-                Text(
-                  store.address ?? '',
-                  style: Get.textTheme.bodySmall,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ],
+    return InkWell(
+      onTap: () {
+        Get.toNamed(
+          "${RouteHandler.STORE}?id=${store.id}",
+        );
+      },
+      child: Container(
+        margin: EdgeInsets.only(top: 8),
+        width: Get.width,
+        height: 110,
+        padding: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16),
+          color: Colors.white,
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            // Image widget here
+            Image.asset(
+              'assets/images/logo.png',
+              height: 80.0,
+              width: 80.0,
             ),
-          ),
-        ],
+            SizedBox(width: 4),
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(store.name ?? '',
+                      style: Get.textTheme.bodyMedium
+                          ?.copyWith(fontWeight: FontWeight.bold)),
+                  Text(
+                    store.address ?? '',
+                    style: Get.textTheme.bodySmall,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

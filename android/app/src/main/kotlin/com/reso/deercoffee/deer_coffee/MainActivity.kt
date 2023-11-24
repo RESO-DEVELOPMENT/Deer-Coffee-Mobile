@@ -1,4 +1,4 @@
-package com.reso.deercoffee.deer_coffee
+package com.reso.deercoffee
 
 import io.flutter.embedding.android.FlutterActivity
 

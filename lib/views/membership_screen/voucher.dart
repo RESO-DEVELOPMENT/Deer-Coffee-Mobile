@@ -16,12 +16,20 @@ class Voucher extends StatefulWidget {
 
 class _VoucherState extends State<Voucher> {
   @override
+  void initState() {
+    Get.find<CartViewModel>().getListPromotion();
+    Get.find<CartViewModel>().getListUserVoucher();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xFFF5F5F5),
       appBar: AppBar(
         backgroundColor: Colors.white,
         centerTitle: true,
-        title: Text('Ưu đãi của bạn',
+        title: Text('Ưu đãi dành riêng cho bạn',
             style: Get.textTheme.titleMedium
                 ?.copyWith(fontWeight: FontWeight.bold)),
       ),
@@ -33,42 +41,27 @@ class _VoucherState extends State<Voucher> {
             return Center(child: CircularProgressIndicator());
           }
           if (model.promotions == []) {
-            return Center(
+            return const Center(
               child: Text("Không có khuyến mãi nào có sẵn"),
             );
           }
           return SingleChildScrollView(
-            child: Container(
+            child: Padding(
               padding: EdgeInsets.all(8),
-              color: Color(0xFFF5F5F5), // Màu F5F5F5 cho nền body
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Text(
-                    "Dành riêng cho bạn",
-                    style: Get.textTheme.titleMedium
-                        ?.copyWith(fontWeight: FontWeight.bold),
-                  ),
                   Column(
-                      children: model.promotions!
+                      children: model.promotionsHasVoucher!
                           .map((e) => buildTicketWidget(
                               e,
                               model.cart.promotionCode == e.promotionCode,
                               model))
                           .toList()),
-                  Text(
-                    "Khuyến mãi có sẵn",
-                    style: Get.textTheme.titleMedium
-                        ?.copyWith(fontWeight: FontWeight.bold),
+                  const SizedBox(
+                    height: 8,
                   ),
-                  Column(
-                      children: model.promotions!
-                          .map((e) => buildTicketWidget(
-                              e,
-                              model.cart.promotionCode == e.promotionCode,
-                              model))
-                          .toList()),
                 ],
               ),
             ),

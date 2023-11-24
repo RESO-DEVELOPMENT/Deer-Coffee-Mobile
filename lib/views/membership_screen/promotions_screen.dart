@@ -194,7 +194,7 @@ class _PromotionsScreenState extends State<PromotionsScreen> {
                               ?.copyWith(fontWeight: FontWeight.bold)),
                     ),
                     Column(
-                      children: model.promotions!
+                      children: model.promotionsUsingPromotionCode!
                           .map((e) => buildTicketWidget(
                               e,
                               model.cart.promotionCode == e.promotionCode,
@@ -247,15 +247,10 @@ class _PromotionsScreenState extends State<PromotionsScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(
-              title,
-              style: GoogleFonts.inter(
-                color: Colors.black,
-                fontSize: 14,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+          children: [
+            Text(title,
+                style: Get.textTheme.bodyMedium
+                    ?.copyWith(fontWeight: FontWeight.bold)),
           ],
         ),
       ),
