@@ -122,7 +122,6 @@ class PolicyPage extends StatelessWidget {
             Text(
               'Chúng tôi sử dụng các biện pháp kỹ thuật, hành chính và vật lý hợp lý để bảo vệ thông tin cá nhân của bạn khỏi truy cập, sử dụng hoặc tiết lộ trái phép. Tuy nhiên, bạn cũng nên thực hiện các bước cần thiết để bảo vệ thông tin cá nhân của bạn, bao gồm:',
             ),
-            // Liệt kê cách bảo vệ thông tin cá nhân
             Padding(
               padding: EdgeInsets.only(left: 16.0),
               child: Column(
