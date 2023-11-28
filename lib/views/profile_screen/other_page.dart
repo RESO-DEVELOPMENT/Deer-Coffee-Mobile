@@ -1,4 +1,5 @@
 import 'package:barcode_widget/barcode_widget.dart';
+import 'package:deer_coffee/views/policy-page.dart';
 import 'package:deer_coffee/views/profile_screen/order_history.dart';
 import 'package:deer_coffee/views/profile_screen/update_profile.dart';
 import 'package:flutter/material.dart';
@@ -199,7 +200,11 @@ class _OtherPageState extends State<OtherPage> {
                               IconButton(
                                 icon: Icon(Icons.arrow_forward),
                                 onPressed: () {
-                                  // Xử lý khi nút mũi tên được nhấn
+                                   Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => PolicyPage(),
+                              ),
+                            );
                                 },
                               ),
                             ],
