@@ -148,7 +148,7 @@ class MyApp extends StatelessWidget {
       initialRoute: RouteHandler.WELCOME,
       unknownRoute: GetPage(
           name: RouteHandler.NOT_FOUND, page: () => const NotFoundScreen()),
-      home: const PolicyPage(),
+      home: const SplashScreen(),
     );
   }
 }
