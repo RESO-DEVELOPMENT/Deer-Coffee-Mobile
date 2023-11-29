@@ -23,6 +23,14 @@ class OrderDetails extends StatefulWidget {
   State<OrderDetails> createState() => _OrderDetailsState();
 }
 
+void cancelOrder() {
+  print('Đơn hàng đã bị hủy');
+}
+
+void cancelOrder1() {
+  print('Đơn hàng đã được nhận');
+}
+
 class _OrderDetailsState extends State<OrderDetails> {
   OrderDetailsModel? orderDetails;
   @override
@@ -68,7 +76,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                 SliverList(
                   delegate: SliverChildListDelegate(
                     [
-                      Text('Sản phẩn',
+                      Text('Sản phẩm  ',
                           style: Get.textTheme.bodyMedium
                               ?.copyWith(fontWeight: FontWeight.bold)),
                       Column(
@@ -187,6 +195,37 @@ class _OrderDetailsState extends State<OrderDetails> {
                             version: QrVersions.auto,
                             size: 160.0,
                           ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  cancelOrder1();
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  primary: Colors.lightBlue,
+                                ),
+                                child: Text('Nhận Đơn Hàng',style: TextStyle(color: Colors.white),),
+                              ),
+                            ),
+                              SizedBox(width: 16),
+                             Expanded(
+                              child: ElevatedButton(  
+                                onPressed: () {
+                                  cancelOrder();
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  primary: Colors.red[500],
+                                ),
+                                child: Text('Hủy Đơn Hàng',style: TextStyle(color: Colors.white),),
+                                
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],

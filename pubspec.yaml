@@ -59,6 +59,8 @@ dependencies:
   shimmer: ^3.0.0
   flutter_html: ^3.0.0-beta.2
   firebase_messaging: ^14.7.5
+  google_maps_flutter: ^2.0.10
+  geocoding: ^2.0.6
 
 dev_dependencies:
   flutter_test:
