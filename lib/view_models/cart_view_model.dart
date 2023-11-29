@@ -49,12 +49,20 @@ class CartViewModel extends BaseViewModel {
   Future<void> getListPromotion() async {
     try {
       setState(ViewStatus.Loading);
-      promotions = await promotionData?.getListPromotionOfPointify();
+      UserModel? userInfo = await getUserInfo();
+      if (userInfo == null) {
+        promotions = [];
+        setState(ViewStatus.Completed);
+        return;
+      }
+      promotions = await promotionData
+          ?.getListPromotionOfPointify(userInfo?.userInfo?.id ?? '');
       promotions?.removeWhere(
           (element) => element.promotionType == PromotionTypeEnum.Automatic);
       promotionsHasVoucher = promotions
           ?.where((element) =>
-              element.promotionType == PromotionTypeEnum.Using_Voucher)
+              element.promotionType == PromotionTypeEnum.Using_Voucher &&
+              element.currentVoucherQuantity! > 0)
           .toList();
       promotionsUsingPromotionCode = promotions
           ?.where((element) =>
@@ -67,37 +75,10 @@ class CartViewModel extends BaseViewModel {
     }
   }
 
-  Future<void> getListUserVoucher() async {
-    try {
-      setState(ViewStatus.Loading);
-      UserModel? userInfo = await getUserInfo();
-      listUserVoucher =
-          await promotionData?.getListUserVoucher(userInfo?.userInfo?.id ?? "");
-
-      print(listUserVoucher);
-      setState(ViewStatus.Completed);
-    } catch (e) {
-      setState(ViewStatus.Error, e.toString());
-    }
-  }
-
   List<VoucherModel>? getListVoucherOfPromotions(String id) {
     return listUserVoucher
         ?.where((element) => element.promotionId == id)
         .toList();
-  }
-
-  Future<PromotionDetailsModel?> getPromotionDetailsById(String id) async {
-    try {
-      setState(ViewStatus.Loading);
-      PromotionDetailsModel? promotionDetailsModel =
-          await promotionData?.getPromotionDetailsById(id);
-      setState(ViewStatus.Completed);
-      return promotionDetailsModel;
-    } catch (e) {
-      setState(ViewStatus.Error, e.toString());
-    }
-    return null;
   }
 
   void addToCart(ProductList cartModel) {
@@ -160,8 +141,8 @@ class CartViewModel extends BaseViewModel {
   Future<void> removePromotion() async {
     cart.promotionCode = null;
     cart.voucherCode = null;
-    await prepareOrder();
     notifyListeners();
+    await prepareOrder();
   }
 
   Future<void> selectPromotion(String code, num type) async {
@@ -171,10 +152,10 @@ class CartViewModel extends BaseViewModel {
       cart.voucherCode = parts[1];
     } else {
       cart.promotionCode = code;
-      cart.promotionCode = null;
+      cart.voucherCode = null;
     }
-    await prepareOrder();
     notifyListeners();
+    await prepareOrder();
   }
 
   List<PaymentProvider?> getListPayment() {
@@ -216,6 +197,7 @@ class CartViewModel extends BaseViewModel {
 
   void setStore(StoreModel store) {
     selectedStore = store;
+    deliAddress = store.address;
     notifyListeners();
   }
 

@@ -20,7 +20,6 @@ class Store extends StatefulWidget {
 class _StoreState extends State<Store> {
   @override
   void initState() {
-    Get.find<MenuViewModel>().getListStore();
     super.initState();
   }
 

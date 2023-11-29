@@ -88,24 +88,31 @@ class _HomePageState extends State<HomePage> {
                       ),
                       child: const Icon(
                         Icons.confirmation_num_outlined,
-                        size: 24,
+                        size: 32,
                         color: Colors.white,
                       ),
                       onPressed: () {
-                        Get.toNamed(RouteHandler.VOUCHER);
+                        if (model.user?.userInfo == null) {
+                          showAlertDialog(
+                              content: "Người dùng chưa đăng nhập ");
+                        } else {
+                          Get.toNamed(RouteHandler.VOUCHER);
+                        }
                       },
                     ),
-                    const SizedBox(width: 8),
+                    const SizedBox(width: 4),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                           backgroundColor: ThemeColor.primary,
                           padding: const EdgeInsets.fromLTRB(0, 0, 0, 0)),
                       child: const Icon(
                         Icons.notifications_outlined,
-                        size: 24,
+                        size: 32,
                         color: Colors.white,
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        showAlertDialog(content: "Tính năng đang phát triển");
+                      },
                     ),
                   ],
                 );

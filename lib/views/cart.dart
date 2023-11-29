@@ -132,10 +132,11 @@ class _CartScreenState extends State<CartScreen> {
                       padding: const EdgeInsets.all(8),
                       color: Colors.white,
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           ClipRRect(
+                            borderRadius: BorderRadius.circular(8),
                             child: SizedBox(
                               width: 60,
                               height: 60,
@@ -170,8 +171,8 @@ class _CartScreenState extends State<CartScreen> {
                           const SizedBox(width: 8),
                           Expanded(
                             child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Row(
                                   crossAxisAlignment: CrossAxisAlignment.center,

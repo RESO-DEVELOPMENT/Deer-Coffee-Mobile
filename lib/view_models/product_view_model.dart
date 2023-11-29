@@ -65,12 +65,13 @@ class ProductViewModel extends BaseViewModel {
   }
 
   void decreaseQuantity() {
-    if (productInCart.quantity == 0) {
+    if (productInCart.quantity == 1) {
       return;
+    } else {
+      productInCart.quantity = (productInCart.quantity! - 1);
+      countAmount();
+      notifyListeners();
     }
-    productInCart.quantity = (productInCart.quantity! - 1);
-    countAmount();
-    notifyListeners();
   }
 
   void addOrRemoveExtra(Product extra) {

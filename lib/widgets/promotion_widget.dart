@@ -47,7 +47,7 @@ Widget buildTicketWidget(
               },
               width: 120.0,
               height: 120.0,
-              'https://i.imgur.com/X0WTML2.jpg',
+              promotion.imgUrl ?? 'https://i.imgur.com/X0WTML2.jpg',
               fit: BoxFit.contain,
             ),
           ),
@@ -56,7 +56,7 @@ Widget buildTicketWidget(
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
                   Text(promotion.promotionName ?? '',
                       style: Get.textTheme.bodyMedium?.copyWith(
@@ -65,6 +65,10 @@ Widget buildTicketWidget(
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis),
                   Text(promotion.promotionCode ?? '',
+                      style: Get.textTheme.bodySmall?.copyWith(
+                          color: isSelected ? Colors.white : Colors.black)),
+                  Text(
+                      "SL :${promotion.promotionType == 3 ? promotion.currentVoucherQuantity : "Không giới hạn"}",
                       style: Get.textTheme.bodySmall?.copyWith(
                           color: isSelected ? Colors.white : Colors.black)),
                   Text(

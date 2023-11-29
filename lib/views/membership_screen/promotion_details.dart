@@ -22,18 +22,16 @@ class PromotionDetailsScreen extends StatefulWidget {
 
 class _PromotionDetailsScreenState extends State<PromotionDetailsScreen> {
   PromotionPointify? promotionDetailsModel;
-  List<VoucherModel>? vouchers;
   String? selectedCode;
   @override
   void initState() {
     promotionDetailsModel =
         Get.find<CartViewModel>().getPromotionById(widget.id);
-    vouchers = Get.find<CartViewModel>().getListVoucherOfPromotions(widget.id);
-    vouchers?.removeWhere((element) => element.isUsed ?? false);
+
     // ignore: prefer_is_not_empty
-    if (promotionDetailsModel?.promotionType == 3 && !(vouchers!.isEmpty)) {
+    if (promotionDetailsModel?.promotionType == 3) {
       selectedCode =
-          '${promotionDetailsModel?.promotionCode}-${vouchers?.first.voucherCode ?? ''}';
+          '${promotionDetailsModel?.promotionCode}-${promotionDetailsModel?.listVoucher?.first.voucherCode ?? ''}';
     } else {
       selectedCode = promotionDetailsModel?.promotionCode ?? '';
     }
@@ -67,204 +65,200 @@ class _PromotionDetailsScreenState extends State<PromotionDetailsScreen> {
                 width: double.infinity,
                 height: double.infinity,
               ),
-              SafeArea(
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(20),
-                            topRight: Radius.circular(20),
-                          ),
-                          color: Color(0xFFF5F5F5),
+              Column(
+                children: [
+                  Expanded(
+                    child: Container(
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(20),
+                          topRight: Radius.circular(20),
                         ),
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                IconButton(
-                                  icon: Icon(
-                                    Icons.cancel,
-                                    color: Colors.grey,
-                                    size: 32,
-                                  ),
-                                  onPressed: () {
-                                    Get.back();
-                                  },
+                        color: Color(0xFFF5F5F5),
+                      ),
+                      padding: const EdgeInsets.fromLTRB(8, 32, 8, 8),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              IconButton(
+                                icon: const Icon(
+                                  Icons.close,
+                                  size: 40,
+                                ),
+                                onPressed: () {
+                                  Get.back();
+                                },
+                              ),
+                            ],
+                          ),
+                          // Create the ticket-like UI
+                          Container(
+                            width: Get.width * 0.8,
+                            height: Get.height * 0.8,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(20),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  spreadRadius: 3,
+                                  blurRadius: 5,
+                                  offset: Offset(0, 3),
                                 ),
                               ],
                             ),
-                            // Create the ticket-like UI
-                            Container(
-                              width: Get.width * 0.8,
-                              height: Get.height * 0.8,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(20),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.5),
-                                    spreadRadius: 3,
-                                    blurRadius: 5,
-                                    offset: Offset(0, 3),
+                            padding: EdgeInsets.all(16),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment
+                                  .center, // Để căn giữa theo chiều ngang
+                              children: [
+                                Text(
+                                  'Deer Coffee',
+                                  style: Get.textTheme.bodyLarge
+                                      ?.copyWith(fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  promotionDetailsModel?.promotionName ?? '',
+                                  style: Get.textTheme.bodyLarge
+                                      ?.copyWith(fontWeight: FontWeight.bold),
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 2,
+                                  textAlign: TextAlign.center,
+                                ),
+                                // CustomPaint(
+                                //   size: Size(Get.width,
+                                //       12), // Điều chỉnh kích thước của đường kẻ
+                                //   painter: DotPainter(),
+                                // ),
+                                Padding(
+                                  padding: const EdgeInsets.all(16),
+                                  child: QrImageView(
+                                    data: selectedCode ?? '',
+                                    version: QrVersions.auto,
+                                    size: 180.0,
                                   ),
-                                ],
-                              ),
-                              padding: EdgeInsets.all(16),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment
-                                    .center, // Để căn giữa theo chiều ngang
-                                children: [
-                                  Text(
-                                    'Deer Coffee',
-                                    style: Get.textTheme.bodyLarge
-                                        ?.copyWith(fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  selectedCode ?? "",
+                                  style: Get.textTheme.bodyMedium
+                                      ?.copyWith(fontWeight: FontWeight.bold),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    Clipboard.setData(ClipboardData(
+                                        text: selectedCode ?? ''));
+                                    Get.snackbar("Đã sao chép",
+                                        '${promotionDetailsModel?.promotionCode}');
+                                  },
+                                  child: Text(
+                                    'Sao chép',
+                                    style: Get.textTheme.bodyMedium?.copyWith(
+                                        color: Colors.blueAccent,
+                                        fontWeight: FontWeight.bold),
                                   ),
-                                  Text(
-                                    promotionDetailsModel?.promotionName ?? '',
-                                    style: Get.textTheme.bodyLarge
-                                        ?.copyWith(fontWeight: FontWeight.bold),
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 2,
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  // CustomPaint(
-                                  //   size: Size(Get.width,
-                                  //       12), // Điều chỉnh kích thước của đường kẻ
-                                  //   painter: DotPainter(),
-                                  // ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(16),
-                                    child: QrImageView(
-                                      data: selectedCode ?? '',
-                                      version: QrVersions.auto,
-                                      size: 180.0,
-                                    ),
-                                  ),
-                                  Text(
-                                    selectedCode ?? "",
-                                    style: Get.textTheme.bodyMedium
-                                        ?.copyWith(fontWeight: FontWeight.bold),
-                                  ),
-                                  TextButton(
+                                ),
+                                SizedBox(
+                                  width: 200,
+                                  child: ElevatedButton(
                                     onPressed: () {
-                                      Clipboard.setData(ClipboardData(
-                                          text: selectedCode ?? ''));
-                                      Get.snackbar("Đã sao chép",
-                                          '${promotionDetailsModel?.promotionCode}');
+                                      if (model.cart.promotionCode ==
+                                          promotionDetailsModel!
+                                              .promotionCode!) {
+                                        model.removePromotion();
+                                        Get.back();
+                                      } else {
+                                        model.selectPromotion(
+                                            selectedCode ?? '',
+                                            promotionDetailsModel
+                                                    ?.promotionType ??
+                                                2);
+                                        Get.back();
+                                      }
                                     },
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: ThemeColor.primary,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(20),
+                                      ),
+                                    ),
                                     child: Text(
-                                      'Sao chép',
-                                      style: Get.textTheme.bodyMedium?.copyWith(
-                                          color: Colors.blueAccent,
-                                          fontWeight: FontWeight.bold),
+                                      model.cart.promotionCode ==
+                                              promotionDetailsModel!
+                                                  .promotionCode
+                                          ? "Huỷ chọn "
+                                          : "Chọn khuyến mãi",
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 16),
                                     ),
                                   ),
-                                  SizedBox(
-                                    width: 200,
-                                    child: ElevatedButton(
-                                      onPressed: () {
-                                        if (model.cart.promotionCode ==
-                                            promotionDetailsModel!
-                                                .promotionCode!) {
-                                          model.removePromotion();
-                                          Get.back();
-                                        } else {
-                                          model.selectPromotion(
-                                              selectedCode ?? '',
-                                              promotionDetailsModel
-                                                      ?.promotionType ??
-                                                  2);
-                                          Get.back();
-                                        }
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: ThemeColor.primary,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                        ),
-                                      ),
-                                      child: Text(
-                                        model.cart.promotionCode ==
-                                                promotionDetailsModel!
-                                                    .promotionCode
-                                            ? "Huỷ chọn "
-                                            : "Chọn khuyến mãi",
-                                        style: TextStyle(
-                                            color: Colors.white, fontSize: 16),
-                                      ),
+                                ),
+                                Divider(
+                                  color: Colors.grey[300],
+                                  thickness: 1,
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment
+                                      .spaceBetween, // Căn giữa và đặt cách đều hai phần tử
+                                  children: [
+                                    Text('Ngày hết hạn :',
+                                        style: Get.textTheme.bodySmall),
+                                    Text(
+                                        formatOnlyDate(
+                                            promotionDetailsModel?.endDate ??
+                                                "2025-01-01T00:00:00"),
+                                        style: Get.textTheme.bodySmall),
+                                  ],
+                                ),
+                                Divider(
+                                  color: Colors.grey[300],
+                                  thickness: 1,
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment
+                                      .spaceBetween, // Căn giữa và đặt cách đều hai phần tử
+                                  children: [
+                                    Text('Lượt sử dụng còn lại',
+                                        style: Get.textTheme.bodySmall),
+                                    Text(
+                                        promotionDetailsModel!
+                                                    .currentVoucherQuantity! >
+                                                0
+                                            ? (promotionDetailsModel!
+                                                        .currentVoucherQuantity ??
+                                                    0)
+                                                .toString()
+                                            : "Vô hạn",
+                                        style: Get.textTheme.bodySmall),
+                                  ],
+                                ),
+                                Divider(
+                                  color: Colors.grey[300],
+                                  thickness: 1,
+                                ),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment
+                                      .start, // Để căn bên trái theo chiều ngang
+                                  children: [
+                                    Text(
+                                      promotionDetailsModel?.description ?? '',
+                                      style: Get.textTheme.bodySmall,
+                                      maxLines: 5,
+                                      overflow: TextOverflow.ellipsis,
                                     ),
-                                  ),
-                                  Divider(
-                                    color: Colors.grey[300],
-                                    thickness: 1,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment
-                                        .spaceBetween, // Căn giữa và đặt cách đều hai phần tử
-                                    children: [
-                                      Text('Ngày hết hạn :',
-                                          style: Get.textTheme.bodySmall),
-                                      Text(
-                                          formatOnlyDate(
-                                              promotionDetailsModel?.endDate ??
-                                                  "2025-01-01T00:00:00"),
-                                          style: Get.textTheme.bodySmall),
-                                    ],
-                                  ),
-                                  Divider(
-                                    color: Colors.grey[300],
-                                    thickness: 1,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment
-                                        .spaceBetween, // Căn giữa và đặt cách đều hai phần tử
-                                    children: [
-                                      Text('Lượt sử dụng còn lại',
-                                          style: Get.textTheme.bodySmall),
-                                      Text(
-                                          promotionDetailsModel
-                                                      ?.promotionType ==
-                                                  3
-                                              ? (vouchers?.length ?? 0)
-                                                  .toString()
-                                              : "Vô hạn",
-                                          style: Get.textTheme.bodySmall),
-                                    ],
-                                  ),
-                                  Divider(
-                                    color: Colors.grey[300],
-                                    thickness: 1,
-                                  ),
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment
-                                        .start, // Để căn bên trái theo chiều ngang
-                                    children: [
-                                      Text(
-                                        promotionDetailsModel?.description ??
-                                            '',
-                                        style: Get.textTheme.bodySmall,
-                                        maxLines: 5,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
+                                  ],
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ],
           );

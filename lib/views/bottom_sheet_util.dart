@@ -56,7 +56,7 @@ Future<void> showSelectStore() async {
                             onTap: () {
                               Get.find<CartViewModel>().setStore(e);
                               Get.find<CartViewModel>()
-                                  .setAddress('${e.name} \n${e.address}');
+                                  .setAddress('${e.address}');
                               Get.back();
                             },
                             child: Container(

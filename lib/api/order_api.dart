@@ -1,3 +1,5 @@
+import 'package:deer_coffee/models/transactions.dart';
+
 import '../models/cart_model.dart';
 import '../models/order.dart';
 import '../models/order_details.dart';
@@ -77,6 +79,17 @@ class OrderAPI {
       listOrder.add(orderResponse);
     }
     return listOrder;
+  }
+
+  Future<List<TransactionModel>>? getListTransactionOfUser(
+    String userId,
+  ) async {
+    var params = <String, dynamic>{'page': 1, 'size': 100};
+    final res = await request.get('users/$userId/transactions',
+        queryParameters: params);
+    var jsonList = res.data['items'];
+    TransactionModel().fromList(jsonList);
+    return TransactionModel().fromList(jsonList);
   }
 
   Future<OrderDetailsModel> getOrderDetails(

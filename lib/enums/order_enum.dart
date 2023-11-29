@@ -107,3 +107,9 @@ class PromotionTypeEnums {
   static const String PERCENT = 'Percent';
   static const String AUTOAPPLY = 'AutoApply';
 }
+
+class TransactionTypeEnum {
+  static const String PAYMENT = 'PAYMENT';
+  static const String GET_POINT = 'GET_POINT';
+  static const String TOP_UP = 'TOP_UP';
+}

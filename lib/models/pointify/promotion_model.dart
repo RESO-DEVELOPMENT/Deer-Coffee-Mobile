@@ -12,6 +12,7 @@ class PromotionPointify {
   num? tierIndex;
   String? endDate;
   List<ListVoucher>? listVoucher;
+  num? currentVoucherQuantity;
 
   PromotionPointify(
       {this.promotionId,
@@ -26,7 +27,8 @@ class PromotionPointify {
       this.promotionType,
       this.tierIndex,
       this.endDate,
-      this.listVoucher});
+      this.listVoucher,
+      this.currentVoucherQuantity});
 
   PromotionPointify.fromJson(Map<String, dynamic> json) {
     promotionId = json['promotionId'];
@@ -47,6 +49,7 @@ class PromotionPointify {
         listVoucher!.add(ListVoucher.fromJson(v));
       });
     }
+    currentVoucherQuantity = json['currentVoucherQuantity'];
   }
 
   Map<String, dynamic> toJson() {

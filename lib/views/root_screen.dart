@@ -18,7 +18,7 @@ import '../view_models/menu_view_model.dart';
 import 'home_screen/banner_home.dart';
 import 'home_screen/home_page.dart';
 import 'order.dart';
-import 'profile_screen/other_page.dart';
+import 'profile_screen/profile.dart';
 import 'home_page_order_method.dart';
 import 'bottom_sheet_util.dart';
 import 'home_page_order_method.dart';
@@ -47,7 +47,8 @@ class _RootScreenState extends State<RootScreen> {
     BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Trang chủ'),
     BottomNavigationBarItem(
         icon: Icon(Icons.coffee_outlined), label: 'Đặt hàng'),
-    BottomNavigationBarItem(icon: Icon(Icons.wallet_giftcard), label: 'Ưu đãi'),
+    BottomNavigationBarItem(
+        icon: Icon(Icons.confirmation_number), label: 'Ưu đãi'),
     BottomNavigationBarItem(
         icon: Icon(Icons.store_outlined), label: 'Cửa hàng'),
     BottomNavigationBarItem(icon: Icon(Icons.segment_sharp), label: 'Khác'),
@@ -119,6 +120,7 @@ class _RootScreenState extends State<RootScreen> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         showUnselectedLabels: true,
+        type: BottomNavigationBarType.fixed,
         items: items,
         currentIndex: _selectedIndex,
         selectedItemColor: ThemeColor.primary,

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:core';
 import 'dart:math';
 import 'package:deer_coffee/models/order_details.dart';
+import 'package:deer_coffee/models/transactions.dart';
 import 'package:deer_coffee/models/user.dart';
 import 'package:deer_coffee/utils/route_constrant.dart';
 import 'package:deer_coffee/utils/share_pref.dart';
@@ -168,6 +169,26 @@ class OrderViewModel extends BaseViewModel {
       setState(ViewStatus.Completed);
       showAlertDialog(title: "Lỗi đơn hàng", content: e.toString());
     }
+  }
+
+  Future<List<TransactionModel>?> getListTransaction() async {
+    try {
+      setState(ViewStatus.Loading);
+      UserModel? userInfo = await getUserInfo();
+      var listTrans =
+          await api.getListTransactionOfUser(userInfo!.userInfo!.id ?? '');
+      if (listTrans != null) {
+        setState(ViewStatus.Completed);
+        return listTrans;
+      } else {
+        setState(ViewStatus.Completed);
+        return [];
+      }
+    } catch (e) {
+      setState(ViewStatus.Completed);
+      showAlertDialog(title: "Lỗi đơn hàng", content: e.toString());
+    }
+    return null;
   }
 
   Future<OrderDetailsModel?> getOrderDetails(String orderId) async {

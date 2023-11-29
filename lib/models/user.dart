@@ -36,8 +36,7 @@ class UserDetails {
   String? brandId;
   String? createdAt;
   String? updatedAt;
-  String? urlImg;
-  List<Wallets>? wallets;
+  Null? urlImg;
   Level? level;
 
   UserDetails(
@@ -53,7 +52,6 @@ class UserDetails {
       this.createdAt,
       this.updatedAt,
       this.urlImg,
-      this.wallets,
       this.level});
 
   UserDetails.fromJson(Map<String, dynamic> json) {
@@ -69,12 +67,6 @@ class UserDetails {
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
     urlImg = json['urlImg'];
-    if (json['wallets'] != null) {
-      wallets = <Wallets>[];
-      json['wallets'].forEach((v) {
-        wallets!.add(Wallets.fromJson(v));
-      });
-    }
     level = json['level'] != null ? Level.fromJson(json['level']) : null;
   }
 
@@ -92,9 +84,6 @@ class UserDetails {
     data['createdAt'] = createdAt;
     data['updatedAt'] = updatedAt;
     data['urlImg'] = urlImg;
-    if (wallets != null) {
-      data['wallets'] = wallets!.map((v) => v.toJson()).toList();
-    }
     if (level != null) {
       data['level'] = level!.toJson();
     }
@@ -102,44 +91,45 @@ class UserDetails {
   }
 }
 
-class Wallets {
-  String? id;
-  String? name;
-  num? balance;
-  num? balanceHistory;
-
-  Wallets({this.id, this.name, this.balance, this.balanceHistory});
-
-  Wallets.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    name = json['name'];
-    balance = json['balance'];
-    balanceHistory = json['balanceHistory'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['name'] = name;
-    data['balance'] = balance;
-    data['balanceHistory'] = balanceHistory;
-    return data;
-  }
-}
-
 class Level {
   String? memberLevelId;
   String? name;
-  num? indexLevel;
+  int? indexLevel;
   String? benefits;
+  int? maxPoint;
+  String? nextLevelName;
+  List<MemberWallet>? memberWallet;
+  List<MembershipCard>? membershipCard;
 
-  Level({this.memberLevelId, this.name, this.indexLevel, this.benefits});
+  Level(
+      {this.memberLevelId,
+      this.name,
+      this.indexLevel,
+      this.benefits,
+      this.maxPoint,
+      this.nextLevelName,
+      this.memberWallet,
+      this.membershipCard});
 
   Level.fromJson(Map<String, dynamic> json) {
     memberLevelId = json['memberLevelId'];
     name = json['name'];
     indexLevel = json['indexLevel'];
     benefits = json['benefits'];
+    maxPoint = json['maxPoint'];
+    nextLevelName = json['nextLevelName'];
+    if (json['memberWallet'] != null) {
+      memberWallet = <MemberWallet>[];
+      json['memberWallet'].forEach((v) {
+        memberWallet!.add(MemberWallet.fromJson(v));
+      });
+    }
+    if (json['membershipCard'] != null) {
+      membershipCard = <MembershipCard>[];
+      json['membershipCard'].forEach((v) {
+        membershipCard!.add(MembershipCard.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -148,6 +138,114 @@ class Level {
     data['name'] = name;
     data['indexLevel'] = indexLevel;
     data['benefits'] = benefits;
+    data['maxPoint'] = maxPoint;
+    data['nextLevelName'] = nextLevelName;
+    if (memberWallet != null) {
+      data['memberWallet'] = memberWallet!.map((v) => v.toJson()).toList();
+    }
+    if (membershipCard != null) {
+      data['membershipCard'] = membershipCard!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class MemberWallet {
+  String? id;
+  int? balance;
+  WalletType? walletType;
+
+  MemberWallet({this.id, this.balance, this.walletType});
+
+  MemberWallet.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    balance = json['balance'];
+    walletType = json['walletType'] != null
+        ? WalletType.fromJson(json['walletType'])
+        : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['balance'] = balance;
+    if (walletType != null) {
+      data['walletType'] = walletType!.toJson();
+    }
+    return data;
+  }
+}
+
+class WalletType {
+  String? name;
+  String? currency;
+
+  WalletType({this.name, this.currency});
+
+  WalletType.fromJson(Map<String, dynamic> json) {
+    name = json['name'];
+    currency = json['currency'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['name'] = name;
+    data['currency'] = currency;
+    return data;
+  }
+}
+
+class MembershipCard {
+  String? id;
+  String? membershipCardCode;
+  Null? physicalCardCode;
+  MembershipCardType? membershipCardType;
+
+  MembershipCard(
+      {this.id,
+      this.membershipCardCode,
+      this.physicalCardCode,
+      this.membershipCardType});
+
+  MembershipCard.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    membershipCardCode = json['membershipCardCode'];
+    physicalCardCode = json['physicalCardCode'];
+    membershipCardType = json['membershipCardType'] != null
+        ? MembershipCardType.fromJson(json['membershipCardType'])
+        : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['membershipCardCode'] = membershipCardCode;
+    data['physicalCardCode'] = physicalCardCode;
+    if (membershipCardType != null) {
+      data['membershipCardType'] = membershipCardType!.toJson();
+    }
+    return data;
+  }
+}
+
+class MembershipCardType {
+  String? id;
+  String? name;
+  String? cardImage;
+
+  MembershipCardType({this.id, this.name, this.cardImage});
+
+  MembershipCardType.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    cardImage = json['cardImage'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['cardImage'] = cardImage;
     return data;
   }
 }

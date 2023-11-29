@@ -7,6 +7,8 @@ import 'package:get/get.dart';
 import 'package:get/instance_manager.dart';
 import 'package:pinput/pinput.dart';
 
+import '../../utils/theme.dart';
+
 class MyOtp extends StatefulWidget {
   const MyOtp({super.key});
 
@@ -18,12 +20,24 @@ class _MyOtpState extends State<MyOtp> {
   int _countdown = 6; // Đếm ngược từ 60 giây
   late Timer _timer;
   String? phoneNumber;
+  String? pin;
+  TextEditingController? pinController = TextEditingController();
+  final focusNode = FocusNode();
+  final formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
     phoneNumber = Get.find<AccountViewModel>().phoneNumber;
     super.initState();
     startCountdown();
+  }
+
+  @override
+  void dispose() {
+    pinController?.dispose();
+    focusNode.dispose();
+    _timer.cancel();
+    super.dispose();
   }
 
   void startCountdown() {
@@ -163,22 +177,48 @@ class _MyOtpState extends State<MyOtp> {
                           ),
                           textAlign: TextAlign.center,
                         ),
+                        SizedBox(
+                          height: 16,
+                        ),
                         Pinput(
                           length: 6,
-                          pinputAutovalidateMode:
-                              PinputAutovalidateMode.onSubmit,
+                          controller: pinController,
                           showCursor: true,
-                          onCompleted: (input) {
-                            Get.find<AccountViewModel>().verifyOTPCode(input);
-                          },
+                          focusNode: focusNode,
+                          androidSmsAutofillMethod:
+                              AndroidSmsAutofillMethod.smsUserConsentApi,
+                        ),
+                        const SizedBox(
+                          height: 16,
                         ),
                         SizedBox(
+                          width: 200,
+                          height: 50,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              if (pinController?.text.length == 6) {
+                                Get.find<AccountViewModel>()
+                                    .verifyOTPCode(pinController?.text);
+                              }
+                            },
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: pinController?.text.length != 6
+                                    ? Colors.grey
+                                    : ThemeColor.primary,
+                                textStyle: Get.textTheme.titleMedium
+                                    ?.copyWith(color: Colors.white)),
+                            child: Text('Gửi mã',
+                                style: Get.textTheme.titleMedium
+                                    ?.copyWith(color: Colors.white)),
+                          ),
+                        ),
+                        const SizedBox(
                           height: 8,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text("Bạn không nhận mã?"),
+                            const Text("Bạn không nhận mã?"),
                             TextButton(
                               onPressed: () {
                                 if (_countdown == 0) {
@@ -204,11 +244,5 @@ class _MyOtpState extends State<MyOtp> {
         ],
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _timer.cancel();
-    super.dispose();
   }
 }

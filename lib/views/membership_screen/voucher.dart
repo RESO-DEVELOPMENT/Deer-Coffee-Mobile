@@ -18,7 +18,6 @@ class _VoucherState extends State<Voucher> {
   @override
   void initState() {
     Get.find<CartViewModel>().getListPromotion();
-    Get.find<CartViewModel>().getListUserVoucher();
     super.initState();
   }
 
@@ -52,15 +51,40 @@ class _VoucherState extends State<Voucher> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Column(
-                      children: model.promotionsHasVoucher!
-                          .map((e) => buildTicketWidget(
-                              e,
-                              model.cart.promotionCode == e.promotionCode,
-                              model))
-                          .toList()),
+                  Text('Dành riêng cho bạn',
+                      style: Get.textTheme.titleMedium
+                          ?.copyWith(fontWeight: FontWeight.bold)),
                   const SizedBox(
                     height: 8,
+                  ),
+                  Column(
+                      children: model.promotionsHasVoucher?.length == 0
+                          ? [
+                              Center(
+                                child: const Text(
+                                    "Hiện không có khuyến mãi dành cho bạn"),
+                              )
+                            ]
+                          : model.promotionsHasVoucher!
+                              .map((e) => buildTicketWidget(
+                                  e,
+                                  model.cart.promotionCode == e.promotionCode,
+                                  model))
+                              .toList()),
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  Text('Khuyến mãi khả dụng',
+                      style: Get.textTheme.titleMedium
+                          ?.copyWith(fontWeight: FontWeight.bold)),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  Column(
+                    children: model.promotionsUsingPromotionCode!
+                        .map((e) => buildTicketWidget(e,
+                            model.cart.promotionCode == e.promotionCode, model))
+                        .toList(),
                   ),
                 ],
               ),

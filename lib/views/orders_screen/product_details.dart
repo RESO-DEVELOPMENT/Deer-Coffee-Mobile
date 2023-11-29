@@ -130,12 +130,10 @@ class _OptionState extends State<Option> {
                                 ?.copyWith(fontWeight: FontWeight.bold),
                           ),
                           Container(
-                            height: 40,
-                            width: 100,
-                            padding: const EdgeInsets.all(8),
+                            width: 120,
                             decoration: BoxDecoration(
                                 color: Colors.white,
-                                borderRadius: BorderRadius.circular(20),
+                                borderRadius: BorderRadius.circular(32),
                                 border: Border.all(
                                   color: ThemeColor.primary,
                                 )),
@@ -143,23 +141,28 @@ class _OptionState extends State<Option> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                GestureDetector(
-                                  onTap: () {
+                                IconButton(
+                                  onPressed: () {
                                     model.decreaseQuantity();
                                   },
-                                  child: Icon(
+                                  icon: Icon(
                                     CupertinoIcons.minus,
                                     color: ThemeColor.primary,
+                                    size: 32,
                                   ),
                                 ),
-                                Text(model.productInCart.quantity.toString()),
-                                GestureDetector(
-                                  onTap: () {
+                                Text(
+                                  model.productInCart.quantity.toString(),
+                                  style: Get.textTheme.titleMedium,
+                                ),
+                                IconButton(
+                                  onPressed: () {
                                     model.increaseQuantity();
                                   },
-                                  child: Icon(
+                                  icon: Icon(
                                     CupertinoIcons.plus,
                                     color: ThemeColor.primary,
+                                    size: 32,
                                   ),
                                 ),
                               ],

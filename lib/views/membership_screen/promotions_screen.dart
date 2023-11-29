@@ -1,23 +1,19 @@
 import 'package:barcode_widget/barcode_widget.dart';
 import 'package:deer_coffee/enums/view_status.dart';
-import 'package:deer_coffee/models/pointify/membership_model.dart';
-import 'package:deer_coffee/models/pointify/promotion_model.dart';
+
 import 'package:deer_coffee/view_models/account_view_model.dart';
 import 'package:deer_coffee/view_models/cart_view_model.dart';
 import 'package:deer_coffee/views/drips.dart';
 import 'package:deer_coffee/views/reward.dart';
 import 'package:deer_coffee/views/reward_coffee.dart';
-import 'package:deer_coffee/views/membership_screen/voucher.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 import '../../models/user.dart';
-import '../../utils/format.dart';
 import '../../utils/route_constrant.dart';
+import '../../utils/theme.dart';
 import '../../widgets/promotion_widget.dart';
-import '../login/login.dart';
 import '../login/login_card.dart';
 
 class PromotionsScreen extends StatefulWidget {
@@ -30,7 +26,7 @@ class PromotionsScreen extends StatefulWidget {
 class _PromotionsScreenState extends State<PromotionsScreen> {
   @override
   void initState() {
-    Get.find<CartViewModel>().getListPromotion();
+    // Get.find<CartViewModel>().getListPromotion();
     super.initState();
   }
 
@@ -45,25 +41,26 @@ class _PromotionsScreenState extends State<PromotionsScreen> {
               child: ScopedModelDescendant<AccountViewModel>(
                   builder: (context, build, model) {
                 if (model.status == ViewStatus.Loading) {
-                  return Container(
+                  return SizedBox(
                       width: Get.width,
                       height: 200,
-                      child: Center(child: CircularProgressIndicator()));
+                      child: const Center(child: CircularProgressIndicator()));
                 }
 
-                List<Wallets> wallet = model.memberShipModel?.wallets ?? [];
+                List<MemberWallet> wallet =
+                    model.memberShipModel?.level?.memberWallet ?? [];
                 if (model.memberShipModel == null) {
-                  return LoginCard();
+                  return const LoginCard();
                 }
                 return Container(
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage('assets/images/tree1.png'),
                       fit: BoxFit.cover,
                     ),
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 60, 16, 16),
+                    padding: const EdgeInsets.fromLTRB(8, 60, 8, 8),
                     child: Column(
                       children: <Widget>[
                         Padding(
@@ -81,9 +78,7 @@ class _PromotionsScreenState extends State<PromotionsScreen> {
                                       style: Get.textTheme.bodyMedium?.copyWith(
                                           color: Colors.white,
                                           fontWeight: FontWeight.bold)),
-                                  Text(
-                                      model.memberShipModel?.level?.name ??
-                                          'Bronze',
+                                  Text(model.memberShipModel?.level?.name ?? '',
                                       style: Get.textTheme.bodyLarge?.copyWith(
                                           color: Colors.white,
                                           fontWeight: FontWeight.bold)),
@@ -100,15 +95,15 @@ class _PromotionsScreenState extends State<PromotionsScreen> {
                                   ),
                                   child: Row(
                                     children: <Widget>[
-                                      Icon(
+                                      const Icon(
                                         Icons.confirmation_number,
                                         color: Colors.blueAccent,
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         width: 4,
                                       ),
                                       Text(
-                                        'Voucher của tôi',
+                                        'Khuyến mãi',
                                         style: Get.textTheme.bodyMedium
                                             ?.copyWith(
                                                 color: Colors.blueAccent),
@@ -122,14 +117,18 @@ class _PromotionsScreenState extends State<PromotionsScreen> {
                         ),
                         Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: model.memberShipModel!.wallets!
+                            children: model
+                                .memberShipModel!.level!.memberWallet!
                                 .map((e) => Text(
-                                      '${e.name ?? ''}: ${(e.name ?? '') == "Số dư" ? formatPrice(e.balance ?? 0) : formatPriceWithoutUnit(e.balance ?? 0)}',
-                                      style: Get.textTheme.bodyLarge?.copyWith(
+                                      '${e.walletType?.name ?? ''}: ${e.balance ?? ""} ${e.walletType?.currency ?? ""}',
+                                      style: Get.textTheme.bodyMedium?.copyWith(
                                           color: Colors.white,
                                           fontWeight: FontWeight.bold),
                                     ))
                                 .toList()),
+                        const SizedBox(
+                          height: 8,
+                        ),
                         Card(
                           child: Container(
                             height: 100,
@@ -157,17 +156,86 @@ class _PromotionsScreenState extends State<PromotionsScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Row(
-                    children: [
-                      Expanded(child: buildUtilityWidget("Hạng thành viên")),
-                      Expanded(child: buildUtilityWidget("Đổi Bean")),
-                    ],
-                  ),
-                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Expanded(
-                        child: buildUtilityWidget("Lịch sử BEAN"),
+                        child: GestureDetector(
+                          onTap: () {},
+                          child: Container(
+                            margin: const EdgeInsets.all(8),
+                            padding: const EdgeInsets.all(4),
+                            height: 100,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(16),
+                              color: Colors.white,
+                            ),
+                            child: Stack(
+                              children: [
+                                Align(
+                                    alignment: Alignment.topLeft,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Icon(
+                                        Icons.card_membership_outlined,
+                                        color: ThemeColor.primary,
+                                        size: 40,
+                                      ),
+                                    )),
+                                Align(
+                                  alignment: Alignment.bottomLeft,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        bottom: 10, left: 10),
+                                    child: Text('Hạng thành viên',
+                                        style: Get.textTheme.bodyMedium
+                                            ?.copyWith(
+                                                fontWeight: FontWeight.bold)),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
                       ),
-                      Expanded(child: buildUtilityWidget("Quyền lợi của bạn")),
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: () {},
+                          child: Container(
+                            margin: const EdgeInsets.all(8),
+                            height: 100,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(13),
+                              color: Colors.white,
+                            ),
+                            child: Stack(
+                              children: [
+                                Align(
+                                    alignment: Alignment.topLeft,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Icon(
+                                        Icons.card_giftcard_outlined,
+                                        color: ThemeColor.primary,
+                                        size: 40,
+                                      ),
+                                    )),
+                                Align(
+                                  alignment: Alignment.bottomLeft,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        bottom: 10, left: 10),
+                                    child: Text('Đổi điểm',
+                                        style: Get.textTheme.bodyMedium
+                                            ?.copyWith(
+                                                fontWeight: FontWeight.bold)),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ],

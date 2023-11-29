@@ -1,6 +1,5 @@
 import 'package:deer_coffee/api/account_api.dart';
 import 'package:deer_coffee/enums/view_status.dart';
-import 'package:deer_coffee/models/pointify/membership_model.dart';
 import 'package:deer_coffee/models/user_create.dart';
 import 'package:deer_coffee/utils/request.dart';
 import 'package:deer_coffee/view_models/base_view_model.dart';
@@ -14,6 +13,7 @@ import '../api/pointify/pointify_data.dart';
 import '../models/user.dart';
 import '../utils/route_constrant.dart';
 import '../utils/share_pref.dart';
+import 'cart_view_model.dart';
 
 class AccountViewModel extends BaseViewModel {
   FirebaseAuth auth = FirebaseAuth.instance;
@@ -37,14 +37,28 @@ class AccountViewModel extends BaseViewModel {
       phoneNumber: phone,
       verificationCompleted: (PhoneAuthCredential credential) async {
         try {
-          await auth
-              .signInWithCredential(credential)
-              .then((value) => userCredential = value);
-          await Get.offAllNamed(RouteHandler.HOME);
+          showLoadingDialog();
+          await auth.signInWithCredential(credential).then((value) => {
+                userCredential = value,
+              });
+          String? token = await auth.currentUser?.getIdToken();
+          await accountAPI.signIn(token ?? '').then((value) => user = value);
+          if (user == null || user?.userInfo == null) {
+            showAlertDialog(
+                title: 'Lỗi đăng nhập',
+                content: user?.message ?? 'Đăng nhập không thành công');
+            return;
+          } else {
+            requestObj.setToken = user?.accessToken ?? '';
+            await setUserInfo(user!);
+            await setToken(user!.accessToken ?? '');
+            hideDialog();
+            await Get.offAllNamed(RouteHandler.HOME);
+          }
         } catch (e) {
           await showAlertDialog(
               title: "Xảy ra lỗi", content: e.toString() ?? 'Lỗi');
-          Get.back();
+          // Get.back();
         }
       },
       verificationFailed: (FirebaseAuthException e) async {
@@ -75,14 +89,29 @@ class AccountViewModel extends BaseViewModel {
       timeout: const Duration(seconds: 60),
       verificationCompleted: (PhoneAuthCredential credential) async {
         try {
-          await auth
-              .signInWithCredential(credential)
-              .then((value) => userCredential = value);
-          await Get.offAllNamed(RouteHandler.HOME);
+          showLoadingDialog();
+          await auth.signInWithCredential(credential).then((value) => {
+                userCredential = value,
+              });
+          String? token = await auth.currentUser?.getIdToken();
+          await accountAPI.signIn(token ?? '').then((value) => user = value);
+          if (user == null || user?.userInfo == null) {
+            showAlertDialog(
+                title: 'Lỗi đăng nhập',
+                content: user?.message ?? 'Đăng nhập không thành công');
+            return;
+          } else {
+            requestObj.setToken = user?.accessToken ?? '';
+            await setUserInfo(user!);
+            await setToken(user!.accessToken ?? '');
+            await Get.find<CartViewModel>().getListPromotion();
+            hideDialog();
+            await Get.offAllNamed(RouteHandler.HOME);
+          }
         } catch (e) {
           await showAlertDialog(
               title: "Xảy ra lỗi", content: e.toString() ?? 'Lỗi');
-          Get.back();
+          // Get.back();
         }
       },
       verificationFailed: (FirebaseAuthException e) async {
@@ -114,7 +143,6 @@ class AccountViewModel extends BaseViewModel {
       await auth.signInWithCredential(credential).then((value) => {
             userCredential = value,
           });
-
       String? token = await auth.currentUser?.getIdToken();
       await accountAPI.signIn(token ?? '').then((value) => user = value);
       if (user == null || user?.userInfo == null) {
@@ -126,6 +154,8 @@ class AccountViewModel extends BaseViewModel {
         requestObj.setToken = user?.accessToken ?? '';
         await setUserInfo(user!);
         await setToken(user!.accessToken ?? '');
+        await Get.find<CartViewModel>().getListPromotion();
+        hideDialog();
         await Get.offAllNamed(RouteHandler.HOME);
       }
     } catch (e) {

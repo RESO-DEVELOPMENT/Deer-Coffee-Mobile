@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class OrderDetails extends StatefulWidget {
@@ -177,6 +178,16 @@ class _OrderDetailsState extends State<OrderDetails> {
                             style: Get.textTheme.bodyMedium,
                           ),
                         ],
+                      ),
+                      Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: QrImageView(
+                            data: orderDetails?.orderId ?? '',
+                            version: QrVersions.auto,
+                            size: 160.0,
+                          ),
+                        ),
                       ),
                     ],
                   ),

@@ -11,6 +11,7 @@ import 'package:deer_coffee/views/orders_screen/product_details.dart';
 import 'package:deer_coffee/views/membership_screen/promotion_details.dart';
 import 'package:deer_coffee/views/membership_screen/voucher.dart';
 import 'package:deer_coffee/views/membership_screen/voucher_details.dart';
+import 'package:deer_coffee/views/profile_screen/transaction_history.dart';
 import 'package:deer_coffee/views/stores_screen/store_details.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -87,6 +88,10 @@ class MyApp extends StatelessWidget {
         GetPage(
             name: RouteHandler.ORDER,
             page: () => OrderHistory(),
+            transition: Transition.cupertino),
+        GetPage(
+            name: RouteHandler.TRANSACTIONS,
+            page: () => const TransactionsHistory(),
             transition: Transition.cupertino),
         GetPage(
             name: RouteHandler.PRODUCT_DETAIL,
