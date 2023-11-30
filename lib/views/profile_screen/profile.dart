@@ -2,6 +2,7 @@ import 'package:barcode_widget/barcode_widget.dart';
 import 'package:deer_coffee/models/user.dart';
 import 'package:deer_coffee/utils/share_pref.dart';
 import 'package:deer_coffee/utils/theme.dart';
+import 'package:deer_coffee/views/profile_screen/location.dart';
 import 'package:deer_coffee/views/profile_screen/order_history.dart';
 import 'package:deer_coffee/views/profile_screen/update_profile.dart';
 import 'package:deer_coffee/widgets/other_dialogs/dialog.dart';
@@ -287,8 +288,11 @@ class _OtherPageState extends State<OtherPage> {
                             height: 50,
                             child: InkWell(
                               onTap: () {
-                                showAlertDialog(
-                                    content: "Tính năng đang phát triển");
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Location()),
+                                );
                               },
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
