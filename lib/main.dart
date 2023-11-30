@@ -4,6 +4,7 @@ import 'package:deer_coffee/views/cart.dart';
 import 'package:deer_coffee/views/home_screen/blog_details.dart';
 import 'package:deer_coffee/views/orders_screen/category_detail.dart';
 import 'package:deer_coffee/views/orders_screen/collection_detail.dart';
+import 'package:deer_coffee/views/policy-page.dart';
 import 'package:deer_coffee/views/profile_screen/order_history.dart';
 import 'package:deer_coffee/views/login/login_otp.dart';
 import 'package:deer_coffee/views/profile_screen/order_details.dart';
@@ -138,6 +139,13 @@ class MyApp extends StatelessWidget {
             transition: Transition.cupertino),
         GetPage(
             name: RouteHandler.STORE,
+            page: () => StoreDetailScreen(
+                  id: Get.parameters['id'] ?? '',
+                ),
+            transition: Transition.cupertino),
+
+         GetPage(
+            name: RouteHandler.POLICY,
             page: () => StoreDetailScreen(
                   id: Get.parameters['id'] ?? '',
                 ),
