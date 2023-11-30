@@ -53,6 +53,7 @@ class AccountViewModel extends BaseViewModel {
             await setUserInfo(user!);
             await setToken(user!.accessToken ?? '');
             hideDialog();
+            await Get.find<CartViewModel>().getListPromotion();
             await Get.offAllNamed(RouteHandler.HOME);
           }
         } catch (e) {

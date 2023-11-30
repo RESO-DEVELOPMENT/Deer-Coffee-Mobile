@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class PolicyPage extends StatelessWidget {
-  const PolicyPage({Key? key}) : super(key: key);
+  const PolicyPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Chính Sách Quyền Riêng Tư',style: TextStyle(fontWeight: FontWeight.bold),),
+        centerTitle: true,
+        title: Text('Chính Sách Quyền Riêng Tư',
+            style: Get.textTheme.bodyMedium
+                ?.copyWith(fontWeight: FontWeight.bold)),
       ),
-      body: SingleChildScrollView(
+      body: const SingleChildScrollView(
         padding: EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -85,10 +89,14 @@ class PolicyPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text('- Để xác minh danh tính và tài khoản của bạn'),
-                  Text('- Để cung cấp cho bạn các tính năng và dịch vụ của Ứng dụng'),
-                  Text('- Để nâng cao chất lượng và trải nghiệm của bạn khi sử dụng Ứng dụng'),
-                  Text('- Để gửi cho bạn các thông báo, tin tức, khuyến mãi và ưu đãi liên quan đến Ứng dụng và Deer Coffee'),
-                  Text('- Để phân tích hành vi và xu hướng của người dùng để cải thiện Ứng dụng và sản phẩm của Deer Coffee'),
+                  Text(
+                      '- Để cung cấp cho bạn các tính năng và dịch vụ của Ứng dụng'),
+                  Text(
+                      '- Để nâng cao chất lượng và trải nghiệm của bạn khi sử dụng Ứng dụng'),
+                  Text(
+                      '- Để gửi cho bạn các thông báo, tin tức, khuyến mãi và ưu đãi liên quan đến Ứng dụng và Deer Coffee'),
+                  Text(
+                      '- Để phân tích hành vi và xu hướng của người dùng để cải thiện Ứng dụng và sản phẩm của Deer Coffee'),
                   Text('- Để tuân thủ các quy định pháp luật có liên quan'),
                 ],
               ),
@@ -107,9 +115,12 @@ class PolicyPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('- Các đối tác, nhà cung cấp hoặc nhà thầu của chúng tôi, để hỗ trợ chúng tôi trong việc cung cấp Ứng dụng và các dịch vụ liên quan. Các bên này phải tuân thủ các cam kết bảo mật tương đương hoặc cao hơn với chúng tôi.'),
-                  Text('- Các cơ quan nhà nước hoặc pháp luật, khi được yêu cầu theo quy định của pháp luật hoặc để bảo vệ quyền lợi hợp pháp của chúng tôi hoặc người khác.'),
-                  Text('- Các bên liên quan trong trường hợp chúng tôi tham gia vào một giao dịch kinh doanh như sáp nhập, mua bán hoặc thoái vốn.'),
+                  Text(
+                      '- Các đối tác, nhà cung cấp hoặc nhà thầu của chúng tôi, để hỗ trợ chúng tôi trong việc cung cấp Ứng dụng và các dịch vụ liên quan. Các bên này phải tuân thủ các cam kết bảo mật tương đương hoặc cao hơn với chúng tôi.'),
+                  Text(
+                      '- Các cơ quan nhà nước hoặc pháp luật, khi được yêu cầu theo quy định của pháp luật hoặc để bảo vệ quyền lợi hợp pháp của chúng tôi hoặc người khác.'),
+                  Text(
+                      '- Các bên liên quan trong trường hợp chúng tôi tham gia vào một giao dịch kinh doanh như sáp nhập, mua bán hoặc thoái vốn.'),
                 ],
               ),
             ),
@@ -127,10 +138,12 @@ class PolicyPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('- Không chia sẻ mật khẩu hoặc thông tin đăng nhập của bạn với bất kỳ ai'),
+                  Text(
+                      '- Không chia sẻ mật khẩu hoặc thông tin đăng nhập của bạn với bất kỳ ai'),
                   Text('- Đăng xuất khỏi Ứng dụng khi không sử dụng'),
                   Text('- Cập nhật Ứng dụng lên phiên bản mới nhất'),
-                  Text('- Sử dụng các phần mềm chống vi-rút và bảo mật trên thiết bị của bạn'),
+                  Text(
+                      '- Sử dụng các phần mềm chống vi-rút và bảo mật trên thiết bị của bạn'),
                 ],
               ),
             ),
@@ -161,7 +174,7 @@ class PolicyPage extends StatelessWidget {
               'Liên hệ với chúng tôi',
               style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 8.0),
+            const SizedBox(height: 8.0),
             Text(
               'Nếu bạn có bất kỳ câu hỏi, ý kiến hoặc khiếu nại về chính sách quyền riêng tư này hoặc cách chúng tôi xử lý thông tin cá nhân của bạn, vui lòng liên hệ với chúng tôi theo địa chỉ email deercoffee@gmail.com. Chúng tôi sẽ cố gắng giải quyết mọi vấn đề một cách nhanh chóng và hiệu quả.',
             ),

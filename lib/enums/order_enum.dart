@@ -59,7 +59,7 @@ String showPaymentType(String payment) {
   switch (payment) {
     case PaymentTypeEnums.CASH:
       return 'TIỀN MẶT';
-    case PaymentTypeEnums.POINTIFY_WALLET:
+    case PaymentTypeEnums.POINTIFY:
       return 'THẺ THÀNH VIÊN';
     default:
       return 'TIỀN MẶT';
@@ -94,7 +94,7 @@ class PaymentTypeEnums {
   static const String MOMO = 'MOMO';
   static const String BANKING = 'BANKING';
   static const String VISA = 'VISA';
-  static const String POINTIFY_WALLET = 'POINTIFY_WALLET';
+  static const String POINTIFY = 'POINTIFY';
 }
 
 enum PaymentTypeEnum { CASH, VIETQR, ZALOPAY, VNPAY }

@@ -179,17 +179,16 @@ class _CartScreenState extends State<CartScreen> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(model.cart.productList![index].name!,
+                                    Text(
+                                        "${model.cart.productList![index].name!}   x${model.cart.productList![index].quantity}",
                                         style: Get.textTheme.bodyMedium),
                                     Text(
                                         formatPrice(model
                                                 .cart
                                                 .productList![index]
-                                                .totalAmount ??
+                                                .finalAmount ??
                                             0),
-                                        style: Get.textTheme.bodyMedium
-                                            ?.copyWith(
-                                                fontWeight: FontWeight.bold)),
+                                        style: Get.textTheme.bodyMedium),
                                   ],
                                 ),
                                 Row(
@@ -203,8 +202,12 @@ class _CartScreenState extends State<CartScreen> {
                                       style: Get.textTheme.bodySmall,
                                     ),
                                     Text(
-                                        "x ${model.cart.productList![index].quantity}",
-                                        style: Get.textTheme.bodyMedium),
+                                        model.cart.productList![index]
+                                                    .discount ==
+                                                0
+                                            ? ""
+                                            : "-${formatPrice(model.cart.productList![index].discount ?? 0)}",
+                                        style: Get.textTheme.bodySmall),
                                   ],
                                 ),
                                 Text(
@@ -414,8 +417,8 @@ class _CartScreenState extends State<CartScreen> {
                         ),
                         Text(
                           e.effectType == "GET_POINT"
-                              ? ("+${e.discountAmount} Điểm")
-                              : ("- ${formatPrice(e.discountAmount ?? 0)}"),
+                              ? ("+${e.discountAmount} Bean")
+                              : ("-${formatPrice(e.discountAmount ?? 0)}"),
                           style: Get.textTheme.bodySmall,
                         )
                       ],
@@ -431,7 +434,7 @@ class _CartScreenState extends State<CartScreen> {
                 style: Get.textTheme.bodyMedium,
               ),
               Text(
-                formatPrice(model.cart.discountAmount ?? 0),
+                "-${formatPrice(model.cart.discountAmount ?? 0)}",
                 style: Get.textTheme.bodyMedium,
               )
             ],

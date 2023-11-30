@@ -333,8 +333,7 @@ class _OtherPageState extends State<OtherPage> {
                             height: 50,
                             child: InkWell(
                               onTap: () {
-                                showAlertDialog(
-                                    content: "Tính năng đang phát triển");
+                                Get.toNamed(RouteHandler.POLICY);
                               },
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,

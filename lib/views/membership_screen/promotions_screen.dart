@@ -26,7 +26,7 @@ class PromotionsScreen extends StatefulWidget {
 class _PromotionsScreenState extends State<PromotionsScreen> {
   @override
   void initState() {
-    // Get.find<CartViewModel>().getListPromotion();
+    Get.find<CartViewModel>().getListPromotion();
     super.initState();
   }
 
@@ -47,8 +47,6 @@ class _PromotionsScreenState extends State<PromotionsScreen> {
                       child: const Center(child: CircularProgressIndicator()));
                 }
 
-                List<MemberWallet> wallet =
-                    model.memberShipModel?.level?.memberWallet ?? [];
                 if (model.memberShipModel == null) {
                   return const LoginCard();
                 }

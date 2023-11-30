@@ -5,8 +5,10 @@ import 'package:deer_coffee/models/order_details.dart';
 import 'package:deer_coffee/models/product.dart';
 import 'package:deer_coffee/utils/format.dart';
 import 'package:deer_coffee/utils/route_constrant.dart';
+import 'package:deer_coffee/utils/theme.dart';
 import 'package:deer_coffee/view_models/menu_view_model.dart';
 import 'package:deer_coffee/view_models/order_view_model.dart';
+import 'package:deer_coffee/widgets/other_dialogs/dialog.dart';
 import 'package:deer_coffee/widgets/time_line.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -43,199 +45,231 @@ class _OrderDetailsState extends State<OrderDetails> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        leading: IconButton(
-            onPressed: () {
-              Get.back();
-            },
-            icon: Icon(Icons.arrow_back_ios)),
-        title: Text('Chi tiết đơn hàng',
-            style: Get.textTheme.titleMedium
-                ?.copyWith(fontWeight: FontWeight.bold)),
-      ),
-      body: ScopedModel<OrderViewModel>(
-        model: Get.find<OrderViewModel>(),
-        child: ScopedModelDescendant<OrderViewModel>(
-            builder: (context, build, model) {
-          if (model.status == ViewStatus.Loading) {
-            return const Center(
+    return ScopedModel(
+      model: Get.find<OrderViewModel>(),
+      child: ScopedModelDescendant<OrderViewModel>(
+          builder: (context, build, model) {
+        if (model.status == ViewStatus.Loading) {
+          return const Scaffold(
+            body: Center(
               child: CircularProgressIndicator(),
-            );
-          }
-          if (orderDetails == null) {
-            return Center(
-              child: Text("Đơn hàng không tồn tại"),
-            );
-          }
-          return Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: CustomScrollView(
-              slivers: [
-                SliverList(
-                  delegate: SliverChildListDelegate(
-                    [
-                      Text('Sản phẩm  ',
-                          style: Get.textTheme.bodyMedium
-                              ?.copyWith(fontWeight: FontWeight.bold)),
-                      Column(
-                        children: orderDetails!.productList!
-                            .map((e) => productCard(e))
-                            .toList(),
-                      ),
-
-                      // Chi tiết đơn hàng
-                      Divider(),
-                      Text('Thanh toán',
-                          style: Get.textTheme.bodyMedium
-                              ?.copyWith(fontWeight: FontWeight.bold)),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(
-                            "Tạm tính",
-                            style: Get.textTheme.bodySmall,
-                          ),
-                          Text(
-                            formatPrice(orderDetails?.totalAmount ?? 0),
-                            style: Get.textTheme.bodySmall,
-                          )
-                        ],
-                      ),
-                      buildOrderPromotion(orderDetails!),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(
-                            "Giảm giá",
-                            style: Get.textTheme.bodySmall,
-                          ),
-                          Text(
-                            "-" + formatPrice(orderDetails?.discount ?? 0),
-                            style: Get.textTheme.bodySmall,
-                          )
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(
-                            "Tổng cộng",
-                            style: Get.textTheme.bodyMedium,
-                          ),
-                          Text(
-                            formatPrice(orderDetails?.finalAmount ?? 0),
-                            style: Get.textTheme.bodyMedium,
-                          )
-                        ],
-                      ),
-                      Divider(),
-                      Text('Chi tiết đơn hàng',
-                          style: Get.textTheme.bodyMedium
-                              ?.copyWith(fontWeight: FontWeight.bold)),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(
-                            'Mã đơn',
-                            style: Get.textTheme.bodyMedium,
-                          ),
-                          Text(
-                            orderDetails?.invoiceId ?? '',
-                            style: Get.textTheme.bodyMedium,
-                          ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text('Ngày đặt hàng',
-                              style: Get.textTheme.bodyMedium),
-                          Text(
-                            formatTime(orderDetails?.checkInDate ??
-                                "2023-01-01T00:00:00.00000"),
-                            style: Get.textTheme.bodyMedium,
-                          ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text('Thanh toán', style: Get.textTheme.bodyMedium),
-                          Text(
-                            showPaymentType(orderDetails?.paymentType ??
-                                PaymentTypeEnums.CASH),
-                            style: Get.textTheme.bodyMedium,
-                          ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text('Địa chỉ', style: Get.textTheme.bodyMedium),
-                          Text(
-                            orderDetails?.customerInfo?.address ?? '',
-                            style: Get.textTheme.bodyMedium,
-                          ),
-                        ],
-                      ),
-                      Center(
-                        child: Padding(
-                          padding: const EdgeInsets.all(16),
-                          child: QrImageView(
-                            data: orderDetails?.orderId ?? '',
-                            version: QrVersions.auto,
-                            size: 160.0,
-                          ),
+            ),
+          );
+        }
+        if (orderDetails == null) {
+          return const Center(
+            child: Text("Đơn hàng không tồn tại"),
+          );
+        }
+        return Scaffold(
+            appBar: AppBar(
+              centerTitle: true,
+              leading: IconButton(
+                  onPressed: () {
+                    Get.back();
+                  },
+                  icon: Icon(Icons.arrow_back_ios)),
+              title: Text('Chi tiết đơn hàng',
+                  style: Get.textTheme.titleMedium
+                      ?.copyWith(fontWeight: FontWeight.bold)),
+            ),
+            body: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: CustomScrollView(
+                slivers: [
+                  SliverList(
+                    delegate: SliverChildListDelegate(
+                      [
+                        Text('Sản phẩm  ',
+                            style: Get.textTheme.bodyMedium
+                                ?.copyWith(fontWeight: FontWeight.bold)),
+                        Column(
+                          children: orderDetails!.productList!
+                              .map((e) => productCard(e))
+                              .toList(),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Row(
+
+                        // Chi tiết đơn hàng
+                        Divider(),
+                        Text('Thanh toán',
+                            style: Get.textTheme.bodyMedium
+                                ?.copyWith(fontWeight: FontWeight.bold)),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Expanded(
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  cancelOrder1();
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  primary: Colors.lightBlue,
-                                ),
-                                child: Text('Nhận Đơn Hàng',style: TextStyle(color: Colors.white),),
-                              ),
+                            Text(
+                              "Tạm tính",
+                              style: Get.textTheme.bodySmall,
                             ),
-                              SizedBox(width: 16),
-                             Expanded(
-                              child: ElevatedButton(  
-                                onPressed: () {
-                                  cancelOrder();
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  primary: Colors.red[500],
-                                ),
-                                child: Text('Hủy Đơn Hàng',style: TextStyle(color: Colors.white),),
-                                
-                              ),
+                            Text(
+                              formatPrice(orderDetails?.totalAmount ?? 0),
+                              style: Get.textTheme.bodySmall,
+                            )
+                          ],
+                        ),
+                        buildOrderPromotion(orderDetails!),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Giảm giá",
+                              style: Get.textTheme.bodySmall,
+                            ),
+                            Text(
+                              "-" + formatPrice(orderDetails?.discount ?? 0),
+                              style: Get.textTheme.bodySmall,
+                            )
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Tổng cộng",
+                              style: Get.textTheme.bodyMedium,
+                            ),
+                            Text(
+                              formatPrice(orderDetails?.finalAmount ?? 0),
+                              style: Get.textTheme.bodyMedium,
+                            )
+                          ],
+                        ),
+                        Divider(),
+                        Text('Chi tiết đơn hàng',
+                            style: Get.textTheme.bodyMedium
+                                ?.copyWith(fontWeight: FontWeight.bold)),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Mã đơn',
+                              style: Get.textTheme.bodyMedium,
+                            ),
+                            Text(
+                              orderDetails?.invoiceId ?? '',
+                              style: Get.textTheme.bodyMedium,
                             ),
                           ],
                         ),
-                      ),
-                    ],
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text('Ngày đặt hàng',
+                                style: Get.textTheme.bodyMedium),
+                            Text(
+                              formatTime(orderDetails?.checkInDate ??
+                                  "2023-01-01T00:00:00.00000"),
+                              style: Get.textTheme.bodyMedium,
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text('Thanh toán', style: Get.textTheme.bodyMedium),
+                            Text(
+                              showPaymentType(orderDetails?.paymentType ??
+                                  PaymentTypeEnums.CASH),
+                              style: Get.textTheme.bodyMedium,
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text('Trạng thái', style: Get.textTheme.bodyMedium),
+                            Text(
+                              showOrderStatus(orderDetails?.orderStatus ??
+                                  OrderStatusEnum.CANCELED),
+                              style: Get.textTheme.bodyMedium,
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text('Địa chỉ', style: Get.textTheme.bodyMedium),
+                            Text(
+                              orderDetails?.customerInfo?.address ?? '',
+                              style: Get.textTheme.bodyMedium,
+                            ),
+                          ],
+                        ),
+                        Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(16),
+                            child: QrImageView(
+                              data: orderDetails?.orderId ?? '',
+                              version: QrVersions.auto,
+                              size: 160.0,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          );
-        }),
-      ),
+            bottomSheet: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Row(
+                children: [
+                  Expanded(
+                    flex: 2,
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: ThemeColor.primary,
+                      ),
+                      child: Text(
+                        'Đã nhận hàng',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 16),
+                  Expanded(
+                    flex: 1,
+                    child: OutlinedButton(
+                      onPressed: () {
+                        if (orderDetails?.orderStatus ==
+                            OrderStatusEnum.PENDING) {
+                          cancelOrder1();
+                        } else {
+                          showAlertDialog(
+                              title: "Thông báo",
+                              content: "Đơn hàng khồn thể huỷ vào lúc này");
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                          side: BorderSide(
+                              color: orderDetails?.orderStatus ==
+                                      OrderStatusEnum.PENDING
+                                  ? Colors.redAccent
+                                  : Colors.grey)),
+                      child: Text(
+                        'Hủy Đơn',
+                        style: TextStyle(
+                            color: orderDetails?.orderStatus ==
+                                    OrderStatusEnum.PENDING
+                                ? Colors.redAccent
+                                : Colors.grey),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ));
+      }),
     );
   }
 

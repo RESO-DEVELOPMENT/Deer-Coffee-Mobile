@@ -150,13 +150,26 @@ class _HomePageState extends State<HomePage> {
                           child: Container(
                             height: 5,
                             width: 60,
-                            color: ThemeColor.primary,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(32),
+                              color: ThemeColor.primary,
+                            ),
                           ),
                         ),
                       ),
-                      SizedBox(
-                        width: Get.width * 0.9,
-                        height: 70,
+                      Container(
+                        width: Get.width * 0.8,
+                        height: 60,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(32),
+                          color: ThemeColor.primary,
+                          boxShadow: [
+                            BoxShadow(
+                              color: ThemeColor.primary,
+                              blurRadius: 2.0,
+                            ),
+                          ],
+                        ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -168,23 +181,28 @@ class _HomePageState extends State<HomePage> {
                                       .setOrderType(OrderTypeEnum.EAT_IN);
                                   showSelectStore();
                                 },
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Icon(
+                                    const Icon(
                                       Icons.local_cafe_outlined,
-                                      color: ThemeColor.primary,
+                                      color: Colors.white,
                                       size: 32,
                                     ),
-                                    Text("Tại cửa hàng",
-                                        style: Get.textTheme.bodyMedium
+                                    const SizedBox(width: 8),
+                                    Text("PICK UP",
+                                        style: Get.textTheme.bodyLarge
                                             ?.copyWith(
-                                                color: ThemeColor.primary,
+                                                color: Colors.white,
                                                 fontWeight: FontWeight.bold)),
                                   ],
                                 ),
                               ),
+                            ),
+                            const VerticalDivider(
+                              color: Colors.white,
+                              thickness: 1.5,
                             ),
                             Expanded(
                               child: InkWell(
@@ -200,45 +218,20 @@ class _HomePageState extends State<HomePage> {
                                       .then((value) => Get.find<CartViewModel>()
                                           .setAddress(value));
                                 },
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Icon(
+                                    const Icon(
                                       Icons.electric_moped_outlined,
-                                      color: ThemeColor.primary,
+                                      color: Colors.white,
                                       size: 32,
                                     ),
-                                    Text("Giao hàng",
-                                        style: Get.textTheme.bodyMedium
+                                    const SizedBox(width: 8),
+                                    Text("DELIVERY",
+                                        style: Get.textTheme.bodyLarge
                                             ?.copyWith(
-                                                color: ThemeColor.primary,
-                                                fontWeight: FontWeight.bold)),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              child: InkWell(
-                                onTap: () {
-                                  Get.find<CartViewModel>()
-                                      .setOrderType(OrderTypeEnum.TAKE_AWAY);
-                                  showSelectStore();
-                                },
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    Icon(
-                                      Icons.home_outlined,
-                                      color: ThemeColor.primary,
-                                      size: 36,
-                                    ),
-                                    Text("Mang đi",
-                                        style: Get.textTheme.bodyMedium
-                                            ?.copyWith(
-                                                color: ThemeColor.primary,
+                                                color: Colors.white,
                                                 fontWeight: FontWeight.bold)),
                                   ],
                                 ),

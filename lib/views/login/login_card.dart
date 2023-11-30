@@ -11,8 +11,8 @@ class LoginCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: GetPlatform.isIOS
-          ? const EdgeInsets.fromLTRB(16, 120, 16, 16)
-          : const EdgeInsets.fromLTRB(16, 100, 16, 16),
+          ? const EdgeInsets.fromLTRB(8, 120, 8, 8)
+          : const EdgeInsets.fromLTRB(8, 70, 8, 8),
       padding: const EdgeInsets.all(4),
       width: Get.width * 0.9,
       decoration: BoxDecoration(
@@ -47,7 +47,7 @@ class LoginCard extends StatelessWidget {
                 top: 20,
                 child: Container(
                   width: Get.width * 0.6,
-                  height: 40,
+                  height: 48,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     gradient: LinearGradient(

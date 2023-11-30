@@ -143,12 +143,9 @@ class MyApp extends StatelessWidget {
                   id: Get.parameters['id'] ?? '',
                 ),
             transition: Transition.cupertino),
-
-         GetPage(
+        GetPage(
             name: RouteHandler.POLICY,
-            page: () => StoreDetailScreen(
-                  id: Get.parameters['id'] ?? '',
-                ),
+            page: () => const PolicyPage(),
             transition: Transition.cupertino),
       ],
       initialRoute: RouteHandler.WELCOME,
