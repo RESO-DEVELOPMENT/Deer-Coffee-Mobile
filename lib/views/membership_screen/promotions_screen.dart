@@ -121,7 +121,7 @@ class _PromotionsScreenState extends State<PromotionsScreen> {
                             children:
                                 model.memberShipModel!.level!.memberWallet!
                                     .map((e) => Text(
-                                          '${e.walletType?.name ?? ''}: ${formatPrice(e.balance ?? 0)}${e.walletType?.currency ?? ""}',
+                                          '${e.walletType?.name ?? ''}: ${formatPrice(e.balance ?? 0)}',
                                           style: Get.textTheme.titleMedium
                                               ?.copyWith(
                                                   color: Colors.white,

@@ -23,7 +23,7 @@ class _QrScreenState extends State<QrScreen> {
   List<String> listQRType = ["PAYMENT", "TOP_UP", "GET_POINT"];
   AccountViewModel accountViewModel = Get.find<AccountViewModel>();
   int _countdown = 120; // Đếm ngược từ 60 giây
-  // late Timer _timer;
+  late Timer _timer;
   @override
   void initState() {
     accountViewModel.getQRCode().then((value) => qrData = value);
@@ -33,7 +33,7 @@ class _QrScreenState extends State<QrScreen> {
   }
 
   void startCountdown() {
-    Timer.periodic(const Duration(seconds: 1), (timer) {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() {
         if (_countdown > 0) {
           _countdown--;
@@ -46,6 +46,12 @@ class _QrScreenState extends State<QrScreen> {
         }
       });
     });
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
   }
 
   @override
