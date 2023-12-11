@@ -54,6 +54,7 @@ class MenuViewModel extends BaseViewModel {
       productsFilter
           ?.sort((a, b) => b.displayOrder!.compareTo(a.displayOrder!));
       await getListBlog();
+      await getListStore();
       setState(ViewStatus.Completed);
     } catch (e) {
       setState(ViewStatus.Error, e.toString());
@@ -70,6 +71,7 @@ class MenuViewModel extends BaseViewModel {
   Future getListBlog() async {
     setState(ViewStatus.Loading);
     blogList = await menuAPI?.getListBlog();
+    blogList?.sort((a, b) => b.priority!.compareTo(a.priority!));
     setState(ViewStatus.Completed);
   }
 

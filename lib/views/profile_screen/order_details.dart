@@ -68,7 +68,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                   onPressed: () {
                     Get.back();
                   },
-                  icon: Icon(Icons.arrow_back_ios)),
+                  icon: const Icon(Icons.arrow_back_ios)),
               title: Text('Chi tiết đơn hàng',
                   style: Get.textTheme.titleMedium
                       ?.copyWith(fontWeight: FontWeight.bold)),
@@ -90,7 +90,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                         ),
 
                         // Chi tiết đơn hàng
-                        Divider(),
+                        const Divider(),
                         Text('Thanh toán',
                             style: Get.textTheme.bodyMedium
                                 ?.copyWith(fontWeight: FontWeight.bold)),
@@ -137,7 +137,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                             )
                           ],
                         ),
-                        Divider(),
+                        const Divider(),
                         Text('Chi tiết đơn hàng',
                             style: Get.textTheme.bodyMedium
                                 ?.copyWith(fontWeight: FontWeight.bold)),
@@ -196,6 +196,20 @@ class _OrderDetailsState extends State<OrderDetails> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
+                            Text('Trạng thái giao hàng',
+                                style: Get.textTheme.bodyMedium),
+                            Text(
+                              showUserDeiliStatus(
+                                  orderDetails?.customerInfo?.deliStatus ??
+                                      DeliStatusEnum.PENDING),
+                              style: Get.textTheme.bodyMedium,
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
                             Text('Địa chỉ', style: Get.textTheme.bodyMedium),
                             Text(
                               orderDetails?.customerInfo?.address ?? '',
@@ -219,26 +233,39 @@ class _OrderDetailsState extends State<OrderDetails> {
                 ],
               ),
             ),
-            bottomSheet: Padding(
-              padding: const EdgeInsets.all(16.0),
+            bottomSheet: Container(
+              padding: const EdgeInsets.fromLTRB(8, 8, 8, 20),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Expanded(
-                    flex: 2,
+                    flex: 3,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        if (orderDetails?.orderStatus == OrderStatusEnum.PAID) {
+                          cancelOrder1();
+                        } else {
+                          showAlertDialog(
+                              title: "Thông báo",
+                              content: "Đơn hàng đang thực hiện");
+                        }
+                      },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: ThemeColor.primary,
                       ),
-                      child: Text(
-                        'Đã nhận hàng',
-                        style: TextStyle(color: Colors.white),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        child: const Text(
+                          'Đã nhận hàng',
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
                     ),
                   ),
-                  SizedBox(width: 16),
+                  const SizedBox(width: 8),
                   Expanded(
-                    flex: 1,
+                    flex: 2,
                     child: OutlinedButton(
                       onPressed: () {
                         if (orderDetails?.orderStatus ==
@@ -256,13 +283,16 @@ class _OrderDetailsState extends State<OrderDetails> {
                                       OrderStatusEnum.PENDING
                                   ? Colors.redAccent
                                   : Colors.grey)),
-                      child: Text(
-                        'Hủy Đơn',
-                        style: TextStyle(
-                            color: orderDetails?.orderStatus ==
-                                    OrderStatusEnum.PENDING
-                                ? Colors.redAccent
-                                : Colors.grey),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        child: Text(
+                          'Hủy đơn',
+                          style: TextStyle(
+                              color: orderDetails?.orderStatus ==
+                                      OrderStatusEnum.PENDING
+                                  ? Colors.redAccent
+                                  : Colors.grey),
+                        ),
                       ),
                     ),
                   ),

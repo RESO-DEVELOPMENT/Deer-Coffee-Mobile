@@ -4,11 +4,8 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 String formatPrice(num price, {num discount = 0}) {
-  final format = NumberFormat.currency(
-    locale: 'vi_VN',
-    symbol: '',
-    decimalDigits: 0,
-  );
+  NumberFormat format = NumberFormat("#,###.##");
+  format.minimumFractionDigits = 0;
   return format.format(price);
 }
 

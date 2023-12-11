@@ -9,10 +9,14 @@ import 'package:ionicons/ionicons.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 import '../../models/product.dart';
+import '../../models/user.dart';
 import '../../utils/route_constrant.dart';
+import '../../utils/share_pref.dart';
 import '../../utils/theme.dart';
 import '../../view_models/account_view_model.dart';
+import '../../view_models/cart_view_model.dart';
 import '../../widgets/app_bar/user_app_bar.dart';
+import '../../widgets/other_dialogs/dialog.dart';
 import 'product_card.dart';
 import '../home_screen/home_page.dart';
 
@@ -25,10 +29,47 @@ class OrdersScreen extends StatefulWidget {
 
 class _OrdersScreenState extends State<OrdersScreen> {
   int _currentIndex = 0;
+  UserModel? userModel;
+  @override
+  void initState() {
+    getUserInfo().then((value) => userModel = value);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingActionButton: ScopedModel<CartViewModel>(
+        model: Get.find<CartViewModel>(),
+        child: ScopedModelDescendant<CartViewModel>(
+            builder: (context, build, model) {
+          return FloatingActionButton(
+              elevation: 2,
+              backgroundColor: ThemeColor.primary,
+              onPressed: () {
+                if (model.cart.productList == null ||
+                    model.cart.productList!.isEmpty) {
+                  showAlertDialog(
+                      title: "Giỏ hàng trống",
+                      content:
+                          "Giỏ hàng đang trống, vui lòng đặt sản phảm bạn nhé");
+                } else if (userModel == null) {
+                  showAlertDialog(
+                      title: "Người dùng chưa đăng nhập",
+                      content:
+                          "Vui lòng đăng nhập để đặt đơn và nhận ưu đãi nhé");
+                } else {
+                  Get.toNamed(RouteHandler.CART);
+                }
+              },
+              tooltip: "1",
+              child: Icon(
+                Icons.shopping_cart,
+                color: Colors.white,
+              ));
+        }),
+      ),
       body: ScopedModel<MenuViewModel>(
         model: Get.find<MenuViewModel>(),
         child: CustomScrollView(

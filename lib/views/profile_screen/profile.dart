@@ -44,15 +44,21 @@ class _OtherPageState extends State<OtherPage> {
               Get.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
         ),
         actions: [
-          IconButton(
-              onPressed: () {
-                if (userModel == null) {
-                  showAlertDialog(content: "Người dùng chưa đăng nhập ");
-                } else {
-                  Get.find<AccountViewModel>().processSignOut();
-                }
-              },
-              icon: const Icon(Icons.logout))
+          TextButton.icon(
+            onPressed: () {
+              if (userModel == null) {
+                Get.toNamed(RouteHandler.LOGIN);
+              } else {
+                Get.find<AccountViewModel>().processSignOut();
+              }
+            },
+            icon: Icon(userModel == null
+                ? Icons.login_outlined
+                : Icons.logout_outlined),
+            label: Text(userModel == null ? "Đăng nhập" : 'Đăng xuất',
+                style: Get.textTheme.bodySmall
+                    ?.copyWith(fontWeight: FontWeight.bold)),
+          )
         ],
       ),
       body: SingleChildScrollView(
@@ -71,8 +77,15 @@ class _OtherPageState extends State<OtherPage> {
                         child: GestureDetector(
                           onTap: () {
                             if (userModel == null) {
-                              showAlertDialog(
-                                  content: "Người dùng chưa đăng nhập ");
+                              showConfirmDialog(
+                                      title: "Người dùng chưa đăng nhập",
+                                      content:
+                                          "Vui lòng đăng nhập để đặt đơn và nhận ưu đãi nhé",
+                                      confirmText: "Đăng nhập")
+                                  .then((value) => {
+                                        if (value)
+                                          {Get.toNamed(RouteHandler.LOGIN)}
+                                      });
                             } else {
                               Get.toNamed(RouteHandler.ORDER);
                             }
@@ -117,8 +130,15 @@ class _OtherPageState extends State<OtherPage> {
                         child: GestureDetector(
                           onTap: () {
                             if (userModel == null) {
-                              showAlertDialog(
-                                  content: "Người dùng chưa đăng nhập ");
+                              showConfirmDialog(
+                                      title: "Người dùng chưa đăng nhập",
+                                      content:
+                                          "Vui lòng đăng nhập để đặt đơn và nhận ưu đãi nhé",
+                                      confirmText: "Đăng nhập")
+                                  .then((value) => {
+                                        if (value)
+                                          {Get.toNamed(RouteHandler.LOGIN)}
+                                      });
                             } else {
                               Navigator.of(context).push(
                                 MaterialPageRoute(
@@ -174,8 +194,15 @@ class _OtherPageState extends State<OtherPage> {
                         child: GestureDetector(
                           onTap: () {
                             if (userModel == null) {
-                              showAlertDialog(
-                                  content: "Người dùng chưa đăng nhập ");
+                              showConfirmDialog(
+                                      title: "Người dùng chưa đăng nhập",
+                                      content:
+                                          "Vui lòng đăng nhập để đặt đơn và nhận ưu đãi nhé",
+                                      confirmText: "Đăng nhập")
+                                  .then((value) => {
+                                        if (value)
+                                          {Get.toNamed(RouteHandler.LOGIN)}
+                                      });
                             } else {
                               Get.toNamed(RouteHandler.TRANSACTIONS);
                             }
@@ -220,8 +247,15 @@ class _OtherPageState extends State<OtherPage> {
                         child: GestureDetector(
                           onTap: () {
                             if (userModel == null) {
-                              showAlertDialog(
-                                  content: "Người dùng chưa đăng nhập ");
+                              showConfirmDialog(
+                                      title: "Người dùng chưa đăng nhập",
+                                      content:
+                                          "Vui lòng đăng nhập để đặt đơn và nhận ưu đãi nhé",
+                                      confirmText: "Đăng nhập")
+                                  .then((value) => {
+                                        if (value)
+                                          {Get.toNamed(RouteHandler.LOGIN)}
+                                      });
                             } else {
                               showAlertDialog(
                                   content: "Tính năng đang phát triển");
@@ -284,6 +318,26 @@ class _OtherPageState extends State<OtherPage> {
                       ),
                       child: Column(
                         children: [
+                          SizedBox(
+                            height: 50,
+                            child: InkWell(
+                              onTap: () {
+                                Get.toNamed(RouteHandler.STORES);
+                              },
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text('Danh sách cửa hàng',
+                                      style: Get.textTheme.bodyMedium?.copyWith(
+                                          fontWeight: FontWeight.bold)),
+                                  const Icon(Icons.store_outlined)
+                                ],
+                              ),
+                            ),
+                          ),
+                          const Divider(),
                           SizedBox(
                             height: 50,
                             child: InkWell(
@@ -353,17 +407,26 @@ class _OtherPageState extends State<OtherPage> {
                             height: 50,
                             child: InkWell(
                               onTap: () {
-                                Get.find<AccountViewModel>().processSignOut();
+                                if (userModel == null) {
+                                  Get.toNamed(RouteHandler.LOGIN);
+                                } else {
+                                  Get.find<AccountViewModel>().processSignOut();
+                                }
                               },
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text('Đăng xuất',
+                                  Text(
+                                      userModel == null
+                                          ? "Đăng nhập"
+                                          : 'Đăng xuất',
                                       style: Get.textTheme.bodyMedium?.copyWith(
                                           fontWeight: FontWeight.bold)),
-                                  const Icon(Icons.logout_outlined)
+                                  Icon(userModel == null
+                                      ? Icons.login_outlined
+                                      : Icons.logout_outlined)
                                 ],
                               ),
                             ),

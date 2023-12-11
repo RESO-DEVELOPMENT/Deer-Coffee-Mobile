@@ -97,6 +97,7 @@ class MyRequest {
         Headers.contentTypeHeader: "application/json",
         Headers.acceptHeader: "text/plain",
       },
+      connectTimeout: const Duration(seconds: 5),
       sendTimeout: const Duration(seconds: 15),
       receiveTimeout: const Duration(seconds: 5));
 
@@ -110,21 +111,19 @@ class MyRequest {
       },
       onError: (e, handler) async {
         if (e.response?.statusCode == 400) {
-          showAlertDialog(
-            title: "Lỗi",
-            content: e.response?.data,
-          );
-          print(e.response?.data ?? '');
+          await showAlertDialog(
+              title: "Lỗi",
+              content: e.response?.data["Error"].toString() ?? 'Có lỗi xãy ra');
         } else if (e.response?.statusCode == 500) {
-          Future<bool> res = showConfirmDialog(
+          showAlertDialog(
             title: "Lỗi hệ thống",
-            content: "Vui lòng đăng nhập lại",
+            content:
+                "Lỗi xảy ra do hệ thống gặp vấn đề, vui lòng thử lại sau hoặc là tắt ứng dụng và mở lại",
           );
-          res.then((value) => Get.offAllNamed(RouteHandler.LOGIN));
         } else if (e.response?.statusCode == 401) {
           await showAlertDialog(
             title: "Lỗi",
-            content: e.response?.data["Error"],
+            content: "Tại khoản của bạn ko có quyền đăng nhập vào hệ thống này",
           );
           Get.offAllNamed(RouteHandler.LOGIN);
         } else {

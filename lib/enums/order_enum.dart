@@ -36,6 +36,13 @@ class OrderStatusEnum {
   static const String PAID = 'PAID';
 }
 
+class DeliStatusEnum {
+  static const String PENDING = 'PENDING';
+  static const String CANCELED = 'CANCELED';
+  static const String DELIVERING = 'DELIVERING';
+  static const String COMPLETE = 'COMPLETE';
+}
+
 class OrderTypeEnum {
   static const String EAT_IN = 'EAT_IN';
   static const String DELIVERY = 'DELIVERY';
@@ -50,6 +57,21 @@ String showOrderStatus(String status) {
       return 'Đã huỷ';
     case OrderStatusEnum.PAID:
       return 'Hoành thành';
+    default:
+      return 'Đang xử lý';
+  }
+}
+
+String showUserDeiliStatus(String status) {
+  switch (status) {
+    case DeliStatusEnum.PENDING:
+      return 'Đang lấy hàng';
+    case DeliStatusEnum.CANCELED:
+      return 'Đã huỷ';
+    case DeliStatusEnum.DELIVERING:
+      return 'Đang giao';
+    case DeliStatusEnum.COMPLETE:
+      return 'Đã giao';
     default:
       return 'Đang xử lý';
   }

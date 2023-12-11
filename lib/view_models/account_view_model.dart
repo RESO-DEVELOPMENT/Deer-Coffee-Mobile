@@ -28,6 +28,7 @@ class AccountViewModel extends BaseViewModel {
   var receivedID = '';
   AccountViewModel() {
     auth = FirebaseAuth.instance;
+    getToken().then((value) => requestObj.setToken = value);
     getUserInfo().then((value) => user = value);
   }
   Future<void> onLoginWithPhone(String phone) async {
@@ -178,6 +179,25 @@ class AccountViewModel extends BaseViewModel {
     } catch (e) {
       setState(ViewStatus.Completed);
       showAlertDialog(title: "Lỗi", content: e.toString());
+    }
+  }
+
+  Future<String?> getQRCode() async {
+    try {
+      setState(ViewStatus.Loading);
+      String? qr;
+      if (user?.userInfo != null) {
+        await accountAPI
+            .getUserQRCode(user?.userInfo?.id ?? '')
+            .then((value) => qr = value);
+      }
+
+      setState(ViewStatus.Completed);
+      return qr;
+    } catch (e) {
+      setState(ViewStatus.Completed);
+      showAlertDialog(title: "Lỗi", content: e.toString());
+      return null;
     }
   }
 

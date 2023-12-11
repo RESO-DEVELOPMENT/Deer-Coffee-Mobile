@@ -51,9 +51,7 @@ class _CartScreenState extends State<CartScreen> {
               child: CircularProgressIndicator(),
             );
           }
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
+          return ListView(
             children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -128,7 +126,7 @@ class _CartScreenState extends State<CartScreen> {
                     ),
                     child: Container(
                       width: Get.width,
-                      height: 100,
+                      height: 80,
                       padding: const EdgeInsets.all(8),
                       color: Colors.white,
                       child: Row(
@@ -289,6 +287,7 @@ class _CartScreenState extends State<CartScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Expanded(
+                      flex: 2,
                       child: TextButton(
                           onPressed: () {},
                           child: Text(
@@ -297,6 +296,7 @@ class _CartScreenState extends State<CartScreen> {
                           )),
                     ),
                     Expanded(
+                      flex: 3,
                       child: TextButton(
                           onPressed: () {
                             Get.toNamed(RouteHandler.VOUCHER);

@@ -1,11 +1,9 @@
 import 'dart:convert';
 
-import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/user.dart';
-import '../setup.dart';
 
 Future<bool> setToken(String value) async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();

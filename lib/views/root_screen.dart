@@ -22,6 +22,7 @@ import 'profile_screen/profile.dart';
 import 'home_page_order_method.dart';
 import 'bottom_sheet_util.dart';
 import 'home_page_order_method.dart';
+import 'qr_screen/qr_screen.dart';
 
 class RootScreen extends StatefulWidget {
   final int idx;
@@ -38,8 +39,8 @@ class _RootScreenState extends State<RootScreen> {
   List<Widget> portraitViews = [
     HomePage(),
     OrdersScreen(),
+    // QrScreen(),
     PromotionsScreen(),
-    Store(),
     OtherPage(),
   ];
 
@@ -47,10 +48,9 @@ class _RootScreenState extends State<RootScreen> {
     BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Trang chủ'),
     BottomNavigationBarItem(
         icon: Icon(Icons.coffee_outlined), label: 'Đặt hàng'),
+    // BottomNavigationBarItem(icon: Icon(Icons.qr_code), label: 'Quet mã'),
     BottomNavigationBarItem(
         icon: Icon(Icons.confirmation_number), label: 'Ưu đãi'),
-    BottomNavigationBarItem(
-        icon: Icon(Icons.store_outlined), label: 'Cửa hàng'),
     BottomNavigationBarItem(icon: Icon(Icons.segment_sharp), label: 'Khác'),
   ];
   @override
@@ -59,6 +59,7 @@ class _RootScreenState extends State<RootScreen> {
     getUserInfo().then((value) => userModel = value);
     Get.find<AccountViewModel>().getMembershipInfo();
     if (Get.find<MenuViewModel>().blogList != null &&
+        // ignore: unnecessary_null_comparison
         (Get.find<MenuViewModel>()
                 .blogList!
                 .firstWhere((element) => element.isDialog == true) !=
@@ -71,60 +72,38 @@ class _RootScreenState extends State<RootScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      floatingActionButton: ScopedModel<CartViewModel>(
-        model: Get.find<CartViewModel>(),
-        child: ScopedModelDescendant<CartViewModel>(
-            builder: (context, build, model) {
-          return Visibility(
-            visible: _selectedIndex == 0 ||
-                _selectedIndex == 1 ||
-                _selectedIndex == 2,
-            child: FloatingActionButton(
-                elevation: 10,
-                backgroundColor: ThemeColor.primary,
-                onPressed: () {
-                  if (model.cart.productList == null ||
-                      model.cart.productList!.isEmpty) {
-                    showAlertDialog(
-                        title: "Giỏ hàng trống",
-                        content:
-                            "Giỏ hàng đang trống, vui lòng đặt sản phảm bạn nhé");
-                  } else if (userModel == null) {
-                    showAlertDialog(
-                        title: "Người dùng chưa đăng nhập",
-                        content:
-                            "Vui lòng đăng nhập để đặt đơn và nhận ưu đãi nhé");
-                  } else {
-                    Get.toNamed(RouteHandler.CART);
-                  }
-                },
-                tooltip: "1",
-                child: Icon(
-                  Icons.shopping_cart,
-                  color: Colors.white,
-                )),
-          );
-        }),
-      ),
-      body: Stack(
-        children: [
-          Column(
-            children: [
-              Expanded(
-                child: portraitViews[_selectedIndex],
-              ),
-            ],
-          ),
-        ],
-      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: FloatingActionButton(
+          elevation: 2,
+          backgroundColor: ThemeColor.primary,
+          onPressed: () {
+            if (userModel == null) {
+              showConfirmDialog(
+                      title: "Người dùng chưa đăng nhập",
+                      content:
+                          "Vui lòng đăng nhập để đặt đơn và nhận ưu đãi nhé",
+                      confirmText: "Đăng nhập")
+                  .then((value) => {
+                        if (value) {Get.toNamed(RouteHandler.LOGIN)}
+                      });
+            } else {
+              Get.toNamed(RouteHandler.QR);
+            }
+          },
+          child: const Icon(
+            Icons.qr_code_scanner,
+            size: 32,
+            color: Colors.white,
+          )),
+      body: portraitViews[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         showUnselectedLabels: true,
         type: BottomNavigationBarType.fixed,
         items: items,
+        iconSize: 28,
         currentIndex: _selectedIndex,
         selectedItemColor: ThemeColor.primary,
-        unselectedItemColor: Colors.grey[700],
+        unselectedItemColor: Colors.grey[600],
         onTap: (int index) {
           setState(() {
             _selectedIndex = index;

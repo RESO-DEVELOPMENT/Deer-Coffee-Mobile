@@ -11,6 +11,7 @@ import 'package:get/get.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 import '../../models/user.dart';
+import '../../utils/format.dart';
 import '../../utils/route_constrant.dart';
 import '../../utils/theme.dart';
 import '../../widgets/promotion_widget.dart';
@@ -43,7 +44,7 @@ class _PromotionsScreenState extends State<PromotionsScreen> {
                 if (model.status == ViewStatus.Loading) {
                   return SizedBox(
                       width: Get.width,
-                      height: 200,
+                      height: 280,
                       child: const Center(child: CircularProgressIndicator()));
                 }
 
@@ -51,11 +52,10 @@ class _PromotionsScreenState extends State<PromotionsScreen> {
                   return const LoginCard();
                 }
                 return Container(
-                  decoration: const BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage('assets/images/tree1.png'),
-                      fit: BoxFit.cover,
-                    ),
+                  width: Get.width,
+                  height: 180,
+                  decoration: BoxDecoration(
+                    color: ThemeColor.primary,
                   ),
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(8, 60, 8, 8),
@@ -113,35 +113,21 @@ class _PromotionsScreenState extends State<PromotionsScreen> {
                             ],
                           ),
                         ),
+                        const SizedBox(
+                          height: 16,
+                        ),
                         Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: model
-                                .memberShipModel!.level!.memberWallet!
-                                .map((e) => Text(
-                                      '${e.walletType?.name ?? ''}: ${e.balance ?? ""} ${e.walletType?.currency ?? ""}',
-                                      style: Get.textTheme.bodyMedium?.copyWith(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold),
-                                    ))
-                                .toList()),
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        Card(
-                          child: Container(
-                            height: 100,
-                            width: Get
-                                .width, // Chỉnh độ cao của container chứa ảnh
-                            padding:
-                                const EdgeInsets.all(16), // Loại bỏ padding
-                            child: BarcodeWidget(
-                                barcode: Barcode.code128(),
-                                drawText: false,
-                                data: model.memberShipModel?.phoneNumber ?? '',
-                                style: Get.textTheme.titleMedium
-                                    ?.copyWith(fontWeight: FontWeight.bold)),
-                          ),
-                        ),
+                            children:
+                                model.memberShipModel!.level!.memberWallet!
+                                    .map((e) => Text(
+                                          '${e.walletType?.name ?? ''}: ${formatPrice(e.balance ?? 0)}${e.walletType?.currency ?? ""}',
+                                          style: Get.textTheme.titleMedium
+                                              ?.copyWith(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold),
+                                        ))
+                                    .toList()),
                       ],
                     ),
                   ),

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:deer_coffee/view_models/startup_view_model.dart';
 import 'package:deer_coffee/views/cart.dart';
 import 'package:deer_coffee/views/home_screen/blog_details.dart';
 import 'package:deer_coffee/views/orders_screen/category_detail.dart';
@@ -13,15 +14,19 @@ import 'package:deer_coffee/views/membership_screen/promotion_details.dart';
 import 'package:deer_coffee/views/membership_screen/voucher.dart';
 import 'package:deer_coffee/views/membership_screen/voucher_details.dart';
 import 'package:deer_coffee/views/profile_screen/transaction_history.dart';
+import 'package:deer_coffee/views/qr_screen/qr_screen.dart';
+import 'package:deer_coffee/views/stores_screen/store.dart';
 import 'package:deer_coffee/views/stores_screen/store_details.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:url_strategy/url_strategy.dart';
 import 'firebase_options.dart';
 import 'setup.dart';
 import 'utils/request.dart';
 import 'utils/route_constrant.dart';
+import 'view_models/menu_view_model.dart';
 import 'views/login/login.dart';
 import 'views/not_found_screen.dart';
 import 'views/root_screen.dart';
@@ -31,13 +36,14 @@ Future<void> main() async {
   if (!GetPlatform.isWeb) {
     HttpOverrides.global = MyHttpOverrides();
   }
-
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
+  setPathUrlStrategy();
   createRouteBindings();
+
   runApp(const MyApp());
 }
 
@@ -146,6 +152,14 @@ class MyApp extends StatelessWidget {
         GetPage(
             name: RouteHandler.POLICY,
             page: () => const PolicyPage(),
+            transition: Transition.cupertino),
+        GetPage(
+            name: RouteHandler.QR,
+            page: () => const QrScreen(),
+            transition: Transition.downToUp),
+        GetPage(
+            name: RouteHandler.STORES,
+            page: () => const Store(),
             transition: Transition.cupertino),
       ],
       initialRoute: RouteHandler.WELCOME,
