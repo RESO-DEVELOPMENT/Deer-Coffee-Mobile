@@ -28,11 +28,10 @@ class OrdersScreen extends StatefulWidget {
 }
 
 class _OrdersScreenState extends State<OrdersScreen> {
-  int _currentIndex = 0;
-  UserModel? userModel;
+  String? userId;
   @override
   void initState() {
-    getUserInfo().then((value) => userModel = value);
+    getUserId().then((value) => userId = value);
     super.initState();
   }
 
@@ -54,7 +53,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                       title: "Giỏ hàng trống",
                       content:
                           "Giỏ hàng đang trống, vui lòng đặt sản phảm bạn nhé");
-                } else if (userModel == null) {
+                } else if (userId == null) {
                   showAlertDialog(
                       title: "Người dùng chưa đăng nhập",
                       content:
@@ -186,12 +185,6 @@ class _OrdersScreenState extends State<OrdersScreen> {
         ),
       ),
     );
-  }
-
-  void _changeItem(int value) {
-    setState(() {
-      _currentIndex = value;
-    });
   }
 
   Widget collectionCard(Collection collection, MenuViewModel model) {

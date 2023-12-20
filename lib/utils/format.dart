@@ -1,6 +1,4 @@
-import 'package:deer_coffee/enums/order_enum.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 String formatPrice(num price, {num discount = 0}) {
@@ -19,7 +17,7 @@ Widget priceWidget(num price, TextStyle? style, {num discount = 0}) {
       children: [
         Text("(${formatPrice(price)})",
             style: style?.copyWith(decoration: TextDecoration.lineThrough)),
-        SizedBox(width: 2),
+        const SizedBox(width: 2),
         Text(
           formatPrice(price, discount: discount),
           style: style,

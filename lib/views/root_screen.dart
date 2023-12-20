@@ -18,6 +18,7 @@ import '../view_models/menu_view_model.dart';
 import 'home_screen/banner_home.dart';
 import 'home_screen/home_page.dart';
 import 'order.dart';
+import 'orders_screen/menu_screen.dart';
 import 'profile_screen/profile.dart';
 import 'home_page_order_method.dart';
 import 'bottom_sheet_util.dart';
@@ -34,38 +35,41 @@ class RootScreen extends StatefulWidget {
 
 class _RootScreenState extends State<RootScreen> {
   int _selectedIndex = 0;
-  UserModel? userModel;
-
+  String? userId;
   List<Widget> portraitViews = [
     HomePage(),
     OrdersScreen(),
+    // MenuScreen(),
     // QrScreen(),
     PromotionsScreen(),
     OtherPage(),
   ];
 
   List<BottomNavigationBarItem> items = const [
-    BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Trang chủ'),
+    BottomNavigationBarItem(
+        icon: Icon(Icons.home_outlined), label: 'Trang chủ'),
     BottomNavigationBarItem(
         icon: Icon(Icons.coffee_outlined), label: 'Đặt hàng'),
     // BottomNavigationBarItem(icon: Icon(Icons.qr_code), label: 'Quet mã'),
     BottomNavigationBarItem(
-        icon: Icon(Icons.confirmation_number), label: 'Ưu đãi'),
-    BottomNavigationBarItem(icon: Icon(Icons.segment_sharp), label: 'Khác'),
+        icon: Icon(Icons.confirmation_number_outlined), label: 'Ưu đãi'),
+    BottomNavigationBarItem(
+        icon: Icon(Icons.person_2_outlined), label: 'Tài khoản'),
   ];
   @override
   void initState() {
     _selectedIndex = widget.idx;
-    getUserInfo().then((value) => userModel = value);
-    Get.find<AccountViewModel>().getMembershipInfo();
-    if (Get.find<MenuViewModel>().blogList != null &&
-        // ignore: unnecessary_null_comparison
-        (Get.find<MenuViewModel>()
-                .blogList!
-                .firstWhere((element) => element.isDialog == true) !=
-            null)) {
-      Timer.run(showImageDialog);
-    }
+
+    getUserId().then((value) => {userId = value});
+    // Get.find<AccountViewModel>().getMembershipInfo();
+    // if (Get.find<MenuViewModel>().blogList != null &&
+    //     // ignore: unnecessary_null_comparison
+    //     (Get.find<MenuViewModel>()
+    //             .blogList!
+    //             .firstWhere((element) => element.isDialog == true) !=
+    //         null)) {
+    //   Timer.run(showImageDialog);
+    // }
     super.initState();
   }
 
@@ -77,7 +81,7 @@ class _RootScreenState extends State<RootScreen> {
           elevation: 2,
           backgroundColor: ThemeColor.primary,
           onPressed: () {
-            if (userModel == null) {
+            if (userId == null) {
               showConfirmDialog(
                       title: "Người dùng chưa đăng nhập",
                       content:

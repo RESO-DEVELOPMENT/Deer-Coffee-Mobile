@@ -45,7 +45,7 @@ class _HomePageState extends State<HomePage> {
           ScopedModel<MenuViewModel>(
             model: Get.find<MenuViewModel>(),
             child: SliverAppBar(
-              expandedHeight: Get.height * 0.5,
+              expandedHeight: Get.width,
               backgroundColor: Colors.white,
               flexibleSpace: ScopedModelDescendant<MenuViewModel>(
                   builder: (context, build, model) {
@@ -56,7 +56,7 @@ class _HomePageState extends State<HomePage> {
                       options: CarouselOptions(
                         scrollPhysics: const BouncingScrollPhysics(),
                         viewportFraction: 1,
-                        aspectRatio: 2 / 3,
+                        aspectRatio: 1,
                         autoPlay: true,
                         enlargeCenterPage: true,
                         pageSnapping: true,

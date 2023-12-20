@@ -36,7 +36,7 @@ class UserDetails {
   String? brandId;
   String? createdAt;
   String? updatedAt;
-  Null? urlImg;
+  String? urlImg;
   Level? level;
 
   UserDetails(
@@ -198,7 +198,7 @@ class WalletType {
 class MembershipCard {
   String? id;
   String? membershipCardCode;
-  Null? physicalCardCode;
+  String? physicalCardCode;
   MembershipCardType? membershipCardType;
 
   MembershipCard(

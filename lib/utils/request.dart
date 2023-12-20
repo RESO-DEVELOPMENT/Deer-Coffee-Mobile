@@ -79,7 +79,7 @@ class CustomInterceptors extends Interceptor {
   }
 
   @override
-  void onError(DioError err, ErrorInterceptorHandler handler) {
+  Future<void> onError(err, ErrorInterceptorHandler handler) async {
     if (kDebugMode) {
       print(
           'ERROR[${err.response?.statusCode}] => PATH: ${err.requestOptions.path}');
@@ -97,9 +97,9 @@ class MyRequest {
         Headers.contentTypeHeader: "application/json",
         Headers.acceptHeader: "text/plain",
       },
-      connectTimeout: const Duration(seconds: 5),
+      connectTimeout: const Duration(seconds: 15),
       sendTimeout: const Duration(seconds: 15),
-      receiveTimeout: const Duration(seconds: 5));
+      receiveTimeout: const Duration(seconds: 15));
 
   late Dio _inner;
   MyRequest() {
@@ -123,7 +123,7 @@ class MyRequest {
         } else if (e.response?.statusCode == 401) {
           await showAlertDialog(
             title: "Lỗi",
-            content: "Tại khoản của bạn ko có quyền đăng nhập vào hệ thống này",
+            content: "Phiên đăng nhập hết hạn, vui lòng đăng nhập lại",
           );
           Get.offAllNamed(RouteHandler.LOGIN);
         } else {

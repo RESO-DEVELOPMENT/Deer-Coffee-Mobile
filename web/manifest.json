@@ -1,33 +1,33 @@
 {
-    "name": "deer_coffee",
+    "name": "Deer Coffee",
     "short_name": "deer_coffee",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "Deer Coffee App",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
         {
-            "src": "icons/Icon-192.png",
-            "sizes": "192x192",
+            "src": "icons/180.png",
+            "sizes": "180x180",
             "type": "image/png"
         },
         {
-            "src": "icons/Icon-512.png",
-            "sizes": "512x512",
+            "src": "icons/1024.png",
+            "sizes": "1024x1024",
             "type": "image/png"
         },
         {
-            "src": "icons/Icon-maskable-192.png",
-            "sizes": "192x192",
+            "src": "icons/180.png",
+            "sizes": "180x180",
             "type": "image/png",
             "purpose": "maskable"
         },
         {
-            "src": "icons/Icon-maskable-512.png",
-            "sizes": "512x512",
+            "src": "icons/1024.png",
+            "sizes": "1024x1024",
             "type": "image/png",
             "purpose": "maskable"
         }

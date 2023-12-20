@@ -24,42 +24,23 @@ class OtherPage extends StatefulWidget {
 }
 
 class _OtherPageState extends State<OtherPage> {
-  int _currentIndex = 0;
-  UserModel? userModel;
+  UserDetails? userModel;
   @override
   void initState() {
-    // TODO: implement initState
-    getUserInfo().then((value) => userModel = value);
+    userModel = Get.find<AccountViewModel>().memberShipModel;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xffF9F9F9),
       appBar: AppBar(
+        centerTitle: true,
         title: Text(
           "Tài khoản",
           style:
               Get.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
         ),
-        actions: [
-          TextButton.icon(
-            onPressed: () {
-              if (userModel == null) {
-                Get.toNamed(RouteHandler.LOGIN);
-              } else {
-                Get.find<AccountViewModel>().processSignOut();
-              }
-            },
-            icon: Icon(userModel == null
-                ? Icons.login_outlined
-                : Icons.logout_outlined),
-            label: Text(userModel == null ? "Đăng nhập" : 'Đăng xuất',
-                style: Get.textTheme.bodySmall
-                    ?.copyWith(fontWeight: FontWeight.bold)),
-          )
-        ],
       ),
       body: SingleChildScrollView(
         child: Column(

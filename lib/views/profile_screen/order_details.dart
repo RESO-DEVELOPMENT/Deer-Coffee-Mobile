@@ -1,19 +1,13 @@
 import 'package:deer_coffee/enums/order_enum.dart';
 import 'package:deer_coffee/enums/view_status.dart';
-import 'package:deer_coffee/models/collection.dart';
 import 'package:deer_coffee/models/order_details.dart';
-import 'package:deer_coffee/models/product.dart';
 import 'package:deer_coffee/utils/format.dart';
-import 'package:deer_coffee/utils/route_constrant.dart';
 import 'package:deer_coffee/utils/theme.dart';
-import 'package:deer_coffee/view_models/menu_view_model.dart';
 import 'package:deer_coffee/view_models/order_view_model.dart';
 import 'package:deer_coffee/widgets/other_dialogs/dialog.dart';
-import 'package:deer_coffee/widgets/time_line.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -25,14 +19,6 @@ class OrderDetails extends StatefulWidget {
   State<OrderDetails> createState() => _OrderDetailsState();
 }
 
-void cancelOrder() {
-  print('Đơn hàng đã bị hủy');
-}
-
-void cancelOrder1() {
-  print('Đơn hàng đã được nhận');
-}
-
 class _OrderDetailsState extends State<OrderDetails> {
   OrderDetailsModel? orderDetails;
   @override
@@ -41,6 +27,14 @@ class _OrderDetailsState extends State<OrderDetails> {
         .getOrderDetails(widget.id)
         .then((value) => orderDetails = value);
     super.initState();
+  }
+
+  refreshOrder() {
+    Get.find<OrderViewModel>().getOrderDetails(widget.id).then((value) {
+      setState(() {
+        orderDetails = value;
+      });
+    });
   }
 
   @override
@@ -244,7 +238,21 @@ class _OrderDetailsState extends State<OrderDetails> {
                     child: ElevatedButton(
                       onPressed: () {
                         if (orderDetails?.orderStatus == OrderStatusEnum.PAID) {
-                          cancelOrder1();
+                          showConfirmDialog(
+                                  title: "Thông báo",
+                                  content: "Xác nhận đã nhận được hàng",
+                                  confirmText: "Xác nhận",
+                                  cancelText: "Đóng")
+                              .then((value) async => {
+                                    if (value)
+                                      {
+                                        await model.updateOrder(
+                                            orderDetails?.orderId ?? '',
+                                            DeliStatusEnum.DELIVERED,
+                                            orderDetails?.orderStatus ?? ''),
+                                        refreshOrder()
+                                      }
+                                  });
                         } else {
                           showAlertDialog(
                               title: "Thông báo",
@@ -270,7 +278,21 @@ class _OrderDetailsState extends State<OrderDetails> {
                       onPressed: () {
                         if (orderDetails?.orderStatus ==
                             OrderStatusEnum.PENDING) {
-                          cancelOrder1();
+                          showConfirmDialog(
+                                  title: "Huỷ đơn hàng",
+                                  content: "Bạn có chắc huỷ đơn hàng này",
+                                  confirmText: "Huỷ đơn",
+                                  cancelText: "Đóng")
+                              .then((value) async => {
+                                    if (value)
+                                      {
+                                        await model.updateOrder(
+                                            orderDetails?.orderId ?? '',
+                                            DeliStatusEnum.CANCELED,
+                                            OrderStatusEnum.CANCELED),
+                                        refreshOrder()
+                                      }
+                                  });
                         } else {
                           showAlertDialog(
                               title: "Thông báo",

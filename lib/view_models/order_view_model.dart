@@ -1,19 +1,15 @@
-import 'dart:convert';
 import 'dart:core';
-import 'dart:math';
 import 'package:deer_coffee/models/order_details.dart';
 import 'package:deer_coffee/models/transactions.dart';
 import 'package:deer_coffee/models/user.dart';
 import 'package:deer_coffee/utils/route_constrant.dart';
 import 'package:deer_coffee/utils/share_pref.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import '../api/order_api.dart';
 import '../enums/order_enum.dart';
 import '../enums/view_status.dart';
 import '../models/cart_model.dart';
-import '../models/order.dart';
 import '../models/order_in_list.dart';
 import '../models/order_response.dart';
 import '../models/payment_provider.dart';
@@ -159,9 +155,10 @@ class OrderViewModel extends BaseViewModel {
   void getListOrder(String orderStatus) async {
     try {
       setState(ViewStatus.Loading);
-      UserModel? userInfo = await getUserInfo();
+
+      String? userId = await getUserId();
       listOrder = await api.getListOrderOfUser(
-        userInfo!.userInfo!.id ?? '',
+        userId ?? '',
         orderStatus: orderStatus,
       );
       setState(ViewStatus.Completed);
@@ -174,9 +171,9 @@ class OrderViewModel extends BaseViewModel {
   Future<List<TransactionModel>?> getListTransaction() async {
     try {
       setState(ViewStatus.Loading);
-      UserModel? userInfo = await getUserInfo();
-      var listTrans =
-          await api.getListTransactionOfUser(userInfo!.userInfo!.id ?? '');
+
+      String? userId = await getUserId();
+      var listTrans = await api.getListTransactionOfUser(userId ?? '');
       if (listTrans != null) {
         setState(ViewStatus.Completed);
         return listTrans;
@@ -203,33 +200,12 @@ class OrderViewModel extends BaseViewModel {
     }
   }
 
-  // Future<void> completeOrder(
-  //   String orderId,
-  // ) async {
-  //   Account? userInfo = await getUserInfo();
-  //   if (selectedPaymentMethod == null) {
-  //     await showAlertDialog(
-  //         title: "Thông báo", content: "Vui lòng chọn phương thức thanh toán");
-  //     return;
-  //   }
-  //   if (paymentCheckingStatus != PaymentStatusEnum.PAID) {
-  //     await showAlertDialog(
-  //         title: "Thông báo", content: "Vui lòng kiểm tra lại thanh toán");
-  //     return;
-  //   }
-  //   await api.updateOrder(userInfo!.storeId, orderId, OrderStatusEnum.PAID,
-  //       selectedPaymentMethod!.code);
-  //   Get.find<PrinterViewModel>().printBill(currentOrder!, selectedTable,
-  //       selectedPaymentMethod!.name ?? "Tiền mặt");
-  //   clearOrder();
-  //   await showAlertDialog(
-  //       title: "Thanh toán thành công",
-  //       content: "Đơn hàng thanh toán thành công");
-  //   Duration(seconds: 2);
-  //   chooseTableDialog();
-  //   // Duration(seconds: 2);
-  //   // await launchStoreLogo();
-  // }
+  Future<void> updateOrder(
+      String orderId, String? deliStatus, String? orderStatus) async {
+    showLoadingDialog();
+    await api.updateOrder(orderId, orderStatus, deliStatus);
+    hideDialog();
+  }
 
   clearOrder() {
     currentOrderId = null;

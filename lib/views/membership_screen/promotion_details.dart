@@ -2,10 +2,14 @@ import 'package:deer_coffee/enums/view_status.dart';
 import 'package:deer_coffee/models/pointify/promotion_details_model.dart';
 import 'package:deer_coffee/models/pointify/promotion_model.dart';
 import 'package:deer_coffee/models/pointify/voucher_model.dart';
+import 'package:deer_coffee/models/user.dart';
 import 'package:deer_coffee/utils/format.dart';
 import 'package:deer_coffee/utils/route_constrant.dart';
+import 'package:deer_coffee/utils/share_pref.dart';
 import 'package:deer_coffee/utils/theme.dart';
+import 'package:deer_coffee/view_models/account_view_model.dart';
 import 'package:deer_coffee/view_models/cart_view_model.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -22,18 +26,20 @@ class PromotionDetailsScreen extends StatefulWidget {
 
 class _PromotionDetailsScreenState extends State<PromotionDetailsScreen> {
   PromotionPointify? promotionDetailsModel;
+  UserDetails? info;
   String? selectedCode;
   @override
   void initState() {
     promotionDetailsModel =
         Get.find<CartViewModel>().getPromotionById(widget.id);
-
+    info = Get.find<AccountViewModel>().memberShipModel;
     // ignore: prefer_is_not_empty
     if (promotionDetailsModel?.promotionType == 3) {
       selectedCode =
-          '${promotionDetailsModel?.promotionCode}-${promotionDetailsModel?.listVoucher?.first.voucherCode ?? ''}';
+          '${info?.phoneNumber}_${promotionDetailsModel?.promotionCode}_${promotionDetailsModel?.listVoucher?.first.voucherCode ?? ''}';
     } else {
-      selectedCode = promotionDetailsModel?.promotionCode ?? '';
+      selectedCode =
+          '${info?.phoneNumber}_${promotionDetailsModel!.promotionCode}';
     }
     super.initState();
   }
@@ -142,7 +148,7 @@ class _PromotionDetailsScreenState extends State<PromotionDetailsScreen> {
                                   ),
                                 ),
                                 Text(
-                                  selectedCode ?? "",
+                                  promotionDetailsModel?.promotionCode ?? "",
                                   style: Get.textTheme.bodyMedium
                                       ?.copyWith(fontWeight: FontWeight.bold),
                                 ),

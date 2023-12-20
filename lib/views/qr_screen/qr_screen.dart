@@ -20,7 +20,7 @@ class QrScreen extends StatefulWidget {
 class _QrScreenState extends State<QrScreen> {
   String? qrData;
   String _qrCodeType = "PAYMENT";
-  List<String> listQRType = ["PAYMENT", "TOP_UP", "GET_POINT"];
+  List<String> listQRType = ["PAYMENT", "GET_POINT"];
   AccountViewModel accountViewModel = Get.find<AccountViewModel>();
   int _countdown = 120; // Đếm ngược từ 60 giây
   late Timer _timer;
@@ -30,6 +30,28 @@ class _QrScreenState extends State<QrScreen> {
     startCountdown();
     super.initState();
     // Generate QR code data
+  }
+
+  changeQr() {
+    switch (_qrCodeType) {
+      case "PAYMENT":
+        accountViewModel.getQRCode().then((value) => setState(() {
+              qrData = value;
+              _countdown = 120;
+            }));
+        break;
+      case "GET_POINT":
+        setState(() {
+          qrData = accountViewModel?.memberShipModel?.phoneNumber;
+          _countdown = 120;
+        });
+        break;
+      default:
+        accountViewModel.getQRCode().then((value) => setState(() {
+              qrData = value;
+              _countdown = 120;
+            }));
+    }
   }
 
   void startCountdown() {
@@ -59,7 +81,7 @@ class _QrScreenState extends State<QrScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'QR thanh toán, tích điểm',
+          'Quét mã thanh toán, tích điểm',
           style:
               Get.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
         ),
@@ -69,10 +91,10 @@ class _QrScreenState extends State<QrScreen> {
         child: ScopedModelDescendant<AccountViewModel>(
             builder: (context, build, model) {
           if (model.status == ViewStatus.Loading) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           } else if (qrData == null) {
-            return Center(
-              child: Text("Không lấy được mã qr, vui lòng thửu lại"),
+            return const Center(
+              child: Text("Không lấy được mã qr, vui lòng thử lại"),
             );
           }
           return Center(
@@ -87,52 +109,41 @@ class _QrScreenState extends State<QrScreen> {
                       'assets/images/logo.png',
                     ),
                     version: QrVersions.auto,
-                    size: 200.0,
+                    size: 220.0,
                   ),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text("Tự động cập nhật sau"),
+                    Text("Tự động cập nhật sau",
+                        style: Get.textTheme.bodySmall),
                     Text(
                       ' $_countdown s',
-                      style: Get.textTheme.bodyMedium,
+                      style: Get.textTheme.bodySmall,
                     ),
                     TextButton(
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateColor.resolveWith(
-                            (Set<MaterialState> states) {
-                          return states.contains(MaterialState.selected)
-                              ? ThemeColor.primary
-                              : Colors.white;
-                        }),
-                        foregroundColor: MaterialStateColor.resolveWith(
-                            (Set<MaterialState> states) {
-                          return states.contains(MaterialState.selected)
-                              ? Colors.white
-                              : ThemeColor.primary;
-                        }),
-                      ),
                       onPressed: () {
-                        model.getQRCode().then((value) => setState(() {
-                              qrData = value;
-                              _countdown = 120;
-                            }));
+                        changeQr();
                       },
-                      child: Text('Cập nhật'),
+                      child: Text('Cập nhật',
+                          style: Get.textTheme.bodySmall?.copyWith(
+                              color: ThemeColor.primary,
+                              fontWeight: FontWeight.bold)),
                     ),
                   ],
                 ),
+                const SizedBox(
+                  height: 8,
+                ),
                 Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: model.memberShipModel!.level!.memberWallet!
                         .map(
                           (e) => Container(
-                            margin: const EdgeInsets.all(8),
                             padding: const EdgeInsets.all(2),
-                            height: 80,
-                            width: Get.width * 0.4,
+                            height: 72,
+                            width: 110,
                             decoration: BoxDecoration(
                               border: Border.all(color: ThemeColor.primary),
                               borderRadius: BorderRadius.circular(16),
@@ -170,7 +181,7 @@ class _QrScreenState extends State<QrScreen> {
         }),
       ),
       bottomNavigationBar: Padding(
-        padding: const EdgeInsets.fromLTRB(8, 8, 8, 32),
+        padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
         child: SegmentedButton<String>(
           style: ButtonStyle(
             side: MaterialStateProperty.all(BorderSide(
@@ -194,11 +205,17 @@ class _QrScreenState extends State<QrScreen> {
           segments: const <ButtonSegment<String>>[
             ButtonSegment<String>(
               value: 'PAYMENT',
-              label: Text('Thanh toán'),
+              label: Padding(
+                padding: EdgeInsets.fromLTRB(2, 16, 2, 16),
+                child: Text('Thanh toán'),
+              ),
             ),
             ButtonSegment<String>(
-              value: 'TOP_UP',
-              label: Text('Nạp tiền, Tích điểm'),
+              value: 'GET_POINT',
+              label: Padding(
+                padding: EdgeInsets.fromLTRB(2, 16, 2, 16),
+                child: Text('Nạp tiền,Tích điểm'),
+              ),
             ),
           ],
           selected: <String>{_qrCodeType},
@@ -206,6 +223,7 @@ class _QrScreenState extends State<QrScreen> {
             setState(() {
               _qrCodeType = newSelection.first;
             });
+            changeQr();
           },
         ),
       ),

@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:deer_coffee/view_models/startup_view_model.dart';
 import 'package:deer_coffee/views/cart.dart';
 import 'package:deer_coffee/views/home_screen/blog_details.dart';
 import 'package:deer_coffee/views/orders_screen/category_detail.dart';
@@ -26,7 +25,6 @@ import 'firebase_options.dart';
 import 'setup.dart';
 import 'utils/request.dart';
 import 'utils/route_constrant.dart';
-import 'view_models/menu_view_model.dart';
 import 'views/login/login.dart';
 import 'views/not_found_screen.dart';
 import 'views/root_screen.dart';
@@ -77,7 +75,7 @@ class MyApp extends StatelessWidget {
             transition: Transition.zoom),
         GetPage(
             name: RouteHandler.OTP,
-            page: () => MyOtp(),
+            page: () => const MyOtp(),
             transition: Transition.zoom),
         GetPage(
             name: RouteHandler.HOME,
@@ -87,15 +85,15 @@ class MyApp extends StatelessWidget {
             transition: Transition.cupertino),
         GetPage(
             name: RouteHandler.CART,
-            page: () => CartScreen(),
+            page: () => const CartScreen(),
             transition: Transition.cupertino),
         GetPage(
             name: RouteHandler.VOUCHER,
-            page: () => Voucher(),
+            page: () => const Voucher(),
             transition: Transition.cupertino),
         GetPage(
             name: RouteHandler.ORDER,
-            page: () => OrderHistory(),
+            page: () => const OrderHistory(),
             transition: Transition.cupertino),
         GetPage(
             name: RouteHandler.TRANSACTIONS,

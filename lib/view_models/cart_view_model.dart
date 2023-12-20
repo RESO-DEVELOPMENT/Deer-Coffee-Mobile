@@ -1,12 +1,8 @@
-import 'dart:math';
-
-import 'package:deer_coffee/enums/promotion_enums.dart';
-import 'package:deer_coffee/models/pointify/promotion_details_model.dart';
-import 'package:deer_coffee/models/pointify/voucher_model.dart';
-import 'package:deer_coffee/models/store.dart';
-import 'package:deer_coffee/models/user.dart';
+import '../enums/promotion_enums.dart';
+import '../models/pointify/voucher_model.dart';
+import '../models/store.dart';
+import '../models/user.dart';
 import 'package:deer_coffee/utils/share_pref.dart';
-import 'package:deer_coffee/widgets/other_dialogs/dialog.dart';
 import 'package:get/get.dart';
 
 import '../api/order_api.dart';
@@ -49,14 +45,14 @@ class CartViewModel extends BaseViewModel {
   Future<void> getListPromotion() async {
     try {
       setState(ViewStatus.Loading);
-      UserModel? userInfo = await getUserInfo();
-      if (userInfo == null) {
+
+      String? userId = await getUserId();
+      if (userId == null) {
         promotions = [];
         setState(ViewStatus.Completed);
         return;
       }
-      promotions = await promotionData
-          ?.getListPromotionOfPointify(userInfo?.userInfo?.id ?? '');
+      promotions = await promotionData?.getListPromotionOfPointify(userId);
       promotions?.removeWhere(
           (element) => element.promotionType == PromotionTypeEnum.Automatic);
       promotionsHasVoucher = promotions
@@ -146,13 +142,15 @@ class CartViewModel extends BaseViewModel {
   }
 
   Future<void> selectPromotion(String code, num type) async {
-    if (type == 3) {
-      List<String> parts = code.split("-");
-      cart.promotionCode = parts[0];
-      cart.voucherCode = parts[1];
-    } else {
-      cart.promotionCode = code;
-      cart.voucherCode = null;
+    if (code.contains('_')) {
+      List<String> parts = code.split("_");
+      if (parts.length > 2) {
+        cart.promotionCode = parts[1];
+        cart.voucherCode = parts[2];
+      } else {
+        cart.promotionCode = parts[1];
+        cart.voucherCode = null;
+      }
     }
     notifyListeners();
     await prepareOrder();
@@ -165,10 +163,10 @@ class CartViewModel extends BaseViewModel {
   }
 
   Future<bool> prepareOrder() async {
-    UserModel? userInfo = await getUserInfo();
+    String? userId = await getUserId();
     cart.paymentType = PaymentTypeEnums.CASH;
     cart.storeId = selectedStore?.id ?? '';
-    cart.customerId = userInfo?.userInfo?.id;
+    cart.customerId = userId;
     cart.discountAmount = 0;
     cart.finalAmount = cart.totalAmount;
     cart.deliveryAddress = deliAddress;

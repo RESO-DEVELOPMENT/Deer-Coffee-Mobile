@@ -29,21 +29,36 @@ Future<String?> getToken() async {
   return prefs.getString('token');
 }
 
-Future<void> setUserInfo(UserModel userInfo) async {
+// Future<void> setUserInfo(UserModel userInfo) async {
+//   final SharedPreferences prefs = await SharedPreferences.getInstance();
+//   final user = userInfo.toJson();
+//   prefs.setString("userInfo", jsonEncode(user));
+// }
+
+Future<void> setUserId(String userId) async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
-  final user = userInfo.toJson();
-  prefs.setString("userInfo", jsonEncode(user));
+  final user = userId;
+  prefs.setString("userId", jsonEncode(user));
 }
 
-Future<UserModel?> getUserInfo() async {
+Future<String?> getUserId() async {
   final SharedPreferences pref = await SharedPreferences.getInstance();
-  String? userData = pref.getString("userInfo");
-  UserModel? userInfo;
+  String? userData = pref.getString("userId");
   if (userData != null) {
-    userInfo = UserModel.fromJson(jsonDecode(userData));
+    return jsonDecode(userData);
   }
-  return userInfo;
+  return null;
 }
+
+// Future<UserModel?> getUserInfo() async {
+//   final SharedPreferences pref = await SharedPreferences.getInstance();
+//   String? userData = pref.getString("userInfo");
+//   UserModel? userInfo;
+//   if (userData != null) {
+//     userInfo = UserModel.fromJson(jsonDecode(userData));
+//   }
+//   return userInfo;
+// }
 
 Future<void> removeALL() async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();

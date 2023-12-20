@@ -1,10 +1,8 @@
 import 'dart:async';
 
 import 'package:deer_coffee/view_models/account_view_model.dart';
-import 'package:deer_coffee/views/home_page_order_method.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/instance_manager.dart';
 import 'package:pinput/pinput.dart';
 
 import '../../utils/theme.dart';
@@ -58,32 +56,22 @@ class _MyOtpState extends State<MyOtp> {
     final defaultPinTheme = PinTheme(
       width: 56,
       height: 56,
-      textStyle: TextStyle(
+      textStyle: const TextStyle(
           fontSize: 20,
           color: Color.fromRGBO(30, 60, 87, 1),
           fontWeight: FontWeight.w600),
       decoration: BoxDecoration(
-        border: Border.all(color: Color.fromRGBO(234, 239, 243, 1)),
+        border: Border.all(color: const Color.fromRGBO(234, 239, 243, 1)),
         borderRadius: BorderRadius.circular(20),
       ),
     );
 
-    final focusedPinTheme = defaultPinTheme.copyDecorationWith(
-      border: Border.all(color: Color.fromRGBO(114, 178, 238, 1)),
-      borderRadius: BorderRadius.circular(8),
-    );
-
-    final submittedPinTheme = defaultPinTheme.copyWith(
-      decoration: defaultPinTheme.decoration?.copyWith(
-        color: Color.fromRGBO(234, 239, 243, 1),
-      ),
-    );
     return Scaffold(
       body: Stack(
         children: [
           // Hình ảnh làm background
           Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               image: DecorationImage(
                 image:
                     AssetImage('assets/images/image.png'), ////////fffffff/ffff
@@ -95,8 +83,8 @@ class _MyOtpState extends State<MyOtp> {
           SafeArea(
             child: Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
+                const Padding(
+                  padding: EdgeInsets.all(10.0),
                   child: Column(
                     children: [
                       SizedBox(
@@ -107,14 +95,15 @@ class _MyOtpState extends State<MyOtp> {
                 ),
                 Expanded(
                   child: Container(
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(20),
                         topRight: Radius.circular(20),
                       ),
                       color: Colors.white,
                     ),
-                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 10, vertical: 20),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
@@ -123,21 +112,20 @@ class _MyOtpState extends State<MyOtp> {
                               .end, // Di chuyển icon sang bên trái
                           children: [
                             IconButton(
-                              icon: Icon(
+                              icon: const Icon(
                                 Icons.cancel,
                                 color: Colors.grey,
                                 size: 30,
                               ),
                               onPressed: () {
-                                Navigator.of(context)
-                                    .pop(); // Navigate back to the previous screen (LoginScreen)
+                                Get.back();
                               },
                             ),
                             // Đặt khoảng trống giữa icon và phần còn lại
-                            SizedBox(width: 16),
+                            const SizedBox(width: 16),
                           ],
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 30,
                           // child: Image.asset("assets/login.png"),
                         ),
@@ -148,7 +136,7 @@ class _MyOtpState extends State<MyOtp> {
                             color: Colors.black,
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 8,
                         ),
                         Text.rich(
@@ -156,14 +144,14 @@ class _MyOtpState extends State<MyOtp> {
                             children: [
                               TextSpan(
                                 text:
-                                    "Một mã xác định gồm 6 số đã gửi đến số điện thoại $phoneNumber",
+                                    "Một mã otp gồm 6 số đã gửi đến số điện thoại $phoneNumber",
                                 style: Get.textTheme.bodyMedium,
                               ),
                             ],
                           ),
                           textAlign: TextAlign.center,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 24,
                         ),
                         Text.rich(
@@ -177,7 +165,7 @@ class _MyOtpState extends State<MyOtp> {
                           ),
                           textAlign: TextAlign.center,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 16,
                         ),
                         Pinput(
@@ -225,12 +213,12 @@ class _MyOtpState extends State<MyOtp> {
                                   Get.find<AccountViewModel>().resendOtp();
                                 }
                               },
-                              child: Text('Gửi lại'),
+                              child: const Text('Gửi lại'),
                             ),
-                            Text("sau "),
+                            const Text("sau "),
                             Text(
                               '($_countdown)',
-                              style: TextStyle(color: Colors.black),
+                              style: const TextStyle(color: Colors.black),
                             ),
                           ],
                         )

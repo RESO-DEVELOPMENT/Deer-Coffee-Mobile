@@ -21,6 +21,7 @@ class AccountViewModel extends BaseViewModel {
   AccountAPI accountAPI = AccountAPI();
   PointifyData? pointifyData = PointifyData();
   UserModel? user;
+  String? userId;
   UserDetails? memberShipModel;
   String? phoneNumber;
   var verId = '';
@@ -29,7 +30,7 @@ class AccountViewModel extends BaseViewModel {
   AccountViewModel() {
     auth = FirebaseAuth.instance;
     getToken().then((value) => requestObj.setToken = value);
-    getUserInfo().then((value) => user = value);
+    getUserId().then((value) => userId = value);
   }
   Future<void> onLoginWithPhone(String phone) async {
     showLoadingDialog();
@@ -51,15 +52,14 @@ class AccountViewModel extends BaseViewModel {
             return;
           } else {
             requestObj.setToken = user?.accessToken ?? '';
-            await setUserInfo(user!);
+            await setUserId(user?.userInfo?.id ?? '');
             await setToken(user!.accessToken ?? '');
             hideDialog();
             await Get.find<CartViewModel>().getListPromotion();
             await Get.offAllNamed(RouteHandler.HOME);
           }
         } catch (e) {
-          await showAlertDialog(
-              title: "Xảy ra lỗi", content: e.toString() ?? 'Lỗi');
+          await showAlertDialog(title: "Xảy ra lỗi", content: e.toString());
           // Get.back();
         }
       },
@@ -104,15 +104,15 @@ class AccountViewModel extends BaseViewModel {
             return;
           } else {
             requestObj.setToken = user?.accessToken ?? '';
-            await setUserInfo(user!);
+
+            await setUserId(user?.userInfo?.id ?? '');
             await setToken(user!.accessToken ?? '');
             await Get.find<CartViewModel>().getListPromotion();
             hideDialog();
             await Get.offAllNamed(RouteHandler.HOME);
           }
         } catch (e) {
-          await showAlertDialog(
-              title: "Xảy ra lỗi", content: e.toString() ?? 'Lỗi');
+          await showAlertDialog(title: "Xảy ra lỗi", content: e.toString());
           // Get.back();
         }
       },
@@ -154,27 +154,25 @@ class AccountViewModel extends BaseViewModel {
         return;
       } else {
         requestObj.setToken = user?.accessToken ?? '';
-        await setUserInfo(user!);
+        await setUserId(user?.userInfo?.id ?? '');
         await setToken(user!.accessToken ?? '');
         await Get.find<CartViewModel>().getListPromotion();
         hideDialog();
         await Get.offAllNamed(RouteHandler.HOME);
       }
     } catch (e) {
-      await showAlertDialog(
-          title: "Xảy ra lỗi", content: e.toString() ?? 'Lỗi');
+      await showAlertDialog(title: "Xảy ra lỗi", content: e.toString());
       // Get.back();
     }
   }
 
-  Future<void> getMembershipInfo() async {
+  Future<void> getMembershipInfo(String? userId) async {
     try {
       setState(ViewStatus.Loading);
-      if (user?.userInfo != null) {
-        await accountAPI
-            .getUserById(user?.userInfo?.id ?? '')
-            .then((value) => memberShipModel = value);
-      }
+      await accountAPI
+          .getUserById(userId ?? '')
+          .then((value) => memberShipModel = value);
+
       setState(ViewStatus.Completed);
     } catch (e) {
       setState(ViewStatus.Completed);
@@ -186,11 +184,8 @@ class AccountViewModel extends BaseViewModel {
     try {
       setState(ViewStatus.Loading);
       String? qr;
-      if (user?.userInfo != null) {
-        await accountAPI
-            .getUserQRCode(user?.userInfo?.id ?? '')
-            .then((value) => qr = value);
-      }
+
+      await accountAPI.getUserQRCode(userId ?? '').then((value) => qr = value);
 
       setState(ViewStatus.Completed);
       return qr;
@@ -206,6 +201,7 @@ class AccountViewModel extends BaseViewModel {
     if (option == true) {
       showLoadingDialog();
       user = null;
+      userId = null;
       memberShipModel = null;
       await auth.signOut();
       await removeALL();

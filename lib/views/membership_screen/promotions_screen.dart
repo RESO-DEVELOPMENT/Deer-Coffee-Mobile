@@ -1,5 +1,6 @@
 import 'package:barcode_widget/barcode_widget.dart';
 import 'package:deer_coffee/enums/view_status.dart';
+import 'package:deer_coffee/utils/share_pref.dart';
 
 import 'package:deer_coffee/view_models/account_view_model.dart';
 import 'package:deer_coffee/view_models/cart_view_model.dart';
@@ -25,8 +26,10 @@ class PromotionsScreen extends StatefulWidget {
 }
 
 class _PromotionsScreenState extends State<PromotionsScreen> {
+  String? userId;
   @override
   void initState() {
+    getUserId().then((value) => userId = value);
     Get.find<CartViewModel>().getListPromotion();
     super.initState();
   }
@@ -34,6 +37,7 @@ class _PromotionsScreenState extends State<PromotionsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xffF9F9F9),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
@@ -48,7 +52,7 @@ class _PromotionsScreenState extends State<PromotionsScreen> {
                       child: const Center(child: CircularProgressIndicator()));
                 }
 
-                if (model.memberShipModel == null) {
+                if (model.userId == null) {
                   return const LoginCard();
                 }
                 return Container(

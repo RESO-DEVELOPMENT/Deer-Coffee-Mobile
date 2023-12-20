@@ -1,10 +1,8 @@
 import 'package:deer_coffee/models/transactions.dart';
 
 import '../models/cart_model.dart';
-import '../models/order.dart';
 import '../models/order_details.dart';
 import '../models/order_in_list.dart';
-import '../models/order_response.dart';
 import '../utils/request.dart';
 
 class OrderAPI {
@@ -31,16 +29,14 @@ class OrderAPI {
   }
 
   Future updateOrder(
-    String storeId,
     String orderId,
     String? status,
-    String? paymentType,
+    String? deliStatus,
   ) async {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['status'] = status;
-    data['paymentType'] = paymentType;
-    final res =
-        await request.put('stores/$storeId/orders/$orderId', data: data);
+    data['deliStatus'] = deliStatus;
+    final res = await request.patch('users/orders/$orderId', data: data);
     var json = res.data;
     return json;
   }

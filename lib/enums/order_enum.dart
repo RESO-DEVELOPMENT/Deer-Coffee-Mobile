@@ -40,7 +40,7 @@ class DeliStatusEnum {
   static const String PENDING = 'PENDING';
   static const String CANCELED = 'CANCELED';
   static const String DELIVERING = 'DELIVERING';
-  static const String COMPLETE = 'COMPLETE';
+  static const String DELIVERED = 'DELIVERED';
 }
 
 class OrderTypeEnum {
@@ -70,7 +70,7 @@ String showUserDeiliStatus(String status) {
       return 'Đã huỷ';
     case DeliStatusEnum.DELIVERING:
       return 'Đang giao';
-    case DeliStatusEnum.COMPLETE:
+    case DeliStatusEnum.DELIVERED:
       return 'Đã giao';
     default:
       return 'Đang xử lý';
