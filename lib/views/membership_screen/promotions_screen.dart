@@ -27,9 +27,11 @@ class PromotionsScreen extends StatefulWidget {
 
 class _PromotionsScreenState extends State<PromotionsScreen> {
   String? userId;
+  AccountViewModel model = Get.find<AccountViewModel>();
+  UserDetails? user;
   @override
   void initState() {
-    getUserId().then((value) => userId = value);
+    user = model.memberShipModel;
     Get.find<CartViewModel>().getListPromotion();
     super.initState();
   }
@@ -38,24 +40,24 @@ class _PromotionsScreenState extends State<PromotionsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xffF9F9F9),
-      body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            ScopedModel<AccountViewModel>(
-              model: Get.find<AccountViewModel>(),
-              child: ScopedModelDescendant<AccountViewModel>(
-                  builder: (context, build, model) {
-                if (model.status == ViewStatus.Loading) {
-                  return SizedBox(
-                      width: Get.width,
-                      height: 280,
-                      child: const Center(child: CircularProgressIndicator()));
-                }
+      body: ScopedModel<AccountViewModel>(
+        model: model,
+        child: ScopedModelDescendant<AccountViewModel>(
+            builder: (context, build, model) {
+          if (model.status == ViewStatus.Loading) {
+            return SizedBox(
+                width: Get.width,
+                height: 280,
+                child: const Center(child: CircularProgressIndicator()));
+          }
 
-                if (model.userId == null) {
-                  return const LoginCard();
-                }
-                return Container(
+          if (user == null) {
+            return Center(child: LoginCard());
+          }
+          return SingleChildScrollView(
+            child: Column(
+              children: [
+                Container(
                   width: Get.width,
                   height: 180,
                   decoration: BoxDecoration(
@@ -135,136 +137,138 @@ class _PromotionsScreenState extends State<PromotionsScreen> {
                       ],
                     ),
                   ),
-                );
-              }),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: () {},
-                          child: Container(
-                            margin: const EdgeInsets.all(8),
-                            padding: const EdgeInsets.all(4),
-                            height: 100,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(16),
-                              color: Colors.white,
-                            ),
-                            child: Stack(
-                              children: [
-                                Align(
-                                    alignment: Alignment.topLeft,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Icon(
-                                        Icons.card_membership_outlined,
-                                        color: ThemeColor.primary,
-                                        size: 40,
-                                      ),
-                                    )),
-                                Align(
-                                  alignment: Alignment.bottomLeft,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        bottom: 10, left: 10),
-                                    child: Text('Hạng thành viên',
-                                        style: Get.textTheme.bodyMedium
-                                            ?.copyWith(
-                                                fontWeight: FontWeight.bold)),
-                                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            child: GestureDetector(
+                              onTap: () {},
+                              child: Container(
+                                margin: const EdgeInsets.all(8),
+                                padding: const EdgeInsets.all(4),
+                                height: 100,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(16),
+                                  color: Colors.white,
                                 ),
-                              ],
+                                child: Stack(
+                                  children: [
+                                    Align(
+                                        alignment: Alignment.topLeft,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Icon(
+                                            Icons.card_membership_outlined,
+                                            color: ThemeColor.primary,
+                                            size: 40,
+                                          ),
+                                        )),
+                                    Align(
+                                      alignment: Alignment.bottomLeft,
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            bottom: 10, left: 10),
+                                        child: Text('Hạng thành viên',
+                                            style: Get.textTheme.bodyMedium
+                                                ?.copyWith(
+                                                    fontWeight:
+                                                        FontWeight.bold)),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
                           ),
-                        ),
-                      ),
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: () {},
-                          child: Container(
-                            margin: const EdgeInsets.all(8),
-                            height: 100,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(13),
-                              color: Colors.white,
-                            ),
-                            child: Stack(
-                              children: [
-                                Align(
-                                    alignment: Alignment.topLeft,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Icon(
-                                        Icons.card_giftcard_outlined,
-                                        color: ThemeColor.primary,
-                                        size: 40,
-                                      ),
-                                    )),
-                                Align(
-                                  alignment: Alignment.bottomLeft,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        bottom: 10, left: 10),
-                                    child: Text('Đổi điểm',
-                                        style: Get.textTheme.bodyMedium
-                                            ?.copyWith(
-                                                fontWeight: FontWeight.bold)),
-                                  ),
+                          Expanded(
+                            child: GestureDetector(
+                              onTap: () {},
+                              child: Container(
+                                margin: const EdgeInsets.all(8),
+                                height: 100,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(13),
+                                  color: Colors.white,
                                 ),
-                              ],
+                                child: Stack(
+                                  children: [
+                                    Align(
+                                        alignment: Alignment.topLeft,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Icon(
+                                            Icons.card_giftcard_outlined,
+                                            color: ThemeColor.primary,
+                                            size: 40,
+                                          ),
+                                        )),
+                                    Align(
+                                      alignment: Alignment.bottomLeft,
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            bottom: 10, left: 10),
+                                        child: Text('Đổi điểm',
+                                            style: Get.textTheme.bodyMedium
+                                                ?.copyWith(
+                                                    fontWeight:
+                                                        FontWeight.bold)),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
                           ),
-                        ),
+                        ],
                       ),
                     ],
                   ),
-                ],
-              ),
-            ),
-            ScopedModel<CartViewModel>(
-              model: Get.find<CartViewModel>(),
-              child: ScopedModelDescendant<CartViewModel>(
-                  builder: (context, build, model) {
-                if (model.status == ViewStatus.Loading) {
-                  return SizedBox(
-                      width: Get.width,
-                      height: 200,
-                      child: Center(child: CircularProgressIndicator()));
-                }
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text('Khuyến mãi khả dụng',
-                          style: Get.textTheme.titleMedium
-                              ?.copyWith(fontWeight: FontWeight.bold)),
-                    ),
-                    Column(
-                      children: model.promotionsUsingPromotionCode!
-                          .map((e) => buildTicketWidget(
-                              e,
-                              model.cart.promotionCode == e.promotionCode,
-                              model))
-                          .toList(),
-                    ),
-                  ],
-                );
-              }),
-            ),
+                ),
+                ScopedModel<CartViewModel>(
+                  model: Get.find<CartViewModel>(),
+                  child: ScopedModelDescendant<CartViewModel>(
+                      builder: (context, build, model) {
+                    if (model.status == ViewStatus.Loading) {
+                      return SizedBox(
+                          width: Get.width,
+                          height: 200,
+                          child: Center(child: CircularProgressIndicator()));
+                    }
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text('Khuyến mãi khả dụng',
+                              style: Get.textTheme.titleMedium
+                                  ?.copyWith(fontWeight: FontWeight.bold)),
+                        ),
+                        Column(
+                          children: model.promotionsUsingPromotionCode!
+                              .map((e) => buildTicketWidget(
+                                  e,
+                                  model.cart.promotionCode == e.promotionCode,
+                                  model))
+                              .toList(),
+                        ),
+                      ],
+                    );
+                  }),
+                ),
 
-            // Add more TicketWidgets as needed
-          ],
-        ),
+                // Add more TicketWidgets as needed
+              ],
+            ),
+          );
+        }),
       ),
     );
   }

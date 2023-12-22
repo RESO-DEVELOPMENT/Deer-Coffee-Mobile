@@ -56,7 +56,7 @@ class _HomePageState extends State<HomePage> {
                       options: CarouselOptions(
                         scrollPhysics: const BouncingScrollPhysics(),
                         viewportFraction: 1,
-                        aspectRatio: 1,
+                        aspectRatio: 9.3 / 10,
                         autoPlay: true,
                         enlargeCenterPage: true,
                         pageSnapping: true,
@@ -67,25 +67,22 @@ class _HomePageState extends State<HomePage> {
                         },
                       ),
                       items: model.blogList?.map((blog) {
-                        return Builder(
-                          builder: (BuildContext context) {
-                            return InkWell(
-                              onTap: () {
-                                Get.toNamed(
-                                  "${RouteHandler.BLOG}?id=${blog.id}",
-                                );
-                              },
-                              child: Container(
-                                width: MediaQuery.of(context).size.width,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                  image: DecorationImage(
-                                      image: NetworkImage(blog.image ?? ""),
-                                      fit: BoxFit.cover),
-                                ),
-                              ),
+                        return InkWell(
+                          onTap: () {
+                            Get.toNamed(
+                              "${RouteHandler.BLOG}?id=${blog.id}",
                             );
                           },
+                          child: Container(
+                            width: Get.size.width,
+                            height: Get.size.width,
+                            decoration: BoxDecoration(
+                              // borderRadius: BorderRadius.circular(4.0),
+                              image: DecorationImage(
+                                  image: NetworkImage(blog.image ?? ""),
+                                  fit: BoxFit.cover),
+                            ),
+                          ),
                         );
                       }).toList(),
                     ),
@@ -102,7 +99,6 @@ class _HomePageState extends State<HomePage> {
                   decoration: const BoxDecoration(
                     color: Colors.white,
                   ),
-                  padding: const EdgeInsets.only(bottom: 60),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
@@ -121,7 +117,8 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                       Container(
-                        width: Get.width * 0.9,
+                        margin: EdgeInsets.all(16),
+                        width: Get.width,
                         height: 60,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(32),
@@ -247,7 +244,7 @@ class _HomePageState extends State<HomePage> {
                       //     ),
                       //   );
                       // }),
-                      buildVoucherSection(),
+                      buildLoginButton(),
                       ScopedModelDescendant<MenuViewModel>(
                           builder: (context, build, model) {
                         return GridView.count(
@@ -386,7 +383,7 @@ class _HomePageState extends State<HomePage> {
               ),
               borderRadius: BorderRadius.circular(13),
             ),
-            height: 48,
+            height: 52,
             child: InkWell(
                 onTap: () {
                   Get.toNamed(RouteHandler.VOUCHER);
@@ -411,6 +408,60 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                       ],
+                    ),
+                    Icon(
+                      Icons.arrow_forward_ios_outlined,
+                      color: ThemeColor.primary,
+                    )
+                  ],
+                )),
+          );
+        },
+      ),
+    );
+  }
+
+  // Widget buildUserWallet() {
+  //   return
+  // }
+
+  Widget buildLoginButton() {
+    return ScopedModel<AccountViewModel>(
+      model: Get.find<AccountViewModel>(),
+      child: ScopedModelDescendant<AccountViewModel>(
+        builder: (context, child, model) {
+          if (model.status == ViewStatus.Loading) {
+            return const SizedBox.shrink();
+          }
+          if (model.userId != null) {
+            return buildVoucherSection();
+          }
+          return Container(
+            margin: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              shape: BoxShape.rectangle,
+              border: Border.all(
+                width: 2,
+                color: ThemeColor.primary, // This sets the border color to red
+              ),
+              borderRadius: BorderRadius.circular(13),
+            ),
+            height: 52,
+            padding: const EdgeInsets.all(8),
+            child: InkWell(
+                onTap: () {
+                  Get.toNamed(RouteHandler.LOGIN);
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Đăng nhập ngay để tận hưởng ưu đãi nhé !",
+                      maxLines: 2,
+                      style: Get.textTheme.bodyMedium?.copyWith(
+                        color: ThemeColor.primary,
+                      ),
                     ),
                     Icon(
                       Icons.arrow_forward_ios_outlined,

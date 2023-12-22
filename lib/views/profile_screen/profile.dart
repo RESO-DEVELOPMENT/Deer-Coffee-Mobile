@@ -15,6 +15,7 @@ import 'package:scoped_model/scoped_model.dart';
 import '../../enums/view_status.dart';
 import '../../utils/route_constrant.dart';
 import '../../view_models/account_view_model.dart';
+import '../login/login_card.dart';
 
 class OtherPage extends StatefulWidget {
   const OtherPage({super.key});
@@ -25,9 +26,10 @@ class OtherPage extends StatefulWidget {
 
 class _OtherPageState extends State<OtherPage> {
   UserDetails? userModel;
+  AccountViewModel model = Get.find<AccountViewModel>();
   @override
   void initState() {
-    userModel = Get.find<AccountViewModel>().memberShipModel;
+    userModel = model.memberShipModel;
     super.initState();
   }
 
@@ -42,385 +44,416 @@ class _OtherPageState extends State<OtherPage> {
               Get.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: () {
-                            if (userModel == null) {
-                              showConfirmDialog(
-                                      title: "Người dùng chưa đăng nhập",
-                                      content:
-                                          "Vui lòng đăng nhập để đặt đơn và nhận ưu đãi nhé",
-                                      confirmText: "Đăng nhập")
-                                  .then((value) => {
-                                        if (value)
-                                          {Get.toNamed(RouteHandler.LOGIN)}
-                                      });
-                            } else {
-                              Get.toNamed(RouteHandler.ORDER);
-                            }
-                          },
-                          child: Container(
-                            margin: const EdgeInsets.all(8),
-                            padding: const EdgeInsets.all(4),
-                            height: 100,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(16),
-                              color: Colors.white,
-                            ),
-                            child: Stack(
-                              children: [
-                                Align(
-                                    alignment: Alignment.topLeft,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Icon(
-                                        Icons.history_outlined,
-                                        color: ThemeColor.primary,
-                                        size: 40,
-                                      ),
-                                    )),
-                                Align(
-                                  alignment: Alignment.bottomLeft,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        bottom: 10, left: 10),
-                                    child: Text('Lịch sử đơn hàng',
-                                        style: Get.textTheme.bodyMedium
-                                            ?.copyWith(
-                                                fontWeight: FontWeight.bold)),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: () {
-                            if (userModel == null) {
-                              showConfirmDialog(
-                                      title: "Người dùng chưa đăng nhập",
-                                      content:
-                                          "Vui lòng đăng nhập để đặt đơn và nhận ưu đãi nhé",
-                                      confirmText: "Đăng nhập")
-                                  .then((value) => {
-                                        if (value)
-                                          {Get.toNamed(RouteHandler.LOGIN)}
-                                      });
-                            } else {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      const UpdateProfilePage(),
-                                ),
-                              );
-                            }
-                          },
-                          child: Container(
-                            margin: const EdgeInsets.all(8),
-                            padding: const EdgeInsets.all(4),
-                            height: 100,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(13),
-                              color: Colors.white,
-                            ),
-                            child: Stack(
-                              children: [
-                                Align(
-                                    alignment: Alignment.topLeft,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Icon(
-                                        Icons.person_outline,
-                                        color: ThemeColor.primary,
-                                        size: 40,
-                                      ),
-                                    )),
-                                Align(
-                                  alignment: Alignment.bottomLeft,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        bottom: 10, left: 10),
-                                    child: Text('Thông tin cá nhân',
-                                        style: Get.textTheme.bodyMedium
-                                            ?.copyWith(
-                                                fontWeight: FontWeight.bold)),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: () {
-                            if (userModel == null) {
-                              showConfirmDialog(
-                                      title: "Người dùng chưa đăng nhập",
-                                      content:
-                                          "Vui lòng đăng nhập để đặt đơn và nhận ưu đãi nhé",
-                                      confirmText: "Đăng nhập")
-                                  .then((value) => {
-                                        if (value)
-                                          {Get.toNamed(RouteHandler.LOGIN)}
-                                      });
-                            } else {
-                              Get.toNamed(RouteHandler.TRANSACTIONS);
-                            }
-                          },
-                          child: Container(
-                            margin: const EdgeInsets.all(8),
-                            padding: const EdgeInsets.all(4),
-                            height: 100,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(16),
-                              color: Colors.white,
-                            ),
-                            child: Stack(
-                              children: [
-                                Align(
-                                    alignment: Alignment.topLeft,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Icon(
-                                        Icons.query_stats_outlined,
-                                        color: ThemeColor.primary,
-                                        size: 40,
-                                      ),
-                                    )),
-                                Align(
-                                  alignment: Alignment.bottomLeft,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        bottom: 10, left: 10),
-                                    child: Text('Lịch sử giao dịch',
-                                        style: Get.textTheme.bodyMedium
-                                            ?.copyWith(
-                                                fontWeight: FontWeight.bold)),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: () {
-                            if (userModel == null) {
-                              showConfirmDialog(
-                                      title: "Người dùng chưa đăng nhập",
-                                      content:
-                                          "Vui lòng đăng nhập để đặt đơn và nhận ưu đãi nhé",
-                                      confirmText: "Đăng nhập")
-                                  .then((value) => {
-                                        if (value)
-                                          {Get.toNamed(RouteHandler.LOGIN)}
-                                      });
-                            } else {
-                              showAlertDialog(
-                                  content: "Tính năng đang phát triển");
-                            }
-                          },
-                          child: Container(
-                            margin: const EdgeInsets.all(8),
-                            height: 100,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(13),
-                              color: Colors.white,
-                            ),
-                            child: Stack(
-                              children: [
-                                Align(
-                                    alignment: Alignment.topLeft,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Icon(
-                                        Icons.credit_card_outlined,
-                                        color: ThemeColor.primary,
-                                        size: 40,
-                                      ),
-                                    )),
-                                Align(
-                                  alignment: Alignment.bottomLeft,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        bottom: 10, left: 10),
-                                    child: Text('Danh sách thẻ',
-                                        style: Get.textTheme.bodyMedium
-                                            ?.copyWith(
-                                                fontWeight: FontWeight.bold)),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: Container(
-                      width: Get.width,
-                      padding: const EdgeInsets.all(16),
-                      decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(13)),
-                        //   border: Border.all(
-                        // color: Colors.grey, // Màu của đường viền nếu cần
+      body: ScopedModel<AccountViewModel>(
+        model: model,
+        child: ScopedModelDescendant<AccountViewModel>(
+            builder: (context, build, model) {
+          if (model.status == ViewStatus.Loading) {
+            return SizedBox(
+                width: Get.width,
+                height: 280,
+                child: const Center(child: CircularProgressIndicator()));
+          }
 
-                        //   ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.white, // Màu của bóng đổ
-                            offset: Offset(0, 0.5),
-                          ),
-                        ],
-                      ),
-                      child: Column(
+          if (model.memberShipModel == null) {
+            return const Center(child: LoginCard());
+          }
+          return SingleChildScrollView(
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          SizedBox(
-                            height: 50,
-                            child: InkWell(
-                              onTap: () {
-                                Get.toNamed(RouteHandler.STORES);
-                              },
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text('Danh sách cửa hàng',
-                                      style: Get.textTheme.bodyMedium?.copyWith(
-                                          fontWeight: FontWeight.bold)),
-                                  const Icon(Icons.store_outlined)
-                                ],
-                              ),
-                            ),
-                          ),
-                          const Divider(),
-                          SizedBox(
-                            height: 50,
-                            child: InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => Location()),
-                                );
-                              },
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text('Địa chỉ đã lưu',
-                                      style: Get.textTheme.bodyMedium?.copyWith(
-                                          fontWeight: FontWeight.bold)),
-                                  const Icon(Icons.location_on_outlined)
-                                ],
-                              ),
-                            ),
-                          ),
-                          const Divider(),
-                          SizedBox(
-                            height: 50,
-                            child: InkWell(
-                              onTap: () {
-                                showAlertDialog(
-                                    content: "Tính năng đang phát triển");
-                              },
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text('Cài đặt',
-                                      style: Get.textTheme.bodyMedium?.copyWith(
-                                          fontWeight: FontWeight.bold)),
-                                  const Icon(Icons.settings_outlined)
-                                ],
-                              ),
-                            ),
-                          ),
-                          const Divider(),
-                          SizedBox(
-                            height: 50,
-                            child: InkWell(
-                              onTap: () {
-                                Get.toNamed(RouteHandler.POLICY);
-                              },
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text('Điều khoản sử dụng',
-                                      style: Get.textTheme.bodyMedium?.copyWith(
-                                          fontWeight: FontWeight.bold)),
-                                  const Icon(Icons.policy_outlined)
-                                ],
-                              ),
-                            ),
-                          ),
-                          const Divider(),
-                          SizedBox(
-                            height: 50,
-                            child: InkWell(
+                          Expanded(
+                            child: GestureDetector(
                               onTap: () {
                                 if (userModel == null) {
-                                  Get.toNamed(RouteHandler.LOGIN);
+                                  showConfirmDialog(
+                                          title: "Người dùng chưa đăng nhập",
+                                          content:
+                                              "Vui lòng đăng nhập để đặt đơn và nhận ưu đãi nhé",
+                                          confirmText: "Đăng nhập")
+                                      .then((value) => {
+                                            if (value)
+                                              {Get.toNamed(RouteHandler.LOGIN)}
+                                          });
                                 } else {
-                                  Get.find<AccountViewModel>().processSignOut();
+                                  Get.toNamed(RouteHandler.ORDER);
                                 }
                               },
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                      userModel == null
-                                          ? "Đăng nhập"
-                                          : 'Đăng xuất',
-                                      style: Get.textTheme.bodyMedium?.copyWith(
-                                          fontWeight: FontWeight.bold)),
-                                  Icon(userModel == null
-                                      ? Icons.login_outlined
-                                      : Icons.logout_outlined)
-                                ],
+                              child: Container(
+                                margin: const EdgeInsets.all(8),
+                                padding: const EdgeInsets.all(4),
+                                height: 100,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(16),
+                                  color: Colors.white,
+                                ),
+                                child: Stack(
+                                  children: [
+                                    Align(
+                                        alignment: Alignment.topLeft,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Icon(
+                                            Icons.history_outlined,
+                                            color: ThemeColor.primary,
+                                            size: 40,
+                                          ),
+                                        )),
+                                    Align(
+                                      alignment: Alignment.bottomLeft,
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            bottom: 10, left: 10),
+                                        child: Text('Lịch sử đơn hàng',
+                                            style: Get.textTheme.bodyMedium
+                                                ?.copyWith(
+                                                    fontWeight:
+                                                        FontWeight.bold)),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: GestureDetector(
+                              onTap: () {
+                                if (userModel == null) {
+                                  showConfirmDialog(
+                                          title: "Người dùng chưa đăng nhập",
+                                          content:
+                                              "Vui lòng đăng nhập để đặt đơn và nhận ưu đãi nhé",
+                                          confirmText: "Đăng nhập")
+                                      .then((value) => {
+                                            if (value)
+                                              {Get.toNamed(RouteHandler.LOGIN)}
+                                          });
+                                } else {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          const UpdateProfilePage(),
+                                    ),
+                                  );
+                                }
+                              },
+                              child: Container(
+                                margin: const EdgeInsets.all(8),
+                                padding: const EdgeInsets.all(4),
+                                height: 100,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(13),
+                                  color: Colors.white,
+                                ),
+                                child: Stack(
+                                  children: [
+                                    Align(
+                                        alignment: Alignment.topLeft,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Icon(
+                                            Icons.person_outline,
+                                            color: ThemeColor.primary,
+                                            size: 40,
+                                          ),
+                                        )),
+                                    Align(
+                                      alignment: Alignment.bottomLeft,
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            bottom: 10, left: 10),
+                                        child: Text('Thông tin cá nhân',
+                                            style: Get.textTheme.bodyMedium
+                                                ?.copyWith(
+                                                    fontWeight:
+                                                        FontWeight.bold)),
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
                         ],
                       ),
-                    ),
-                  )
-                ],
-              ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            child: GestureDetector(
+                              onTap: () {
+                                if (userModel == null) {
+                                  showConfirmDialog(
+                                          title: "Người dùng chưa đăng nhập",
+                                          content:
+                                              "Vui lòng đăng nhập để đặt đơn và nhận ưu đãi nhé",
+                                          confirmText: "Đăng nhập")
+                                      .then((value) => {
+                                            if (value)
+                                              {Get.toNamed(RouteHandler.LOGIN)}
+                                          });
+                                } else {
+                                  Get.toNamed(RouteHandler.TRANSACTIONS);
+                                }
+                              },
+                              child: Container(
+                                margin: const EdgeInsets.all(8),
+                                padding: const EdgeInsets.all(4),
+                                height: 100,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(16),
+                                  color: Colors.white,
+                                ),
+                                child: Stack(
+                                  children: [
+                                    Align(
+                                        alignment: Alignment.topLeft,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Icon(
+                                            Icons.query_stats_outlined,
+                                            color: ThemeColor.primary,
+                                            size: 40,
+                                          ),
+                                        )),
+                                    Align(
+                                      alignment: Alignment.bottomLeft,
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            bottom: 10, left: 10),
+                                        child: Text('Lịch sử giao dịch',
+                                            style: Get.textTheme.bodyMedium
+                                                ?.copyWith(
+                                                    fontWeight:
+                                                        FontWeight.bold)),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: GestureDetector(
+                              onTap: () {
+                                if (userModel == null) {
+                                  showConfirmDialog(
+                                          title: "Người dùng chưa đăng nhập",
+                                          content:
+                                              "Vui lòng đăng nhập để đặt đơn và nhận ưu đãi nhé",
+                                          confirmText: "Đăng nhập")
+                                      .then((value) => {
+                                            if (value)
+                                              {Get.toNamed(RouteHandler.LOGIN)}
+                                          });
+                                } else {
+                                  showAlertDialog(
+                                      content: "Tính năng đang phát triển");
+                                }
+                              },
+                              child: Container(
+                                margin: const EdgeInsets.all(8),
+                                height: 100,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(13),
+                                  color: Colors.white,
+                                ),
+                                child: Stack(
+                                  children: [
+                                    Align(
+                                        alignment: Alignment.topLeft,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Icon(
+                                            Icons.credit_card_outlined,
+                                            color: ThemeColor.primary,
+                                            size: 40,
+                                          ),
+                                        )),
+                                    Align(
+                                      alignment: Alignment.bottomLeft,
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            bottom: 10, left: 10),
+                                        child: Text('Danh sách thẻ',
+                                            style: Get.textTheme.bodyMedium
+                                                ?.copyWith(
+                                                    fontWeight:
+                                                        FontWeight.bold)),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8),
+                        child: Container(
+                          width: Get.width,
+                          padding: const EdgeInsets.all(16),
+                          decoration: const BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(13)),
+                            //   border: Border.all(
+                            // color: Colors.grey, // Màu của đường viền nếu cần
+
+                            //   ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.white, // Màu của bóng đổ
+                                offset: Offset(0, 0.5),
+                              ),
+                            ],
+                          ),
+                          child: Column(
+                            children: [
+                              SizedBox(
+                                height: 50,
+                                child: InkWell(
+                                  onTap: () {
+                                    Get.toNamed(RouteHandler.STORES);
+                                  },
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text('Danh sách cửa hàng',
+                                          style: Get.textTheme.bodyMedium
+                                              ?.copyWith(
+                                                  fontWeight: FontWeight.bold)),
+                                      const Icon(Icons.store_outlined)
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              const Divider(),
+                              SizedBox(
+                                height: 50,
+                                child: InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => Location()),
+                                    );
+                                  },
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text('Địa chỉ đã lưu',
+                                          style: Get.textTheme.bodyMedium
+                                              ?.copyWith(
+                                                  fontWeight: FontWeight.bold)),
+                                      const Icon(Icons.location_on_outlined)
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              const Divider(),
+                              SizedBox(
+                                height: 50,
+                                child: InkWell(
+                                  onTap: () {
+                                    showAlertDialog(
+                                        content: "Tính năng đang phát triển");
+                                  },
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text('Cài đặt',
+                                          style: Get.textTheme.bodyMedium
+                                              ?.copyWith(
+                                                  fontWeight: FontWeight.bold)),
+                                      const Icon(Icons.settings_outlined)
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              const Divider(),
+                              SizedBox(
+                                height: 50,
+                                child: InkWell(
+                                  onTap: () {
+                                    Get.toNamed(RouteHandler.POLICY);
+                                  },
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text('Điều khoản sử dụng',
+                                          style: Get.textTheme.bodyMedium
+                                              ?.copyWith(
+                                                  fontWeight: FontWeight.bold)),
+                                      const Icon(Icons.policy_outlined)
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              const Divider(),
+                              SizedBox(
+                                height: 50,
+                                child: InkWell(
+                                  onTap: () {
+                                    if (userModel == null) {
+                                      Get.toNamed(RouteHandler.LOGIN);
+                                    } else {
+                                      Get.find<AccountViewModel>()
+                                          .processSignOut();
+                                    }
+                                  },
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                          userModel == null
+                                              ? "Đăng nhập"
+                                              : 'Đăng xuất',
+                                          style: Get.textTheme.bodyMedium
+                                              ?.copyWith(
+                                                  fontWeight: FontWeight.bold)),
+                                      Icon(userModel == null
+                                          ? Icons.login_outlined
+                                          : Icons.logout_outlined)
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
+          );
+        }),
       ),
     );
   }

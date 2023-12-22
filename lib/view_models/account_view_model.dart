@@ -8,8 +8,6 @@ import 'package:deer_coffee/widgets/other_dialogs/dialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
-
-import '../api/pointify/pointify_data.dart';
 import '../models/user.dart';
 import '../utils/route_constrant.dart';
 import '../utils/share_pref.dart';
@@ -19,8 +17,6 @@ class AccountViewModel extends BaseViewModel {
   FirebaseAuth auth = FirebaseAuth.instance;
   UserCredential? userCredential;
   AccountAPI accountAPI = AccountAPI();
-  PointifyData? pointifyData = PointifyData();
-  UserModel? user;
   String? userId;
   UserDetails? memberShipModel;
   String? phoneNumber;
@@ -30,7 +26,6 @@ class AccountViewModel extends BaseViewModel {
   AccountViewModel() {
     auth = FirebaseAuth.instance;
     getToken().then((value) => requestObj.setToken = value);
-    getUserId().then((value) => userId = value);
   }
   Future<void> onLoginWithPhone(String phone) async {
     showLoadingDialog();
@@ -44,18 +39,18 @@ class AccountViewModel extends BaseViewModel {
                 userCredential = value,
               });
           String? token = await auth.currentUser?.getIdToken();
-          await accountAPI.signIn(token ?? '').then((value) => user = value);
-          if (user == null || user?.userInfo == null) {
+          UserModel? user = await accountAPI.signIn(token ?? '');
+          if (user == null || user.userInfo == null) {
             showAlertDialog(
                 title: 'Lỗi đăng nhập',
                 content: user?.message ?? 'Đăng nhập không thành công');
             return;
           } else {
-            requestObj.setToken = user?.accessToken ?? '';
-            await setUserId(user?.userInfo?.id ?? '');
-            await setToken(user!.accessToken ?? '');
-            hideDialog();
+            requestObj.setToken = user.accessToken ?? '';
+            await setToken(user.accessToken ?? '');
+            await getMembershipInfo(user.userInfo?.id ?? '');
             await Get.find<CartViewModel>().getListPromotion();
+            hideDialog();
             await Get.offAllNamed(RouteHandler.HOME);
           }
         } catch (e) {
@@ -96,17 +91,16 @@ class AccountViewModel extends BaseViewModel {
                 userCredential = value,
               });
           String? token = await auth.currentUser?.getIdToken();
-          await accountAPI.signIn(token ?? '').then((value) => user = value);
-          if (user == null || user?.userInfo == null) {
+          UserModel? user = await accountAPI.signIn(token ?? '');
+          if (user == null || user.userInfo == null) {
             showAlertDialog(
                 title: 'Lỗi đăng nhập',
                 content: user?.message ?? 'Đăng nhập không thành công');
             return;
           } else {
             requestObj.setToken = user?.accessToken ?? '';
-
-            await setUserId(user?.userInfo?.id ?? '');
-            await setToken(user!.accessToken ?? '');
+            await setToken(user.accessToken ?? '');
+            await getMembershipInfo(user.userInfo?.id ?? '');
             await Get.find<CartViewModel>().getListPromotion();
             hideDialog();
             await Get.offAllNamed(RouteHandler.HOME);
@@ -146,33 +140,31 @@ class AccountViewModel extends BaseViewModel {
             userCredential = value,
           });
       String? token = await auth.currentUser?.getIdToken();
-      await accountAPI.signIn(token ?? '').then((value) => user = value);
-      if (user == null || user?.userInfo == null) {
+      UserModel? user = await accountAPI.signIn(token ?? '');
+      if (user == null || user.userInfo == null) {
         showAlertDialog(
             title: 'Lỗi đăng nhập',
             content: user?.message ?? 'Đăng nhập không thành công');
         return;
       } else {
-        requestObj.setToken = user?.accessToken ?? '';
-        await setUserId(user?.userInfo?.id ?? '');
-        await setToken(user!.accessToken ?? '');
+        requestObj.setToken = user.accessToken ?? '';
+        await setToken(user.accessToken ?? '');
+        await getMembershipInfo(user.userInfo?.id ?? '');
         await Get.find<CartViewModel>().getListPromotion();
         hideDialog();
         await Get.offAllNamed(RouteHandler.HOME);
       }
     } catch (e) {
       await showAlertDialog(title: "Xảy ra lỗi", content: e.toString());
-      // Get.back();
     }
   }
 
-  Future<void> getMembershipInfo(String? userId) async {
+  Future<void> getMembershipInfo(String id) async {
     try {
       setState(ViewStatus.Loading);
-      await accountAPI
-          .getUserById(userId ?? '')
-          .then((value) => memberShipModel = value);
-
+      await accountAPI.getUserById(id).then((value) => memberShipModel = value);
+      userId = memberShipModel?.id;
+      await setUserId(memberShipModel?.id ?? '');
       setState(ViewStatus.Completed);
     } catch (e) {
       setState(ViewStatus.Completed);
@@ -184,9 +176,7 @@ class AccountViewModel extends BaseViewModel {
     try {
       setState(ViewStatus.Loading);
       String? qr;
-
       await accountAPI.getUserQRCode(userId ?? '').then((value) => qr = value);
-
       setState(ViewStatus.Completed);
       return qr;
     } catch (e) {
@@ -200,7 +190,6 @@ class AccountViewModel extends BaseViewModel {
     var option = await showConfirmDialog();
     if (option == true) {
       showLoadingDialog();
-      user = null;
       userId = null;
       memberShipModel = null;
       await auth.signOut();
@@ -208,6 +197,10 @@ class AccountViewModel extends BaseViewModel {
       await Get.find<StartUpViewModel>().handleStartUpLogic();
       hideDialog();
     }
+  }
+
+  Future<void> refreshUser() async {
+    notifyListeners();
   }
 
   Future<void> updateUser(UserUpdate user, String id) async {
