@@ -7,8 +7,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:dotted_dashed_line/dotted_dashed_line.dart';
+import 'package:deer_coffee/enums/view_status.dart';
+import 'package:deer_coffee/view_models/cart_view_model.dart';
+import '../../utils/route_constrant.dart';
 
-import '../../enums/view_status.dart';
+bool showBalance = true;
 
 class QrScreen extends StatefulWidget {
   const QrScreen({super.key});
@@ -31,6 +35,8 @@ class _QrScreenState extends State<QrScreen> {
     super.initState();
     // Generate QR code data
   }
+
+  
 
   changeQr() {
     switch (_qrCodeType) {
@@ -86,6 +92,7 @@ class _QrScreenState extends State<QrScreen> {
               Get.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
         ),
       ),
+      backgroundColor: Colors.white,
       body: ScopedModel<AccountViewModel>(
         model: Get.find<AccountViewModel>(),
         child: ScopedModelDescendant<AccountViewModel>(
@@ -98,88 +105,252 @@ class _QrScreenState extends State<QrScreen> {
             );
           }
           return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: QrImageView(
-                    data: qrData ?? '',
-                    embeddedImage: const AssetImage(
-                      'assets/images/logo.png',
-                    ),
-                    version: QrVersions.auto,
-                    size: 220.0,
-                  ),
+            child: Container(
+              color: Colors.blue,
+              padding: const EdgeInsets.all(20),
+              child: Container(
+                margin: const EdgeInsets.fromLTRB(0, 50, 0, 50),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
                 ),
-                Row(
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("Tự động cập nhật sau",
-                        style: Get.textTheme.bodySmall),
-                    Text(
-                      ' $_countdown s',
-                      style: Get.textTheme.bodySmall,
+                    const Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("Đưa mã này cho thu ngân"),
+                      ],
                     ),
-                    TextButton(
-                      onPressed: () {
-                        changeQr();
-                      },
-                      child: Text('Cập nhật',
-                          style: Get.textTheme.bodySmall?.copyWith(
-                              color: ThemeColor.primary,
-                              fontWeight: FontWeight.bold)),
+                    Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: QrImageView(
+                        data: qrData ?? '',
+                        embeddedImage: const AssetImage(
+                          'assets/images/logo.png',
+                        ),
+                        version: QrVersions.auto,
+                        size: 220.0,
+                      ),
                     ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: model.memberShipModel!.level!.memberWallet!
-                        .map(
-                          (e) => Container(
-                            padding: const EdgeInsets.all(2),
-                            height: 72,
-                            width: 110,
-                            decoration: BoxDecoration(
-                              border: Border.all(color: ThemeColor.primary),
-                              borderRadius: BorderRadius.circular(16),
-                              color: Colors.white,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("Tự động cập nhật sau",
+                            style: Get.textTheme.bodySmall),
+                        Text(
+                          ' $_countdown s',
+                          style: Get.textTheme.bodySmall,
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            changeQr();
+                          },
+                          child: Text('Cập nhật',
+                              style: Get.textTheme.bodySmall?.copyWith(
+                                  color: ThemeColor.primary,
+                                  fontWeight: FontWeight.bold)),
+                        ),
+                      ],
+                    ),
+                    // Line
+                    const SizedBox(
+                      height: 5,
+                    ),
+
+                    Stack(
+                      alignment: Alignment.centerLeft,
+                      children: [
+                        DottedDashedLine(
+                          height: 0.5,
+                          width: MediaQuery.of(context).size.width,
+                          axis: Axis.horizontal,
+                        ),
+                        Positioned(
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(100),
+                              bottomRight: Radius.circular(100),
                             ),
-                            child: Stack(
-                              children: [
-                                Align(
-                                    alignment: Alignment.topLeft,
-                                    child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Text(e.walletType?.name ?? '',
-                                            style: Get.textTheme.bodyMedium
-                                                ?.copyWith(
-                                                    fontWeight:
-                                                        FontWeight.bold)))),
-                                Align(
-                                  alignment: Alignment.bottomLeft,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(formatPrice(e.balance ?? 0),
-                                        style: Get.textTheme.bodyLarge
-                                            ?.copyWith(
-                                                fontWeight: FontWeight.bold)),
-                                  ),
-                                ),
-                              ],
+                            child: Container(
+                              width: 15,
+                              height: 20,
+                              color: Colors.blue[600],
                             ),
                           ),
-                        )
-                        .toList()),
-              ],
+                        ),
+                        Positioned(
+                          right: 0,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(100),
+                              bottomLeft: Radius.circular(100),
+                            ),
+                            child: Container(
+                              width: 15,
+                              height: 20,
+                              color: Colors.blue[600],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.fromLTRB(30, 0, 0, 0),
+                          child: Text("Ẩn/Hiện"),
+                        ),
+                        IconButton(
+                          icon: Icon(
+                            showBalance
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              showBalance = !showBalance;
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: model.memberShipModel!.level!.memberWallet!
+                          .map(
+                            (e) => Container(
+                              padding: const EdgeInsets.all(2),
+                              height: 72,
+                              width: 140,
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: ThemeColor.blue,
+                                  width: 2.0,
+                                ),
+                                borderRadius: BorderRadius.circular(8),
+                                color: Colors.white,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.3),
+                                    spreadRadius: 2,
+                                    blurRadius: 5,
+                                    offset: Offset(0, 3),
+                                  ),
+                                ],
+                              ),
+                              child: Stack(
+                                children: [
+                                  Align(
+                                    alignment: Alignment.topLeft,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                        e.walletType?.name ?? '',
+                                        style:
+                                            Get.textTheme.bodyMedium?.copyWith(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Align(
+                                    alignment: Alignment.bottomLeft,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: showBalance
+                                          ? Text(
+                                              formatPrice(e.balance ?? 0),
+                                              style: Get.textTheme.bodyLarge
+                                                  ?.copyWith(
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            )
+                                          : Text(
+                                              '*' *
+                                                  (formatPrice(e.balance ?? 0))
+                                                      .length,
+                                              style: Get.textTheme.bodyLarge
+                                                  ?.copyWith(
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )
+                          .toList(),
+                    ),
+                      ScopedModel<CartViewModel>(
+                        model: Get.find<CartViewModel>(),
+                        child: ScopedModelDescendant<CartViewModel>(
+                          builder: (context, child, model) {
+                            var numberOfVoucher = 0;
+                            if (model.status == ViewStatus.Loading) {
+                              return const SizedBox.shrink();
+                            }
+                            if (model.promotionsHasVoucher != null) {
+                              numberOfVoucher = model.promotionsHasVoucher?.length ?? 0;
+                            }
+                            return Container(
+                              margin: const EdgeInsets.fromLTRB(30, 30, 30, 0),
+                              decoration: BoxDecoration(
+                                shape: BoxShape.rectangle,
+                                border: Border.all(
+                                  width: 2,
+                                  color: ThemeColor.primary, // This sets the border color to red
+                                ),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              height: 48,
+                              // width: Get.width*0.7,
+                              child: InkWell(
+                                onTap: () {
+                                  Get.toNamed(RouteHandler.VOUCHER);
+                                },
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    SizedBox(width: 8),
+                                    Icon(
+                                      Icons.confirmation_num_outlined,
+                                      size: 32,
+                                      color: ThemeColor.primary,
+                                    ),
+                                    SizedBox(width: 8),
+                                    Text(
+                                      "Bạn có $numberOfVoucher mã giảm giá",
+                                      style: Get.textTheme.bodyMedium?.copyWith(
+                                        color: ThemeColor.primary,
+                                      ),
+                                    ),
+                                    Icon(
+                                      Icons.arrow_forward_ios_outlined,
+                                      color: ThemeColor.primary,
+                                    )
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+
+                    const SizedBox(
+                      height: 20,
+                    )
+                  ],
+                ),
+              ),
             ),
           );
         }),
-      ),
+        ),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
         child: SegmentedButton<String>(
