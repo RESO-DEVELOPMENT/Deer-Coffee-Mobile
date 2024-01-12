@@ -3,6 +3,7 @@ import 'package:deer_coffee/enums/view_status.dart';
 import 'package:deer_coffee/models/order_in_list.dart';
 import 'package:deer_coffee/utils/format.dart';
 import 'package:deer_coffee/view_models/order_view_model.dart';
+import 'package:deer_coffee/views/profile_screen/transaction_history.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -34,27 +35,16 @@ class _OrderHistoryState extends State<OrderHistory> {
           child: Scaffold(
             appBar: AppBar(
               title: Text(
-                'Đơn Hàng',
+                'Hoạt động',
                 style: Get.textTheme.titleMedium
                     ?.copyWith(fontWeight: FontWeight.bold),
               ),
               centerTitle: true,
               bottom: TabBar(
                 indicatorColor: Get.theme.colorScheme.primary,
-                onTap: (value) {
-                  debugPrint("value: $value");
-                  if (value == 0) {
-                    model.getListOrder(OrderStatusEnum.PENDING);
-                  } else if (value == 1) {
-                    model.getListOrder(OrderStatusEnum.PAID);
-                  } else {
-                    model.getListOrder(OrderStatusEnum.CANCELED);
-                  }
-                },
                 tabs: [
-                  Tab(text: 'Đang xử lý'),
-                  Tab(text: 'Hoàn thành'),
-                  Tab(text: 'Đã huỷ'),
+                  Tab(text: 'Đơn hàng'),
+                  Tab(text: 'Giao dịch'),
                 ],
               ),
               leading: IconButton(
@@ -64,12 +54,18 @@ class _OrderHistoryState extends State<OrderHistory> {
                 },
               ),
             ),
-            body: ListView(
+            body: TabBarView(
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: model.listOrder.map((e) => orderCard(e)).toList(),
-                )
+                ListView(
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children:
+                          model.listOrder.map((e) => orderCard(e)).toList(),
+                    )
+                  ],
+                ),
+                TransactionsHistory(),
               ],
             ),
           ),

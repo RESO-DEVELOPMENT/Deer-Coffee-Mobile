@@ -7,7 +7,6 @@ import 'package:deer_coffee/view_models/order_view_model.dart';
 import 'package:deer_coffee/widgets/other_dialogs/dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -63,7 +62,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                     Get.back();
                   },
                   icon: const Icon(Icons.arrow_back_ios)),
-              title: Text('Chi tiết đơn hàng',
+              title: Text(orderDetails?.invoiceId ?? '',
                   style: Get.textTheme.titleMedium
                       ?.copyWith(fontWeight: FontWeight.bold)),
             ),
@@ -74,7 +73,174 @@ class _OrderDetailsState extends State<OrderDetails> {
                   SliverList(
                     delegate: SliverChildListDelegate(
                       [
-                        Text('Sản phẩm  ',
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              showOrderStatus(orderDetails?.orderStatus ==
+                                      OrderStatusEnum.CANCELED
+                                  ? OrderStatusEnum.CANCELED
+                                  : OrderStatusEnum.PENDING),
+                              style: Get.textTheme.bodyMedium?.copyWith(
+                                color: orderDetails?.orderStatus !=
+                                        OrderStatusEnum.CANCELED
+                                    ? ThemeColor.primary
+                                    : Colors.red,
+                              ),
+                            ),
+                            Text(
+                              showOrderStatus(OrderStatusEnum.PAID),
+                              style: Get.textTheme.bodyMedium?.copyWith(
+                                color: orderDetails?.orderStatus !=
+                                        OrderStatusEnum.CANCELED
+                                    ? ((orderDetails?.orderStatus ==
+                                            OrderStatusEnum.PAID)
+                                        ? ThemeColor.primary
+                                        : Colors.grey)
+                                    : Colors.grey,
+                              ),
+                            ),
+                            Text(
+                              showUserDeiliStatus(DeliStatusEnum.DELIVERING),
+                              style: Get.textTheme.bodyMedium?.copyWith(
+                                color: orderDetails?.orderStatus !=
+                                        OrderStatusEnum.CANCELED
+                                    ? ((orderDetails?.customerInfo
+                                                    ?.deliStatus ==
+                                                DeliStatusEnum.DELIVERING ||
+                                            orderDetails?.customerInfo
+                                                    ?.deliStatus ==
+                                                DeliStatusEnum.DELIVERED)
+                                        ? ThemeColor.primary
+                                        : Colors.grey)
+                                    : Colors.grey,
+                              ),
+                            ),
+                            Text(
+                              showUserDeiliStatus(DeliStatusEnum.DELIVERED),
+                              style: Get.textTheme.bodyMedium?.copyWith(
+                                color: orderDetails?.orderStatus !=
+                                        OrderStatusEnum.CANCELED
+                                    ? ((orderDetails
+                                                ?.customerInfo?.deliStatus ==
+                                            DeliStatusEnum.DELIVERED)
+                                        ? ThemeColor.primary
+                                        : Colors.grey)
+                                    : Colors.grey,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.circle,
+                                color: orderDetails?.orderStatus !=
+                                        OrderStatusEnum.CANCELED
+                                    ? ThemeColor.primary
+                                    : Colors.red,
+                              ),
+                              Transform.rotate(
+                                angle: 0 * (3.14159265359 / 180),
+                                child: Container(
+                                  height: 5,
+                                  width: Get.width * 0.2,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(32),
+                                    color: orderDetails?.orderStatus !=
+                                            OrderStatusEnum.CANCELED
+                                        ? ((orderDetails?.orderStatus ==
+                                                OrderStatusEnum.PAID)
+                                            ? ThemeColor.primary
+                                            : Colors.grey)
+                                        : Colors.grey,
+                                  ),
+                                ),
+                              ),
+                              Icon(
+                                Icons.circle,
+                                color: orderDetails?.orderStatus !=
+                                        OrderStatusEnum.CANCELED
+                                    ? ((orderDetails?.orderStatus ==
+                                            OrderStatusEnum.PAID)
+                                        ? ThemeColor.primary
+                                        : Colors.grey)
+                                    : Colors.grey,
+                              ),
+                              Transform.rotate(
+                                angle: 0 * (3.14159265359 / 180),
+                                child: Container(
+                                  height: 5,
+                                  width: Get.width * 0.2,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(32),
+                                    color: orderDetails?.orderStatus !=
+                                            OrderStatusEnum.CANCELED
+                                        ? ((orderDetails?.customerInfo
+                                                        ?.deliStatus ==
+                                                    DeliStatusEnum.DELIVERING ||
+                                                orderDetails?.customerInfo
+                                                        ?.deliStatus ==
+                                                    DeliStatusEnum.DELIVERED)
+                                            ? ThemeColor.primary
+                                            : Colors.grey)
+                                        : Colors.grey,
+                                  ),
+                                ),
+                              ),
+                              Icon(
+                                Icons.circle,
+                                color: orderDetails?.orderStatus !=
+                                        OrderStatusEnum.CANCELED
+                                    ? ((orderDetails?.customerInfo
+                                                    ?.deliStatus ==
+                                                DeliStatusEnum.DELIVERING ||
+                                            orderDetails?.customerInfo
+                                                    ?.deliStatus ==
+                                                DeliStatusEnum.DELIVERED)
+                                        ? ThemeColor.primary
+                                        : Colors.grey)
+                                    : Colors.grey,
+                              ),
+                              Transform.rotate(
+                                angle: 0 * (3.14159265359 / 180),
+                                child: Container(
+                                  height: 5,
+                                  width: Get.width * 0.2,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(32),
+                                    color: orderDetails?.orderStatus !=
+                                            OrderStatusEnum.CANCELED
+                                        ? ((orderDetails?.customerInfo
+                                                    ?.deliStatus ==
+                                                DeliStatusEnum.DELIVERED)
+                                            ? ThemeColor.primary
+                                            : Colors.grey)
+                                        : Colors.grey,
+                                  ),
+                                ),
+                              ),
+                              Icon(
+                                Icons.circle,
+                                color: orderDetails?.orderStatus !=
+                                        OrderStatusEnum.CANCELED
+                                    ? ((orderDetails
+                                                ?.customerInfo?.deliStatus ==
+                                            DeliStatusEnum.DELIVERED)
+                                        ? ThemeColor.primary
+                                        : Colors.grey)
+                                    : Colors.grey,
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        Text('Sản phẩm',
                             style: Get.textTheme.bodyMedium
                                 ?.copyWith(fontWeight: FontWeight.bold)),
                         Column(
@@ -178,6 +344,19 @@ class _OrderDetailsState extends State<OrderDetails> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
+                            Text('Loại đơn hàng',
+                                style: Get.textTheme.bodyMedium),
+                            Text(
+                              showOrderType(orderDetails?.orderType ??
+                                  OrderTypeEnum.EAT_IN),
+                              style: Get.textTheme.bodyMedium,
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
                             Text('Trạng thái', style: Get.textTheme.bodyMedium),
                             Text(
                               showOrderStatus(orderDetails?.orderStatus ??
@@ -237,7 +416,9 @@ class _OrderDetailsState extends State<OrderDetails> {
                     flex: 3,
                     child: ElevatedButton(
                       onPressed: () {
-                        if (orderDetails?.orderStatus == OrderStatusEnum.PAID) {
+                        if (orderDetails?.orderStatus == OrderStatusEnum.PAID &&
+                            orderDetails?.customerInfo?.deliStatus !=
+                                DeliStatusEnum.DELIVERED) {
                           showConfirmDialog(
                                   title: "Thông báo",
                                   content: "Xác nhận đã nhận được hàng",
@@ -253,6 +434,16 @@ class _OrderDetailsState extends State<OrderDetails> {
                                         refreshOrder()
                                       }
                                   });
+                        } else if (orderDetails?.customerInfo?.deliStatus ==
+                            DeliStatusEnum.DELIVERED) {
+                          showAlertDialog(
+                              title: "Thông báo",
+                              content: "Đơn hàng đã được giao thành công");
+                        } else if (orderDetails?.orderStatus ==
+                            OrderStatusEnum.CANCELED) {
+                          showAlertDialog(
+                              title: "Thông báo",
+                              content: "Đơn hàng đã bị huỷ");
                         } else {
                           showAlertDialog(
                               title: "Thông báo",
@@ -260,13 +451,26 @@ class _OrderDetailsState extends State<OrderDetails> {
                         }
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: ThemeColor.primary,
+                        backgroundColor:
+                            orderDetails?.customerInfo?.deliStatus ==
+                                        DeliStatusEnum.DELIVERED ||
+                                    orderDetails?.orderStatus ==
+                                        OrderStatusEnum.CANCELED
+                                ? Colors.white
+                                : ThemeColor.primary,
                       ),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 12),
-                        child: const Text(
+                        child: Text(
                           'Đã nhận hàng',
-                          style: TextStyle(color: Colors.white),
+                          style: TextStyle(
+                            color: orderDetails?.customerInfo?.deliStatus ==
+                                        DeliStatusEnum.DELIVERED ||
+                                    orderDetails?.orderStatus ==
+                                        OrderStatusEnum.CANCELED
+                                ? Colors.grey
+                                : Colors.white,
+                          ),
                         ),
                       ),
                     ),

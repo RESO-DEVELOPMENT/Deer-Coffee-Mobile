@@ -212,7 +212,8 @@ void hideBottomSheet() {
 Future<String?> inputDialog(String title, String hint, String? value,
     {bool isNum = false}) async {
   hideDialog();
-  String? result;
+  String? result = value;
+  TextEditingController controller = TextEditingController(text: value);
   await Get.dialog(AlertDialog(
     backgroundColor: Colors.white,
     surfaceTintColor: Colors.white,
@@ -224,21 +225,20 @@ Future<String?> inputDialog(String title, String hint, String? value,
       keyboardType: isNum ? TextInputType.number : TextInputType.text,
       inputFormatters:
           isNum ? [FilteringTextInputFormatter.digitsOnly] : null, // Only numb
-      controller: TextEditingController(text: value),
+      controller: controller,
       decoration: InputDecoration(hintText: hint),
-      onChanged: (value) {
-        result = value;
-      },
+      onSubmitted: (value) => {},
     ),
     actions: [
       TextButton(
           onPressed: () {
-            Get.back(result: value);
+            Get.back();
           },
           child: const Text('Huỷ')),
       ElevatedButton(
         onPressed: () {
-          Get.back(result: result);
+          result = controller.text;
+          Get.back();
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: ThemeColor.primary,

@@ -19,6 +19,7 @@ import 'home_screen/banner_home.dart';
 import 'home_screen/home_page.dart';
 import 'order.dart';
 import 'orders_screen/menu_screen.dart';
+import 'profile_screen/order_history.dart';
 import 'profile_screen/profile.dart';
 import 'home_page_order_method.dart';
 import 'bottom_sheet_util.dart';
@@ -41,7 +42,7 @@ class _RootScreenState extends State<RootScreen> {
     OrdersScreen(),
     // MenuScreen(),
     // QrScreen(),
-    PromotionsScreen(),
+    OrderHistory(),
     OtherPage(),
   ];
 
@@ -52,7 +53,10 @@ class _RootScreenState extends State<RootScreen> {
         icon: Icon(Icons.coffee_outlined), label: 'Đặt hàng'),
     // BottomNavigationBarItem(icon: Icon(Icons.qr_code), label: 'Quet mã'),
     BottomNavigationBarItem(
-        icon: Icon(Icons.confirmation_number_outlined), label: 'Ưu đãi'),
+        icon: Icon(
+          Icons.history_outlined,
+        ),
+        label: 'Hoạt động'),
     BottomNavigationBarItem(
         icon: Icon(Icons.person_2_outlined), label: 'Tài khoản'),
   ];

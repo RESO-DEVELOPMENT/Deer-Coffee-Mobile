@@ -75,7 +75,10 @@ class MyApp extends StatelessWidget {
             transition: Transition.zoom),
         GetPage(
             name: RouteHandler.OTP,
-            page: () => const MyOtp(),
+            page: () => MyOtp(
+                  phone: Get.parameters['phone'] ?? '',
+                  type: Get.parameters['type'] ?? '',
+                ),
             transition: Transition.zoom),
         GetPage(
             name: RouteHandler.HOME,

@@ -2,6 +2,7 @@ import 'package:deer_coffee/utils/theme.dart';
 import 'package:deer_coffee/view_models/account_view_model.dart';
 import 'package:deer_coffee/views/login/login_otp.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:pinput/pinput.dart';
 
@@ -136,7 +137,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           vertical: 20.0,
                         ),
                         child: Container(
-                          width: 280,
+                          width: 240,
                           decoration: BoxDecoration(
                             border: Border.all(
                               width: 1,
@@ -148,17 +149,20 @@ class _LoginScreenState extends State<LoginScreen> {
                             children: [
                               Container(
                                 padding: EdgeInsets.fromLTRB(16, 4, 4, 4),
-                                width: 60,
-                                child: TextField(
-                                  controller: countrycode,
-                                  decoration: InputDecoration(
-                                    border: InputBorder.none,
-                                  ),
-                                ),
+                                width: 40,
+                                // child: TextField(
+                                //   controller: countrycode,
+                                //   decoration: InputDecoration(
+                                //     border: InputBorder.none,
+                                //   ),
+                                // ),
                               ),
                               Expanded(
                                 child: TextField(
                                   controller: phoneNumber,
+                                  maxLengthEnforcement: MaxLengthEnforcement
+                                      .truncateAfterCompositionEnds,
+                                  enableSuggestions: false,
                                   keyboardType: TextInputType.number,
                                   decoration: InputDecoration(
                                     border: InputBorder.none,
@@ -176,8 +180,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: ElevatedButton(
                           onPressed: () {
                             // Get.toNamed(RouteHandler.OTP);
-                            Get.find<AccountViewModel>().onLoginWithPhone(
-                                countrycode.text + phoneNumber.text);
+                            Get.find<AccountViewModel>()
+                                .checkUser(phoneNumber.text);
                           },
                           child: Text('Đăng nhập',
                               style: Get.textTheme.bodyLarge

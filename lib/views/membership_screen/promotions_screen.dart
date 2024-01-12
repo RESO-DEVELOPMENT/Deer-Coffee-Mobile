@@ -47,7 +47,7 @@ class _PromotionsScreenState extends State<PromotionsScreen> {
           if (model.status == ViewStatus.Loading) {
             return SizedBox(
                 width: Get.width,
-                height: 280,
+                height: 240,
                 child: const Center(child: CircularProgressIndicator()));
           }
 
@@ -59,85 +59,73 @@ class _PromotionsScreenState extends State<PromotionsScreen> {
               children: [
                 Container(
                   width: Get.width,
-                  height: 180,
+                  padding: const EdgeInsets.fromLTRB(8, 60, 8, 8),
                   decoration: BoxDecoration(
                     color: ThemeColor.primary,
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(8, 60, 8, 8),
-                    child: Column(
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text('Hạng thành viên',
-                                      style: Get.textTheme.bodyMedium?.copyWith(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold)),
-                                  Text(model.memberShipModel?.level?.name ?? '',
-                                      style: Get.textTheme.bodyLarge?.copyWith(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold)),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text('Hạng thành viên',
+                                    style: Get.textTheme.bodyMedium?.copyWith(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold)),
+                                Text(model.memberShipModel?.level?.name ?? '',
+                                    style: Get.textTheme.bodyLarge?.copyWith(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold)),
+                              ],
+                            ),
+                            ElevatedButton(
+                              onPressed: () {
+                                Get.toNamed(RouteHandler.VOUCHER);
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.white,
+                              ),
+                              child: Row(
+                                children: <Widget>[
+                                  const Icon(
+                                    Icons.confirmation_number,
+                                    color: Colors.blueAccent,
+                                  ),
+                                  const SizedBox(
+                                    width: 4,
+                                  ),
+                                  Text(
+                                    'Khuyến mãi',
+                                    style: Get.textTheme.bodyMedium
+                                        ?.copyWith(color: Colors.blueAccent),
+                                  ),
                                 ],
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(right: 8.0),
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    Get.toNamed(RouteHandler.VOUCHER);
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.white,
-                                  ),
-                                  child: Row(
-                                    children: <Widget>[
-                                      const Icon(
-                                        Icons.confirmation_number,
-                                        color: Colors.blueAccent,
-                                      ),
-                                      const SizedBox(
-                                        width: 4,
-                                      ),
-                                      Text(
-                                        'Khuyến mãi',
-                                        style: Get.textTheme.bodyMedium
-                                            ?.copyWith(
-                                                color: Colors.blueAccent),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                        const SizedBox(
-                          height: 16,
-                        ),
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children:
-                                model.memberShipModel!.level!.memberWallet!
-                                    .map((e) => Text(
-                                          '${e.walletType?.name ?? ''}: ${formatPrice(e.balance ?? 0)}',
-                                          style: Get.textTheme.titleMedium
-                                              ?.copyWith(
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.bold),
-                                        ))
-                                    .toList()),
-                      ],
-                    ),
+                      ),
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: model.memberShipModel!.level!.memberWallet!
+                              .map((e) => Text(
+                                    '${e.walletType?.name ?? ''}: ${formatPrice(e.balance ?? 0)}',
+                                    style: Get.textTheme.titleMedium?.copyWith(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold),
+                                  ))
+                              .toList()),
+                    ],
                   ),
                 ),
+                // buildMemberLevelProcess(),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Column(
@@ -313,6 +301,29 @@ class _PromotionsScreenState extends State<PromotionsScreen> {
                     ?.copyWith(fontWeight: FontWeight.bold)),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget buildMemberLevelProcess() {
+    return Container(
+      height: 10,
+      child: Row(
+        children: [
+          // Background progress bar
+          const LinearProgressIndicator(
+            value: 1,
+            backgroundColor: Colors.grey,
+            valueColor: AlwaysStoppedAnimation<Color>(Colors.grey),
+          ),
+          // Active progress bar with circle points
+          Icon(Icons.dew_point),
+          const LinearProgressIndicator(
+            value: 1,
+            backgroundColor: Colors.grey,
+            valueColor: AlwaysStoppedAnimation<Color>(Colors.grey),
+          ),
+        ],
       ),
     );
   }

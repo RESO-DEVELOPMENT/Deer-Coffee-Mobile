@@ -2,6 +2,7 @@ import 'package:deer_coffee/enums/view_status.dart';
 import 'package:deer_coffee/utils/format.dart';
 import 'package:deer_coffee/utils/theme.dart';
 import 'package:deer_coffee/view_models/cart_view_model.dart';
+import 'package:deer_coffee/view_models/menu_view_model.dart';
 import 'package:deer_coffee/views/order_confirmation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -53,22 +54,56 @@ class _CartScreenState extends State<CartScreen> {
           }
           return ListView(
             children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  showOrderType(
-                      model.cart.orderType ?? 'Vui lòng chọn địa chỉ'),
-                  style: Get.textTheme.bodyMedium
-                      ?.copyWith(fontWeight: FontWeight.w500),
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: Text(
+                      showOrderType(
+                          model.cart.orderType ?? 'Vui lòng chọn địa chỉ'),
+                      style: Get.textTheme.bodyMedium
+                          ?.copyWith(fontWeight: FontWeight.w500),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 36,
+                    child: TextButton(
+                        onPressed: () {
+                          if (model.cart.orderType == OrderTypeEnum.EAT_IN) {
+                            inputDialog(
+                                    "Giao hàng đến",
+                                    "Vui lòng nhập địa chỉ",
+                                    model.cart.deliveryAddress,
+                                    isNum: false)
+                                .then((value) => {
+                                      if (value != null)
+                                        {
+                                          model.setAddress(value),
+                                        }
+                                    });
+                            model.setOrderType(OrderTypeEnum.DELIVERY);
+                          } else {
+                            showSelectStore();
+                          }
+                        },
+                        child: Text(
+                          "Thay đổi",
+                          style: Get.textTheme.bodyMedium
+                              ?.copyWith(color: ThemeColor.primary),
+                        )),
+                  )
+                ],
               ),
               InkWell(
                 onTap: () {
                   if (model.cart.orderType == OrderTypeEnum.DELIVERY) {
                     inputDialog("Giao hàng đến", "Vui lòng nhập địa chỉ",
-                            model.deliAddress,
+                            model.cart.deliveryAddress,
                             isNum: false)
-                        .then((value) => model.setAddress(value ?? ''));
+                        .then((value) => {
+                              if (value != null) {model.setAddress(value)}
+                            });
                   } else {
                     showSelectStore();
                   }
@@ -84,8 +119,13 @@ class _CartScreenState extends State<CartScreen> {
                         Icon(Icons.location_on),
                         Expanded(
                           child: Text(
-                            model.deliAddress ??
-                                "Vui lòng chọn địa chỉ nhận hàng",
+                            model.cart.orderType == OrderTypeEnum.DELIVERY
+                                ? (model.cart.deliveryAddress ??
+                                    "Vui lòng chọn địa chỉ nhận hàng")
+                                : (Get.find<MenuViewModel>()
+                                        .selectedStore
+                                        ?.name ??
+                                    ''),
                             maxLines: 2,
                             style: Get.textTheme.bodySmall,
                             overflow: TextOverflow.ellipsis,
@@ -333,13 +373,14 @@ class _CartScreenState extends State<CartScreen> {
                           padding: const EdgeInsets.fromLTRB(8, 0, 0, 0),
                           child: ElevatedButton(
                             onPressed: () {
-                              if (model.deliAddress == null) {
-                                showAlertDialog(
-                                    title: "Chọn địa chỉ",
-                                    content: "Vui lòng chọn địa chỉ nhận hàng");
-                              } else {
-                                model.createOrder();
-                              }
+                              // if (model.deliAddress == null) {
+                              //   showAlertDialog(
+                              //       title: "Chọn địa chỉ",
+                              //       content: "Vui lòng chọn địa chỉ nhận hàng");
+                              // } else {
+                              //   model.createOrder();
+                              // }
+                              model.createOrder();
                             },
                             style: ElevatedButton.styleFrom(
                               shape: RoundedRectangleBorder(

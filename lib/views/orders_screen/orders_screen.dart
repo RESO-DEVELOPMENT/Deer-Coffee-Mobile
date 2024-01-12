@@ -2,6 +2,7 @@ import 'package:deer_coffee/models/collection.dart';
 import 'package:deer_coffee/utils/format.dart';
 import 'package:deer_coffee/view_models/menu_view_model.dart';
 import 'package:deer_coffee/views/orders_screen/product_details.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -17,6 +18,7 @@ import '../../view_models/account_view_model.dart';
 import '../../view_models/cart_view_model.dart';
 import '../../widgets/app_bar/user_app_bar.dart';
 import '../../widgets/other_dialogs/dialog.dart';
+import '../bottom_sheet_util.dart';
 import 'product_card.dart';
 import '../home_screen/home_page.dart';
 
@@ -73,72 +75,82 @@ class _OrdersScreenState extends State<OrdersScreen> {
         model: Get.find<MenuViewModel>(),
         child: CustomScrollView(
           slivers: [
-            ScopedModel<AccountViewModel>(
-              model: Get.find<AccountViewModel>(),
-              child: SliverAppBar(
-                floating: true,
-                pinned: true,
-                title: ScopedModelDescendant<AccountViewModel>(
-                    builder: (context, build, model) {
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Row(
-                        children: [
-                          Column(
+            SliverAppBar(
+              floating: true,
+              backgroundColor: ThemeColor.primary,
+              pinned: true,
+              title: ScopedModelDescendant<MenuViewModel>(
+                  builder: (context, build, model) {
+                return Container(
+                  width: Get.width,
+                  child: Row(children: [
+                    Icon(
+                      Icons.location_on,
+                      color: Colors.white,
+                    ),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Expanded(
+                        child: InkWell(
+                      onTap: () => {showSelectStore()},
+                      child: Padding(
+                        padding: EdgeInsets.all(8),
+                        child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("Chào ngày mới!",
-                                  style: Get.textTheme.bodyMedium),
-                              Text(model.memberShipModel?.fullName ?? '',
-                                  style: Get.textTheme.bodyLarge
-                                      ?.copyWith(fontWeight: FontWeight.bold)),
-                            ],
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Container(
-                            width: 55,
-                            height: 40,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.rectangle,
-                              borderRadius: BorderRadius.circular(12),
-                              color: ThemeColor.primary,
-                            ),
-                            child: IconButton(
-                              icon: const Icon(
-                                Icons.confirmation_num_outlined,
-                                color: Colors.white,
+                              Text(
+                                "${model.selectedStore!.name}",
+                                style: Get.textTheme.bodyMedium
+                                    ?.copyWith(color: Colors.white),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
                               ),
-                              onPressed: () {
-                                Get.toNamed(RouteHandler.VOUCHER);
-                              },
-                            ),
-                          ),
-                          Container(
-                            width: 50,
-                            height: 40,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: ThemeColor.primary,
-                            ),
-                            child: IconButton(
-                              icon: Icon(
-                                Icons.notifications_outlined,
-                                color: Colors.white,
-                              ),
-                              onPressed: () {},
-                            ),
-                          ),
-                        ],
+                              Row(children: [
+                                Flexible(
+                                  child: Text(
+                                    model.selectedStore?.address ?? '',
+                                    style: Get.textTheme.bodySmall
+                                        ?.copyWith(color: Colors.white),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                                const Icon(
+                                  Icons.expand_more,
+                                  color: Colors.white,
+                                  size: 18,
+                                ),
+                              ]),
+                            ]),
                       ),
-                    ],
-                  );
-                }),
-              ),
+                    )),
+                    InkWell(
+                        child: Stack(children: [
+                          Icon(
+                            CupertinoIcons.bell,
+                            size: 25,
+                            color: Colors.white,
+                          ),
+                          Positioned(
+                              top: 0,
+                              right: 0,
+                              child: Container(
+                                  height: 10,
+                                  width: 10,
+                                  decoration: BoxDecoration(
+                                    color: Theme.of(context).primaryColor,
+                                    shape: BoxShape.circle,
+                                    border: Border.all(
+                                      width: 1,
+                                      color: Colors.white,
+                                    ),
+                                  )))
+                        ]),
+                        onTap: () => {}),
+                  ]),
+                );
+              }),
             ),
             SliverList.list(
               children: [

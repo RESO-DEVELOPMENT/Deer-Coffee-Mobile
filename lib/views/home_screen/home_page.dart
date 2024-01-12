@@ -56,7 +56,7 @@ class _HomePageState extends State<HomePage> {
                       options: CarouselOptions(
                         scrollPhysics: const BouncingScrollPhysics(),
                         viewportFraction: 1,
-                        aspectRatio: 9.3 / 10,
+                        aspectRatio: 8.5 / 10,
                         autoPlay: true,
                         enlargeCenterPage: true,
                         pageSnapping: true,
@@ -103,7 +103,7 @@ class _HomePageState extends State<HomePage> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(bottom: 16, top: 24),
+                        padding: const EdgeInsets.only(top: 16),
                         child: Transform.rotate(
                           angle: 0 * (3.14159265359 / 180),
                           child: Container(
@@ -117,7 +117,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                       Container(
-                        margin: EdgeInsets.all(16),
+                        margin: const EdgeInsets.all(16),
                         width: Get.width,
                         height: 60,
                         decoration: BoxDecoration(
@@ -139,7 +139,9 @@ class _HomePageState extends State<HomePage> {
                                 onTap: () {
                                   Get.find<CartViewModel>()
                                       .setOrderType(OrderTypeEnum.EAT_IN);
-                                  showSelectStore();
+                                  Get.offAndToNamed(
+                                    "${RouteHandler.HOME}?idx=${1}",
+                                  );
                                 },
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -172,8 +174,10 @@ class _HomePageState extends State<HomePage> {
 
                                   inputDialog(
                                           "Giao hàng",
-                                          "Vui lòng nhập địa chỉ",
-                                          Get.find<CartViewModel>().deliAddress,
+                                          "Vui lòng nhập địa chỉ nhận hàng",
+                                          Get.find<CartViewModel>()
+                                              .cart
+                                              .deliveryAddress,
                                           isNum: false)
                                       .then((value) => Get.find<CartViewModel>()
                                           .setAddress(value));
@@ -374,16 +378,16 @@ class _HomePageState extends State<HomePage> {
             numberOfVoucher = model.promotionsHasVoucher?.length ?? 0;
           }
           return Container(
-            margin: EdgeInsets.all(16),
+            margin: const EdgeInsets.fromLTRB(16, 0, 16, 0),
             decoration: BoxDecoration(
               shape: BoxShape.rectangle,
               border: Border.all(
                 width: 2,
                 color: ThemeColor.primary, // This sets the border color to red
               ),
-              borderRadius: BorderRadius.circular(13),
+              borderRadius: BorderRadius.circular(12),
             ),
-            height: 52,
+            height: 48,
             child: InkWell(
                 onTap: () {
                   Get.toNamed(RouteHandler.VOUCHER);
@@ -435,41 +439,43 @@ class _HomePageState extends State<HomePage> {
           }
           if (model.userId != null) {
             return buildVoucherSection();
-          }
-          return Container(
-            margin: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              shape: BoxShape.rectangle,
-              border: Border.all(
-                width: 2,
-                color: ThemeColor.primary, // This sets the border color to red
+          } else {
+            return Container(
+              margin: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+              decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                border: Border.all(
+                  width: 2,
+                  color:
+                      ThemeColor.primary, // This sets the border color to red
+                ),
+                borderRadius: BorderRadius.circular(16),
               ),
-              borderRadius: BorderRadius.circular(13),
-            ),
-            height: 52,
-            padding: const EdgeInsets.all(8),
-            child: InkWell(
-                onTap: () {
-                  Get.toNamed(RouteHandler.LOGIN);
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Đăng nhập ngay để tận hưởng ưu đãi nhé !",
-                      maxLines: 2,
-                      style: Get.textTheme.bodyMedium?.copyWith(
-                        color: ThemeColor.primary,
+              height: 52,
+              padding: const EdgeInsets.all(8),
+              child: InkWell(
+                  onTap: () {
+                    Get.toNamed(RouteHandler.LOGIN);
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Đăng nhập ngay để tận hưởng ưu đãi nhé !",
+                        maxLines: 2,
+                        style: Get.textTheme.bodyMedium?.copyWith(
+                          color: ThemeColor.primary,
+                        ),
                       ),
-                    ),
-                    Icon(
-                      Icons.arrow_forward_ios_outlined,
-                      color: ThemeColor.primary,
-                    )
-                  ],
-                )),
-          );
+                      Icon(
+                        Icons.arrow_forward_ios_outlined,
+                        color: ThemeColor.primary,
+                      )
+                    ],
+                  )),
+            );
+          }
         },
       ),
     );

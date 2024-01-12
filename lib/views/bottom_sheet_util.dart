@@ -1,3 +1,4 @@
+import 'package:deer_coffee/enums/order_enum.dart';
 import 'package:deer_coffee/view_models/cart_view_model.dart';
 import 'package:deer_coffee/view_models/menu_view_model.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +9,6 @@ import '../enums/view_status.dart';
 import '../utils/route_constrant.dart';
 
 Future<void> showSelectStore() async {
-  await Get.find<MenuViewModel>().getListStore();
   Get.bottomSheet(ScopedModel<MenuViewModel>(
     model: Get.find<MenuViewModel>(),
     child:
@@ -30,7 +30,7 @@ Future<void> showSelectStore() async {
                 const Expanded(
                   child: Center(
                     child: Text(
-                      'Chọn địa chỉ',
+                      'Chọn cửa hàng',
                       style:
                           TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
@@ -54,13 +54,13 @@ Future<void> showSelectStore() async {
                   children: model.storeList!
                       .map((e) => InkWell(
                             onTap: () {
-                              Get.find<CartViewModel>().setStore(e);
+                              model.setStore(e);
                               Get.find<CartViewModel>()
-                                  .setAddress('${e.address}');
+                                  .setOrderType(OrderTypeEnum.EAT_IN);
                               Get.back();
                             },
                             child: Container(
-                              margin: EdgeInsets.only(top: 8),
+                              margin: const EdgeInsets.only(top: 8),
                               width: Get.width,
                               height: 110,
                               padding: const EdgeInsets.all(8),

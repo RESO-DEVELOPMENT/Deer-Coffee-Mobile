@@ -23,6 +23,7 @@ class MenuViewModel extends BaseViewModel {
   List<Product>? productsFilter = [];
 
   List<StoreModel>? storeList = [];
+  StoreModel? selectedStore;
   List<BlogModel>? blogList = [];
   MenuViewModel() {
     menuAPI = MenuAPI();
@@ -32,7 +33,7 @@ class MenuViewModel extends BaseViewModel {
   Future<void> getMenuOfBrand() async {
     try {
       setState(ViewStatus.Loading);
-      currentMenu = await menuAPI?.getBrandMenu();
+      currentMenu = await menuAPI?.getBrandMenu(selectedStore?.id ?? '');
       categories = currentMenu?.categories!
           .where((element) => element.type == CategoryTypeEnum.Normal)
           .toList();
@@ -54,7 +55,7 @@ class MenuViewModel extends BaseViewModel {
       productsFilter
           ?.sort((a, b) => b.displayOrder!.compareTo(a.displayOrder!));
       await getListBlog();
-      await getListStore();
+
       setState(ViewStatus.Completed);
     } catch (e) {
       setState(ViewStatus.Error, e.toString());
@@ -64,7 +65,14 @@ class MenuViewModel extends BaseViewModel {
   Future getListStore() async {
     setState(ViewStatus.Loading);
     storeList = await menuAPI?.getListStore();
-    Get.find<CartViewModel>().setStore(storeList![0]);
+    selectedStore = storeList![0];
+    setState(ViewStatus.Completed);
+  }
+
+  Future<void> setStore(StoreModel store) async {
+    setState(ViewStatus.Loading);
+    selectedStore = store;
+    await getMenuOfBrand();
     setState(ViewStatus.Completed);
   }
 

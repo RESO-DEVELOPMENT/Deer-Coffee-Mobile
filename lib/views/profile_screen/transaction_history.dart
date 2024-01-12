@@ -30,14 +30,6 @@ class _TransactionsHistoryState extends State<TransactionsHistory> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "Lịch sử giao dịch",
-          style:
-              Get.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
-        ),
-        centerTitle: true,
-      ),
       body: ScopedModel<OrderViewModel>(
         model: model,
         child: ScopedModelDescendant<OrderViewModel>(

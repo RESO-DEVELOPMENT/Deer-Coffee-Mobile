@@ -16,6 +16,7 @@ class StartUpViewModel extends BaseViewModel {
     if (userId != null) {
       await Get.find<AccountViewModel>().getMembershipInfo(userId);
     }
+    await Get.find<MenuViewModel>().getListStore();
     await Get.find<MenuViewModel>().getMenuOfBrand();
     await Get.offAllNamed(RouteHandler.HOME);
   }

@@ -1,3 +1,5 @@
+import 'package:deer_coffee/view_models/menu_view_model.dart';
+
 import '../enums/promotion_enums.dart';
 import '../models/pointify/voucher_model.dart';
 import '../models/store.dart';
@@ -29,8 +31,6 @@ class CartViewModel extends BaseViewModel {
   List<PromotionPointify>? promotionsHasVoucher = [];
   List<PromotionPointify>? promotionsUsingPromotionCode = [];
   List<VoucherModel>? listUserVoucher = [];
-  StoreModel? selectedStore;
-  String? deliAddress;
   CartViewModel() {
     cart.orderType = OrderTypeEnum.EAT_IN;
     cart.productList = [];
@@ -40,6 +40,7 @@ class CartViewModel extends BaseViewModel {
     cart.finalAmount = 0;
     cart.bonusPoint = 0;
     cart.shippingFee = 0;
+    cart.deliveryAddress = null;
   }
 
   Future<void> getListPromotion() async {
@@ -127,6 +128,7 @@ class CartViewModel extends BaseViewModel {
     cart.promotionList = [];
     cart.promotionCode = null;
     cart.voucherCode = null;
+    cart.deliveryAddress = null;
     notifyListeners();
   }
 
@@ -164,12 +166,15 @@ class CartViewModel extends BaseViewModel {
 
   Future<bool> prepareOrder() async {
     String? userId = await getUserId();
+    StoreModel? store = Get.find<MenuViewModel>().selectedStore;
+    if (store == null) {
+      await Get.find<MenuViewModel>().getListStore();
+    }
     cart.paymentType = PaymentTypeEnums.CASH;
-    cart.storeId = selectedStore?.id ?? '';
+    cart.storeId = store?.id ?? '';
     cart.customerId = userId;
     cart.discountAmount = 0;
     cart.finalAmount = cart.totalAmount;
-    cart.deliveryAddress = deliAddress;
     for (var element in cart.productList!) {
       element.discount = 0;
       element.finalAmount = element.totalAmount;
@@ -184,18 +189,15 @@ class CartViewModel extends BaseViewModel {
   }
 
   void setAddress(String? address) {
-    deliAddress = address;
+    cart.deliveryAddress = address;
     notifyListeners();
   }
 
   void setOrderType(String? type) {
     cart.orderType = type;
-    notifyListeners();
-  }
-
-  void setStore(StoreModel store) {
-    selectedStore = store;
-    deliAddress = store.address;
+    if (type == OrderTypeEnum.EAT_IN) {
+      cart.deliveryAddress = null;
+    }
     notifyListeners();
   }
 

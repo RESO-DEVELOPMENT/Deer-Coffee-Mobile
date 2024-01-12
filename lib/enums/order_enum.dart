@@ -56,7 +56,7 @@ String showOrderStatus(String status) {
     case OrderStatusEnum.CANCELED:
       return 'Đã huỷ';
     case OrderStatusEnum.PAID:
-      return 'Hoành thành';
+      return 'Hoàn thành món';
     default:
       return 'Đang xử lý';
   }

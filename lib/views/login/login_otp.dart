@@ -8,7 +8,9 @@ import 'package:pinput/pinput.dart';
 import '../../utils/theme.dart';
 
 class MyOtp extends StatefulWidget {
-  const MyOtp({super.key});
+  final String type;
+  final String phone;
+  const MyOtp({super.key, required this.phone, required this.type});
 
   @override
   State<MyOtp> createState() => _MyOtpState();
@@ -130,7 +132,11 @@ class _MyOtpState extends State<MyOtp> {
                           // child: Image.asset("assets/login.png"),
                         ),
                         Text(
-                          "Xác Nhận Mã OTP",
+                          widget.type == "RESETPASS"
+                              ? "Cập nhật mã PIN"
+                              : widget.type == "SIGNIN"
+                                  ? "Xác Nhận Mã PIN"
+                                  : "Tạo mã PIN",
                           style: Get.textTheme.titleLarge?.copyWith(
                             fontWeight: FontWeight.bold,
                             color: Colors.black,
@@ -144,7 +150,7 @@ class _MyOtpState extends State<MyOtp> {
                             children: [
                               TextSpan(
                                 text:
-                                    "Một mã otp gồm 6 số đã gửi đến số điện thoại $phoneNumber",
+                                    "Mã pin là mật gồm 6 số dùng để đăng nhập với số điện thoại ${widget.phone}",
                                 style: Get.textTheme.bodyMedium,
                               ),
                             ],
@@ -185,8 +191,10 @@ class _MyOtpState extends State<MyOtp> {
                           child: ElevatedButton(
                             onPressed: () {
                               if (pinController?.text.length == 6) {
-                                Get.find<AccountViewModel>()
-                                    .verifyOTPCode(pinController?.text);
+                                Get.find<AccountViewModel>().onLogin(
+                                    widget.phone,
+                                    pinController?.text ?? '213458',
+                                    widget.type);
                               }
                             },
                             style: ElevatedButton.styleFrom(
@@ -195,7 +203,12 @@ class _MyOtpState extends State<MyOtp> {
                                     : ThemeColor.primary,
                                 textStyle: Get.textTheme.titleMedium
                                     ?.copyWith(color: Colors.white)),
-                            child: Text('Gửi mã',
+                            child: Text(
+                                widget.type == "RESETPASS"
+                                    ? "Cập nhật"
+                                    : widget.type == "SIGNIN"
+                                        ? "Đăng nhập"
+                                        : "Đăng kí",
                                 style: Get.textTheme.titleMedium
                                     ?.copyWith(color: Colors.white)),
                           ),
@@ -203,25 +216,25 @@ class _MyOtpState extends State<MyOtp> {
                         const SizedBox(
                           height: 8,
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Text("Bạn không nhận mã?"),
-                            TextButton(
-                              onPressed: () {
-                                if (_countdown == 0) {
-                                  Get.find<AccountViewModel>().resendOtp();
-                                }
-                              },
-                              child: const Text('Gửi lại'),
-                            ),
-                            const Text("sau "),
-                            Text(
-                              '($_countdown)',
-                              style: const TextStyle(color: Colors.black),
-                            ),
-                          ],
-                        )
+                        // Row(
+                        //   mainAxisAlignment: MainAxisAlignment.center,
+                        //   children: [
+                        //     const Text("Bạn không nhận mã?"),
+                        //     TextButton(
+                        //       onPressed: () {
+                        //         if (_countdown == 0) {
+                        //           Get.find<AccountViewModel>().resendOtp();
+                        //         }
+                        //       },
+                        //       child: const Text('Gửi lại'),
+                        //     ),
+                        //     const Text("sau "),
+                        //     Text(
+                        //       '($_countdown)',
+                        //       style: const TextStyle(color: Colors.black),
+                        //     ),
+                        //   ],
+                        // )
                       ],
                     ),
                   ),
