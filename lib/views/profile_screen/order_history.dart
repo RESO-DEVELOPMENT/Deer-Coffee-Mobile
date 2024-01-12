@@ -8,7 +8,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:scoped_model/scoped_model.dart';
 
+import '../../models/user.dart';
 import '../../utils/route_constrant.dart';
+import '../../view_models/account_view_model.dart';
+import '../login/login_card.dart';
 
 class OrderHistory extends StatefulWidget {
   const OrderHistory({Key? key});
@@ -18,8 +21,11 @@ class OrderHistory extends StatefulWidget {
 }
 
 class _OrderHistoryState extends State<OrderHistory> {
+  AccountViewModel model = Get.find<AccountViewModel>();
+  UserDetails? user;
   @override
   void initState() {
+    user = model.memberShipModel;
     Get.find<OrderViewModel>().getListOrder(OrderStatusEnum.PENDING);
     super.initState();
   }
@@ -30,6 +36,16 @@ class _OrderHistoryState extends State<OrderHistory> {
       model: Get.find<OrderViewModel>(),
       child: ScopedModelDescendant<OrderViewModel>(
           builder: (context, build, model) {
+        if (model.status == ViewStatus.Loading) {
+          return SizedBox(
+              width: Get.width,
+              height: 240,
+              child: const Center(child: CircularProgressIndicator()));
+        }
+
+        if (user == null) {
+          return Center(child: LoginCard());
+        }
         return DefaultTabController(
           length: 3,
           child: Scaffold(

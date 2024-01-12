@@ -36,8 +36,6 @@ class _QrScreenState extends State<QrScreen> {
     // Generate QR code data
   }
 
-  
-
   changeQr() {
     switch (_qrCodeType) {
       case "PAYMENT":
@@ -106,7 +104,7 @@ class _QrScreenState extends State<QrScreen> {
           }
           return Center(
             child: Container(
-              color: Colors.blue,
+              color: ThemeColor.primary,
               padding: const EdgeInsets.all(20),
               child: Container(
                 margin: const EdgeInsets.fromLTRB(0, 50, 0, 50),
@@ -166,6 +164,7 @@ class _QrScreenState extends State<QrScreen> {
                           height: 0.5,
                           width: MediaQuery.of(context).size.width,
                           axis: Axis.horizontal,
+                          dashColor: ThemeColor.primary,
                         ),
                         Positioned(
                           child: ClipRRect(
@@ -176,7 +175,7 @@ class _QrScreenState extends State<QrScreen> {
                             child: Container(
                               width: 15,
                               height: 20,
-                              color: Colors.blue[600],
+                              color: ThemeColor.primary,
                             ),
                           ),
                         ),
@@ -190,7 +189,7 @@ class _QrScreenState extends State<QrScreen> {
                             child: Container(
                               width: 15,
                               height: 20,
-                              color: Colors.blue[600],
+                              color: ThemeColor.primary,
                             ),
                           ),
                         ),
@@ -223,7 +222,7 @@ class _QrScreenState extends State<QrScreen> {
                           .map(
                             (e) => Container(
                               padding: const EdgeInsets.all(2),
-                              height: 72,
+                              height: 68,
                               width: 140,
                               decoration: BoxDecoration(
                                 border: Border.all(
@@ -285,61 +284,65 @@ class _QrScreenState extends State<QrScreen> {
                           )
                           .toList(),
                     ),
-                      ScopedModel<CartViewModel>(
-                        model: Get.find<CartViewModel>(),
-                        child: ScopedModelDescendant<CartViewModel>(
-                          builder: (context, child, model) {
-                            var numberOfVoucher = 0;
-                            if (model.status == ViewStatus.Loading) {
-                              return const SizedBox.shrink();
-                            }
-                            if (model.promotionsHasVoucher != null) {
-                              numberOfVoucher = model.promotionsHasVoucher?.length ?? 0;
-                            }
-                            return Container(
-                              margin: const EdgeInsets.fromLTRB(30, 30, 30, 0),
-                              decoration: BoxDecoration(
-                                shape: BoxShape.rectangle,
-                                border: Border.all(
-                                  width: 2,
-                                  color: ThemeColor.primary, // This sets the border color to red
-                                ),
-                                borderRadius: BorderRadius.circular(12),
+                    ScopedModel<CartViewModel>(
+                      model: Get.find<CartViewModel>(),
+                      child: ScopedModelDescendant<CartViewModel>(
+                        builder: (context, child, model) {
+                          var numberOfVoucher = 0;
+                          if (model.status == ViewStatus.Loading) {
+                            return const SizedBox.shrink();
+                          }
+                          if (model.promotionsHasVoucher != null) {
+                            numberOfVoucher =
+                                model.promotionsHasVoucher?.length ?? 0;
+                          }
+                          return Container(
+                            margin: const EdgeInsets.fromLTRB(30, 16, 30, 0),
+                            decoration: BoxDecoration(
+                              shape: BoxShape.rectangle,
+                              border: Border.all(
+                                width: 2,
+                                color: ThemeColor
+                                    .primary, // This sets the border color to red
                               ),
-                              height: 48,
-                              // width: Get.width*0.7,
-                              child: InkWell(
-                                onTap: () {
-                                  Get.toNamed(RouteHandler.VOUCHER);
-                                },
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    SizedBox(width: 8),
-                                    Icon(
-                                      Icons.confirmation_num_outlined,
-                                      size: 32,
-                                      color: ThemeColor.primary,
-                                    ),
-                                    SizedBox(width: 8),
-                                    Text(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            height: 48,
+                            // width: Get.width*0.7,
+                            child: InkWell(
+                              onTap: () {
+                                Get.toNamed(RouteHandler.VOUCHER);
+                              },
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  SizedBox(width: 8),
+                                  Icon(
+                                    Icons.confirmation_num_outlined,
+                                    size: 32,
+                                    color: ThemeColor.primary,
+                                  ),
+                                  SizedBox(width: 8),
+                                  Expanded(
+                                    child: Text(
                                       "Bạn có $numberOfVoucher mã giảm giá",
                                       style: Get.textTheme.bodyMedium?.copyWith(
                                         color: ThemeColor.primary,
                                       ),
                                     ),
-                                    Icon(
-                                      Icons.arrow_forward_ios_outlined,
-                                      color: ThemeColor.primary,
-                                    )
-                                  ],
-                                ),
+                                  ),
+                                  Icon(
+                                    Icons.arrow_forward_ios_outlined,
+                                    color: ThemeColor.primary,
+                                  )
+                                ],
                               ),
-                            );
-                          },
-                        ),
+                            ),
+                          );
+                        },
                       ),
+                    ),
 
                     const SizedBox(
                       height: 20,
@@ -350,7 +353,7 @@ class _QrScreenState extends State<QrScreen> {
             ),
           );
         }),
-        ),
+      ),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
         child: SegmentedButton<String>(

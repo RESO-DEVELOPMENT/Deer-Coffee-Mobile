@@ -157,10 +157,12 @@ class OrderViewModel extends BaseViewModel {
       setState(ViewStatus.Loading);
 
       String? userId = await getUserId();
-      listOrder = await api.getListOrderOfUser(
-        userId ?? '',
-        orderStatus: orderStatus,
-      );
+      if (userId != null) {
+        listOrder = await api.getListOrderOfUser(
+          userId,
+          orderStatus: orderStatus,
+        );
+      }
       setState(ViewStatus.Completed);
     } catch (e) {
       setState(ViewStatus.Completed);
