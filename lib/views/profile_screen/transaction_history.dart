@@ -35,7 +35,7 @@ class _TransactionsHistoryState extends State<TransactionsHistory> {
         child: ScopedModelDescendant<OrderViewModel>(
             builder: (context, build, model) {
           if (model.status == ViewStatus.Loading) {
-            return Container(
+            return SizedBox(
                 width: Get.width,
                 height: 200,
                 child: Center(child: CircularProgressIndicator()));
@@ -46,7 +46,6 @@ class _TransactionsHistoryState extends State<TransactionsHistory> {
               ),
             );
           }
-
           return ListView(
             children: [
               Column(

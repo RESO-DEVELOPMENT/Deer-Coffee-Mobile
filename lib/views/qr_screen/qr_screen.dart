@@ -104,8 +104,9 @@ class _QrScreenState extends State<QrScreen> {
           }
           return Center(
             child: Container(
+              height: Get.height * 0.85,
               color: ThemeColor.primary,
-              padding: const EdgeInsets.all(20),
+              padding: const EdgeInsets.all(16),
               child: Container(
                 margin: const EdgeInsets.fromLTRB(0, 50, 0, 50),
                 decoration: BoxDecoration(
@@ -115,21 +116,20 @@ class _QrScreenState extends State<QrScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text("Đưa mã này cho thu ngân"),
-                      ],
+                    const SizedBox(
+                      height: 4,
                     ),
+
+                    const Text("Đưa mã này cho thu ngân"),
                     Padding(
-                      padding: const EdgeInsets.all(16),
+                      padding: const EdgeInsets.all(4),
                       child: QrImageView(
                         data: qrData ?? '',
                         embeddedImage: const AssetImage(
                           'assets/images/logo.png',
                         ),
                         version: QrVersions.auto,
-                        size: 220.0,
+                        size: 200.0,
                       ),
                     ),
                     Row(
@@ -153,10 +153,6 @@ class _QrScreenState extends State<QrScreen> {
                       ],
                     ),
                     // Line
-                    const SizedBox(
-                      height: 5,
-                    ),
-
                     Stack(
                       alignment: Alignment.centerLeft,
                       children: [
@@ -198,7 +194,7 @@ class _QrScreenState extends State<QrScreen> {
                     Row(
                       children: [
                         Container(
-                          margin: const EdgeInsets.fromLTRB(30, 0, 0, 0),
+                          margin: const EdgeInsets.fromLTRB(16, 0, 0, 0),
                           child: Text("Ẩn/Hiện"),
                         ),
                         IconButton(
@@ -284,68 +280,68 @@ class _QrScreenState extends State<QrScreen> {
                           )
                           .toList(),
                     ),
-                    ScopedModel<CartViewModel>(
-                      model: Get.find<CartViewModel>(),
-                      child: ScopedModelDescendant<CartViewModel>(
-                        builder: (context, child, model) {
-                          var numberOfVoucher = 0;
-                          if (model.status == ViewStatus.Loading) {
-                            return const SizedBox.shrink();
-                          }
-                          if (model.promotionsHasVoucher != null) {
-                            numberOfVoucher =
-                                model.promotionsHasVoucher?.length ?? 0;
-                          }
-                          return Container(
-                            margin: const EdgeInsets.fromLTRB(30, 16, 30, 0),
-                            decoration: BoxDecoration(
-                              shape: BoxShape.rectangle,
-                              border: Border.all(
-                                width: 2,
-                                color: ThemeColor
-                                    .primary, // This sets the border color to red
-                              ),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            height: 48,
-                            // width: Get.width*0.7,
-                            child: InkWell(
-                              onTap: () {
-                                Get.toNamed(RouteHandler.VOUCHER);
-                              },
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  SizedBox(width: 8),
-                                  Icon(
-                                    Icons.confirmation_num_outlined,
-                                    size: 32,
-                                    color: ThemeColor.primary,
-                                  ),
-                                  SizedBox(width: 8),
-                                  Expanded(
-                                    child: Text(
-                                      "Bạn có $numberOfVoucher mã giảm giá",
-                                      style: Get.textTheme.bodyMedium?.copyWith(
-                                        color: ThemeColor.primary,
-                                      ),
-                                    ),
-                                  ),
-                                  Icon(
-                                    Icons.arrow_forward_ios_outlined,
-                                    color: ThemeColor.primary,
-                                  )
-                                ],
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    ),
+                    // ScopedModel<CartViewModel>(
+                    //   model: Get.find<CartViewModel>(),
+                    //   child: ScopedModelDescendant<CartViewModel>(
+                    //     builder: (context, child, model) {
+                    //       var numberOfVoucher = 0;
+                    //       if (model.status == ViewStatus.Loading) {
+                    //         return const SizedBox.shrink();
+                    //       }
+                    //       if (model.promotionsHasVoucher != null) {
+                    //         numberOfVoucher =
+                    //             model.promotionsHasVoucher?.length ?? 0;
+                    //       }
+                    //       return Container(
+                    //         margin: const EdgeInsets.fromLTRB(24, 8, 24, 0),
+                    //         decoration: BoxDecoration(
+                    //           shape: BoxShape.rectangle,
+                    //           border: Border.all(
+                    //             width: 2,
+                    //             color: ThemeColor
+                    //                 .primary, // This sets the border color to red
+                    //           ),
+                    //           borderRadius: BorderRadius.circular(8),
+                    //         ),
+                    //         height: 48,
+                    //         // width: Get.width*0.7,
+                    //         child: InkWell(
+                    //           onTap: () {
+                    //             Get.toNamed(RouteHandler.VOUCHER);
+                    //           },
+                    //           child: Row(
+                    //             mainAxisAlignment: MainAxisAlignment.start,
+                    //             crossAxisAlignment: CrossAxisAlignment.center,
+                    //             children: [
+                    //               SizedBox(width: 8),
+                    //               Icon(
+                    //                 Icons.confirmation_num_outlined,
+                    //                 size: 32,
+                    //                 color: ThemeColor.primary,
+                    //               ),
+                    //               SizedBox(width: 8),
+                    //               Expanded(
+                    //                 child: Text(
+                    //                   "Bạn có $numberOfVoucher mã giảm giá",
+                    //                   style: Get.textTheme.bodyMedium?.copyWith(
+                    //                     color: ThemeColor.primary,
+                    //                   ),
+                    //                 ),
+                    //               ),
+                    //               Icon(
+                    //                 Icons.arrow_forward_ios_outlined,
+                    //                 color: ThemeColor.primary,
+                    //               )
+                    //             ],
+                    //           ),
+                    //         ),
+                    //       );
+                    //     },
+                    //   ),
+                    // ),
 
                     const SizedBox(
-                      height: 20,
+                      height: 8,
                     )
                   ],
                 ),

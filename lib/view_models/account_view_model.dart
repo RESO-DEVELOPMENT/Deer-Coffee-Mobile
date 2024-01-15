@@ -38,6 +38,7 @@ class AccountViewModel extends BaseViewModel {
   }
 
   Future<void> onLogin(String phone, String pin, String type) async {
+    showLoadingDialog();
     UserModel? user = await accountAPI.signIn(phone, pin, type);
     if (user == null || user.userId == null) {
       Get.snackbar(
@@ -47,6 +48,7 @@ class AccountViewModel extends BaseViewModel {
       requestObj.setToken = user.accessToken ?? '';
       await setToken(user.accessToken ?? '');
       await getMembershipInfo(user.userId ?? '');
+      hideDialog();
       await Get.find<CartViewModel>().getListPromotion();
       Get.snackbar('Thông báo', user.message ?? 'Đăng nhập thành công');
       await Get.offAllNamed(RouteHandler.HOME);

@@ -8,8 +8,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:scoped_model/scoped_model.dart';
 
+import '../../models/transactions.dart';
 import '../../models/user.dart';
 import '../../utils/route_constrant.dart';
+import '../../utils/theme.dart';
 import '../../view_models/account_view_model.dart';
 import '../login/login_card.dart';
 
@@ -23,10 +25,13 @@ class OrderHistory extends StatefulWidget {
 class _OrderHistoryState extends State<OrderHistory> {
   AccountViewModel model = Get.find<AccountViewModel>();
   UserDetails? user;
+  OrderViewModel orderViewModel = Get.find<OrderViewModel>();
+  List<TransactionModel>? listTrans = [];
   @override
   void initState() {
     user = model.memberShipModel;
-    Get.find<OrderViewModel>().getListOrder(OrderStatusEnum.PENDING);
+    orderViewModel.getListOrder(OrderStatusEnum.PENDING);
+    orderViewModel.getListTransaction().then((value) => listTrans = value);
     super.initState();
   }
 
@@ -44,11 +49,12 @@ class _OrderHistoryState extends State<OrderHistory> {
         }
 
         if (user == null) {
-          return Center(child: LoginCard());
+          return const Center(child: LoginCard());
         }
         return DefaultTabController(
-          length: 3,
+          length: 2,
           child: Scaffold(
+            backgroundColor: const Color(0xffF9F9F9),
             appBar: AppBar(
               title: Text(
                 'Hoạt động',
@@ -73,15 +79,17 @@ class _OrderHistoryState extends State<OrderHistory> {
             body: TabBarView(
               children: [
                 ListView(
+                  children: model.listOrder.map((e) => orderCard(e)).toList(),
+                ),
+                ListView(
                   children: [
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children:
-                          model.listOrder.map((e) => orderCard(e)).toList(),
+                          listTrans!.map((e) => transactionCard(e)).toList(),
                     )
                   ],
-                ),
-                TransactionsHistory(),
+                )
               ],
             ),
           ),
@@ -145,6 +153,64 @@ class _OrderHistoryState extends State<OrderHistory> {
             thickness: 1,
           ),
         ],
+      ),
+    );
+  }
+
+  Widget transactionCard(TransactionModel transactionModel) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: InkWell(
+        onTap: () {
+          // Get.toNamed("${RouteHandler.ORDER_DETAILS}?id=${order.id}");
+        },
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(formatTime(transactionModel.createdDate ?? ''),
+                        style: const TextStyle(color: Colors.grey)),
+                  ],
+                ),
+                Text(
+                    "${transactionModel.isIncrease! ? " + " : " - "}${transactionModel.amount} ${transactionModel.currency!}",
+                    style: Get.textTheme.titleMedium?.copyWith(
+                        color: transactionModel.isIncrease!
+                            ? Colors.green
+                            : Colors.red))
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                    transactionModel.type == TransactionTypeEnum.PAYMENT
+                        ? "Thanh toán đơn hàng"
+                        : transactionModel.type == TransactionTypeEnum.GET_POINT
+                            ? "Tích điểm thành viên"
+                            : transactionModel.type ==
+                                    TransactionTypeEnum.TOP_UP
+                                ? "Nạp thẻ"
+                                : "Khác",
+                    style: Get.textTheme.titleMedium),
+                Text(
+                    transactionModel.status == "SUCCESS"
+                        ? "Thành công"
+                        : "Thất bại",
+                    style: Get.textTheme.titleMedium?.copyWith(
+                        color: transactionModel.status == "SUCCESS"
+                            ? ThemeColor.primary
+                            : Colors.red)),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
