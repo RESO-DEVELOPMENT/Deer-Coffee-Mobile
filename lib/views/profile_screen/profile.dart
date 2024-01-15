@@ -1,4 +1,5 @@
 import 'package:barcode_widget/barcode_widget.dart';
+import 'package:deer_coffee/enums/order_enum.dart';
 import 'package:deer_coffee/models/user.dart';
 import 'package:deer_coffee/utils/share_pref.dart';
 import 'package:deer_coffee/utils/theme.dart';
@@ -23,6 +24,67 @@ class OtherPage extends StatefulWidget {
 
   @override
   State<OtherPage> createState() => _OtherPageState();
+}
+
+class MemberRankProgressBar extends StatelessWidget {
+  const MemberRankProgressBar({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text('Bronze', style: TextStyle(color: Colors.white, fontSize: 15)),
+        Text('Ban con xx diem de thang hang',
+            style: TextStyle(color: Colors.white, fontSize: 13)),
+        Text('Silver', style: TextStyle(color: Colors.white, fontSize: 15)),
+      ],
+    );
+  }
+}
+
+class CustomLinearProgressBar extends StatelessWidget {
+  final double progress;
+
+  const CustomLinearProgressBar({super.key, required this.progress});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Row(
+          children: [
+            Container(
+              width: 8.0,
+              height: 8.0,
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                shape: BoxShape.circle,
+              ),
+            ),
+            const SizedBox(width: 8.0), // Adjust the spacing as needed
+            Expanded(
+              child: LinearProgressIndicator(
+                value: progress,
+                minHeight: 8,
+                backgroundColor: Colors.white,
+                valueColor: const AlwaysStoppedAnimation<Color>(Colors.blue),
+              ),
+            ),
+            const SizedBox(width: 8.0), // Adjust the spacing as needed
+            Container(
+              width: 8.0,
+              height: 8.0,
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                shape: BoxShape.circle,
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
 }
 
 class _OtherPageState extends State<OtherPage> {
@@ -65,75 +127,204 @@ class _OtherPageState extends State<OtherPage> {
               children: [
                 Container(
                   width: Get.width * 0.9,
-                  height: Get.width * 0.9 * 9 / 16,
-                  padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16),
-                    color: ThemeColor.primary,
+                    borderRadius: BorderRadius.circular(20),
+                    color: Colors.grey[350],
                   ),
+                  // decoration: BoxDecoration(border: Border.all(width: 20, color: Colors.transparent)),
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
+                      Container(
+                        width: Get.width * 0.9,
+                        height: Get.width * 0.9 * 9 / 16,
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: ThemeColor.primary,
+                        ),
+                        child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Column(
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text('Hạng thành viên',
+                                          style: Get.textTheme.bodyMedium
+                                              ?.copyWith(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold)),
+                                      Text(
+                                          model.memberShipModel?.level?.name ??
+                                              '',
+                                          style: Get.textTheme.bodyLarge
+                                              ?.copyWith(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold)),
+                                    ],
+                                  ),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      Get.toNamed(RouteHandler.VOUCHER);
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.white,
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Row(
+                                        children: <Widget>[
+                                          const Icon(
+                                            Icons.confirmation_number,
+                                            color: Colors.blueAccent,
+                                          ),
+                                          const SizedBox(
+                                            width: 4,
+                                          ),
+                                          Text(
+                                            'Khuyến mãi',
+                                            style: Get.textTheme.bodyMedium
+                                                ?.copyWith(
+                                                    color: Colors.blueAccent),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const CustomLinearProgressBar(progress: 0.7),
+                            Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('Hạng thành viên',
-                                    style: Get.textTheme.bodyMedium?.copyWith(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold)),
                                 Text(model.memberShipModel?.level?.name ?? '',
-                                    style: Get.textTheme.bodyLarge?.copyWith(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold)),
+                                    style: const TextStyle(
+                                        color: Colors.white, fontSize: 15)),
+                                const Text('Bạn còn xx điểm để thăng hạng',
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 13)),
+                                const Text('Silver',
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 15)),
                               ],
                             ),
-                            ElevatedButton(
-                              onPressed: () {
-                                Get.toNamed(RouteHandler.VOUCHER);
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.white,
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Row(
-                                  children: <Widget>[
-                                    const Icon(
-                                      Icons.confirmation_number,
-                                      color: Colors.blueAccent,
-                                    ),
-                                    const SizedBox(
-                                      width: 4,
-                                    ),
-                                    Text(
-                                      'Khuyến mãi',
-                                      style: Get.textTheme.bodyMedium
-                                          ?.copyWith(color: Colors.blueAccent),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
+                            Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: model
+                                    .memberShipModel!.level!.memberWallet!
+                                    .map((e) => Text(
+                                          '${e.walletType?.name ?? ''}: ${formatPrice(e.balance ?? 0)}',
+                                          style: Get.textTheme.titleMedium
+                                              ?.copyWith(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold),
+                                        ))
+                                    .toList()),
                           ],
                         ),
                       ),
                       Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: model.memberShipModel!.level!.memberWallet!
-                              .map((e) => Text(
-                                    '${e.walletType?.name ?? ''}: ${formatPrice(e.balance ?? 0)}',
-                                    style: Get.textTheme.titleMedium?.copyWith(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold),
-                                  ))
-                              .toList()),
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Container(
+                            // width: ((Get.width * 0.6) / 2) - 1,
+                            // height: (Get.width * 0.3) / 2,
+
+                            decoration: const BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(20)),
+                            ),
+                            child: const Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Điểm Tích Lũy',
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      '120.000',
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    Text(
+                                      ' ₫',
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            color: Colors.white,
+                            margin: const EdgeInsets.fromLTRB(0, 20, 0, 20),
+                            width: 2,
+                            height: (Get.width * 0.3) / 4,
+                          ),
+                          Container(
+                            // width: ((Get.width * 0.6) / 2) - 1,
+                            // height: (Get.width * 0.3) / 2,
+                            decoration: const BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                  bottomRight: Radius.circular(20)),
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Text(
+                                  'Deer Point',
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    const Text(
+                                      '120',
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    Image.asset(
+                                      'assets/images/deercoffee-logopage-0001-2.png',
+                                      width: 30,
+                                      height: 30,
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      )
                     ],
                   ),
                 ),
@@ -424,7 +615,8 @@ class _OtherPageState extends State<OtherPage> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => Location()),
+                                          builder: (context) =>
+                                              const Location()),
                                     );
                                   },
                                   child: Row(
