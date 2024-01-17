@@ -44,34 +44,8 @@ class _BannerDetailScreenState extends State<BannerDetailScreen> {
         ),
       ),
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Image.network(
-              loadingBuilder: (BuildContext context, Widget child,
-                  ImageChunkEvent? loadingProgress) {
-                if (loadingProgress == null) {
-                  return child;
-                }
-                return Center(
-                  child: CircularProgressIndicator(
-                    value: loadingProgress.expectedTotalBytes != null
-                        ? loadingProgress.cumulativeBytesLoaded /
-                            loadingProgress.expectedTotalBytes!
-                        : null,
-                  ),
-                );
-              },
-              blog!.image!.isEmpty
-                  ? 'https://i.imgur.com/X0WTML2.jpg'
-                  : blog?.image ?? '',
-              width: Get.width,
-              height: Get.width * 0.5,
-              fit: BoxFit.cover,
-            ),
-            Html(
-              data: htmlData,
-            ),
-          ],
+        child: Html(
+          data: htmlData,
         ),
       ),
     );

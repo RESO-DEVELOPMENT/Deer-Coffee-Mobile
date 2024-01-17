@@ -55,14 +55,14 @@ class CustomLinearProgressBar extends StatelessWidget {
         Row(
           children: [
             Container(
-              width: 8.0,
-              height: 8.0,
+              width: 12.0,
+              height: 12.0,
               decoration: const BoxDecoration(
                 color: Colors.white,
                 shape: BoxShape.circle,
               ),
             ),
-            const SizedBox(width: 8.0), // Adjust the spacing as needed
+            const SizedBox(width: 8), // Adjust the spacing as needed
             Expanded(
               child: LinearProgressIndicator(
                 value: progress,
@@ -71,10 +71,10 @@ class CustomLinearProgressBar extends StatelessWidget {
                 valueColor: const AlwaysStoppedAnimation<Color>(Colors.blue),
               ),
             ),
-            const SizedBox(width: 8.0), // Adjust the spacing as needed
+            const SizedBox(width: 8), // Adjust the spacing as needed
             Container(
-              width: 8.0,
-              height: 8.0,
+              width: 12.0,
+              height: 12.0,
               decoration: const BoxDecoration(
                 color: Colors.white,
                 shape: BoxShape.circle,
@@ -90,9 +90,18 @@ class CustomLinearProgressBar extends StatelessWidget {
 class _OtherPageState extends State<OtherPage> {
   UserDetails? userModel;
   AccountViewModel model = Get.find<AccountViewModel>();
+  MemberWallet? pointWallet;
+  MemberWallet? moneyWallet;
+  Level? memberLevel;
   @override
   void initState() {
     userModel = model.memberShipModel;
+    memberLevel = model.memberShipModel?.level;
+    pointWallet = model.memberShipModel?.level?.memberWallet
+        ?.firstWhere((element) => element.walletType?.name == "Điểm");
+    moneyWallet = model.memberShipModel?.level?.memberWallet
+        ?.firstWhere((element) => element.walletType?.name == "Số dư");
+    print(userModel);
     super.initState();
   }
 
@@ -203,24 +212,26 @@ class _OtherPageState extends State<OtherPage> {
                                 ],
                               ),
                             ),
-                            const CustomLinearProgressBar(progress: 0.7),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: CustomLinearProgressBar(
+                                  progress: (pointWallet?.balance ?? 1) /
+                                      (memberLevel?.maxPoint ?? 1)),
+                            ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(model.memberShipModel?.level?.name ?? '',
-                                    style: const TextStyle(
-                                        color: Colors.white, fontSize: 15)),
-                                const Text('Bạn còn xx điểm để thăng hạng',
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 13)),
-                                const Text('Silver',
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 15)),
+                                    style: Get.textTheme.bodyLarge
+                                        ?.copyWith(color: Colors.white)),
+                                Text(userModel?.level?.nextLevelName ?? '',
+                                    style: Get.textTheme.bodyLarge
+                                        ?.copyWith(color: Colors.white)),
                               ],
                             ),
                             Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
+                                    MainAxisAlignment.spaceBetween,
                                 children: model
                                     .memberShipModel!.level!.memberWallet!
                                     .map((e) => Text(
@@ -234,97 +245,100 @@ class _OtherPageState extends State<OtherPage> {
                           ],
                         ),
                       ),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Container(
-                            // width: ((Get.width * 0.6) / 2) - 1,
-                            // height: (Get.width * 0.3) / 2,
+                      // Row(
+                      //   crossAxisAlignment: CrossAxisAlignment.center,
+                      //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      //   children: [
+                      //     Container(
+                      //       // width: ((Get.width * 0.6) / 2) - 1,
+                      //       // height: (Get.width * 0.3) / 2,
 
-                            decoration: const BoxDecoration(
-                              borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(20)),
-                            ),
-                            child: const Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'Điểm Tích Lũy',
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.normal,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      '120.000',
-                                      style: TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    Text(
-                                      ' ₫',
-                                      style: TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            color: Colors.white,
-                            margin: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                            width: 2,
-                            height: (Get.width * 0.3) / 4,
-                          ),
-                          Container(
-                            // width: ((Get.width * 0.6) / 2) - 1,
-                            // height: (Get.width * 0.3) / 2,
-                            decoration: const BoxDecoration(
-                              borderRadius: BorderRadius.only(
-                                  bottomRight: Radius.circular(20)),
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const Text(
-                                  'Deer Point',
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.normal,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    const Text(
-                                      '120',
-                                      style: TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    Image.asset(
-                                      'assets/images/deercoffee-logopage-0001-2.png',
-                                      width: 30,
-                                      height: 30,
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      )
+                      //       decoration: const BoxDecoration(
+                      //         borderRadius: BorderRadius.only(
+                      //             bottomLeft: Radius.circular(20)),
+                      //       ),
+                      //       child: const Column(
+                      //         mainAxisAlignment: MainAxisAlignment.center,
+                      //         children: [
+                      //           Text(
+                      //             'Ví tiền',
+                      //             style: TextStyle(
+                      //               fontSize: 15,
+                      //               fontWeight: FontWeight.normal,
+                      //             ),
+                      //             textAlign: TextAlign.center,
+                      //           ),
+                      //           Row(
+                      //             mainAxisAlignment: MainAxisAlignment.center,
+                      //             children: [
+                      //               Text(
+                      //                 model
+                      //                     .memberShipModel!.level!.memberWallet!
+                      //                     .where((element) =>
+                      //                         element.walletType == "Monney"),
+                      //                 style: TextStyle(
+                      //                   fontSize: 15,
+                      //                   fontWeight: FontWeight.bold,
+                      //                 ),
+                      //               ),
+                      //               Text(
+                      //                 ' ₫',
+                      //                 style: TextStyle(
+                      //                   fontSize: 15,
+                      //                   fontWeight: FontWeight.bold,
+                      //                 ),
+                      //               )
+                      //             ],
+                      //           ),
+                      //         ],
+                      //       ),
+                      //     ),
+                      //     Container(
+                      //       color: Colors.white,
+                      //       margin: const EdgeInsets.fromLTRB(0, 20, 0, 20),
+                      //       width: 2,
+                      //       height: (Get.width * 0.3) / 4,
+                      //     ),
+                      //     Container(
+                      //       // width: ((Get.width * 0.6) / 2) - 1,
+                      //       // height: (Get.width * 0.3) / 2,
+                      //       decoration: const BoxDecoration(
+                      //         borderRadius: BorderRadius.only(
+                      //             bottomRight: Radius.circular(20)),
+                      //       ),
+                      //       child: Column(
+                      //         mainAxisAlignment: MainAxisAlignment.center,
+                      //         children: [
+                      //           const Text(
+                      //             'Deer Point',
+                      //             style: TextStyle(
+                      //               fontSize: 15,
+                      //               fontWeight: FontWeight.normal,
+                      //             ),
+                      //             textAlign: TextAlign.center,
+                      //           ),
+                      //           Row(
+                      //             mainAxisAlignment: MainAxisAlignment.center,
+                      //             children: [
+                      //               const Text(
+                      //                 '120',
+                      //                 style: TextStyle(
+                      //                   fontSize: 15,
+                      //                   fontWeight: FontWeight.bold,
+                      //                 ),
+                      //               ),
+                      //               Image.asset(
+                      //                 'assets/images/deercoffee-logopage-0001-2.png',
+                      //                 width: 30,
+                      //                 height: 30,
+                      //               ),
+                      //             ],
+                      //           ),
+                      //         ],
+                      //       ),
+                      //     ),
+                      //   ],
+                      // )
                     ],
                   ),
                 ),
