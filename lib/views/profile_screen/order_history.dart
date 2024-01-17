@@ -1,13 +1,18 @@
+import 'dart:ui';
+
 import 'package:deer_coffee/enums/order_enum.dart';
 import 'package:deer_coffee/enums/view_status.dart';
 import 'package:deer_coffee/models/order_in_list.dart';
 import 'package:deer_coffee/utils/format.dart';
 import 'package:deer_coffee/view_models/order_view_model.dart';
 import 'package:deer_coffee/views/profile_screen/transaction_history.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_launcher_icons/android.dart';
 import 'package:get/get.dart';
+import 'package:icons_plus/icons_plus.dart';
 import 'package:scoped_model/scoped_model.dart';
-
+import 'package:cupertino_icons/cupertino_icons.dart';
 import '../../models/transactions.dart';
 import '../../models/user.dart';
 import '../../utils/route_constrant.dart';
@@ -16,7 +21,7 @@ import '../../view_models/account_view_model.dart';
 import '../login/login_card.dart';
 
 class OrderHistory extends StatefulWidget {
-  const OrderHistory({Key? key});
+  const OrderHistory({super.key});
 
   @override
   State<OrderHistory> createState() => _OrderHistoryState();
@@ -64,13 +69,13 @@ class _OrderHistoryState extends State<OrderHistory> {
               centerTitle: true,
               bottom: TabBar(
                 indicatorColor: Get.theme.colorScheme.primary,
-                tabs: [
+                tabs: const [
                   Tab(text: 'Đơn hàng'),
                   Tab(text: 'Giao dịch'),
                 ],
               ),
               leading: IconButton(
-                icon: Icon(Icons.arrow_back_ios),
+                icon: const Icon(Icons.arrow_back_ios),
                 onPressed: () {
                   Get.back();
                 },
@@ -112,7 +117,7 @@ class _OrderHistoryState extends State<OrderHistory> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(formatTime(order.startDate ?? ''),
-                    style: TextStyle(color: Colors.grey)),
+                    style: const TextStyle(color: Colors.grey)),
                 Text(formatPrice(order.finalAmount ?? 0),
                     style: Get.textTheme.bodySmall
                         ?.copyWith(fontWeight: FontWeight.bold)),
@@ -123,21 +128,21 @@ class _OrderHistoryState extends State<OrderHistory> {
             padding: const EdgeInsets.only(left: 10),
             child: Row(
               children: [
-                Icon(Icons.local_cafe,
+                const Icon(Icons.local_cafe,
                     color: Colors.grey, size: 16), // Biểu tượng cafe
-                SizedBox(width: 5),
+                const SizedBox(width: 5),
                 Text(order.invoiceId ?? '', style: Get.textTheme.bodySmall),
               ],
             ),
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           Padding(
             padding: const EdgeInsets.only(left: 10),
             child: Row(
               children: [
-                Icon(Icons.location_on,
+                const Icon(Icons.location_on,
                     color: Colors.grey, size: 16), // Biểu tượng vị trí
-                SizedBox(width: 5),
+                const SizedBox(width: 5),
                 Expanded(
                   child: Text(
                     order.address ?? '',
@@ -147,7 +152,7 @@ class _OrderHistoryState extends State<OrderHistory> {
               ],
             ),
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           Divider(
             color: Colors.grey[300],
             thickness: 1,
@@ -161,35 +166,38 @@ class _OrderHistoryState extends State<OrderHistory> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: InkWell(
-        onTap: () {
-          // Get.toNamed("${RouteHandler.ORDER_DETAILS}?id=${order.id}");
-        },
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(formatTime(transactionModel.createdDate ?? ''),
-                        style: const TextStyle(color: Colors.grey)),
-                  ],
-                ),
-                Text(
-                    "${transactionModel.isIncrease! ? " + " : " - "}${transactionModel.amount} ${transactionModel.currency!}",
-                    style: Get.textTheme.titleMedium?.copyWith(
-                        color: transactionModel.isIncrease!
-                            ? Colors.green
-                            : Colors.red))
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
+          onTap: () {
+            // Get.toNamed("${RouteHandler.ORDER_DETAILS}?id=${order.id}");
+          },
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: 50,
+                height: 50,
+                child: transactionModel.type == TransactionTypeEnum.PAYMENT
+                    ? const Icon(CupertinoIcons.creditcard,
+                        color: Colors.green, size: 30)
+                    : transactionModel.type == TransactionTypeEnum.GET_POINT
+                        ? const Icon(
+                            CupertinoIcons.money_dollar_circle,
+                            color: Colors.green,
+                            size: 30,
+                          )
+                        : transactionModel.type == TransactionTypeEnum.TOP_UP
+                            ? const Icon(
+                                Icons.account_balance_wallet,
+                                color: Colors.blue,
+                                size: 30,
+                              )
+                            : const Icon(Icons.mic_none),
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
                     transactionModel.type == TransactionTypeEnum.PAYMENT
                         ? "Thanh toán đơn hàng"
                         : transactionModel.type == TransactionTypeEnum.GET_POINT
@@ -198,20 +206,113 @@ class _OrderHistoryState extends State<OrderHistory> {
                                     TransactionTypeEnum.TOP_UP
                                 ? "Nạp thẻ"
                                 : "Khác",
-                    style: Get.textTheme.titleMedium),
-                Text(
-                    transactionModel.status == "SUCCESS"
-                        ? "Thành công"
-                        : "Thất bại",
-                    style: Get.textTheme.titleMedium?.copyWith(
-                        color: transactionModel.status == "SUCCESS"
-                            ? ThemeColor.primary
-                            : Colors.red)),
-              ],
-            ),
-          ],
-        ),
-      ),
+                    style: Get.textTheme.titleMedium,
+                  ),
+                  const SizedBox(height: 4), // Add spacing between lines
+                  Text(
+                    formatTime(transactionModel.createdDate ?? ''),
+                    style: const TextStyle(color: Colors.grey),
+                  ),
+                ],
+              ),
+              const Divider(),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    const SizedBox(
+                      width: 30,
+                      height: 30,
+                    ),
+                    Text(
+                      "${transactionModel.isIncrease! ? " + " : " - "}${transactionModel.amount} ${transactionModel.currency!}",
+                      style: Get.textTheme.titleMedium?.copyWith(
+                        color: transactionModel.isIncrease!
+                            ? Colors.green
+                            : Colors.red,
+                      ),
+                    ),
+                    if (transactionModel.brandPartnerId != null &&
+                        transactionModel.brandPartnerId!.isNotEmpty)
+                      Text(
+                        "${transactionModel.brandPartnerId}",
+                        style: Get.textTheme.titleSmall,
+                      ),
+                  ],
+                ),
+              ),
+            ],
+          )),
     );
   }
 }
+
+
+// child: Column(
+//           crossAxisAlignment: CrossAxisAlignment.start,
+//           children: [
+//             Row(
+//               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//               children: [
+//                 Column(
+//                   mainAxisAlignment: MainAxisAlignment.start,
+//                   crossAxisAlignment: CrossAxisAlignment.start,
+//                   children: [
+//                     Text(
+//                       formatTime(transactionModel.createdDate ?? ''),
+//                       style: const TextStyle(color: Colors.grey),
+//                     ),
+//                   ],
+//                 ),
+//                 Text(
+//                     "${transactionModel.isIncrease! ? " + " : " - "}${transactionModel.amount} ${transactionModel.currency!}",
+//                     style: Get.textTheme.titleMedium?.copyWith(
+//                         color: transactionModel.isIncrease!
+//                             ? Colors.green
+//                             : Colors.red))
+//               ],
+//             ),
+//             Row(
+//               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//               children: [
+//                 Row(
+//                   children: [
+//                     transactionModel.isIncrease!
+//                         ? const Icon(
+//                             Icons.arrow_circle_up,
+//                             color: Colors.green,
+//                             grade: 10,
+//                             size: 25,
+//                           )
+//                         : const Icon(
+//                             Icons.arrow_circle_down,
+//                             color: Colors.red,
+//                             grade: 10,
+//                             size: 25,
+//                           ),
+//                     Text(
+//                         transactionModel.type == TransactionTypeEnum.PAYMENT
+//                             ? "Thanh toán đơn hàng"
+//                             : transactionModel.type ==
+//                                     TransactionTypeEnum.GET_POINT
+//                                 ? "Tích điểm thành viên"
+//                                 : transactionModel.type ==
+//                                         TransactionTypeEnum.TOP_UP
+//                                     ? "Nạp thẻ"
+//                                     : "Khác",
+//                         style: Get.textTheme.titleMedium),
+//                   ],
+//                 ),
+//                 Text(
+//                     transactionModel.status == "SUCCESS"
+//                         ? "Thành công"
+//                         : "Thất bại",
+//                     style: Get.textTheme.titleMedium?.copyWith(
+//                         color: transactionModel.status == "SUCCESS"
+//                             ? ThemeColor.primary
+//                             : Colors.red)),
+//               ],
+//             ),
+//           ],
+//         ),
