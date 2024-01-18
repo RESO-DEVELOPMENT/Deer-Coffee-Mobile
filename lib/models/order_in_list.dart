@@ -8,9 +8,11 @@ class OrderInList {
   String? orderType;
   String? status;
   String? paymentType;
+  String? paymentStatus;
   String? customerName;
   String? phone;
   String? address;
+  String? storeName;
 
   OrderInList(
       {this.id,
@@ -22,9 +24,11 @@ class OrderInList {
       this.orderType,
       this.status,
       this.paymentType,
+      this.paymentStatus,
       this.customerName,
       this.phone,
-      this.address});
+      this.address,
+      this.storeName});
 
   OrderInList.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -36,13 +40,15 @@ class OrderInList {
     orderType = json['orderType'];
     status = json['status'];
     paymentType = json['paymentType'];
+    paymentStatus = json['paymentStatus'];
     customerName = json['customerName'];
     phone = json['phone'];
     address = json['address'];
+    storeName = json['storeName'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     data['invoiceId'] = invoiceId;
     data['staffName'] = staffName;
@@ -52,9 +58,11 @@ class OrderInList {
     data['orderType'] = orderType;
     data['status'] = status;
     data['paymentType'] = paymentType;
+    data['paymentStatus'] = paymentStatus;
     data['customerName'] = customerName;
     data['phone'] = phone;
     data['address'] = address;
+    data['storeName'] = storeName;
     return data;
   }
 }

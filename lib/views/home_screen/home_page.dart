@@ -136,12 +136,13 @@ class _HomePageState extends State<HomePage> {
                           children: [
                             Expanded(
                               child: InkWell(
-                                onTap: () {
+                                onTap: () async {
                                   Get.find<CartViewModel>()
-                                      .setOrderType(OrderTypeEnum.EAT_IN);
+                                      .setOrderType(OrderTypeEnum.TAKE_AWAY);
                                   Get.offAndToNamed(
                                     "${RouteHandler.HOME}?idx=${1}",
                                   );
+                                  showSelectStore();
                                 },
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -168,7 +169,7 @@ class _HomePageState extends State<HomePage> {
                             ),
                             Expanded(
                               child: InkWell(
-                                onTap: () {
+                                onTap: () async {
                                   Get.find<CartViewModel>()
                                       .setOrderType(OrderTypeEnum.DELIVERY);
 

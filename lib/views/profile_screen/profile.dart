@@ -154,63 +154,59 @@ class _OtherPageState extends State<OtherPage> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text('Hạng thành viên',
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text('Hạng thành viên',
+                                        style: Get.textTheme.bodySmall
+                                            ?.copyWith(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold)),
+                                    Text(
+                                        model.memberShipModel?.level?.name ??
+                                            '',
+                                        style: Get.textTheme.bodyLarge
+                                            ?.copyWith(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold)),
+                                  ],
+                                ),
+                                ElevatedButton(
+                                  onPressed: () {
+                                    Get.toNamed(RouteHandler.VOUCHER);
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.white,
+                                  ),
+                                  child: Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(0, 8, 0, 8),
+                                    child: Row(
+                                      children: <Widget>[
+                                        Icon(
+                                          Icons.confirmation_number,
+                                          color: ThemeColor.primary,
+                                        ),
+                                        SizedBox(
+                                          width: 4,
+                                        ),
+                                        Text(
+                                          'Khuyến mãi',
                                           style: Get.textTheme.bodyMedium
                                               ?.copyWith(
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.bold)),
-                                      Text(
-                                          model.memberShipModel?.level?.name ??
-                                              '',
-                                          style: Get.textTheme.bodyLarge
-                                              ?.copyWith(
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.bold)),
-                                    ],
-                                  ),
-                                  ElevatedButton(
-                                    onPressed: () {
-                                      Get.toNamed(RouteHandler.VOUCHER);
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.white,
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Row(
-                                        children: <Widget>[
-                                          const Icon(
-                                            Icons.confirmation_number,
-                                            color: Colors.blueAccent,
-                                          ),
-                                          const SizedBox(
-                                            width: 4,
-                                          ),
-                                          Text(
-                                            'Khuyến mãi',
-                                            style: Get.textTheme.bodyMedium
-                                                ?.copyWith(
-                                                    color: Colors.blueAccent),
-                                          ),
-                                        ],
-                                      ),
+                                                  color: Colors.blueAccent),
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
@@ -222,11 +218,13 @@ class _OtherPageState extends State<OtherPage> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(model.memberShipModel?.level?.name ?? '',
-                                    style: Get.textTheme.bodyLarge
-                                        ?.copyWith(color: Colors.white)),
+                                    style: Get.textTheme.bodyMedium?.copyWith(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold)),
                                 Text(userModel?.level?.nextLevelName ?? '',
-                                    style: Get.textTheme.bodyLarge
-                                        ?.copyWith(color: Colors.white)),
+                                    style: Get.textTheme.bodyMedium?.copyWith(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold)),
                               ],
                             ),
                             Row(
@@ -236,7 +234,7 @@ class _OtherPageState extends State<OtherPage> {
                                     .memberShipModel!.level!.memberWallet!
                                     .map((e) => Text(
                                           '${e.walletType?.name ?? ''}: ${formatPrice(e.balance ?? 0)}',
-                                          style: Get.textTheme.titleMedium
+                                          style: Get.textTheme.bodyMedium
                                               ?.copyWith(
                                                   color: Colors.white,
                                                   fontWeight: FontWeight.bold),

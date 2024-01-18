@@ -12,6 +12,7 @@ import 'package:scoped_model/scoped_model.dart';
 import '../enums/order_enum.dart';
 import '../utils/route_constrant.dart';
 import '../widgets/other_dialogs/dialog.dart';
+import '../widgets/other_dialogs/select_payment_bottomsheet.dart';
 import 'bottom_sheet_util.dart';
 
 class CartScreen extends StatefulWidget {
@@ -58,7 +59,7 @@ class _CartScreenState extends State<CartScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.all(8),
+                    padding: const EdgeInsets.all(16),
                     child: Text(
                       showOrderType(
                           model.cart.orderType ?? 'Vui lòng chọn địa chỉ'),
@@ -319,30 +320,44 @@ class _CartScreenState extends State<CartScreen> {
             width: Get.width,
             color: Colors.white,
             height: 140,
-            padding: const EdgeInsets.fromLTRB(8, 8, 8, 24),
+            padding: const EdgeInsets.fromLTRB(8, 8, 8, 32),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Expanded(
                       flex: 2,
-                      child: TextButton(
-                          onPressed: () {},
-                          child: Text(
+                      child: TextButton.icon(
+                          onPressed: () {
+                            selectPayment();
+                          },
+                          icon: Icon(Icons.arrow_drop_down,
+                              color: ThemeColor.primary),
+                          label: Text(
                             showPaymentType(model.cart.paymentType ??
                                 PaymentTypeEnums.CASH),
+                            style: Get.textTheme.bodySmall
+                                ?.copyWith(color: ThemeColor.primary),
                           )),
                     ),
                     Expanded(
-                      flex: 3,
-                      child: TextButton(
+                      flex: 2,
+                      child: TextButton.icon(
                           onPressed: () {
                             Get.toNamed(RouteHandler.VOUCHER);
                           },
-                          child: Text(
-                              model.cart.promotionCode ?? 'THÊM KHUYẾN MÃI')),
+                          icon: Icon(
+                            Icons.arrow_drop_down,
+                            color: ThemeColor.primary,
+                          ),
+                          label: Text(
+                            model.cart.promotionCode ?? 'THÊM KHUYẾN MÃI',
+                            style: Get.textTheme.bodySmall
+                                ?.copyWith(color: ThemeColor.primary),
+                          )),
                     ),
                   ],
                 ),
@@ -357,7 +372,7 @@ class _CartScreenState extends State<CartScreen> {
                         children: [
                           Text(
                             "Tổng cộng",
-                            style: Get.textTheme.bodyMedium
+                            style: Get.textTheme.bodySmall
                                 ?.copyWith(fontWeight: FontWeight.bold),
                           ),
                           Text(

@@ -15,7 +15,7 @@ class DeliType {
 class TakeAway {
   String type = 'TAKE_AWAY';
   IconData icon = Icons.home;
-  String label = 'Mang đi';
+  String label = 'Nhận tại cửa hàng';
 }
 
 class EatIn {
@@ -56,7 +56,7 @@ String showOrderStatus(String status) {
     case OrderStatusEnum.CANCELED:
       return 'Đã huỷ';
     case OrderStatusEnum.PAID:
-      return 'Hoàn thành món';
+      return 'Hoàn thành';
     default:
       return 'Đang xử lý';
   }

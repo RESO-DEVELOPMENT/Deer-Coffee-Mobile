@@ -229,11 +229,12 @@ class _OrdersScreenState extends State<OrdersScreen> {
     String image,
     String categoryId, // Thêm tham số categoryId
   ) {
-    return SizedBox(
-      width: 80,
-      height: 80,
+    return Container(
+      width: 72,
+      height: 72,
+      margin: EdgeInsets.all(4),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           InkWell(
@@ -244,8 +245,8 @@ class _OrdersScreenState extends State<OrdersScreen> {
               );
             },
             child: Container(
-              height: 60,
-              width: 60,
+              height: 50,
+              width: 50,
               decoration: BoxDecoration(
                   shape: BoxShape.rectangle,
                   image: DecorationImage(

@@ -34,18 +34,42 @@ class _BannerDetailScreenState extends State<BannerDetailScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        centerTitle: true,
         title: Text(
           blog?.title ?? '',
           overflow: TextOverflow.ellipsis,
           maxLines: 2,
-          textAlign: TextAlign.center,
-          style: Get.textTheme.titleMedium,
+          textAlign: TextAlign.left,
+          style: Get.textTheme.bodyMedium,
         ),
       ),
       body: SingleChildScrollView(
-        child: Html(
-          data: htmlData,
+        child: Column(
+          children: [
+            Image.network(
+              loadingBuilder: (BuildContext context, Widget child,
+                  ImageChunkEvent? loadingProgress) {
+                if (loadingProgress == null) {
+                  return child;
+                }
+                return Center(
+                  child: CircularProgressIndicator(
+                    value: loadingProgress.expectedTotalBytes != null
+                        ? loadingProgress.cumulativeBytesLoaded /
+                            loadingProgress.expectedTotalBytes!
+                        : null,
+                  ),
+                );
+              },
+              blog!.image!.isEmpty
+                  ? 'https://i.imgur.com/X0WTML2.jpg'
+                  : blog?.image ?? '',
+              width: Get.width,
+              fit: BoxFit.cover,
+            ),
+            Html(
+              data: htmlData,
+            ),
+          ],
         ),
       ),
     );

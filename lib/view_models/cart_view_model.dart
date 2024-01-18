@@ -31,16 +31,30 @@ class CartViewModel extends BaseViewModel {
   List<PromotionPointify>? promotionsHasVoucher = [];
   List<PromotionPointify>? promotionsUsingPromotionCode = [];
   List<VoucherModel>? listUserVoucher = [];
+  List<PaymentProvider> listPayment = [];
   CartViewModel() {
-    cart.orderType = OrderTypeEnum.EAT_IN;
+    cart.orderType = OrderTypeEnum.TAKE_AWAY;
     cart.productList = [];
     cart.promotionList = [];
-    cart.paymentType = PaymentTypeEnums.CASH;
     cart.totalAmount = 0;
     cart.finalAmount = 0;
     cart.bonusPoint = 0;
     cart.shippingFee = 0;
     cart.deliveryAddress = null;
+
+    listPayment = [
+      PaymentProvider(
+          name: "Thanh toán khi nhận hàng",
+          code: PaymentTypeEnums.CASH,
+          icon:
+              'https://firebasestorage.googleapis.com/v0/b/pos-system-47f93.appspot.com/o/files%2Fcash.png?alt=media&token=42566a9d-b092-4e80-90dd-9313aeee081d'),
+      PaymentProvider(
+          name: "Thẻ thành viên",
+          code: PaymentTypeEnums.POINTIFY,
+          icon:
+              "https://firebasestorage.googleapis.com/v0/b/pos-system-47f93.appspot.com/o/files%2Fpointify.jpg?alt=media&token=c1953b7c-23d4-4fb6-b866-ac13ae639a00")
+    ];
+    cart.paymentType = listPayment[0].code;
   }
 
   Future<void> getListPromotion() async {
@@ -193,9 +207,14 @@ class CartViewModel extends BaseViewModel {
     notifyListeners();
   }
 
+  void setPayment(String? type) {
+    cart.paymentType = type;
+    notifyListeners();
+  }
+
   void setOrderType(String? type) {
     cart.orderType = type;
-    if (type == OrderTypeEnum.EAT_IN) {
+    if (type == OrderTypeEnum.TAKE_AWAY) {
       cart.deliveryAddress = null;
     }
     notifyListeners();

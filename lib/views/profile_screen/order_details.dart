@@ -400,6 +400,9 @@ class _OrderDetailsState extends State<OrderDetails> {
                             ),
                           ),
                         ),
+                        SizedBox(
+                          height: 32,
+                        )
                       ],
                     ),
                   ),

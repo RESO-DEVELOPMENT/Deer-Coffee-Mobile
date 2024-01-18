@@ -63,22 +63,16 @@ class _OrderHistoryState extends State<OrderHistory> {
             appBar: AppBar(
               title: Text(
                 'Hoạt động',
-                style: Get.textTheme.titleMedium
+                style: Get.textTheme.bodyLarge
                     ?.copyWith(fontWeight: FontWeight.bold),
               ),
               centerTitle: true,
               bottom: TabBar(
-                indicatorColor: Get.theme.colorScheme.primary,
+                indicatorColor: ThemeColor.primary,
                 tabs: const [
                   Tab(text: 'Đơn hàng'),
                   Tab(text: 'Giao dịch'),
                 ],
-              ),
-              leading: IconButton(
-                icon: const Icon(Icons.arrow_back_ios),
-                onPressed: () {
-                  Get.back();
-                },
               ),
             ),
             body: TabBarView(
@@ -108,137 +102,134 @@ class _OrderHistoryState extends State<OrderHistory> {
       onTap: () {
         Get.toNamed("${RouteHandler.ORDER_DETAILS}?id=${order.id}");
       },
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8),
-            child: Row(
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(formatTime(order.startDate ?? ''),
-                    style: const TextStyle(color: Colors.grey)),
-                Text(formatPrice(order.finalAmount ?? 0),
-                    style: Get.textTheme.bodySmall
-                        ?.copyWith(fontWeight: FontWeight.bold)),
+                    style:
+                        Get.textTheme.labelSmall?.copyWith(color: Colors.grey)),
+                Text(showOrderStatus(order.status ?? ''),
+                    style: Get.textTheme.labelSmall?.copyWith(
+                        color: order.status == OrderStatusEnum.PAID
+                            ? Colors.teal
+                            : order.status == OrderStatusEnum.CANCELED
+                                ? Colors.redAccent
+                                : Colors.grey)),
               ],
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 10),
-            child: Row(
+            const SizedBox(height: 4),
+            Row(
               children: [
-                const Icon(Icons.local_cafe,
+                const Icon(Icons.store,
                     color: Colors.grey, size: 16), // Biểu tượng cafe
                 const SizedBox(width: 5),
-                Text(order.invoiceId ?? '', style: Get.textTheme.bodySmall),
+                Text(order.storeName ?? '', style: Get.textTheme.bodySmall),
               ],
             ),
-          ),
-          const SizedBox(height: 10),
-          Padding(
-            padding: const EdgeInsets.only(left: 10),
-            child: Row(
-              children: [
-                const Icon(Icons.location_on,
-                    color: Colors.grey, size: 16), // Biểu tượng vị trí
-                const SizedBox(width: 5),
-                Expanded(
-                  child: Text(
-                    order.address ?? '',
-                    style: Get.textTheme.bodySmall,
-                  ),
-                ),
-              ],
+            const SizedBox(height: 4),
+            order.address != null
+                ? Row(
+                    children: [
+                      const Icon(Icons.location_on,
+                          color: Colors.grey, size: 16), // Biểu tượng vị trí
+                      const SizedBox(width: 5),
+                      Expanded(
+                        child: Text(
+                          order.address ?? '',
+                          style: Get.textTheme.bodySmall,
+                        ),
+                      ),
+                    ],
+                  )
+                : SizedBox(),
+            const SizedBox(height: 4),
+            Align(
+              alignment: Alignment.bottomRight,
+              child: Text(formatPrice(order.finalAmount ?? 0),
+                  style: Get.textTheme.bodySmall
+                      ?.copyWith(fontWeight: FontWeight.bold)),
             ),
-          ),
-          const SizedBox(height: 10),
-          Divider(
-            color: Colors.grey[300],
-            thickness: 1,
-          ),
-        ],
+            Divider(
+              color: Colors.grey[300],
+              thickness: 1,
+            ),
+          ],
+        ),
       ),
     );
   }
 
   Widget transactionCard(TransactionModel transactionModel) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(16),
       child: InkWell(
           onTap: () {
             // Get.toNamed("${RouteHandler.ORDER_DETAILS}?id=${order.id}");
           },
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(
-                width: 50,
-                height: 50,
+              Padding(
+                padding: EdgeInsets.fromLTRB(0, 4, 4, 4),
                 child: transactionModel.type == TransactionTypeEnum.PAYMENT
                     ? const Icon(CupertinoIcons.creditcard,
-                        color: Colors.green, size: 30)
+                        color: Colors.green, size: 24)
                     : transactionModel.type == TransactionTypeEnum.GET_POINT
                         ? const Icon(
                             CupertinoIcons.money_dollar_circle,
                             color: Colors.green,
-                            size: 30,
+                            size: 24,
                           )
                         : transactionModel.type == TransactionTypeEnum.TOP_UP
                             ? const Icon(
                                 Icons.account_balance_wallet,
                                 color: Colors.blue,
-                                size: 30,
+                                size: 24,
                               )
-                            : const Icon(Icons.mic_none),
+                            : const Icon(Icons.info_outline),
               ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    transactionModel.type == TransactionTypeEnum.PAYMENT
-                        ? "Thanh toán đơn hàng"
-                        : transactionModel.type == TransactionTypeEnum.GET_POINT
-                            ? "Tích điểm thành viên"
-                            : transactionModel.type ==
-                                    TransactionTypeEnum.TOP_UP
-                                ? "Nạp thẻ"
-                                : "Khác",
-                    style: Get.textTheme.titleMedium,
-                  ),
-                  const SizedBox(height: 4), // Add spacing between lines
-                  Text(
-                    formatTime(transactionModel.createdDate ?? ''),
-                    style: const TextStyle(color: Colors.grey),
-                  ),
-                ],
-              ),
-              const Divider(),
               Expanded(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(
-                      width: 30,
-                      height: 30,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          transactionModel.type == TransactionTypeEnum.PAYMENT
+                              ? "Thanh toán đơn hàng"
+                              : transactionModel.type ==
+                                      TransactionTypeEnum.GET_POINT
+                                  ? "Tích điểm thành viên"
+                                  : transactionModel.type ==
+                                          TransactionTypeEnum.TOP_UP
+                                      ? "Nạp thẻ"
+                                      : "Khác",
+                          style: Get.textTheme.bodyMedium,
+                        ),
+                        Text(
+                          "${transactionModel.isIncrease! ? " + " : " - "}${formatPrice(transactionModel.amount ?? 0)} ${transactionModel.currency!}",
+                          style: Get.textTheme.bodyMedium?.copyWith(
+                            color: transactionModel.isIncrease!
+                                ? Colors.green
+                                : Colors.red,
+                          ),
+                        ),
+                      ],
                     ),
+                    const SizedBox(height: 4), // Add spacing between lines
                     Text(
-                      "${transactionModel.isIncrease! ? " + " : " - "}${transactionModel.amount} ${transactionModel.currency!}",
-                      style: Get.textTheme.titleMedium?.copyWith(
-                        color: transactionModel.isIncrease!
-                            ? Colors.green
-                            : Colors.red,
-                      ),
+                      formatTime(transactionModel.createdDate ?? ''),
+                      style: const TextStyle(color: Colors.grey),
                     ),
-                    if (transactionModel.brandPartnerId != null &&
-                        transactionModel.brandPartnerId!.isNotEmpty)
-                      Text(
-                        "${transactionModel.brandPartnerId}",
-                        style: Get.textTheme.titleSmall,
-                      ),
                   ],
                 ),
               ),
