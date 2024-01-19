@@ -1,9 +1,8 @@
 import 'package:deer_coffee/enums/order_enum.dart';
 import 'package:deer_coffee/models/transactions.dart';
+import 'package:deer_coffee/utils/route_constrant.dart';
 import 'package:deer_coffee/utils/theme.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -38,9 +37,9 @@ class _TransactionsHistoryState extends State<TransactionsHistory> {
             return SizedBox(
                 width: Get.width,
                 height: 200,
-                child: Center(child: CircularProgressIndicator()));
+                child: const Center(child: CircularProgressIndicator()));
           } else if (listTrans == []) {
-            return Scaffold(
+            return const Scaffold(
               body: Center(
                 child: Text("Hiện không có giao dịch nào"),
               ),
@@ -60,12 +59,14 @@ class _TransactionsHistoryState extends State<TransactionsHistory> {
   }
 
   Widget transactionCard(TransactionModel transactionModel) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: InkWell(
-        onTap: () {
-          // Get.toNamed("${RouteHandler.ORDER_DETAILS}?id=${order.id}");
-        },
+    return InkWell(
+      onTap: () {
+        Get.toNamed(
+            "${RouteHandler.Transaction_Detail}?id=${transactionModel.id}");
+        print(true);
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -85,7 +86,9 @@ class _TransactionsHistoryState extends State<TransactionsHistory> {
                     style: Get.textTheme.titleMedium?.copyWith(
                         color: transactionModel.isIncrease!
                             ? Colors.green
-                            : Colors.red))
+                            : Colors.red)),
+                Text("${transactionModel.id}",
+                    style: const TextStyle(color: Colors.amber))
               ],
             ),
             Row(

@@ -46,7 +46,7 @@ class _QrScreenState extends State<QrScreen> {
         break;
       case "GET_POINT":
         setState(() {
-          qrData = accountViewModel?.memberShipModel?.phoneNumber;
+          qrData = accountViewModel.memberShipModel?.phoneNumber;
           _countdown = 120;
         });
         break;
@@ -119,7 +119,6 @@ class _QrScreenState extends State<QrScreen> {
                     const SizedBox(
                       height: 4,
                     ),
-
                     const Text("Đưa mã này cho thu ngân"),
                     Padding(
                       padding: const EdgeInsets.all(4),
@@ -164,7 +163,7 @@ class _QrScreenState extends State<QrScreen> {
                         ),
                         Positioned(
                           child: ClipRRect(
-                            borderRadius: BorderRadius.only(
+                            borderRadius: const BorderRadius.only(
                               topRight: Radius.circular(100),
                               bottomRight: Radius.circular(100),
                             ),
@@ -178,7 +177,7 @@ class _QrScreenState extends State<QrScreen> {
                         Positioned(
                           right: 0,
                           child: ClipRRect(
-                            borderRadius: BorderRadius.only(
+                            borderRadius: const BorderRadius.only(
                               topLeft: Radius.circular(100),
                               bottomLeft: Radius.circular(100),
                             ),
@@ -195,7 +194,7 @@ class _QrScreenState extends State<QrScreen> {
                       children: [
                         Container(
                           margin: const EdgeInsets.fromLTRB(16, 0, 0, 0),
-                          child: Text("Ẩn/Hiện"),
+                          child: const Text("Ẩn/Hiện"),
                         ),
                         IconButton(
                           icon: Icon(
@@ -232,7 +231,7 @@ class _QrScreenState extends State<QrScreen> {
                                     color: Colors.grey.withOpacity(0.3),
                                     spreadRadius: 2,
                                     blurRadius: 5,
-                                    offset: Offset(0, 3),
+                                    offset: const Offset(0, 3),
                                   ),
                                 ],
                               ),

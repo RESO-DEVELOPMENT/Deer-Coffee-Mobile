@@ -146,7 +146,7 @@ class _OrderHistoryState extends State<OrderHistory> {
                       ),
                     ],
                   )
-                : SizedBox(),
+                : const SizedBox(),
             const SizedBox(height: 4),
             Align(
               alignment: Alignment.bottomRight,
@@ -176,7 +176,7 @@ class _OrderHistoryState extends State<OrderHistory> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Padding(
-                padding: EdgeInsets.fromLTRB(0, 4, 4, 4),
+                padding: const EdgeInsets.fromLTRB(0, 4, 4, 4),
                 child: transactionModel.type == TransactionTypeEnum.PAYMENT
                     ? const Icon(CupertinoIcons.creditcard,
                         color: Colors.green, size: 24)
