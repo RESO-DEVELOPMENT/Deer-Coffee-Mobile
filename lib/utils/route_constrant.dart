@@ -18,6 +18,7 @@ class RouteHandler {
   static const String STORE = "/store";
   static const String STORES = "/store-list";
   static const String TRANSACTIONS = "/transactions";
+
   static const String POLICY = "/policy";
   static const String QR = "/qr";
   static const String Transaction_Detail = "/transaction-details";
