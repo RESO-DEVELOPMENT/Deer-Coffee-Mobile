@@ -22,6 +22,8 @@ class _MyOtpState extends State<MyOtp> {
   String? phoneNumber;
   String? pin;
   TextEditingController? pinController = TextEditingController();
+  TextEditingController? reenterPinController = TextEditingController();
+
   final focusNode = FocusNode();
   final formKey = GlobalKey<FormState>();
 
@@ -38,6 +40,57 @@ class _MyOtpState extends State<MyOtp> {
     focusNode.dispose();
     _timer.cancel();
     super.dispose();
+  }
+
+  Widget _buildPinStatus() {
+    return Center(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            pinController?.text.length == 6
+                ? Icons.check_circle
+                : Icons.radio_button_unchecked,
+            color: pinController?.text.length == 6 ? Colors.green : Colors.grey,
+          ),
+          const SizedBox(width: 8),
+          Text(
+            'PIN is ${pinController?.text.length == 6 ? 'valid' : 'invalid'}',
+            style: TextStyle(
+              color:
+                  pinController?.text.length == 6 ? Colors.green : Colors.grey,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildReenterPinStatus() {
+    return Center(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            reenterPinController?.text.length == 6
+                ? Icons.check_circle
+                : Icons.radio_button_unchecked,
+            color: reenterPinController?.text.length == 6
+                ? Colors.green
+                : Colors.grey,
+          ),
+          const SizedBox(width: 8),
+          Text(
+            'Re-entered PIN is ${reenterPinController?.text.length == 6 ? 'valid' : 'invalid'}',
+            style: TextStyle(
+              color: reenterPinController?.text.length == 6
+                  ? Colors.green
+                  : Colors.grey,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   void startCountdown() {
@@ -171,6 +224,10 @@ class _MyOtpState extends State<MyOtp> {
                           ),
                           textAlign: TextAlign.center,
                         ),
+                        _buildPinStatus(),
+
+                        // _buildReenterPinStatus(),
+
                         const SizedBox(
                           height: 16,
                         ),
@@ -185,6 +242,7 @@ class _MyOtpState extends State<MyOtp> {
                         const SizedBox(
                           height: 16,
                         ),
+
                         SizedBox(
                           width: 200,
                           height: 50,

@@ -16,7 +16,7 @@ enum Language {
 Language currentLanguage = Language.Vietnamese;
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+  const LoginScreen({super.key});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -41,186 +41,227 @@ class _LoginScreenState extends State<LoginScreen> {
     super.initState();
   }
 
-  bool isPhoneNumberValid() {
-    RegExp regex = RegExp(r'^\d{10}$');
-    return regex.hasMatch(phoneNumber.text);
+  // bool isValidPhoneNumber() {
+  //   RegExp regex = RegExp('/(84[3|5|7|8|9])+([0-9]{8})\b/g');
+  //   return regex.hasMatch(phoneNumber.text);
+  // }
+
+  bool isValidPhoneNumber(String input) {
+    RegExp regex = RegExp('/([3|5|7|8|9])+([0-9]{8})\b/g');
+    if (regex.hasMatch(input)) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset:
-          false, // Không cho phép resize khi bàn phím xuất hiện
-      body: Stack(
-        children: [
-          Container(
-            height: 240,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('assets/images/image.png'),
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-          Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(25.0),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Column(
-                          children: [
-                            Container(
-                              child: IconButton(
-                                icon: Icon(
-                                  Icons.cancel,
-                                  color: Colors.white,
-                                  size: 30,
-                                ),
-                                onPressed: () {
-                                  Navigator.of(context)
-                                      .pop(); // Navigate back to the previous screen (LoginScreen)
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ],
+    GlobalKey<FormState> phoneKey = GlobalKey<FormState>();
+    // print("Phone Number: ${phoneNumber.text}");
+    // print("Validation Result: ${phoneKey.currentState?.validate()}");
+    // print("valid phone ? :   ${isValidPhoneNumber(phoneNumber.text)}");
+    return Form(
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      key: phoneKey,
+      child: Scaffold(
+        resizeToAvoidBottomInset:
+            false, // Không cho phép resize khi bàn phím xuất hiện
+        body: Stack(
+          children: [
+            Container(
+              height: 240,
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/images/image.png'),
+                  fit: BoxFit.cover,
                 ),
               ),
-              SizedBox(
-                height: 100,
-              ),
-              Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(20),
-                      topRight: Radius.circular(20),
-                    ),
-                    color: Colors.white,
-                  ),
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+            ),
+            Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(25.0),
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Text.rich(
-                        TextSpan(children: [
-                          TextSpan(
-                              text: "Chào mừng bạn đến với ",
-                              style: TextStyle(color: Colors.grey)),
-                        ]),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        "Deer Coffee",
-                        style:
-                            Theme.of(context).textTheme.headlineSmall!.copyWith(
-                                  fontSize: 35,
-                                  fontWeight: FontWeight.bold,
-                                  color: ThemeColor.primary,
-                                ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: Get.width * 0.1,
-                          vertical: 20.0,
-                        ),
-                        child: Container(
-                          width: 240,
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              width: 1,
-                              color: Colors.grey,
-                            ),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Row(
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Column(
                             children: [
                               Container(
-                                padding: EdgeInsets.fromLTRB(16, 4, 4, 4),
-                                width: 40,
-                                // child: TextField(
-                                //   controller: countrycode,
-                                //   decoration: InputDecoration(
-                                //     border: InputBorder.none,
-                                //   ),
-                                // ),
-                              ),
-                              Expanded(
-                                child: TextField(
-                                  controller: phoneNumber,
-                                  maxLengthEnforcement: MaxLengthEnforcement
-                                      .truncateAfterCompositionEnds,
-                                  enableSuggestions: false,
-                                  keyboardType: TextInputType.number,
-                                  decoration: InputDecoration(
-                                    border: InputBorder.none,
-                                    hintText: "Nhập số điện thoại",
+                                child: IconButton(
+                                  icon: const Icon(
+                                    Icons.cancel,
+                                    color: Colors.white,
+                                    size: 30,
                                   ),
+                                  onPressed: () {
+                                    Navigator.of(context)
+                                        .pop(); // Navigate back to the previous screen (LoginScreen)
+                                  },
                                 ),
                               ),
                             ],
                           ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 240,
-                        height: 50,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            // Get.toNamed(RouteHandler.OTP);
-                            Get.find<AccountViewModel>()
-                                .checkUser(phoneNumber.text);
-                          },
-                          child: Text('Đăng nhập',
-                              style: Get.textTheme.bodyLarge
-                                  ?.copyWith(color: Colors.white)),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: ThemeColor.primary,
-                            textStyle: const TextStyle(
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 60,
-                      ),
-                      SizedBox(
-                        child: InkWell(
-                          onTap: () {
-                            toggleLanguage();
-                          },
-                          child: Text(
-                            currentLanguage == Language.Vietnamese
-                                ? "Tiếng Việt"
-                                : "English",
-                            style: TextStyle(
-                              fontSize: 16.0,
-                              color: Colors.black,
-                              decoration: TextDecoration.underline,
-                            ),
-                          ),
-                        ),
+                        ],
                       ),
                     ],
                   ),
                 ),
-              ),
-            ],
-          ),
-        ],
+                const SizedBox(
+                  height: 100,
+                ),
+                Expanded(
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(20),
+                        topRight: Radius.circular(20),
+                      ),
+                      color: Colors.white,
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 10, vertical: 20),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        const Text.rich(
+                          TextSpan(children: [
+                            TextSpan(
+                                text: "Chào mừng bạn đến với ",
+                                style: TextStyle(color: Colors.grey)),
+                          ]),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          "Deer Coffee",
+                          style: Theme.of(context)
+                              .textTheme
+                              .headlineSmall!
+                              .copyWith(
+                                fontSize: 35,
+                                fontWeight: FontWeight.bold,
+                                color: ThemeColor.primary,
+                              ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: Get.width * 0.1,
+                            vertical: 20.0,
+                          ),
+                          child: Container(
+                            width: 240,
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                width: 1,
+                                color: Colors.grey,
+                              ),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Row(
+                              children: [
+                                Container(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(16, 4, 4, 4),
+                                  width: 40,
+                                  // child: TextField(
+                                  //   controller: countrycode,
+                                  //   decoration: const InputDecoration(
+                                  //     border: InputBorder.none,
+                                  //   ),
+                                  // ),
+                                ),
+                                Expanded(
+                                  child: TextFormField(
+                                    controller: phoneNumber,
+                                    maxLengthEnforcement: MaxLengthEnforcement
+                                        .truncateAfterCompositionEnds,
+                                    enableSuggestions: false,
+                                    maxLength: 10,
+                                    // onChanged: (value) {
+                                    //   phoneKey.currentState?.validate();
+                                    // },
+                                    onSaved: (value) {
+                                      phoneKey.currentState?.validate();
+                                    },
+                                    validator: (value) {
+                                      if (value!.isEmpty) {
+                                        return "Bạn đang để trống số điện thoại";
+                                      } else if (!RegExp(
+                                              '(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})')
+                                          .hasMatch(value)) {
+                                        return "Số điện thoại không hợp lệ";
+                                      } else {
+                                        return null;
+                                      }
+                                    },
+                                    keyboardType: TextInputType.number,
+                                    decoration: const InputDecoration(
+                                      counterText: '',
+                                      border: InputBorder.none,
+                                      hintText: "Nhập số điện thoại",
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          // final isPhoneNumberValid = isValidPhoneNumber(phoneNumber.text),
+                          width: 240,
+                          height: 50,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: ThemeColor.primary,
+                              textStyle: const TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                            onPressed: () {
+                              // Get.toNamed(RouteHandler.OTP);
+                              Get.find<AccountViewModel>()
+                                  .checkUser(phoneNumber.text);
+                            },
+                            child: Text('Đăng nhập',
+                                style: Get.textTheme.bodyLarge
+                                    ?.copyWith(color: Colors.white)),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 60,
+                        ),
+                        SizedBox(
+                          child: InkWell(
+                            onTap: () {
+                              toggleLanguage();
+                            },
+                            child: Text(
+                              currentLanguage == Language.Vietnamese
+                                  ? "Tiếng Việt"
+                                  : "English",
+                              style: const TextStyle(
+                                fontSize: 16.0,
+                                color: Colors.black,
+                                decoration: TextDecoration.underline,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
