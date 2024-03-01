@@ -152,65 +152,87 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         Padding(
                           padding: EdgeInsets.symmetric(
-                            horizontal: Get.width * 0.1,
+                            horizontal: Get.width * 0.15,
                             vertical: 20.0,
                           ),
-                          child: Container(
-                            width: 240,
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                width: 1,
-                                color: Colors.grey,
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: TextFormField(
+                                  controller: phoneNumber,
+                                  maxLengthEnforcement: MaxLengthEnforcement
+                                      .truncateAfterCompositionEnds,
+                                  enableSuggestions: false,
+                                  maxLength: 10,
+                                  // onChanged: (value) {
+                                  //   phoneKey.currentState?.validate();
+                                  // },
+                                  onSaved: (value) {
+                                    phoneKey.currentState?.validate();
+                                  },
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return "Bạn đang để trống số điện thoại";
+                                    } else if (!RegExp(
+                                            '(01|02|03|05|07|08|09|01[2|6|8|9])+([0-9]{8})')
+                                        .hasMatch(value)) {
+                                      return "Số điện thoại không hợp lệ";
+                                    } else {
+                                      return null;
+                                    }
+                                  },
+                                  keyboardType: TextInputType.number,
+                                  decoration: InputDecoration(
+                                      hintText: "Số điện thoại",
+                                      hintStyle: Get.textTheme.bodyMedium,
+                                      floatingLabelBehavior:
+                                          FloatingLabelBehavior.never,
+                                      filled: true,
+                                      isDense: true,
+                                      labelStyle: Get.textTheme.labelLarge,
+                                      fillColor:
+                                          Get.theme.colorScheme.background,
+                                      prefixIcon: Icon(
+                                        Icons.phone,
+                                        color:
+                                            Get.theme.colorScheme.onBackground,
+                                      ),
+                                      suffixIcon: IconButton(
+                                        onPressed: () {
+                                          phoneNumber.text = "";
+                                        },
+                                        icon: Icon(Icons.clear),
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(12),
+                                          borderSide: BorderSide(
+                                              color: ThemeColor.primary,
+                                              width: 2.0)),
+                                      focusedBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(12),
+                                          borderSide: BorderSide(
+                                              color: ThemeColor.primary,
+                                              width: 2.0)),
+                                      border: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(12),
+                                          borderSide: BorderSide(
+                                              color: ThemeColor.primary,
+                                              width: 2.0)),
+                                      contentPadding: EdgeInsets.all(16),
+                                      isCollapsed: true,
+                                      errorBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(12),
+                                          borderSide: BorderSide(
+                                              color:
+                                                  Get.theme.colorScheme.error,
+                                              width: 2.0))),
+                                ),
                               ),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Row(
-                              children: [
-                                Container(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(16, 4, 4, 4),
-                                  width: 40,
-                                  // child: TextField(
-                                  //   controller: countrycode,
-                                  //   decoration: const InputDecoration(
-                                  //     border: InputBorder.none,
-                                  //   ),
-                                  // ),
-                                ),
-                                Expanded(
-                                  child: TextFormField(
-                                    controller: phoneNumber,
-                                    maxLengthEnforcement: MaxLengthEnforcement
-                                        .truncateAfterCompositionEnds,
-                                    enableSuggestions: false,
-                                    maxLength: 10,
-                                    // onChanged: (value) {
-                                    //   phoneKey.currentState?.validate();
-                                    // },
-                                    onSaved: (value) {
-                                      phoneKey.currentState?.validate();
-                                    },
-                                    validator: (value) {
-                                      if (value!.isEmpty) {
-                                        return "Bạn đang để trống số điện thoại";
-                                      } else if (!RegExp(
-                                              '(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})')
-                                          .hasMatch(value)) {
-                                        return "Số điện thoại không hợp lệ";
-                                      } else {
-                                        return null;
-                                      }
-                                    },
-                                    keyboardType: TextInputType.number,
-                                    decoration: const InputDecoration(
-                                      counterText: '',
-                                      border: InputBorder.none,
-                                      hintText: "Nhập số điện thoại",
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
+                            ],
                           ),
                         ),
                         SizedBox(
@@ -237,23 +259,23 @@ class _LoginScreenState extends State<LoginScreen> {
                         const SizedBox(
                           height: 60,
                         ),
-                        SizedBox(
-                          child: InkWell(
-                            onTap: () {
-                              toggleLanguage();
-                            },
-                            child: Text(
-                              currentLanguage == Language.Vietnamese
-                                  ? "Tiếng Việt"
-                                  : "English",
-                              style: const TextStyle(
-                                fontSize: 16.0,
-                                color: Colors.black,
-                                decoration: TextDecoration.underline,
-                              ),
-                            ),
-                          ),
-                        ),
+                        // SizedBox(
+                        //   child: InkWell(
+                        //     onTap: () {
+                        //       toggleLanguage();
+                        //     },
+                        //     child: Text(
+                        //       currentLanguage == Language.Vietnamese
+                        //           ? "Tiếng Việt"
+                        //           : "English",
+                        //       style: const TextStyle(
+                        //         fontSize: 16.0,
+                        //         color: Colors.black,
+                        //         decoration: TextDecoration.underline,
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
                       ],
                     ),
                   ),

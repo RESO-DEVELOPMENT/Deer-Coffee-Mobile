@@ -5,8 +5,7 @@ import 'package:deer_coffee/utils/share_pref.dart';
 import 'package:deer_coffee/view_models/account_view_model.dart';
 import 'package:deer_coffee/view_models/cart_view_model.dart';
 import 'package:deer_coffee/views/drips.dart';
-import 'package:deer_coffee/views/reward.dart';
-import 'package:deer_coffee/views/reward_coffee.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -257,50 +256,6 @@ class _PromotionsScreenState extends State<PromotionsScreen> {
             ),
           );
         }),
-      ),
-    );
-  }
-
-  Widget buildUtilityWidget(String title) {
-    return GestureDetector(
-      onTap: () {
-        if (title == "Lịch sử BEAN") {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => RewardCoffee(),
-            ),
-          );
-        } else if (title == "Hạng thành viên") {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => Reward(),
-            ),
-          );
-        } else if (title == "Đổi Bean") {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => Drip(),
-            ),
-          );
-        }
-      },
-      child: Container(
-        height: 80,
-        margin: EdgeInsets.all(4),
-        padding: EdgeInsets.all(8),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16),
-          color: Colors.white,
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(title,
-                style: Get.textTheme.bodyMedium
-                    ?.copyWith(fontWeight: FontWeight.bold)),
-          ],
-        ),
       ),
     );
   }

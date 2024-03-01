@@ -1,15 +1,10 @@
 import 'package:deer_coffee/enums/view_status.dart';
-import 'package:deer_coffee/models/pointify/promotion_details_model.dart';
 import 'package:deer_coffee/models/pointify/promotion_model.dart';
-import 'package:deer_coffee/models/pointify/voucher_model.dart';
 import 'package:deer_coffee/models/user.dart';
 import 'package:deer_coffee/utils/format.dart';
-import 'package:deer_coffee/utils/route_constrant.dart';
-import 'package:deer_coffee/utils/share_pref.dart';
 import 'package:deer_coffee/utils/theme.dart';
 import 'package:deer_coffee/view_models/account_view_model.dart';
 import 'package:deer_coffee/view_models/cart_view_model.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';

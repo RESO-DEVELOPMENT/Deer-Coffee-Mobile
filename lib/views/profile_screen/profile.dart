@@ -14,6 +14,7 @@ import 'package:ionicons/ionicons.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 import '../../enums/view_status.dart';
+import '../../models/user_create.dart';
 import '../../utils/format.dart';
 import '../../utils/route_constrant.dart';
 import '../../view_models/account_view_model.dart';
@@ -620,56 +621,56 @@ class _OtherPageState extends State<OtherPage> {
                                 ),
                               ),
                               const Divider(),
-                              SizedBox(
-                                height: 50,
-                                child: InkWell(
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const Location()),
-                                    );
-                                  },
-                                  child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text('Địa chỉ đã lưu',
-                                          style: Get.textTheme.bodyMedium
-                                              ?.copyWith(
-                                                  fontWeight: FontWeight.bold)),
-                                      const Icon(Icons.location_on_outlined)
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              const Divider(),
-                              SizedBox(
-                                height: 50,
-                                child: InkWell(
-                                  onTap: () {
-                                    showAlertDialog(
-                                        content: "Tính năng đang phát triển");
-                                  },
-                                  child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text('Cài đặt',
-                                          style: Get.textTheme.bodyMedium
-                                              ?.copyWith(
-                                                  fontWeight: FontWeight.bold)),
-                                      const Icon(Icons.settings_outlined)
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              const Divider(),
+                              // SizedBox(
+                              //   height: 50,
+                              //   child: InkWell(
+                              //     onTap: () {
+                              //       Navigator.push(
+                              //         context,
+                              //         MaterialPageRoute(
+                              //             builder: (context) =>
+                              //                 const Location()),
+                              //       );
+                              //     },
+                              //     child: Row(
+                              //       crossAxisAlignment:
+                              //           CrossAxisAlignment.center,
+                              //       mainAxisAlignment:
+                              //           MainAxisAlignment.spaceBetween,
+                              //       children: [
+                              //         Text('Địa chỉ đã lưu',
+                              //             style: Get.textTheme.bodyMedium
+                              //                 ?.copyWith(
+                              //                     fontWeight: FontWeight.bold)),
+                              //         const Icon(Icons.location_on_outlined)
+                              //       ],
+                              //     ),
+                              //   ),
+                              // ),
+                              // const Divider(),
+                              // SizedBox(
+                              //   height: 50,
+                              //   child: InkWell(
+                              //     onTap: () {
+                              //       showAlertDialog(
+                              //           content: "Tính năng đang phát triển");
+                              //     },
+                              //     child: Row(
+                              //       crossAxisAlignment:
+                              //           CrossAxisAlignment.center,
+                              //       mainAxisAlignment:
+                              //           MainAxisAlignment.spaceBetween,
+                              //       children: [
+                              //         Text('Cài đặt',
+                              //             style: Get.textTheme.bodyMedium
+                              //                 ?.copyWith(
+                              //                     fontWeight: FontWeight.bold)),
+                              //         const Icon(Icons.settings_outlined)
+                              //       ],
+                              //     ),
+                              //   ),
+                              // ),
+                              // const Divider(),
                               SizedBox(
                                 height: 50,
                                 child: InkWell(
@@ -723,6 +724,51 @@ class _OtherPageState extends State<OtherPage> {
                                   ),
                                 ),
                               ),
+                              const Divider(),
+
+                              userModel != null
+                                  ? SizedBox(
+                                      height: 50,
+                                      child: InkWell(
+                                        onTap: () async {
+                                          showConfirmDialog(
+                                                  title: "Xoá tài khoản",
+                                                  content:
+                                                      "Tài khoản của bạn sẽ đuợc xoá khỏi hệ thống\nThông tin đơn hàng vẫn được lưu trử để phục vụ mục đích tra cứu thông tin đơn hàng\nChúng tôi đảm bảo thông tin của bạn được bảo mật hoàn toàn",
+                                                  confirmText: "Xoá tài khoản")
+                                              .then((value) async => {
+                                                    if (value)
+                                                      {
+                                                        await Get.find<
+                                                                AccountViewModel>()
+                                                            .updateUser(
+                                                                UserUpdate(
+                                                                    status:
+                                                                        "Deactive"),
+                                                                userModel?.id ??
+                                                                    ''),
+                                                        Get.toNamed(
+                                                            RouteHandler.LOGIN)
+                                                      }
+                                                  });
+                                        },
+                                        child: Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text('Xoá tài khoản',
+                                                style: Get.textTheme.bodyMedium
+                                                    ?.copyWith(
+                                                        fontWeight:
+                                                            FontWeight.bold)),
+                                            const Icon(Icons.delete)
+                                          ],
+                                        ),
+                                      ),
+                                    )
+                                  : SizedBox(),
                             ],
                           ),
                         ),

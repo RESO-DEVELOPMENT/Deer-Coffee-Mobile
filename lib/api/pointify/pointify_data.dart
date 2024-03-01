@@ -5,7 +5,7 @@ class PointifyData {
   Future<List<PromotionPointify>> getListPromotionOfPointify(
       String userId) async {
     final res = await request.get(
-      'users/$userId/promotions?brandCode=DeerCoffee',
+      'users/$userId/promotions?brandCode=DEERCOFFEE',
     );
     var jsonList = res.data;
     List<PromotionPointify> listPromotion =

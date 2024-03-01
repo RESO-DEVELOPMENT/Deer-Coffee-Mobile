@@ -17,7 +17,6 @@ import 'package:deer_coffee/views/profile_screen/transaction_history.dart';
 import 'package:deer_coffee/views/qr_screen/qr_screen.dart';
 import 'package:deer_coffee/views/stores_screen/store.dart';
 import 'package:deer_coffee/views/stores_screen/store_details.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -36,9 +35,9 @@ Future<void> main() async {
     HttpOverrides.global = MyHttpOverrides();
   }
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  // await Firebase.initializeApp(
+  //   options: DefaultFirebaseOptions.currentPlatform,
+  // );
 
   setPathUrlStrategy();
   createRouteBindings();

@@ -4,14 +4,15 @@ class UserUpdate {
   String? gender;
   String? email;
   String? urlImg;
+  String? status;
 
-  UserUpdate({
-    this.phoneNunmer,
-    this.fullName,
-    this.gender,
-    this.email,
-    this.urlImg,
-  });
+  UserUpdate(
+      {this.phoneNunmer,
+      this.fullName,
+      this.gender,
+      this.email,
+      this.urlImg,
+      this.status});
 
   UserUpdate.fromJson(Map<String, dynamic> json) {
     phoneNunmer = json['phoneNunmer'];
@@ -19,6 +20,7 @@ class UserUpdate {
     gender = json['gender'];
     email = json['email'];
     urlImg = json['urlImg'];
+    status = json['status'];
   }
 
   Map<String, dynamic> toJson() {
@@ -28,6 +30,7 @@ class UserUpdate {
     data['gender'] = gender;
     data['email'] = email;
     data['urlImg'] = urlImg;
+    data['status'] = status;
     return data;
   }
 }

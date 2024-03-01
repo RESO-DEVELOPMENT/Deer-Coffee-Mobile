@@ -14,7 +14,6 @@ final List<String> imageList = [
   'assets/images/1.png',
   'assets/images/2.png',
   'assets/images/3.png',
-
 ];
 
 class _OrderMethodState extends State<OrderMethod> {
@@ -24,88 +23,93 @@ class _OrderMethodState extends State<OrderMethod> {
     return Scaffold(
       backgroundColor: Color(0xFFE5EDFF),
       appBar: AppBar(
-      title: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-            children: [
-              Image.asset(
-                'assets/images/waving_hand.png',
-                width: 40,
-                height: 40,
-              ),
-              SizedBox(width: 10),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Chào buổi sáng",
-                    style: GoogleFonts.inter(
-                      color: Colors.black,
-                      fontWeight: FontWeight.w300,
-                      fontSize: 13,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                Image.asset(
+                  'assets/images/waving_hand.png',
+                  width: 40,
+                  height: 40,
+                ),
+                SizedBox(width: 10),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Chào buổi sáng",
+                      style: GoogleFonts.inter(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w300,
+                        fontSize: 13,
+                      ),
                     ),
-                  ),
-                  Text(
-                    "Quốc Khánh",
-                    style: GoogleFonts.inter(
-                      color: Colors.black,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 18,
+                    Text(
+                      "Quốc Khánh",
+                      style: GoogleFonts.inter(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 18,
+                      ),
                     ),
+                  ],
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Container(
+                  width: 55,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.rectangle,
+                    borderRadius: BorderRadius.circular(13),
+                    color: Colors.blue,
                   ),
-                ],
-              ),
-            ],
-          ),
-          Row(
-            children: [
-              Container(
-                width: 55,
-                height: 40,
-                decoration: BoxDecoration(
-                  shape: BoxShape.rectangle,
-                  borderRadius: BorderRadius.circular(13),
-                  color: Colors.blue,
-                ),
-                child: IconButton(
-                  icon: Icon(
-                    Icons.confirmation_num_outlined,
-                    color: Colors.white,
+                  child: IconButton(
+                    icon: Icon(
+                      Icons.confirmation_num_outlined,
+                      color: Colors.white,
+                    ),
+                    onPressed: () {},
                   ),
-                  onPressed: () {},
                 ),
-              ),
-              SizedBox(width: 3),
-              Container(
-                width: 50,
-                height: 40,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.blue,
-                ),
-                child: IconButton(
-                  icon: Icon(
-                    Ionicons.notifications_outline,
-                    color: Colors.white,
+                SizedBox(width: 3),
+                Container(
+                  width: 50,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.blue,
                   ),
-                  onPressed: () {},
+                  child: IconButton(
+                    icon: Icon(
+                      Ionicons.notifications_outline,
+                      color: Colors.white,
+                    ),
+                    onPressed: () {},
+                  ),
                 ),
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+          ],
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 1,
       ),
-      backgroundColor: Colors.transparent,
-      elevation: 1,
-    ),
-    bottomNavigationBar: BottomNavigationBar(                 // sau sccaff
+      bottomNavigationBar: BottomNavigationBar(
+        // sau sccaff
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Trang chủ'),
-          BottomNavigationBarItem(icon: Icon(Icons.coffee_outlined), label: 'Đặt hàng'),
-          BottomNavigationBarItem(icon: Icon(Icons.store_outlined), label: 'Cửa hàng'),
-          BottomNavigationBarItem(icon: Icon(Icons.assignment), label: 'Ưu đãi'),
-          BottomNavigationBarItem(icon: Icon(Icons.segment_sharp), label: 'Khác'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.coffee_outlined), label: 'Đặt hàng'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.store_outlined), label: 'Cửa hàng'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.assignment), label: 'Ưu đãi'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.segment_sharp), label: 'Khác'),
         ],
         currentIndex: _currentIndex,
         selectedItemColor: Colors.blue,
@@ -175,7 +179,7 @@ class _OrderMethodState extends State<OrderMethod> {
                                           color: Colors.white,
                                         ),
                                       ),
-],
+                                    ],
                                   ),
                                 ],
                               ),
@@ -254,7 +258,7 @@ class _OrderMethodState extends State<OrderMethod> {
                     ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
-children: [
+                      children: [
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -315,7 +319,7 @@ children: [
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   color: Colors.transparent,
-border: Border.all(color: Colors.transparent),
+                                  border: Border.all(color: Colors.transparent),
                                 ),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -382,7 +386,7 @@ border: Border.all(color: Colors.transparent),
                     children: imageList.map((url) {
                       int index = imageList.indexOf(url);
                       return Container(
-width: 8.0,
+                        width: 8.0,
                         height: 8.0,
                         margin: EdgeInsets.symmetric(
                             vertical: 10.0, horizontal: 2.0),
@@ -453,7 +457,7 @@ width: 8.0,
                               // Xử lý khi nút được nhấn
                             },
                             child: Padding(
-padding: EdgeInsets.symmetric(
+                              padding: EdgeInsets.symmetric(
                                   horizontal: 16.0, vertical: 8.0),
                               child: Text(
                                 'Ưu đãi đặc biệt',
@@ -466,7 +470,7 @@ padding: EdgeInsets.symmetric(
                             ),
                           ),
                         ),
-                        SizedBox(width: 8.0), 
+                        SizedBox(width: 8.0),
                         Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(30.0),
@@ -515,7 +519,7 @@ padding: EdgeInsets.symmetric(
                           ),
                           child: InkWell(
                             borderRadius: BorderRadius.circular(30.0),
-onTap: () {
+                            onTap: () {
                               // Xử lý khi nút được nhấn
                             },
                             child: Padding(
@@ -565,7 +569,7 @@ onTap: () {
                                       text: TextSpan(
                                         style:
                                             DefaultTextStyle.of(context).style,
-                                        children: <TextSpan>[ 
+                                        children: <TextSpan>[
                                           TextSpan(
                                             text: "HÔNG CẦN ĐI XA\n",
                                             style: TextStyle(
@@ -594,8 +598,7 @@ onTap: () {
                                       mainAxisAlignment: MainAxisAlignment
                                           .start, // Align the children to the right
                                       children: [
-                                        Icon(Icons
-                                            .calendar_today), 
+                                        Icon(Icons.calendar_today),
                                         // Your date text
                                         SizedBox(width: 5),
                                         Text(
@@ -613,8 +616,8 @@ onTap: () {
               ),
             ),
           ],
-        ),   
-      ),    
+        ),
+      ),
     );
   }
 

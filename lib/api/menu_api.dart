@@ -16,7 +16,7 @@ class MenuAPI {
 
   Future<List<StoreModel>> getListStore() async {
     var params = <String, dynamic>{
-      'brandCode': 'DeerCoffee',
+      'brandCode': 'DEERCOFFEE',
       'page': 1,
       'size': 20,
     };
@@ -29,7 +29,7 @@ class MenuAPI {
 
   Future<List<BlogModel>> getListBlog() async {
     var params = <String, dynamic>{
-      'brandCode': 'DeerCoffee',
+      'brandCode': 'DEERCOFFEE',
       'page': 1,
       'size': 20,
     };

@@ -17,7 +17,7 @@ class AccountAPI {
   Future<CheckLoginModel?> checkUser(String phone) async {
     final res = await request.get(
       'users/check-login',
-      queryParameters: {'brandCode': "DeerCoffee", 'phone': phone},
+      queryParameters: {'brandCode': "DEERCOFFEE", 'phone': phone},
     );
     var json = res.data;
     CheckLoginModel userInfo = CheckLoginModel.fromJson(json);
@@ -26,7 +26,7 @@ class AccountAPI {
 
   Future<UserModel?> signUp(UserUpdate user) async {
     final res = await request.post('users/sign-up',
-        queryParameters: {'brandCode': "DeerCoffee"}, data: user.toJson());
+        queryParameters: {'brandCode': "DEERCOFFEE"}, data: user.toJson());
     var json = res.data;
     UserModel userInfo = UserModel.fromJson(json);
     return userInfo;
@@ -37,7 +37,7 @@ class AccountAPI {
       "phone": phone,
       "pinCode": pin,
       "method": type,
-      'brandCode': "DeerCoffee"
+      'brandCode': "DEERCOFFEE"
     });
     var json = res.data;
     UserModel userInfo = UserModel.fromJson(json);

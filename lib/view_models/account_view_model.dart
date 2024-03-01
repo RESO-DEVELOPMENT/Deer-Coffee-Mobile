@@ -6,8 +6,8 @@ import 'package:deer_coffee/utils/request.dart';
 import 'package:deer_coffee/view_models/base_view_model.dart';
 import 'package:deer_coffee/view_models/startup_view_model.dart';
 import 'package:deer_coffee/widgets/other_dialogs/dialog.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:get/get.dart';
 import '../models/user.dart';
 import '../utils/route_constrant.dart';
@@ -15,7 +15,7 @@ import '../utils/share_pref.dart';
 import 'cart_view_model.dart';
 
 class AccountViewModel extends BaseViewModel {
-  UserCredential? userCredential;
+  // UserCredential? userCredential;
   AccountAPI accountAPI = AccountAPI();
   String? userId;
   UserDetails? memberShipModel;
@@ -235,6 +235,6 @@ class AccountViewModel extends BaseViewModel {
     var res = await accountAPI.updateUser(id, user);
     memberShipModel = await accountAPI.getUserById(id);
     hideDialog();
-    await showAlertDialog(content: res);
+    // await showAlertDialog(content: res);
   }
 }

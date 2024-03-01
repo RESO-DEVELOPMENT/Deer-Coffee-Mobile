@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:deer_coffee/view_models/account_view_model.dart';
+import 'package:deer_coffee/widgets/other_dialogs/dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pinput/pinput.dart';
@@ -25,7 +26,9 @@ class _MyOtpState extends State<MyOtp> {
   TextEditingController? reenterPinController = TextEditingController();
 
   final focusNode = FocusNode();
+  final reFocusNode = FocusNode();
   final formKey = GlobalKey<FormState>();
+  final reFormKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -37,7 +40,9 @@ class _MyOtpState extends State<MyOtp> {
   @override
   void dispose() {
     pinController?.dispose();
+    reenterPinController?.dispose();
     focusNode.dispose();
+    reFocusNode.dispose();
     _timer.cancel();
     super.dispose();
   }
@@ -55,7 +60,7 @@ class _MyOtpState extends State<MyOtp> {
           ),
           const SizedBox(width: 8),
           Text(
-            'PIN is ${pinController?.text.length == 6 ? 'valid' : 'invalid'}',
+            'Mã PIN ${pinController?.text.length == 6 ? 'hợp lệ' : 'không hợp lệ'}',
             style: TextStyle(
               color:
                   pinController?.text.length == 6 ? Colors.green : Colors.grey,
@@ -218,13 +223,13 @@ class _MyOtpState extends State<MyOtp> {
                             children: [
                               TextSpan(
                                 text: "Nhập mã để tiếp tục ",
-                                style: Get.textTheme.bodyLarge,
+                                style: Get.textTheme.bodyMedium,
                               ),
                             ],
                           ),
                           textAlign: TextAlign.center,
                         ),
-                        _buildPinStatus(),
+                        // _buildPinStatus(),
 
                         // _buildReenterPinStatus(),
 
@@ -236,29 +241,65 @@ class _MyOtpState extends State<MyOtp> {
                           controller: pinController,
                           showCursor: true,
                           focusNode: focusNode,
-                          androidSmsAutofillMethod:
-                              AndroidSmsAutofillMethod.smsUserConsentApi,
                         ),
                         const SizedBox(
                           height: 16,
                         ),
+                        widget.type != "SIGNIN"
+                            ? Column(
+                                children: [
+                                  Text.rich(
+                                    TextSpan(
+                                      children: [
+                                        TextSpan(
+                                          text: "Xác nhận mã pin",
+                                          style: Get.textTheme.bodyMedium,
+                                        ),
+                                      ],
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  // _buildPinStatus(),
 
+                                  // _buildReenterPinStatus(),
+
+                                  const SizedBox(
+                                    height: 8,
+                                  ),
+                                  Pinput(
+                                    length: 6,
+                                    controller: reenterPinController,
+                                    showCursor: true,
+                                    focusNode: reFocusNode,
+                                  ),
+                                ],
+                              )
+                            : SizedBox(),
+                        const SizedBox(
+                          height: 32,
+                        ),
                         SizedBox(
                           width: 200,
                           height: 50,
                           child: ElevatedButton(
                             onPressed: () {
                               if (pinController?.text.length == 6) {
-                                Get.find<AccountViewModel>().onLogin(
-                                    widget.phone,
-                                    pinController?.text ?? '213458',
-                                    widget.type);
+                                if (widget.type != "SIGNIN" &&
+                                    (pinController?.text !=
+                                        reenterPinController?.text)) {
+                                  showAlertDialog(
+                                      title: "Lỗi",
+                                      content: "Mã pin không trùng khớp");
+                                } else {
+                                  Get.find<AccountViewModel>().onLogin(
+                                      widget.phone,
+                                      pinController?.text ?? '213458',
+                                      widget.type);
+                                }
                               }
                             },
                             style: ElevatedButton.styleFrom(
-                                backgroundColor: pinController?.text.length != 6
-                                    ? Colors.grey
-                                    : ThemeColor.primary,
+                                backgroundColor: ThemeColor.primary,
                                 textStyle: Get.textTheme.titleMedium
                                     ?.copyWith(color: Colors.white)),
                             child: Text(
@@ -266,7 +307,7 @@ class _MyOtpState extends State<MyOtp> {
                                     ? "Cập nhật"
                                     : widget.type == "SIGNIN"
                                         ? "Đăng nhập"
-                                        : "Đăng kí",
+                                        : "Tạo tài khoản",
                                 style: Get.textTheme.titleMedium
                                     ?.copyWith(color: Colors.white)),
                           ),

@@ -158,7 +158,7 @@ class _VoucherDetailsState extends State<VoucherDetails> {
                                         color: Colors.white, fontSize: 16),
                                   ),
                                   style: ElevatedButton.styleFrom(
-                                    primary: Colors.blue,
+                                    backgroundColor: Colors.blue,
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(20),
                                     ),

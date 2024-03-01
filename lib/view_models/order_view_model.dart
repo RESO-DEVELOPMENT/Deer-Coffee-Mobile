@@ -175,14 +175,15 @@ class OrderViewModel extends BaseViewModel {
       setState(ViewStatus.Loading);
 
       String? userId = await getUserId();
-      var listTrans = await api.getListTransactionOfUser(userId ?? '');
-      if (listTrans != null) {
-        setState(ViewStatus.Completed);
-        return listTrans;
-      } else {
-        setState(ViewStatus.Completed);
-        return [];
+      if (userId != null) {
+        var listTrans = await api.getListTransactionOfUser(userId ?? '');
+        if (listTrans != null) {
+          setState(ViewStatus.Completed);
+          return listTrans;
+        }
       }
+      setState(ViewStatus.Completed);
+      return [];
     } catch (e) {
       setState(ViewStatus.Completed);
       showAlertDialog(title: "Lỗi đơn hàng", content: e.toString());

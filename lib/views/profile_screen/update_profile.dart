@@ -4,14 +4,11 @@ import 'package:deer_coffee/models/user.dart';
 import 'package:deer_coffee/models/user_create.dart';
 import 'package:deer_coffee/utils/theme.dart';
 import 'package:deer_coffee/view_models/account_view_model.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pinput/pinput.dart';
 import 'package:scoped_model/scoped_model.dart';
-import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 class UpdateProfilePage extends StatefulWidget {
   const UpdateProfilePage({super.key});
@@ -68,39 +65,39 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                 Container(
                   height: 18,
                 ),
-                Center(
-                  child: SizedBox(
-                    height: 104,
-                    width: 104,
-                    child: Stack(
-                      fit: StackFit.expand,
-                      children: [
-                        CircleAvatar(
-                          backgroundImage: NetworkImage(downloadURL ?? ""),
-                        ),
-                        Positioned(
-                          bottom: 0,
-                          right: 2,
-                          child: SizedBox(
-                            height: 50,
-                            width: 50,
-                            child: ElevatedButton(
-                              onPressed: _pickImage,
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors
-                                    .transparent, // Đặt nền của nút là trong suốt
-                                elevation: 0, // Loại bỏ bóng đổ
-                              ), // Gọi hàm xử lý khi người dùng bấm vào biểu tượng máy ảnh
-                              child: Icon(Icons.camera_alt,
-                                  color: ThemeColor.primary // Màu biểu tượng
-                                  ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                // Center(
+                //   child: SizedBox(
+                //     height: 104,
+                //     width: 104,
+                //     child: Stack(
+                //       fit: StackFit.expand,
+                //       children: [
+                //         CircleAvatar(
+                //           backgroundImage: NetworkImage(downloadURL ?? ""),
+                //         ),
+                //         Positioned(
+                //           bottom: 0,
+                //           right: 2,
+                //           child: SizedBox(
+                //             height: 50,
+                //             width: 50,
+                //             child: ElevatedButton(
+                //               onPressed: _pickImage,
+                //               style: ElevatedButton.styleFrom(
+                //                 backgroundColor: Colors
+                //                     .transparent, // Đặt nền của nút là trong suốt
+                //                 elevation: 0, // Loại bỏ bóng đổ
+                //               ), // Gọi hàm xử lý khi người dùng bấm vào biểu tượng máy ảnh
+                //               child: Icon(Icons.camera_alt,
+                //                   color: ThemeColor.primary // Màu biểu tượng
+                //                   ),
+                //             ),
+                //           ),
+                //         ),
+                //       ],
+                //     ),
+                //   ),
+                // ),
 
                 // Tên
                 Container(
@@ -231,12 +228,12 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
     );
   }
 
-  void _pickImage() async {
-    io.File? image = await pickImage();
-    if (image != null) {
-      await uploadImage(image);
-    }
-  }
+  // void _pickImage() async {
+  //   io.File? image = await pickImage();
+  //   if (image != null) {
+  //     await uploadImage(image);
+  //   }
+  // }
 
   Future<io.File?> pickImage() async {
     final picker = ImagePicker();
@@ -250,30 +247,30 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
     }
   }
 
-  Future<UploadTask?> uploadImage(io.File imageFile) async {
-    try {
-      UploadTask uploadTask;
-      String fileName = DateTime.now().millisecondsSinceEpoch.toString();
-      Reference reference =
-          FirebaseStorage.instance.ref().child('files').child('/$fileName.jpg');
+  // Future<UploadTask?> uploadImage(io.File imageFile) async {
+  //   try {
+  //     UploadTask uploadTask;
+  //     String fileName = DateTime.now().millisecondsSinceEpoch.toString();
+  //     Reference reference =
+  //         FirebaseStorage.instance.ref().child('files').child('/$fileName.jpg');
 
-      final metadata = SettableMetadata(
-        contentType: 'image/jpeg',
-        customMetadata: {'files': imageFile.path},
-      );
-      if (GetPlatform.isWeb) {
-        uploadTask = reference.putData(await imageFile.readAsBytes(), metadata);
-      } else {
-        uploadTask = reference.putFile(io.File(imageFile.path), metadata);
-      }
-      final url = await reference.getDownloadURL();
-      setState(() {
-        downloadURL = url;
-      });
+  //     final metadata = SettableMetadata(
+  //       contentType: 'image/jpeg',
+  //       customMetadata: {'files': imageFile.path},
+  //     );
+  //     if (GetPlatform.isWeb) {
+  //       uploadTask = reference.putData(await imageFile.readAsBytes(), metadata);
+  //     } else {
+  //       uploadTask = reference.putFile(io.File(imageFile.path), metadata);
+  //     }
+  //     final url = await reference.getDownloadURL();
+  //     setState(() {
+  //       downloadURL = url;
+  //     });
 
-      print('Image uploaded. Download URL: $url');
-    } catch (e) {
-      print('Error uploading image: $e');
-    }
-  }
+  //     print('Image uploaded. Download URL: $url');
+  //   } catch (e) {
+  //     print('Error uploading image: $e');
+  //   }
+  // }
 }
