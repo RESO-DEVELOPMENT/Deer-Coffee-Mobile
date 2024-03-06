@@ -6,6 +6,7 @@ import 'package:deer_coffee/utils/theme.dart';
 import 'package:deer_coffee/view_models/order_view_model.dart';
 import 'package:deer_coffee/widgets/other_dialogs/dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -55,6 +56,7 @@ class _OrderDetailsState extends State<OrderDetails> {
           );
         }
         return Scaffold(
+            backgroundColor: Colors.grey[200],
             appBar: AppBar(
               centerTitle: true,
               leading: IconButton(
@@ -67,328 +69,475 @@ class _OrderDetailsState extends State<OrderDetails> {
                       ?.copyWith(fontWeight: FontWeight.bold)),
             ),
             body: Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
               child: CustomScrollView(
                 slivers: [
                   SliverList(
                     delegate: SliverChildListDelegate(
                       [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              showOrderStatus(orderDetails?.orderStatus ==
-                                      OrderStatusEnum.CANCELED
-                                  ? OrderStatusEnum.CANCELED
-                                  : OrderStatusEnum.PENDING),
-                              style: Get.textTheme.bodyMedium?.copyWith(
-                                color: orderDetails?.orderStatus !=
-                                        OrderStatusEnum.CANCELED
-                                    ? ThemeColor.primary
-                                    : Colors.red,
-                              ),
-                            ),
-                            Text(
-                              showOrderStatus(OrderStatusEnum.PAID),
-                              style: Get.textTheme.bodyMedium?.copyWith(
-                                color: orderDetails?.orderStatus !=
-                                        OrderStatusEnum.CANCELED
-                                    ? ((orderDetails?.orderStatus ==
-                                            OrderStatusEnum.PAID)
-                                        ? ThemeColor.primary
-                                        : Colors.grey)
-                                    : Colors.grey,
-                              ),
-                            ),
-                            Text(
-                              showUserDeiliStatus(DeliStatusEnum.DELIVERING),
-                              style: Get.textTheme.bodyMedium?.copyWith(
-                                color: orderDetails?.orderStatus !=
-                                        OrderStatusEnum.CANCELED
-                                    ? ((orderDetails?.customerInfo
-                                                    ?.deliStatus ==
-                                                DeliStatusEnum.DELIVERING ||
-                                            orderDetails?.customerInfo
-                                                    ?.deliStatus ==
-                                                DeliStatusEnum.DELIVERED)
-                                        ? ThemeColor.primary
-                                        : Colors.grey)
-                                    : Colors.grey,
-                              ),
-                            ),
-                            Text(
-                              showUserDeiliStatus(DeliStatusEnum.DELIVERED),
-                              style: Get.textTheme.bodyMedium?.copyWith(
-                                color: orderDetails?.orderStatus !=
-                                        OrderStatusEnum.CANCELED
-                                    ? ((orderDetails
-                                                ?.customerInfo?.deliStatus ==
-                                            DeliStatusEnum.DELIVERED)
-                                        ? ThemeColor.primary
-                                        : Colors.grey)
-                                    : Colors.grey,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.center,
+                        SizedBox(height: 10),
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(12.0)),
+                            color: Colors.white,
+                          ),
+                          padding: EdgeInsets.all(16),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
-                              Icon(
-                                Icons.circle,
-                                color: orderDetails?.orderStatus !=
-                                        OrderStatusEnum.CANCELED
-                                    ? ThemeColor.primary
-                                    : Colors.red,
-                              ),
-                              Transform.rotate(
-                                angle: 0 * (3.14159265359 / 180),
-                                child: Container(
-                                  height: 5,
-                                  width: Get.width * 0.2,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(32),
-                                    color: orderDetails?.orderStatus !=
-                                            OrderStatusEnum.CANCELED
-                                        ? ((orderDetails?.orderStatus ==
-                                                OrderStatusEnum.PAID)
-                                            ? ThemeColor.primary
-                                            : Colors.grey)
-                                        : Colors.grey,
-                                  ),
+                              Container(
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                      margin: orderDetails?.orderStatus ==
+                                              OrderStatusEnum.CANCELED
+                                          ? EdgeInsets.only(left: 20.0)
+                                          : EdgeInsets
+                                              .zero, 
+                                      child: Text(
+                                        showOrderStatus(
+                                          orderDetails?.orderStatus !=
+                                                  OrderStatusEnum.NEW
+                                              ? (orderDetails?.orderStatus ==
+                                                      OrderStatusEnum.CANCELED
+                                                  ? OrderStatusEnum.CANCELED
+                                                  : OrderStatusEnum.NEW)
+                                              : OrderStatusEnum.NEW,
+                                        ),
+                                        style:
+                                            Get.textTheme.bodySmall?.copyWith(
+                                          color: orderDetails?.orderStatus !=
+                                                  OrderStatusEnum.CANCELED
+                                              ? ThemeColor.primary
+                                              : Colors.red,
+                                        ),
+                                      ),
+                                    ),
+                                    Row(),
+                                    Container(
+                                      margin: EdgeInsets.only(right: 10),
+                                      child: Text(
+                                        showOrderStatus(OrderStatusEnum.PAID),
+                                        style:
+                                            Get.textTheme.bodySmall?.copyWith(
+                                          color: orderDetails?.orderStatus !=
+                                                  OrderStatusEnum.CANCELED
+                                              ? ((orderDetails?.orderStatus ==
+                                                      OrderStatusEnum.PAID)
+                                                  ? ThemeColor.primary
+                                                  : Colors.grey)
+                                              : Colors.grey,
+                                        ),
+                                      ),
+                                    ),
+                                    Row(),
+                                    Container(
+                                      child: Text(
+                                        showUserDeiliStatus(
+                                            DeliStatusEnum.DELIVERED),
+                                        style:
+                                            Get.textTheme.bodySmall?.copyWith(
+                                          color: orderDetails?.orderStatus !=
+                                                  OrderStatusEnum.CANCELED
+                                              ? ((orderDetails?.customerInfo
+                                                          ?.deliStatus ==
+                                                      DeliStatusEnum.DELIVERED)
+                                                  ? ThemeColor.primary
+                                                  : Colors.grey)
+                                              : Colors.grey,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                              Icon(
-                                Icons.circle,
-                                color: orderDetails?.orderStatus !=
-                                        OrderStatusEnum.CANCELED
-                                    ? ((orderDetails?.orderStatus ==
-                                            OrderStatusEnum.PAID)
-                                        ? ThemeColor.primary
-                                        : Colors.grey)
-                                    : Colors.grey,
-                              ),
-                              Transform.rotate(
-                                angle: 0 * (3.14159265359 / 180),
-                                child: Container(
-                                  height: 5,
-                                  width: Get.width * 0.2,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(32),
-                                    color: orderDetails?.orderStatus !=
-                                            OrderStatusEnum.CANCELED
-                                        ? ((orderDetails?.customerInfo
-                                                        ?.deliStatus ==
-                                                    DeliStatusEnum.DELIVERING ||
-                                                orderDetails?.customerInfo
-                                                        ?.deliStatus ==
-                                                    DeliStatusEnum.DELIVERED)
-                                            ? ThemeColor.primary
-                                            : Colors.grey)
-                                        : Colors.grey,
-                                  ),
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(32, 0, 8, 0),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.circle,
+                                      color: orderDetails?.orderStatus ==
+                                              OrderStatusEnum.CANCELED
+                                          ? Colors.red
+                                          : ThemeColor.primary,
+                                    ),
+                                    Transform.rotate(
+                                      angle: 0 * (3.14159265359 / 180),
+                                      child: Container(
+                                        height: 5,
+                                        width: Get.width * 0.1,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(32),
+                                          color: (orderDetails?.orderStatus !=
+                                                  OrderStatusEnum.CANCELED
+                                              ? (orderDetails?.orderStatus ==
+                                                      OrderStatusEnum.CANCELED
+                                                  ? Colors.red
+                                                  : ThemeColor.primary)
+                                              : Colors.grey),
+                                        ),
+                                      ),
+                                    ),
+                                    Icon(
+                                      Icons.circle,
+                                      color: (orderDetails?.orderStatus !=
+                                              OrderStatusEnum.CANCELED
+                                          ? (orderDetails?.orderStatus ==
+                                                  OrderStatusEnum.CANCELED
+                                              ? Colors.red
+                                              : ThemeColor.primary)
+                                          : Colors.grey),
+                                    ),
+                                    Transform.rotate(
+                                      angle: 0 * (3.14159265359 / 180),
+                                      child: Container(
+                                        height: 5,
+                                        width: Get.width * 0.1,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(32),
+                                          color: orderDetails?.orderStatus !=
+                                                  OrderStatusEnum.CANCELED
+                                              ? ((orderDetails?.orderStatus ==
+                                                      OrderStatusEnum.PAID)
+                                                  ? ThemeColor.primary
+                                                  : Colors.grey)
+                                              : Colors.grey,
+                                        ),
+                                      ),
+                                    ),
+                                    Icon(
+                                      Icons.circle,
+                                      color: orderDetails?.orderStatus !=
+                                              OrderStatusEnum.CANCELED
+                                          ? ((orderDetails?.orderStatus ==
+                                                  OrderStatusEnum.PAID)
+                                              ? ThemeColor.primary
+                                              : Colors.grey)
+                                          : Colors.grey,
+                                    ),
+                                    Transform.rotate(
+                                      angle: 0 * (3.14159265359 / 180),
+                                      child: Container(
+                                        height: 5,
+                                        width: Get.width * 0.1,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(32),
+                                          color: orderDetails?.orderStatus !=
+                                                  OrderStatusEnum.CANCELED
+                                              ? ((orderDetails?.customerInfo
+                                                              ?.deliStatus ==
+                                                          DeliStatusEnum
+                                                              .DELIVERING ||
+                                                      orderDetails?.customerInfo
+                                                              ?.deliStatus ==
+                                                          DeliStatusEnum
+                                                              .DELIVERED)
+                                                  ? ThemeColor.primary
+                                                  : Colors.grey)
+                                              : Colors.grey,
+                                        ),
+                                      ),
+                                    ),
+                                    Icon(
+                                      Icons.circle,
+                                      color: orderDetails?.orderStatus !=
+                                              OrderStatusEnum.CANCELED
+                                          ? ((orderDetails?.customerInfo
+                                                          ?.deliStatus ==
+                                                      DeliStatusEnum
+                                                          .DELIVERING ||
+                                                  orderDetails?.customerInfo
+                                                          ?.deliStatus ==
+                                                      DeliStatusEnum.DELIVERED)
+                                              ? ThemeColor.primary
+                                              : Colors.grey)
+                                          : Colors.grey,
+                                    ),
+                                    Transform.rotate(
+                                      angle: 0 * (3.14159265359 / 180),
+                                      child: Container(
+                                        height: 5,
+                                        width: Get.width * 0.1,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(32),
+                                          color: orderDetails?.orderStatus !=
+                                                  OrderStatusEnum.CANCELED
+                                              ? ((orderDetails?.customerInfo
+                                                          ?.deliStatus ==
+                                                      DeliStatusEnum.DELIVERED)
+                                                  ? ThemeColor.primary
+                                                  : Colors.grey)
+                                              : Colors.grey,
+                                        ),
+                                      ),
+                                    ),
+                                    Icon(
+                                      Icons.circle,
+                                      color: orderDetails?.orderStatus !=
+                                              OrderStatusEnum.CANCELED
+                                          ? ((orderDetails?.customerInfo
+                                                      ?.deliStatus ==
+                                                  DeliStatusEnum.DELIVERED)
+                                              ? ThemeColor.primary
+                                              : Colors.grey)
+                                          : Colors.grey,
+                                    ),
+                                  ],
                                 ),
                               ),
-                              Icon(
-                                Icons.circle,
-                                color: orderDetails?.orderStatus !=
-                                        OrderStatusEnum.CANCELED
-                                    ? ((orderDetails?.customerInfo
-                                                    ?.deliStatus ==
-                                                DeliStatusEnum.DELIVERING ||
-                                            orderDetails?.customerInfo
-                                                    ?.deliStatus ==
-                                                DeliStatusEnum.DELIVERED)
-                                        ? ThemeColor.primary
-                                        : Colors.grey)
-                                    : Colors.grey,
-                              ),
-                              Transform.rotate(
-                                angle: 0 * (3.14159265359 / 180),
-                                child: Container(
-                                  height: 5,
-                                  width: Get.width * 0.2,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(32),
-                                    color: orderDetails?.orderStatus !=
-                                            OrderStatusEnum.CANCELED
-                                        ? ((orderDetails?.customerInfo
-                                                    ?.deliStatus ==
-                                                DeliStatusEnum.DELIVERED)
-                                            ? ThemeColor.primary
-                                            : Colors.grey)
-                                        : Colors.grey,
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Row(),
+                                  Row(
+                                    children: [
+                                      Container(
+                                        margin: EdgeInsets.only(left: 45),
+                                        child: Text(
+                                          showOrderStatus(
+                                            orderDetails?.orderStatus !=
+                                                    OrderStatusEnum.CANCELED
+                                                ? (OrderStatusEnum.CANCELED ==
+                                                        OrderStatusEnum.CANCELED
+                                                    ? OrderStatusEnum.PENDING
+                                                    : OrderStatusEnum.CANCELED)
+                                                : OrderStatusEnum.PENDING,
+                                          ),
+                                          style: Get.textTheme.bodySmall
+                                              ?.copyWith(
+                                                  color: orderDetails
+                                                              ?.orderStatus !=
+                                                          OrderStatusEnum
+                                                              .CANCELED
+                                                      ? (orderDetails
+                                                                  ?.orderStatus ==
+                                                              OrderStatusEnum
+                                                                  .CANCELED
+                                                          ? Colors.red
+                                                          : ThemeColor.primary)
+                                                      : Colors.grey),
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ),
-                              ),
-                              Icon(
-                                Icons.circle,
-                                color: orderDetails?.orderStatus !=
-                                        OrderStatusEnum.CANCELED
-                                    ? ((orderDetails
-                                                ?.customerInfo?.deliStatus ==
-                                            DeliStatusEnum.DELIVERED)
-                                        ? ThemeColor.primary
-                                        : Colors.grey)
-                                    : Colors.grey,
+                                  Row(),
+                                  Row(
+                                    children: [
+                                      Container(
+                                        margin: EdgeInsets.only(right: 20),
+                                        child: Text(
+                                          showUserDeiliStatus(
+                                              DeliStatusEnum.DELIVERING),
+                                          style:
+                                              Get.textTheme.bodySmall?.copyWith(
+                                            color: orderDetails?.orderStatus !=
+                                                    OrderStatusEnum.CANCELED
+                                                ? ((orderDetails?.customerInfo
+                                                                ?.deliStatus ==
+                                                            DeliStatusEnum
+                                                                .DELIVERING ||
+                                                        orderDetails
+                                                                ?.customerInfo
+                                                                ?.deliStatus ==
+                                                            DeliStatusEnum
+                                                                .DELIVERED)
+                                                    ? ThemeColor.primary
+                                                    : Colors.grey)
+                                                : Colors.grey,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(),
+                                ],
                               ),
                             ],
                           ),
                         ),
-
+                        SizedBox(height: 4),
                         Text('Sản phẩm',
                             style: Get.textTheme.bodyMedium
                                 ?.copyWith(fontWeight: FontWeight.bold)),
-                        Column(
-                          children: orderDetails!.productList!
-                              .map((e) => productCard(e))
-                              .toList(),
+                        SizedBox(height: 4),
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(12.0)),
+                            color: Colors.white,
+                          ),
+                          padding: const EdgeInsets.all(8),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Column(
+                                children: orderDetails!.productList!
+                                    .map((e) => productCard(e))
+                                    .toList(),
+                              ),
+                            ],
+                          ),
                         ),
-
-                        // Chi tiết đơn hàng
-                        const Divider(),
+                        SizedBox(height: 6),
                         Text('Thanh toán',
                             style: Get.textTheme.bodyMedium
                                 ?.copyWith(fontWeight: FontWeight.bold)),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              "Tạm tính",
-                              style: Get.textTheme.bodySmall,
+                        SizedBox(height: 6),
+                        Container(
+                          padding: EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(12.0)),
+                            color: Colors.white,
+                          ),
+                          child: Container(
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "Tạm tính",
+                                      style: Get.textTheme.bodySmall,
+                                    ),
+                                    Text(
+                                      formatPrice(
+                                          orderDetails?.totalAmount ?? 0),
+                                      style: Get.textTheme.bodySmall,
+                                    )
+                                  ],
+                                ),
+                                buildOrderPromotion(orderDetails!),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "Giảm giá",
+                                      style: Get.textTheme.bodySmall,
+                                    ),
+                                    Text(
+                                      "-" +
+                                          formatPrice(
+                                              orderDetails?.discount ?? 0),
+                                      style: Get.textTheme.bodySmall,
+                                    )
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "Tổng cộng",
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    Text(
+                                      formatPrice(
+                                          orderDetails?.finalAmount ?? 0),
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ],
                             ),
-                            Text(
-                              formatPrice(orderDetails?.totalAmount ?? 0),
-                              style: Get.textTheme.bodySmall,
-                            )
-                          ],
+                          ),
                         ),
-                        buildOrderPromotion(orderDetails!),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              "Giảm giá",
-                              style: Get.textTheme.bodySmall,
-                            ),
-                            Text(
-                              "-" + formatPrice(orderDetails?.discount ?? 0),
-                              style: Get.textTheme.bodySmall,
-                            )
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              "Tổng cộng",
-                              style: Get.textTheme.bodyMedium,
-                            ),
-                            Text(
-                              formatPrice(orderDetails?.finalAmount ?? 0),
-                              style: Get.textTheme.bodyMedium,
-                            )
-                          ],
-                        ),
-                        const Divider(),
+                        SizedBox(height: 6),
                         Text('Chi tiết đơn hàng',
                             style: Get.textTheme.bodyMedium
                                 ?.copyWith(fontWeight: FontWeight.bold)),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              'Mã đơn',
-                              style: Get.textTheme.bodyMedium,
-                            ),
-                            Text(
-                              orderDetails?.invoiceId ?? '',
-                              style: Get.textTheme.bodyMedium,
-                            ),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text('Ngày đặt hàng',
-                                style: Get.textTheme.bodyMedium),
-                            Text(
-                              formatTime(orderDetails?.checkInDate ??
-                                  "2023-01-01T00:00:00.00000"),
-                              style: Get.textTheme.bodyMedium,
-                            ),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text('Thanh toán', style: Get.textTheme.bodyMedium),
-                            Text(
-                              showPaymentType(orderDetails?.paymentType ??
-                                  PaymentTypeEnums.CASH),
-                              style: Get.textTheme.bodyMedium,
-                            ),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text('Loại đơn hàng',
-                                style: Get.textTheme.bodyMedium),
-                            Text(
-                              showOrderType(orderDetails?.orderType ??
-                                  OrderTypeEnum.EAT_IN),
-                              style: Get.textTheme.bodyMedium,
-                            ),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text('Trạng thái', style: Get.textTheme.bodyMedium),
-                            Text(
-                              showOrderStatus(orderDetails?.orderStatus ??
-                                  OrderStatusEnum.CANCELED),
-                              style: Get.textTheme.bodyMedium,
-                            ),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text('Trạng thái giao hàng',
-                                style: Get.textTheme.bodyMedium),
-                            Text(
-                              showUserDeiliStatus(
-                                  orderDetails?.customerInfo?.deliStatus ??
-                                      DeliStatusEnum.PENDING),
-                              style: Get.textTheme.bodyMedium,
-                            ),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text('Địa chỉ', style: Get.textTheme.bodyMedium),
-                            Text(
-                              orderDetails?.customerInfo?.address ?? '',
-                              style: Get.textTheme.bodyMedium,
-                            ),
-                          ],
+                        SizedBox(height: 6),
+                        Container(
+                          padding: EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(12.0)),
+                            color: Colors.white,
+                          ),
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text('Ngày đặt hàng',
+                                      style: Get.textTheme.bodySmall),
+                                  Text(
+                                    formatTime(orderDetails?.checkInDate ??
+                                        "2023-01-01T00:00:00.00000"),
+                                    style: Get.textTheme.bodySmall,
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text('Thanh toán',
+                                      style: Get.textTheme.bodySmall),
+                                  Text(
+                                    showPaymentType(orderDetails?.paymentType ??
+                                        PaymentTypeEnums.CASH),
+                                    style: Get.textTheme.bodySmall,
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text('Loại đơn hàng',
+                                      style: Get.textTheme.bodySmall),
+                                  Text(
+                                    showOrderType(orderDetails?.orderType ??
+                                        OrderTypeEnum.EAT_IN),
+                                    style: Get.textTheme.bodySmall,
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text('Địa chỉ',
+                                      style: Get.textTheme.bodySmall),
+                                  Text(
+                                    orderDetails?.customerInfo?.address ?? '',
+                                    style: Get.textTheme.bodySmall,
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                         Center(
                           child: Padding(
@@ -544,11 +693,11 @@ class _OrderDetailsState extends State<OrderDetails> {
               child: Text(e.name ?? '', style: Get.textTheme.bodyMedium)),
           Text(
             ' x${e.quantity}  ',
-            style: Get.textTheme.bodyMedium,
+            style: Get.textTheme.bodySmall,
           ),
           Text(
             formatPrice(e.finalAmount ?? 0),
-            style: Get.textTheme.bodyMedium,
+            style: Get.textTheme.bodySmall,
           ),
         ],
       ),
@@ -569,13 +718,19 @@ class _OrderDetailsState extends State<OrderDetails> {
                 children: [
                   Text(
                     " - ${e.promotionName}",
-                    style: Get.textTheme.bodySmall,
+                    style: TextStyle(
+                      fontStyle: FontStyle.italic,
+                      fontSize: Get.textTheme.bodySmall?.fontSize,
+                    ),
                   ),
                   Text(
                     e.effectType == "GET_POINT"
                         ? ("+${e.discountAmount} Điểm")
                         : ("- ${formatPrice(e.discountAmount ?? 0)}"),
-                    style: Get.textTheme.bodySmall,
+                    style: TextStyle(
+                      fontStyle: FontStyle.italic,
+                      fontSize: Get.textTheme.bodySmall?.fontSize,
+                    ),
                   )
                 ],
               ),

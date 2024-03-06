@@ -31,6 +31,7 @@ class Delivery {
 }
 
 class OrderStatusEnum {
+  static const String NEW = 'NEW';
   static const String PENDING = 'PENDING';
   static const String CANCELED = 'CANCELED';
   static const String PAID = 'PAID';
@@ -39,7 +40,7 @@ class OrderStatusEnum {
 class DeliStatusEnum {
   static const String PENDING = 'PENDING';
   static const String CANCELED = 'CANCELED';
-  static const String DELIVERING = 'DELIVERING';
+  static const String DELIVERING = 'DELIVERING';  
   static const String DELIVERED = 'DELIVERED';
 }
 
@@ -51,6 +52,8 @@ class OrderTypeEnum {
 
 String showOrderStatus(String status) {
   switch (status) {
+    case OrderStatusEnum.NEW:
+      return 'Chờ Xác Nhận';
     case OrderStatusEnum.PENDING:
       return 'Đang xử lý';
     case OrderStatusEnum.CANCELED:
