@@ -1,3 +1,6 @@
+import 'dart:js_interop';
+
+import 'package:deer_coffee/models/category.dart';
 import 'package:deer_coffee/models/collection.dart';
 import 'package:deer_coffee/utils/format.dart';
 import 'package:deer_coffee/view_models/menu_view_model.dart';
@@ -37,6 +40,8 @@ class _OrdersScreenState extends State<OrdersScreen> {
     super.initState();
   }
 
+  final ScrollController _scrollControllerOnCategory = ScrollController();
+  final ScrollController _scrollControllerOnProduct = ScrollController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -152,45 +157,99 @@ class _OrdersScreenState extends State<OrdersScreen> {
                 );
               }),
             ),
-            SliverList.list(
-              children: [
-                Container(
-                    padding: const EdgeInsets.all(8),
-                    child: ScopedModelDescendant<MenuViewModel>(
-                        builder: (context, child, model) {
-                      return GridView.count(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        crossAxisCount: 4,
-                        mainAxisSpacing: 2,
-                        crossAxisSpacing: 2,
-                        padding: const EdgeInsets.all(4),
-                        children: model.categories!
-                            .map(
-                              (e) => buildCircularButton(
-                                e.name ?? '',
-                                e.picUrl ?? '',
-                                e.id ?? '',
-                              ),
-                            )
-                            .toList(),
-                      );
-                    })),
-                Container(
-                  width: Get.width,
-                  padding: EdgeInsets.all(16),
-                  child: ScopedModelDescendant<MenuViewModel>(
-                      builder: (context, child, model) {
-                    return Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: model.collections!
-                            .map((e) => collectionCard(e, model))
-                            .toList());
-                  }),
+            SliverToBoxAdapter(
+              child: Container(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: Container(
+                        height: Get.height * 0.8,
+                        color: Colors.white,
+                        child: Scrollbar(
+                          controller: _scrollControllerOnCategory,
+                          child: ListView(
+                            physics: const BouncingScrollPhysics(
+                              parent: AlwaysScrollableScrollPhysics(),
+                            ),
+                            controller: _scrollControllerOnCategory,
+                            scrollDirection: Axis.vertical,
+                            shrinkWrap: true,
+                            children: [
+                              ...Get.find<MenuViewModel>()
+                                  .categories!
+                                  .asMap()
+                                  .entries
+                                  .map(
+                                    (entry) => buildCircularButton(
+                                      entry.value.name ?? '',
+                                      entry.value.picUrl ?? '',
+                                      entry.value.id ?? '',
+                                    ),
+                                  )
+                                  .toList(),
+                                  ...Get.find<MenuViewModel>()
+                                  .collections!
+                                  .asMap()
+                                  .entries
+                                  .map(
+                                    (entry) => buildCircularButton1(
+                                      entry.value.name ?? '',
+                                      entry.value.picUrl ?? '',
+                                      entry.value.id ?? '',
+                                    ),
+                                  )
+                                  .toList(),
+                              // ...Get.find<MenuViewModel>()
+                              //     .collections!
+                              //     .map((e) => categoryCard(
+                              //           e,
+                              //           Get.find<MenuViewModel>(),
+                              //         ))
+                              //     .toList(),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 3,
+                      child: Container(
+                        padding: EdgeInsets.all(8),
+                        color: Color.fromARGB(255, 255, 255, 255),
+                        height: Get.height * 0.8,
+                        child: ListView(
+                            physics: const BouncingScrollPhysics(
+                              parent: AlwaysScrollableScrollPhysics(),
+                            ),
+                            controller: _scrollControllerOnProduct,
+                            shrinkWrap: true,
+                            scrollDirection: Axis.vertical,
+                            children: [
+                              ...Get.find<MenuViewModel>()
+                                  .collections!
+                                  .map((e) => collectionCard(
+                                        e,
+                                        Get.find<MenuViewModel>(),
+                                      ))
+                                  .toList(),
+                              ...Get.find<MenuViewModel>()
+                                  .categories!
+                                  .map((e) => categoryCard(
+                                        e,
+                                        Get.find<MenuViewModel>(),
+                                      ))
+                                  .toList(),
+                                 
+                            ]),
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            )
+              ),
+            ),
 
             // Đây là cột mới
           ],
@@ -222,6 +281,33 @@ class _OrdersScreenState extends State<OrdersScreen> {
         )
       ],
     );
+    
+  }
+
+  Widget categoryCard(Category collection, MenuViewModel model) {
+    List<Product>? products = model.getNormalProductsByCategory(collection.id);
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        TextButton(
+          onPressed: () {
+            Get.toNamed(
+                "${RouteHandler.CATEGORY_DETAIL}?id=${collection.id}");
+          },
+          child: Text(
+            collection.name ?? '',
+            style:
+                Get.textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold),
+            textAlign: TextAlign.left,
+          ),
+          
+        ),
+        Column(
+          children: products.map((e) => ProductCard(product: e)).toList(),
+        )
+      ],
+    );
   }
 
   Widget buildCircularButton(
@@ -242,6 +328,47 @@ class _OrdersScreenState extends State<OrdersScreen> {
               // Xử lý khi nhấn vào hình tròn ở đây
               Get.toNamed(
                 "${RouteHandler.CATEGORY_DETAIL}?id=$categoryId",
+              );
+            },
+            child: Container(
+              height: 50,
+              width: 50,
+              decoration: BoxDecoration(
+                  shape: BoxShape.rectangle,
+                  image: DecorationImage(
+                      image: NetworkImage(image.isEmpty
+                          ? 'https://i.imgur.com/X0WTML2.jpg'
+                          : image))),
+            ),
+          ),
+          Text(
+            text1,
+            style: Get.textTheme.bodySmall,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ],
+      ),
+    );
+  }
+
+    Widget buildCircularButton1(
+    String text1,
+    String image,
+    String collectionId, // Thêm tham số categoryId
+  ) {
+    return Container(
+      width: 72,
+      height: 72,
+      margin: EdgeInsets.all(4),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          InkWell(
+            onTap: () {
+              // Xử lý khi nhấn vào hình tròn ở đây
+              Get.toNamed(
+                "${RouteHandler.COLLECTION_DETAIL}?id=$collectionId",
               );
             },
             child: Container(
