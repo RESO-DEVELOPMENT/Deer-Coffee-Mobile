@@ -64,7 +64,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                   },
                   icon: const Icon(Icons.arrow_back_ios)),
               title: Text(orderDetails?.invoiceId ?? '',
-                  style: Get.textTheme.bodyMedium
+                  style: Get.textTheme.bodySmall
                       ?.copyWith(fontWeight: FontWeight.bold)),
             ),
             body: Padding(
@@ -81,80 +81,63 @@ class _OrderDetailsState extends State<OrderDetails> {
                                 BorderRadius.all(Radius.circular(12.0)),
                             color: Colors.white,
                           ),
-                          padding: EdgeInsets.all(16),
+                          padding: EdgeInsets.all(8),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
-                              Container(
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      margin: orderDetails?.orderStatus ==
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    showOrderStatus(
+                                      orderDetails?.orderStatus !=
+                                              OrderStatusEnum.NEW
+                                          ? (orderDetails?.orderStatus ==
+                                                  OrderStatusEnum.CANCELED
+                                              ? OrderStatusEnum.CANCELED
+                                              : OrderStatusEnum.NEW)
+                                          : OrderStatusEnum.NEW,
+                                    ),
+                                    style: Get.textTheme.labelSmall?.copyWith(
+                                      color: orderDetails?.orderStatus !=
                                               OrderStatusEnum.CANCELED
-                                          ? EdgeInsets.only(left: 20.0)
-                                          : EdgeInsets.zero,
-                                      child: Text(
-                                        showOrderStatus(
-                                          orderDetails?.orderStatus !=
-                                                  OrderStatusEnum.NEW
-                                              ? (orderDetails?.orderStatus ==
-                                                      OrderStatusEnum.CANCELED
-                                                  ? OrderStatusEnum.CANCELED
-                                                  : OrderStatusEnum.NEW)
-                                              : OrderStatusEnum.NEW,
-                                        ),
-                                        style:
-                                            Get.textTheme.labelSmall?.copyWith(
-                                          color: orderDetails?.orderStatus !=
-                                                  OrderStatusEnum.CANCELED
+                                          ? ThemeColor.primary
+                                          : Colors.red,
+                                    ),
+                                  ),
+                                  Text(
+                                    showOrderStatus(OrderStatusEnum.PAID),
+                                    style: Get.textTheme.labelSmall?.copyWith(
+                                      color: orderDetails?.orderStatus !=
+                                              OrderStatusEnum.CANCELED
+                                          ? ((orderDetails?.orderStatus ==
+                                                  OrderStatusEnum.PAID)
                                               ? ThemeColor.primary
-                                              : Colors.red,
-                                        ),
-                                      ),
+                                              : Colors.grey)
+                                          : Colors.grey,
                                     ),
-                                    Row(),
-                                    Container(
-                                      margin: EdgeInsets.only(right: 10),
-                                      child: Text(
-                                        showOrderStatus(OrderStatusEnum.PAID),
-                                        style:
-                                            Get.textTheme.labelSmall?.copyWith(
-                                          color: orderDetails?.orderStatus !=
-                                                  OrderStatusEnum.CANCELED
-                                              ? ((orderDetails?.orderStatus ==
-                                                      OrderStatusEnum.PAID)
-                                                  ? ThemeColor.primary
-                                                  : Colors.grey)
-                                              : Colors.grey,
-                                        ),
-                                      ),
+                                  ),
+                                  Text(
+                                    showUserDeiliStatus(
+                                        DeliStatusEnum.DELIVERED),
+                                    style: Get.textTheme.labelSmall?.copyWith(
+                                      color: orderDetails?.orderStatus !=
+                                              OrderStatusEnum.CANCELED
+                                          ? ((orderDetails?.customerInfo
+                                                      ?.deliStatus ==
+                                                  DeliStatusEnum.DELIVERED)
+                                              ? ThemeColor.primary
+                                              : Colors.grey)
+                                          : Colors.grey,
                                     ),
-                                    Row(),
-                                    Container(
-                                      child: Text(
-                                        showUserDeiliStatus(
-                                            DeliStatusEnum.DELIVERED),
-                                        style:
-                                            Get.textTheme.labelSmall?.copyWith(
-                                          color: orderDetails?.orderStatus !=
-                                                  OrderStatusEnum.CANCELED
-                                              ? ((orderDetails?.customerInfo
-                                                          ?.deliStatus ==
-                                                      DeliStatusEnum.DELIVERED)
-                                                  ? ThemeColor.primary
-                                                  : Colors.grey)
-                                              : Colors.grey,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                               Padding(
-                                padding: const EdgeInsets.fromLTRB(32, 0, 8, 0),
+                                padding:
+                                    const EdgeInsets.fromLTRB(16, 0, 16, 0),
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
@@ -175,25 +158,31 @@ class _OrderDetailsState extends State<OrderDetails> {
                                         decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(32),
-                                          color: (orderDetails?.orderStatus !=
+                                          color: orderDetails?.orderStatus !=
                                                   OrderStatusEnum.CANCELED
-                                              ? (orderDetails?.orderStatus ==
-                                                      OrderStatusEnum.CANCELED
-                                                  ? Colors.red
-                                                  : ThemeColor.primary)
-                                              : Colors.grey),
+                                              ? ((orderDetails?.orderStatus ==
+                                                          OrderStatusEnum
+                                                              .PENDING ||
+                                                      orderDetails
+                                                              ?.orderStatus ==
+                                                          OrderStatusEnum.PAID)
+                                                  ? ThemeColor.primary
+                                                  : Colors.grey)
+                                              : Colors.grey,
                                         ),
                                       ),
                                     ),
                                     Icon(
                                       Icons.circle,
-                                      color: (orderDetails?.orderStatus !=
+                                      color: orderDetails?.orderStatus !=
                                               OrderStatusEnum.CANCELED
-                                          ? (orderDetails?.orderStatus ==
-                                                  OrderStatusEnum.CANCELED
-                                              ? Colors.red
-                                              : ThemeColor.primary)
-                                          : Colors.grey),
+                                          ? ((orderDetails?.orderStatus ==
+                                                      OrderStatusEnum.PENDING ||
+                                                  orderDetails?.orderStatus ==
+                                                      OrderStatusEnum.PAID)
+                                              ? ThemeColor.primary
+                                              : Colors.grey)
+                                          : Colors.grey,
                                     ),
                                     Transform.rotate(
                                       angle: 0 * (3.14159265359 / 180),
@@ -297,71 +286,43 @@ class _OrderDetailsState extends State<OrderDetails> {
                               ),
                               Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceEvenly,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  Row(),
-                                  Row(
-                                    children: [
-                                      Container(
-                                        margin: EdgeInsets.only(left: 45),
-                                        child: Text(
-                                          showOrderStatus(
-                                            orderDetails?.orderStatus !=
-                                                    OrderStatusEnum.CANCELED
-                                                ? (OrderStatusEnum.CANCELED ==
-                                                        OrderStatusEnum.CANCELED
-                                                    ? OrderStatusEnum.PENDING
-                                                    : OrderStatusEnum.CANCELED)
-                                                : OrderStatusEnum.PENDING,
-                                          ),
-                                          style: Get.textTheme.labelSmall
-                                              ?.copyWith(
-                                                  color: orderDetails
-                                                              ?.orderStatus !=
-                                                          OrderStatusEnum
-                                                              .CANCELED
-                                                      ? (orderDetails
-                                                                  ?.orderStatus ==
-                                                              OrderStatusEnum
-                                                                  .CANCELED
-                                                          ? Colors.red
-                                                          : ThemeColor.primary)
-                                                      : Colors.grey),
-                                        ),
-                                      ),
-                                    ],
+                                  Text(
+                                    showOrderStatus(
+                                      OrderStatusEnum.PENDING,
+                                    ),
+                                    style: Get.textTheme.labelSmall?.copyWith(
+                                      color: orderDetails?.orderStatus !=
+                                              OrderStatusEnum.CANCELED
+                                          ? ((orderDetails?.orderStatus ==
+                                                      OrderStatusEnum.PENDING ||
+                                                  orderDetails?.orderStatus ==
+                                                      OrderStatusEnum.PAID)
+                                              ? ThemeColor.primary
+                                              : Colors.grey)
+                                          : Colors.grey,
+                                    ),
                                   ),
-                                  Row(),
-                                  Row(
-                                    children: [
-                                      Container(
-                                        margin: EdgeInsets.only(right: 20),
-                                        child: Text(
-                                          showUserDeiliStatus(
-                                              DeliStatusEnum.DELIVERING),
-                                          style: Get.textTheme.labelSmall
-                                              ?.copyWith(
-                                            color: orderDetails?.orderStatus !=
-                                                    OrderStatusEnum.CANCELED
-                                                ? ((orderDetails?.customerInfo
-                                                                ?.deliStatus ==
-                                                            DeliStatusEnum
-                                                                .DELIVERING ||
-                                                        orderDetails
-                                                                ?.customerInfo
-                                                                ?.deliStatus ==
-                                                            DeliStatusEnum
-                                                                .DELIVERED)
-                                                    ? ThemeColor.primary
-                                                    : Colors.grey)
-                                                : Colors.grey,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
+                                  Text(
+                                    showUserDeiliStatus(
+                                        DeliStatusEnum.DELIVERING),
+                                    style: Get.textTheme.labelSmall?.copyWith(
+                                      color: orderDetails?.orderStatus !=
+                                              OrderStatusEnum.CANCELED
+                                          ? ((orderDetails?.customerInfo
+                                                          ?.deliStatus ==
+                                                      DeliStatusEnum
+                                                          .DELIVERING ||
+                                                  orderDetails?.customerInfo
+                                                          ?.deliStatus ==
+                                                      DeliStatusEnum.DELIVERED)
+                                              ? ThemeColor.primary
+                                              : Colors.grey)
+                                          : Colors.grey,
+                                    ),
                                   ),
-                                  Row(),
                                 ],
                               ),
                             ],
@@ -626,8 +587,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                     flex: 2,
                     child: OutlinedButton(
                       onPressed: () {
-                        if (orderDetails?.orderStatus ==
-                            OrderStatusEnum.PENDING) {
+                        if (orderDetails?.orderStatus == OrderStatusEnum.NEW) {
                           showConfirmDialog(
                                   title: "Huỷ đơn hàng",
                                   content: "Bạn có chắc huỷ đơn hàng này",
@@ -646,13 +606,14 @@ class _OrderDetailsState extends State<OrderDetails> {
                         } else {
                           showAlertDialog(
                               title: "Thông báo",
-                              content: "Đơn hàng khồn thể huỷ vào lúc này");
+                              content:
+                                  "Đơn hàng đang thực hiện, không thể huỷ");
                         }
                       },
                       style: ElevatedButton.styleFrom(
                           side: BorderSide(
                               color: orderDetails?.orderStatus ==
-                                      OrderStatusEnum.PENDING
+                                      OrderStatusEnum.NEW
                                   ? Colors.redAccent
                                   : Colors.grey)),
                       child: Padding(
@@ -661,7 +622,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                           'Hủy đơn',
                           style: TextStyle(
                               color: orderDetails?.orderStatus ==
-                                      OrderStatusEnum.PENDING
+                                      OrderStatusEnum.NEW
                                   ? Colors.redAccent
                                   : Colors.grey),
                         ),

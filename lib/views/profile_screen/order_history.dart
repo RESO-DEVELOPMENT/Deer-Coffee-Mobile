@@ -117,7 +117,9 @@ class _OrderHistoryState extends State<OrderHistory> {
                             ? Colors.greenAccent
                             : order.status == OrderStatusEnum.CANCELED
                                 ? Colors.redAccent
-                                : Colors.grey)),
+                                : order.status == OrderStatusEnum.PENDING
+                                    ? Colors.orangeAccent
+                                    : Colors.grey)),
               ],
             ),
             const SizedBox(height: 4),

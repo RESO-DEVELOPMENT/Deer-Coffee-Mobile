@@ -57,7 +57,7 @@ String showOrderStatus(String status) {
     case OrderStatusEnum.PENDING:
       return 'Đang xử lý';
     case OrderStatusEnum.CANCELED:
-      return 'Đã huỷ';
+      return 'Đã huỷ đơn';
     case OrderStatusEnum.PAID:
       return 'Hoàn thành';
     default:
@@ -74,7 +74,7 @@ String showUserDeiliStatus(String status) {
     case DeliStatusEnum.DELIVERING:
       return 'Đang giao';
     case DeliStatusEnum.DELIVERED:
-      return 'Đã giao';
+      return 'Đã nhận món';
     default:
       return 'Đang xử lý';
   }
