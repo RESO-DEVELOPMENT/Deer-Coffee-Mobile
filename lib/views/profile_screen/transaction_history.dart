@@ -63,7 +63,6 @@ class _TransactionsHistoryState extends State<TransactionsHistory> {
       onTap: () {
         Get.toNamed(
             "${RouteHandler.Transaction_Detail}?id=${transactionModel.id}");
-        print(true);
       },
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -94,15 +93,7 @@ class _TransactionsHistoryState extends State<TransactionsHistory> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                    transactionModel.type == TransactionTypeEnum.PAYMENT
-                        ? "Thanh toán đơn hàng"
-                        : transactionModel.type == TransactionTypeEnum.GET_POINT
-                            ? "Tích điểm thành viên"
-                            : transactionModel.type ==
-                                    TransactionTypeEnum.TOP_UP
-                                ? "Nạp thẻ"
-                                : "Khác",
+                Text(transactionModel.description ?? "Khác",
                     style: Get.textTheme.titleMedium),
                 Text(
                     transactionModel.status == "SUCCESS"

@@ -59,8 +59,10 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       debugShowMaterialGrid: false,
       title: 'Deer Coffee',
+      color: Colors.white,
       theme: ThemeData(
           colorSchemeSeed: const Color(0xff8FBEFF),
+          scaffoldBackgroundColor: Color(0xffF9F9F9),
           brightness: Brightness.light,
           fontFamily: 'Inter'),
       themeMode: ThemeMode.light,

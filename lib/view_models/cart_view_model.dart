@@ -22,8 +22,8 @@ class CartViewModel extends BaseViewModel {
   CartModel cart = CartModel();
   int? peopleNumber;
   List<Attribute> listAttribute = [
-    Attribute("Đường", ["0%", "30%", "50%", "70%", "100%"]),
-    Attribute("Đá", ["0%", "30%", "50%", "70%", "100%"])
+    Attribute("Đường", ["0%", "50%", "100%"]),
+    Attribute("Đá", ["0%", "50%", "100%"])
   ];
   late OrderAPI orderAPI = OrderAPI();
   PointifyData? promotionData = PointifyData();

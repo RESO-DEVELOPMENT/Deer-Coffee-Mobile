@@ -21,14 +21,14 @@ Future<void> showSelectStore() async {
       }
       return Container(
         height: 360,
-        color: Color(0xFFF7F8FB),
+        color: const Color(0xFFF7F8FB),
         width: Get.width,
-        padding: EdgeInsets.fromLTRB(16, 0, 16, 32),
+        padding: const EdgeInsets.fromLTRB(16, 0, 16, 32),
         child: Column(
           children: [
             Row(
               children: [
-                SizedBox(
+                const SizedBox(
                   width: 24,
                 ),
                 // Căn giữa văn bản
@@ -45,7 +45,7 @@ Future<void> showSelectStore() async {
                 // Căn giữa biểu tượng
                 Center(
                   child: IconButton(
-                    icon: Icon(Icons.close),
+                    icon: const Icon(Icons.close),
                     onPressed: () {
                       Get.back();
                     },
@@ -65,7 +65,7 @@ Future<void> showSelectStore() async {
                           child: Container(
                             margin: const EdgeInsets.only(top: 8),
                             width: Get.width,
-                            height: 100,
+                            height: 120,
                             padding: const EdgeInsets.all(16),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(16),
@@ -81,14 +81,13 @@ Future<void> showSelectStore() async {
 
                                 Expanded(
                                   child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         e.name ?? '',
-                                        style: Get.textTheme.bodyMedium
+                                        style: Get.textTheme.bodySmall
                                             ?.copyWith(
                                                 color:
                                                     model.selectedStore?.id ==
@@ -98,15 +97,18 @@ Future<void> showSelectStore() async {
                                                 fontWeight: FontWeight.bold),
                                         maxLines: 2,
                                       ),
+                                      const SizedBox(
+                                        height: 4,
+                                      ),
                                       Text(
                                         e.address ?? '',
                                         style:
-                                            Get.textTheme.bodySmall?.copyWith(
+                                            Get.textTheme.labelSmall?.copyWith(
                                           color: model.selectedStore?.id == e.id
                                               ? Colors.white
                                               : Colors.black,
                                         ),
-                                        maxLines: 3,
+                                        maxLines: 2,
                                         overflow: TextOverflow.ellipsis,
                                       ),
                                     ],

@@ -78,7 +78,7 @@ class _OptionState extends State<Option> {
         title: Text(
           'Tuỳ chọn',
           style:
-              Get.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+              Get.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
         ),
       ),
       body: ScopedModel<ProductViewModel>(
@@ -126,14 +126,14 @@ class _OptionState extends State<Option> {
                         children: [
                           Text(
                             product.name ?? '',
-                            style: Get.textTheme.bodyLarge
+                            style: Get.textTheme.bodyMedium
                                 ?.copyWith(fontWeight: FontWeight.bold),
                           ),
                           Container(
                             width: 120,
                             decoration: BoxDecoration(
                                 color: Colors.white,
-                                borderRadius: BorderRadius.circular(32),
+                                borderRadius: BorderRadius.circular(24),
                                 border: Border.all(
                                   color: ThemeColor.primary,
                                 )),
@@ -148,12 +148,12 @@ class _OptionState extends State<Option> {
                                   icon: Icon(
                                     CupertinoIcons.minus,
                                     color: ThemeColor.primary,
-                                    size: 32,
+                                    size: 24,
                                   ),
                                 ),
                                 Text(
                                   model.productInCart.quantity.toString(),
-                                  style: Get.textTheme.titleMedium,
+                                  style: Get.textTheme.bodyMedium,
                                 ),
                                 IconButton(
                                   onPressed: () {
@@ -162,7 +162,7 @@ class _OptionState extends State<Option> {
                                   icon: Icon(
                                     CupertinoIcons.plus,
                                     color: ThemeColor.primary,
-                                    size: 32,
+                                    size: 24,
                                   ),
                                 ),
                               ],
@@ -171,7 +171,7 @@ class _OptionState extends State<Option> {
                         ],
                       ),
                       SizedBox(
-                        height: 16,
+                        height: 8,
                       ),
                       productSize(model),
                       productAttributes(model),
@@ -239,7 +239,7 @@ class _OptionState extends State<Option> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(listAttribute[i].name,
-                  style: Get.textTheme.bodyMedium
+                  style: Get.textTheme.bodySmall
                       ?.copyWith(fontWeight: FontWeight.bold)),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -259,7 +259,7 @@ class _OptionState extends State<Option> {
                         },
                         child: Text(
                           option,
-                          style: Get.textTheme.bodySmall?.copyWith(
+                          style: Get.textTheme.labelSmall?.copyWith(
                               color: option == selectedAttributes[i].value
                                   ? Colors.white
                                   : Colors.black),
@@ -284,7 +284,7 @@ class _OptionState extends State<Option> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(e.name!,
-                  style: Get.textTheme.bodyMedium
+                  style: Get.textTheme.bodySmall
                       ?.copyWith(fontWeight: FontWeight.bold)),
               ListView.builder(
                 shrinkWrap: true,
@@ -302,11 +302,13 @@ class _OptionState extends State<Option> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(extraProduct[i].name!),
-                        Text("+ ${formatPrice(extraProduct[i].sellingPrice!)}"),
+                        Text("+ ${formatPrice(extraProduct[i].sellingPrice!)}",
+                            style: Get.textTheme.labelSmall),
                       ],
                     ),
-                    value:
-                        model.isExtraExist(extraProduct[i].menuProductId ?? ""),
+                    value: model.isExtraExist(
+                      extraProduct[i].menuProductId ?? "",
+                    ),
                     selected:
                         model.isExtraExist(extraProduct[i].menuProductId ?? ""),
                     onChanged: (value) {
@@ -326,8 +328,8 @@ class _OptionState extends State<Option> {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Text("Kích cỡ",
-            style: Get.textTheme.bodyMedium
-                ?.copyWith(fontWeight: FontWeight.bold)),
+            style:
+                Get.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.bold)),
         ListView.builder(
           shrinkWrap: true,
           itemCount: childProducts.length,
@@ -344,8 +346,10 @@ class _OptionState extends State<Option> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("Size ${childProducts[i].size!}"),
-                  Text(formatPrice(childProducts[i].sellingPrice!)),
+                  Text("Size ${childProducts[i].size!}",
+                      style: Get.textTheme.labelSmall),
+                  Text(formatPrice(childProducts[i].sellingPrice!),
+                      style: Get.textTheme.labelSmall),
                 ],
               ),
               value: childProducts[i].id,
@@ -380,7 +384,7 @@ class _OptionState extends State<Option> {
             padding: const EdgeInsets.fromLTRB(4, 16, 4, 16),
             child: Text(
                 "Thêm ${formatPrice(model.productInCart.finalAmount ?? 0)}",
-                style: Get.textTheme.titleMedium
+                style: Get.textTheme.bodyMedium
                     ?.copyWith(color: Get.theme.colorScheme.background)),
           )),
     );
@@ -393,7 +397,7 @@ class _OptionState extends State<Option> {
           children: [
             Text(
               'Ghi chú', // Đây là tiêu đề yêu cầu khác
-              style: Get.textTheme.bodyMedium
+              style: Get.textTheme.bodySmall
                   ?.copyWith(fontWeight: FontWeight.bold),
             ),
           ],
@@ -418,7 +422,8 @@ class _OptionState extends State<Option> {
                     children: [
                       Expanded(
                         child: TextField(
-                          decoration: InputDecoration(
+                          style: Get.textTheme.labelSmall,
+                          decoration: const InputDecoration(
                             hintText: 'Hãy nói gì đó...',
                             border: InputBorder.none, // Bỏ gạch dưới chân
                           ),
@@ -428,7 +433,7 @@ class _OptionState extends State<Option> {
                         ),
                       ),
                       SizedBox(
-                          width: 10), // Tạo khoảng cách giữa văn bản và icon
+                          width: 4), // Tạo khoảng cách giữa văn bản và icon
                       Icon(Icons.edit, // Icon cây viết
                           color: ThemeColor.primary // Màu của icon
                           ),

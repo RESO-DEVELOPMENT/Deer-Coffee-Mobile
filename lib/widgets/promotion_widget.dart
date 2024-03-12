@@ -1,3 +1,4 @@
+import 'package:deer_coffee/models/user.dart';
 import 'package:deer_coffee/view_models/cart_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -7,9 +8,18 @@ import '../models/pointify/promotion_model.dart';
 import '../utils/format.dart';
 import '../utils/route_constrant.dart';
 import '../utils/theme.dart';
+import '../view_models/account_view_model.dart';
 
 Widget buildTicketWidget(
     PromotionPointify promotion, bool isSelected, CartViewModel model) {
+  String? selectedCode;
+  UserDetails? info = Get.find<AccountViewModel>().memberShipModel;
+  if (promotion.promotionType == 3) {
+    selectedCode =
+        '${info?.phoneNumber}_${promotion?.promotionCode}_${promotion.listVoucher?.first.voucherCode ?? ''}';
+  } else {
+    selectedCode = '${info?.phoneNumber}_${promotion.promotionCode}';
+  }
   return InkWell(
     onTap: () {
       Get.toNamed(
@@ -59,22 +69,46 @@ Widget buildTicketWidget(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
                   Text(promotion.promotionName ?? '',
-                      style: Get.textTheme.bodyMedium?.copyWith(
+                      style: Get.textTheme.bodySmall?.copyWith(
                           fontWeight: FontWeight.bold,
                           color: isSelected ? Colors.white : Colors.black),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis),
                   Text(promotion.promotionCode ?? '',
-                      style: Get.textTheme.bodySmall?.copyWith(
+                      style: Get.textTheme.labelSmall?.copyWith(
                           color: isSelected ? Colors.white : Colors.black)),
                   Text(
                       "SL :${promotion.promotionType == 3 ? promotion.currentVoucherQuantity : "Không giới hạn"}",
-                      style: Get.textTheme.bodySmall?.copyWith(
+                      style: Get.textTheme.labelSmall?.copyWith(
                           color: isSelected ? Colors.white : Colors.black)),
-                  Text(
-                      "HSD:${formatOnlyDate(promotion.endDate ?? "2025-01-01T00:00:00")}",
-                      style: Get.textTheme.bodySmall?.copyWith(
-                          color: isSelected ? Colors.white : Colors.black)),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                          "HSD:${formatOnlyDate(promotion.endDate ?? "2025-01-01T00:00:00")}",
+                          style: Get.textTheme.labelSmall?.copyWith(
+                              color: isSelected ? Colors.white : Colors.black)),
+                      TextButton(
+                          onPressed: () {
+                            if (isSelected) {
+                              model.removePromotion();
+                              Get.back();
+                            } else {
+                              model.selectPromotion(selectedCode ?? '',
+                                  promotion.promotionType ?? 2);
+                              Get.back();
+                            }
+                          },
+                          child: Text(
+                            isSelected ? "Huỷ" : "Sử dụng",
+                            style: Get.textTheme.bodyMedium?.copyWith(
+                                color: isSelected
+                                    ? Colors.white
+                                    : ThemeColor.primary),
+                          ))
+                    ],
+                  ),
                 ],
               ),
             ),

@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 import '../../models/product.dart';
@@ -14,7 +16,6 @@ class ProductCard extends StatelessWidget {
     return Column(
       children: [
         Container(
-          height: 90,
           padding: const EdgeInsets.all(8.0),
           child: InkWell(
             onTap: () {
@@ -28,8 +29,8 @@ class ProductCard extends StatelessWidget {
                       .center, // Đặt căn chỉnh các phần tử trong hàng lên trên cùng
                   children: [
                     SizedBox(
-                      width: 70,
-                      height: 70,
+                      width: 60,
+                      height: 60,
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(8),
                         child: Image.network(
@@ -39,8 +40,8 @@ class ProductCard extends StatelessWidget {
                               return child;
                             }
                             return SizedBox(
-                              width: 70,
-                              height: 70,
+                              width: 50,
+                              height: 50,
                               child: Center(
                                 child: CircularProgressIndicator(
                                   value: loadingProgress.expectedTotalBytes !=
@@ -68,18 +69,28 @@ class ProductCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment
                             .start, // Đặt căn chỉnh theo chiều ngang sang trái
                         children: [
+                          Text(product.name ?? "",
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: Get.textTheme.bodySmall),
+                          SizedBox(
+                            height: 4,
+                          ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
-                              Text(product.name ?? "",
-                                  style: Get.textTheme.bodyMedium),
+                              Expanded(
+                                child: Text(product.description ?? "",
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: Get.textTheme.labelSmall
+                                        ?.copyWith(color: Colors.grey)),
+                              ),
                               Text(formatPrice(product.sellingPrice ?? 0),
-                                  style: Get.textTheme.bodyMedium),
+                                  style: Get.textTheme.labelSmall),
                             ],
                           ),
-                          Text(product.description ?? "",
-                              style: Get.textTheme.bodySmall
-                                  ?.copyWith(color: Colors.grey)),
                         ],
                       ),
                     ),

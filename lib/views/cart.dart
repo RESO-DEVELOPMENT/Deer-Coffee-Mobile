@@ -3,7 +3,6 @@ import 'package:deer_coffee/utils/format.dart';
 import 'package:deer_coffee/utils/theme.dart';
 import 'package:deer_coffee/view_models/cart_view_model.dart';
 import 'package:deer_coffee/view_models/menu_view_model.dart';
-import 'package:deer_coffee/views/order_confirmation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
@@ -43,7 +42,7 @@ class _CartScreenState extends State<CartScreen> {
               },
               icon: Icon(Icons.arrow_back_ios)),
           title: Text("Giỏ hàng",
-              style: Get.textTheme.titleMedium
+              style: Get.textTheme.bodyMedium
                   ?.copyWith(fontWeight: FontWeight.bold)),
         ),
         body: ScopedModelDescendant<CartViewModel>(
@@ -63,8 +62,8 @@ class _CartScreenState extends State<CartScreen> {
                     child: Text(
                       showOrderType(
                           model.cart.orderType ?? 'Vui lòng chọn địa chỉ'),
-                      style: Get.textTheme.bodyMedium
-                          ?.copyWith(fontWeight: FontWeight.w500),
+                      style: Get.textTheme.bodySmall
+                          ?.copyWith(fontWeight: FontWeight.bold),
                     ),
                   ),
                   SizedBox(
@@ -90,7 +89,7 @@ class _CartScreenState extends State<CartScreen> {
                         },
                         child: Text(
                           "Thay đổi",
-                          style: Get.textTheme.bodyMedium
+                          style: Get.textTheme.bodySmall
                               ?.copyWith(color: ThemeColor.primary),
                         )),
                   )
@@ -128,7 +127,7 @@ class _CartScreenState extends State<CartScreen> {
                                         ?.name ??
                                     ''),
                             maxLines: 2,
-                            style: Get.textTheme.bodySmall,
+                            style: Get.textTheme.labelSmall,
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
@@ -140,8 +139,8 @@ class _CartScreenState extends State<CartScreen> {
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   "Danh sách món",
-                  style: Get.textTheme.bodyMedium
-                      ?.copyWith(fontWeight: FontWeight.w500),
+                  style: Get.textTheme.bodySmall
+                      ?.copyWith(fontWeight: FontWeight.bold),
                 ),
               ),
               ListView.builder(
@@ -220,14 +219,14 @@ class _CartScreenState extends State<CartScreen> {
                                   children: [
                                     Text(
                                         "${model.cart.productList![index].name!}   x${model.cart.productList![index].quantity}",
-                                        style: Get.textTheme.bodyMedium),
+                                        style: Get.textTheme.labelMedium),
                                     Text(
                                         formatPrice(model
                                                 .cart
                                                 .productList![index]
                                                 .finalAmount ??
                                             0),
-                                        style: Get.textTheme.bodyMedium),
+                                        style: Get.textTheme.labelSmall),
                                   ],
                                 ),
                                 Row(
@@ -238,7 +237,7 @@ class _CartScreenState extends State<CartScreen> {
                                       '${model.cart.productList![index].attributes?[0].name} ${model.cart.productList![index].attributes![0].value} ${model.cart.productList![index].attributes?[1].name} ${model.cart.productList![index].attributes![1].value}',
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
-                                      style: Get.textTheme.bodySmall,
+                                      style: Get.textTheme.labelSmall,
                                     ),
                                     Text(
                                         model.cart.productList![index]
@@ -246,14 +245,14 @@ class _CartScreenState extends State<CartScreen> {
                                                 0
                                             ? ""
                                             : "-${formatPrice(model.cart.productList![index].discount ?? 0)}",
-                                        style: Get.textTheme.bodySmall),
+                                        style: Get.textTheme.labelSmall),
                                   ],
                                 ),
                                 Text(
                                   model.cart.productList![index].note ?? '',
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
-                                  style: Get.textTheme.bodySmall,
+                                  style: Get.textTheme.labelSmall,
                                 ),
                                 ListView.builder(
                                   shrinkWrap: true,
@@ -271,7 +270,7 @@ class _CartScreenState extends State<CartScreen> {
                                           flex: 6,
                                           child: Text(
                                             " +${model.cart.productList![index].extras![i].name!}",
-                                            style: Get.textTheme.bodySmall,
+                                            style: Get.textTheme.labelSmall,
                                           ),
                                         ),
                                         Expanded(
@@ -285,7 +284,7 @@ class _CartScreenState extends State<CartScreen> {
                                                   .productList![index]
                                                   .extras![i]
                                                   .sellingPrice!),
-                                              style: Get.textTheme.bodySmall,
+                                              style: Get.textTheme.labelSmall,
                                             ),
                                           ),
                                         ),
@@ -306,8 +305,8 @@ class _CartScreenState extends State<CartScreen> {
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   "Thanh toán",
-                  style: Get.textTheme.bodyMedium
-                      ?.copyWith(fontWeight: FontWeight.w500),
+                  style: Get.textTheme.bodySmall
+                      ?.copyWith(fontWeight: FontWeight.bold),
                 ),
               ),
               buildPromotionEffect(model),
@@ -320,23 +319,21 @@ class _CartScreenState extends State<CartScreen> {
             width: Get.width,
             color: Colors.white,
             height: 140,
-            padding: const EdgeInsets.fromLTRB(8, 8, 8, 32),
+            padding: const EdgeInsets.fromLTRB(8, 4, 8, 32),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Expanded(
                       flex: 2,
-                      child: TextButton.icon(
+                      child: TextButton(
                           onPressed: () {
                             selectPayment();
                           },
-                          icon: Icon(Icons.arrow_drop_down,
-                              color: ThemeColor.primary),
-                          label: Text(
+                          child: Text(
                             showPaymentType(model.cart.paymentType ??
                                 PaymentTypeEnums.CASH),
                             style: Get.textTheme.bodySmall
@@ -345,16 +342,12 @@ class _CartScreenState extends State<CartScreen> {
                     ),
                     Expanded(
                       flex: 2,
-                      child: TextButton.icon(
+                      child: TextButton(
                           onPressed: () {
                             Get.toNamed(RouteHandler.VOUCHER);
                           },
-                          icon: Icon(
-                            Icons.arrow_drop_down,
-                            color: ThemeColor.primary,
-                          ),
-                          label: Text(
-                            model.cart.promotionCode ?? 'THÊM KHUYẾN MÃI',
+                          child: Text(
+                            model.cart.promotionCode ?? 'Thêm khuyến mãi',
                             style: Get.textTheme.bodySmall
                                 ?.copyWith(color: ThemeColor.primary),
                           )),
@@ -362,68 +355,46 @@ class _CartScreenState extends State<CartScreen> {
                   ],
                 ),
                 Expanded(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Tổng cộng",
-                            style: Get.textTheme.bodySmall
-                                ?.copyWith(fontWeight: FontWeight.bold),
+                  child: Expanded(
+                    child: Container(
+                      height: 50,
+                      padding: const EdgeInsets.fromLTRB(8, 0, 0, 0),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          // if (model.deliAddress == null) {
+                          //   showAlertDialog(
+                          //       title: "Chọn địa chỉ",
+                          //       content: "Vui lòng chọn địa chỉ nhận hàng");
+                          // } else {
+                          //   model.createOrder();
+                          // }
+                          model.createOrder();
+                        },
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(50),
                           ),
-                          Text(
-                            formatPrice(model.cart.finalAmount ?? 0),
-                            style: Get.textTheme.bodyLarge
-                                ?.copyWith(fontWeight: FontWeight.bold),
-                          )
-                        ],
-                      ),
-                      Expanded(
-                        child: Container(
-                          height: 50,
-                          padding: const EdgeInsets.fromLTRB(8, 0, 0, 0),
-                          child: ElevatedButton(
-                            onPressed: () {
-                              // if (model.deliAddress == null) {
-                              //   showAlertDialog(
-                              //       title: "Chọn địa chỉ",
-                              //       content: "Vui lòng chọn địa chỉ nhận hàng");
-                              // } else {
-                              //   model.createOrder();
-                              // }
-                              model.createOrder();
-                            },
-                            style: ElevatedButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(50),
-                              ),
-                              backgroundColor: ThemeColor.primary,
+                          backgroundColor: ThemeColor.primary,
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(
+                              Icons.shopping_cart_outlined,
+                              color: Colors.white,
                             ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const Icon(
-                                  Icons.shopping_cart_outlined,
-                                  color: Colors.white,
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Text(
-                                  "Đặt Hàng",
-                                  style: Get.textTheme.titleMedium
-                                      ?.copyWith(color: Colors.white),
-                                ),
-                              ],
+                            SizedBox(
+                              width: 10,
                             ),
-                          ),
+                            Text(
+                              "Đặt Hàng",
+                              style: Get.textTheme.bodyMedium
+                                  ?.copyWith(color: Colors.white),
+                            ),
+                          ],
                         ),
                       ),
-                    ],
+                    ),
                   ),
                 ),
               ],
@@ -456,7 +427,7 @@ class _CartScreenState extends State<CartScreen> {
               ),
               Text(
                 formatPrice(model.cart.totalAmount ?? 0),
-                style: Get.textTheme.bodyMedium,
+                style: Get.textTheme.labelSmall,
               )
             ],
           ),
@@ -469,7 +440,7 @@ class _CartScreenState extends State<CartScreen> {
                       children: [
                         Text(
                           " - ${e.name}",
-                          style: Get.textTheme.bodySmall,
+                          style: Get.textTheme.labelSmall,
                         ),
                         Text(
                           e.effectType == "GET_POINT"
@@ -487,14 +458,29 @@ class _CartScreenState extends State<CartScreen> {
             children: [
               Text(
                 "Giảm giá",
-                style: Get.textTheme.bodyMedium,
+                style: Get.textTheme.labelSmall,
               ),
               Text(
                 "-${formatPrice(model.cart.discountAmount ?? 0)}",
-                style: Get.textTheme.bodyMedium,
+                style: Get.textTheme.labelSmall,
               )
             ],
           ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                "Tổng cộng",
+                style: Get.textTheme.labelMedium,
+              ),
+              Text(
+                formatPrice(model.cart.finalAmount ?? 0),
+                style: Get.textTheme.labelMedium
+                    ?.copyWith(fontWeight: FontWeight.bold),
+              )
+            ],
+          )
         ],
       ),
     );

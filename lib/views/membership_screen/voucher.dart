@@ -29,7 +29,7 @@ class _VoucherState extends State<Voucher> {
         backgroundColor: Colors.white,
         centerTitle: true,
         title: Text('Ưu đãi dành riêng cho bạn',
-            style: Get.textTheme.titleMedium
+            style: Get.textTheme.bodyMedium
                 ?.copyWith(fontWeight: FontWeight.bold)),
       ),
       body: ScopedModel<CartViewModel>(
@@ -52,7 +52,7 @@ class _VoucherState extends State<Voucher> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text('Dành riêng cho bạn',
-                      style: Get.textTheme.titleMedium
+                      style: Get.textTheme.bodyMedium
                           ?.copyWith(fontWeight: FontWeight.bold)),
                   const SizedBox(
                     height: 8,
@@ -75,7 +75,7 @@ class _VoucherState extends State<Voucher> {
                     height: 16,
                   ),
                   Text('Khuyến mãi khả dụng',
-                      style: Get.textTheme.titleMedium
+                      style: Get.textTheme.bodyMedium
                           ?.copyWith(fontWeight: FontWeight.bold)),
                   const SizedBox(
                     height: 8,

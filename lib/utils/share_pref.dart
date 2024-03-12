@@ -29,11 +29,15 @@ Future<String?> getToken() async {
   return prefs.getString('token');
 }
 
-// Future<void> setUserInfo(UserModel userInfo) async {
-//   final SharedPreferences prefs = await SharedPreferences.getInstance();
-//   final user = userInfo.toJson();
-//   prefs.setString("userInfo", jsonEncode(user));
-// }
+Future<String?> getStoreId() async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  return prefs.getString('storeId');
+}
+
+Future<void> setStoreId(String? storeId) async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.setString("storeId", storeId.toString());
+}
 
 Future<void> setUserId(String userId) async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -49,16 +53,6 @@ Future<String?> getUserId() async {
   }
   return null;
 }
-
-// Future<UserModel?> getUserInfo() async {
-//   final SharedPreferences pref = await SharedPreferences.getInstance();
-//   String? userData = pref.getString("userInfo");
-//   UserModel? userInfo;
-//   if (userData != null) {
-//     userInfo = UserModel.fromJson(jsonDecode(userData));
-//   }
-//   return userInfo;
-// }
 
 Future<void> removeALL() async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();

@@ -56,7 +56,6 @@ class _OrderDetailsState extends State<OrderDetails> {
           );
         }
         return Scaffold(
-            backgroundColor: Colors.grey[200],
             appBar: AppBar(
               centerTitle: true,
               leading: IconButton(
@@ -65,7 +64,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                   },
                   icon: const Icon(Icons.arrow_back_ios)),
               title: Text(orderDetails?.invoiceId ?? '',
-                  style: Get.textTheme.titleMedium
+                  style: Get.textTheme.bodyMedium
                       ?.copyWith(fontWeight: FontWeight.bold)),
             ),
             body: Padding(
@@ -96,8 +95,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                                       margin: orderDetails?.orderStatus ==
                                               OrderStatusEnum.CANCELED
                                           ? EdgeInsets.only(left: 20.0)
-                                          : EdgeInsets
-                                              .zero, 
+                                          : EdgeInsets.zero,
                                       child: Text(
                                         showOrderStatus(
                                           orderDetails?.orderStatus !=
@@ -109,7 +107,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                                               : OrderStatusEnum.NEW,
                                         ),
                                         style:
-                                            Get.textTheme.bodySmall?.copyWith(
+                                            Get.textTheme.labelSmall?.copyWith(
                                           color: orderDetails?.orderStatus !=
                                                   OrderStatusEnum.CANCELED
                                               ? ThemeColor.primary
@@ -123,7 +121,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                                       child: Text(
                                         showOrderStatus(OrderStatusEnum.PAID),
                                         style:
-                                            Get.textTheme.bodySmall?.copyWith(
+                                            Get.textTheme.labelSmall?.copyWith(
                                           color: orderDetails?.orderStatus !=
                                                   OrderStatusEnum.CANCELED
                                               ? ((orderDetails?.orderStatus ==
@@ -140,7 +138,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                                         showUserDeiliStatus(
                                             DeliStatusEnum.DELIVERED),
                                         style:
-                                            Get.textTheme.bodySmall?.copyWith(
+                                            Get.textTheme.labelSmall?.copyWith(
                                           color: orderDetails?.orderStatus !=
                                                   OrderStatusEnum.CANCELED
                                               ? ((orderDetails?.customerInfo
@@ -317,7 +315,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                                                     : OrderStatusEnum.CANCELED)
                                                 : OrderStatusEnum.PENDING,
                                           ),
-                                          style: Get.textTheme.bodySmall
+                                          style: Get.textTheme.labelSmall
                                               ?.copyWith(
                                                   color: orderDetails
                                                               ?.orderStatus !=
@@ -342,8 +340,8 @@ class _OrderDetailsState extends State<OrderDetails> {
                                         child: Text(
                                           showUserDeiliStatus(
                                               DeliStatusEnum.DELIVERING),
-                                          style:
-                                              Get.textTheme.bodySmall?.copyWith(
+                                          style: Get.textTheme.labelSmall
+                                              ?.copyWith(
                                             color: orderDetails?.orderStatus !=
                                                     OrderStatusEnum.CANCELED
                                                 ? ((orderDetails?.customerInfo
@@ -369,11 +367,11 @@ class _OrderDetailsState extends State<OrderDetails> {
                             ],
                           ),
                         ),
-                        SizedBox(height: 4),
+                        SizedBox(height: 6),
                         Text('Sản phẩm',
-                            style: Get.textTheme.bodyMedium
+                            style: Get.textTheme.labelMedium
                                 ?.copyWith(fontWeight: FontWeight.bold)),
-                        SizedBox(height: 4),
+                        SizedBox(height: 6),
                         Container(
                           decoration: BoxDecoration(
                             borderRadius:
@@ -394,11 +392,11 @@ class _OrderDetailsState extends State<OrderDetails> {
                         ),
                         SizedBox(height: 6),
                         Text('Thanh toán',
-                            style: Get.textTheme.bodyMedium
+                            style: Get.textTheme.labelMedium
                                 ?.copyWith(fontWeight: FontWeight.bold)),
                         SizedBox(height: 6),
                         Container(
-                          padding: EdgeInsets.all(16),
+                          padding: EdgeInsets.all(8),
                           decoration: BoxDecoration(
                             borderRadius:
                                 BorderRadius.all(Radius.circular(12.0)),
@@ -414,12 +412,12 @@ class _OrderDetailsState extends State<OrderDetails> {
                                   children: [
                                     Text(
                                       "Tạm tính",
-                                      style: Get.textTheme.bodySmall,
+                                      style: Get.textTheme.labelSmall,
                                     ),
                                     Text(
                                       formatPrice(
                                           orderDetails?.totalAmount ?? 0),
-                                      style: Get.textTheme.bodySmall,
+                                      style: Get.textTheme.labelSmall,
                                     )
                                   ],
                                 ),
@@ -431,13 +429,13 @@ class _OrderDetailsState extends State<OrderDetails> {
                                   children: [
                                     Text(
                                       "Giảm giá",
-                                      style: Get.textTheme.bodySmall,
+                                      style: Get.textTheme.labelSmall,
                                     ),
                                     Text(
                                       "-" +
                                           formatPrice(
                                               orderDetails?.discount ?? 0),
-                                      style: Get.textTheme.bodySmall,
+                                      style: Get.textTheme.labelSmall,
                                     )
                                   ],
                                 ),
@@ -448,18 +446,14 @@ class _OrderDetailsState extends State<OrderDetails> {
                                   children: [
                                     Text(
                                       "Tổng cộng",
-                                      style: TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                      style: Get.textTheme.bodySmall?.copyWith(
+                                          fontWeight: FontWeight.bold),
                                     ),
                                     Text(
                                       formatPrice(
                                           orderDetails?.finalAmount ?? 0),
-                                      style: TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                      style: Get.textTheme.bodySmall?.copyWith(
+                                          fontWeight: FontWeight.bold),
                                     )
                                   ],
                                 ),
@@ -469,11 +463,11 @@ class _OrderDetailsState extends State<OrderDetails> {
                         ),
                         SizedBox(height: 6),
                         Text('Chi tiết đơn hàng',
-                            style: Get.textTheme.bodyMedium
+                            style: Get.textTheme.labelMedium
                                 ?.copyWith(fontWeight: FontWeight.bold)),
                         SizedBox(height: 6),
                         Container(
-                          padding: EdgeInsets.all(16),
+                          padding: EdgeInsets.all(8),
                           decoration: BoxDecoration(
                             borderRadius:
                                 BorderRadius.all(Radius.circular(12.0)),
@@ -487,11 +481,11 @@ class _OrderDetailsState extends State<OrderDetails> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Text('Ngày đặt hàng',
-                                      style: Get.textTheme.bodySmall),
+                                      style: Get.textTheme.labelSmall),
                                   Text(
                                     formatTime(orderDetails?.checkInDate ??
                                         "2023-01-01T00:00:00.00000"),
-                                    style: Get.textTheme.bodySmall,
+                                    style: Get.textTheme.labelSmall,
                                   ),
                                 ],
                               ),
@@ -501,11 +495,11 @@ class _OrderDetailsState extends State<OrderDetails> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Text('Thanh toán',
-                                      style: Get.textTheme.bodySmall),
+                                      style: Get.textTheme.labelSmall),
                                   Text(
                                     showPaymentType(orderDetails?.paymentType ??
                                         PaymentTypeEnums.CASH),
-                                    style: Get.textTheme.bodySmall,
+                                    style: Get.textTheme.labelSmall,
                                   ),
                                 ],
                               ),
@@ -515,11 +509,11 @@ class _OrderDetailsState extends State<OrderDetails> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Text('Loại đơn hàng',
-                                      style: Get.textTheme.bodySmall),
+                                      style: Get.textTheme.labelSmall),
                                   Text(
                                     showOrderType(orderDetails?.orderType ??
                                         OrderTypeEnum.EAT_IN),
-                                    style: Get.textTheme.bodySmall,
+                                    style: Get.textTheme.labelSmall,
                                   ),
                                 ],
                               ),
@@ -529,10 +523,10 @@ class _OrderDetailsState extends State<OrderDetails> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Text('Địa chỉ',
-                                      style: Get.textTheme.bodySmall),
+                                      style: Get.textTheme.labelSmall),
                                   Text(
                                     orderDetails?.customerInfo?.address ?? '',
-                                    style: Get.textTheme.bodySmall,
+                                    style: Get.textTheme.labelSmall,
                                   ),
                                 ],
                               ),
@@ -690,14 +684,14 @@ class _OrderDetailsState extends State<OrderDetails> {
         children: [
           Expanded(
               flex: 2,
-              child: Text(e.name ?? '', style: Get.textTheme.bodyMedium)),
+              child: Text(e.name ?? '', style: Get.textTheme.labelSmall)),
           Text(
             ' x${e.quantity}  ',
-            style: Get.textTheme.bodySmall,
+            style: Get.textTheme.labelSmall,
           ),
           Text(
             formatPrice(e.finalAmount ?? 0),
-            style: Get.textTheme.bodySmall,
+            style: Get.textTheme.labelSmall,
           ),
         ],
       ),
@@ -718,19 +712,13 @@ class _OrderDetailsState extends State<OrderDetails> {
                 children: [
                   Text(
                     " - ${e.promotionName}",
-                    style: TextStyle(
-                      fontStyle: FontStyle.italic,
-                      fontSize: Get.textTheme.bodySmall?.fontSize,
-                    ),
+                    style: Get.textTheme.labelSmall,
                   ),
                   Text(
                     e.effectType == "GET_POINT"
                         ? ("+${e.discountAmount} Điểm")
                         : ("- ${formatPrice(e.discountAmount ?? 0)}"),
-                    style: TextStyle(
-                      fontStyle: FontStyle.italic,
-                      fontSize: Get.textTheme.bodySmall?.fontSize,
-                    ),
+                    style: Get.textTheme.labelSmall,
                   )
                 ],
               ),

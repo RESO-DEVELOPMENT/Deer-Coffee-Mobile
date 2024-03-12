@@ -10,20 +10,21 @@ class TransactionModel {
   String? brandPartnerId;
   bool? isIncrease;
   String? type;
+  String? description;
 
-  TransactionModel({
-    this.id,
-    this.createdDate,
-    this.orderId,
-    this.userId,
-    this.status,
-    this.brandId,
-    this.amount,
-    this.currency,
-    this.brandPartnerId,
-    this.isIncrease,
-    this.type,
-  });
+  TransactionModel(
+      {this.id,
+      this.createdDate,
+      this.orderId,
+      this.userId,
+      this.status,
+      this.brandId,
+      this.amount,
+      this.currency,
+      this.brandPartnerId,
+      this.isIncrease,
+      this.type,
+      this.description});
 
   TransactionModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -37,6 +38,7 @@ class TransactionModel {
     brandPartnerId = json['brandPartnerId'];
     isIncrease = json['isIncrease'];
     type = json['type'];
+    description = json['description'];
   }
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
@@ -52,6 +54,7 @@ class TransactionModel {
     data['brandPartnerId'] = brandPartnerId;
     data['isIncrease'] = isIncrease;
     data['type'] = type;
+    data['description'] = description;
     return data;
   }
 

@@ -58,9 +58,6 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     GlobalKey<FormState> phoneKey = GlobalKey<FormState>();
-    // print("Phone Number: ${phoneNumber.text}");
-    // print("Validation Result: ${phoneKey.currentState?.validate()}");
-    // print("valid phone ? :   ${isValidPhoneNumber(phoneNumber.text)}");
     return Form(
       autovalidateMode: AutovalidateMode.onUserInteraction,
       key: phoneKey,

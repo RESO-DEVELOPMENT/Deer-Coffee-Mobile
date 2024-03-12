@@ -1,16 +1,9 @@
-import 'package:barcode_widget/barcode_widget.dart';
-import 'package:deer_coffee/enums/order_enum.dart';
 import 'package:deer_coffee/models/user.dart';
-import 'package:deer_coffee/utils/share_pref.dart';
 import 'package:deer_coffee/utils/theme.dart';
-import 'package:deer_coffee/views/profile_screen/location.dart';
-import 'package:deer_coffee/views/profile_screen/order_history.dart';
 import 'package:deer_coffee/views/profile_screen/update_profile.dart';
 import 'package:deer_coffee/widgets/other_dialogs/dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:ionicons/ionicons.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 import '../../enums/view_status.dart';
@@ -69,7 +62,8 @@ class CustomLinearProgressBar extends StatelessWidget {
                 value: progress,
                 minHeight: 8,
                 backgroundColor: Colors.white,
-                valueColor: const AlwaysStoppedAnimation<Color>(Colors.blue),
+                valueColor:
+                    const AlwaysStoppedAnimation<Color>(Colors.tealAccent),
               ),
             ),
             const SizedBox(width: 8), // Adjust the spacing as needed
@@ -102,20 +96,18 @@ class _OtherPageState extends State<OtherPage> {
         ?.firstWhere((element) => element.walletType?.name == "Điểm");
     moneyWallet = model.memberShipModel?.level?.memberWallet
         ?.firstWhere((element) => element.walletType?.name == "Số dư");
-    print(userModel);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xffF9F9F9),
       appBar: AppBar(
         centerTitle: true,
         title: Text(
           "Tài khoản",
           style:
-              Get.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+              Get.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
         ),
       ),
       body: ScopedModel<AccountViewModel>(
@@ -165,14 +157,14 @@ class _OtherPageState extends State<OtherPage> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text('Hạng thành viên',
-                                        style: Get.textTheme.bodySmall
+                                        style: Get.textTheme.labelSmall
                                             ?.copyWith(
                                                 color: Colors.white,
                                                 fontWeight: FontWeight.bold)),
                                     Text(
                                         model.memberShipModel?.level?.name ??
                                             '',
-                                        style: Get.textTheme.bodyLarge
+                                        style: Get.textTheme.labelLarge
                                             ?.copyWith(
                                                 color: Colors.white,
                                                 fontWeight: FontWeight.bold)),
@@ -193,15 +185,16 @@ class _OtherPageState extends State<OtherPage> {
                                         Icon(
                                           Icons.confirmation_number,
                                           color: ThemeColor.primary,
+                                          size: 20,
                                         ),
                                         SizedBox(
                                           width: 4,
                                         ),
                                         Text(
                                           'Khuyến mãi',
-                                          style: Get.textTheme.bodyMedium
+                                          style: Get.textTheme.bodySmall
                                               ?.copyWith(
-                                                  color: Colors.blueAccent),
+                                                  color: ThemeColor.primary),
                                         ),
                                       ],
                                     ),
@@ -210,7 +203,7 @@ class _OtherPageState extends State<OtherPage> {
                               ],
                             ),
                             Padding(
-                              padding: const EdgeInsets.all(8.0),
+                              padding: const EdgeInsets.all(4.0),
                               child: CustomLinearProgressBar(
                                   progress: (pointWallet?.balance ?? 1) /
                                       (memberLevel?.maxPoint ?? 1)),
@@ -235,7 +228,7 @@ class _OtherPageState extends State<OtherPage> {
                                     .memberShipModel!.level!.memberWallet!
                                     .map((e) => Text(
                                           '${e.walletType?.name ?? ''}: ${formatPrice(e.balance ?? 0)}',
-                                          style: Get.textTheme.bodyMedium
+                                          style: Get.textTheme.bodySmall
                                               ?.copyWith(
                                                   color: Colors.white,
                                                   fontWeight: FontWeight.bold),
@@ -393,7 +386,7 @@ class _OtherPageState extends State<OtherPage> {
                                         padding: const EdgeInsets.only(
                                             bottom: 10, left: 10),
                                         child: Text('Lịch sử đơn hàng',
-                                            style: Get.textTheme.bodyMedium
+                                            style: Get.textTheme.labelMedium
                                                 ?.copyWith(
                                                     fontWeight:
                                                         FontWeight.bold)),
@@ -452,7 +445,7 @@ class _OtherPageState extends State<OtherPage> {
                                         padding: const EdgeInsets.only(
                                             bottom: 10, left: 10),
                                         child: Text('Thông tin cá nhân',
-                                            style: Get.textTheme.bodyMedium
+                                            style: Get.textTheme.labelMedium
                                                 ?.copyWith(
                                                     fontWeight:
                                                         FontWeight.bold)),
@@ -612,7 +605,7 @@ class _OtherPageState extends State<OtherPage> {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text('Danh sách cửa hàng',
-                                          style: Get.textTheme.bodyMedium
+                                          style: Get.textTheme.labelMedium
                                               ?.copyWith(
                                                   fontWeight: FontWeight.bold)),
                                       const Icon(Icons.store_outlined)
@@ -684,7 +677,7 @@ class _OtherPageState extends State<OtherPage> {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text('Điều khoản sử dụng',
-                                          style: Get.textTheme.bodyMedium
+                                          style: Get.textTheme.labelMedium
                                               ?.copyWith(
                                                   fontWeight: FontWeight.bold)),
                                       const Icon(Icons.policy_outlined)
@@ -714,7 +707,7 @@ class _OtherPageState extends State<OtherPage> {
                                           userModel == null
                                               ? "Đăng nhập"
                                               : 'Đăng xuất',
-                                          style: Get.textTheme.bodyMedium
+                                          style: Get.textTheme.labelMedium
                                               ?.copyWith(
                                                   fontWeight: FontWeight.bold)),
                                       Icon(userModel == null
@@ -759,7 +752,7 @@ class _OtherPageState extends State<OtherPage> {
                                               MainAxisAlignment.spaceBetween,
                                           children: [
                                             Text('Xoá tài khoản',
-                                                style: Get.textTheme.bodyMedium
+                                                style: Get.textTheme.labelMedium
                                                     ?.copyWith(
                                                         fontWeight:
                                                             FontWeight.bold)),

@@ -4,6 +4,7 @@ import 'package:deer_coffee/models/user.dart';
 import 'package:deer_coffee/models/user_create.dart';
 import 'package:deer_coffee/utils/theme.dart';
 import 'package:deer_coffee/view_models/account_view_model.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -242,7 +243,9 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
     if (pickedFile != null) {
       return io.File(pickedFile.path);
     } else {
-      print('No image selected.');
+      if (kDebugMode) {
+        print('No image selected.');
+      }
       return null;
     }
   }

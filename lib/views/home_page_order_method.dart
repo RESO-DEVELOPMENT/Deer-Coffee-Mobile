@@ -622,7 +622,6 @@ class _OrderMethodState extends State<OrderMethod> {
   }
 
   void _changeItem(int value) {
-    print(value);
     setState(() {
       _currentIndex = value;
     });

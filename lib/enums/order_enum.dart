@@ -40,7 +40,7 @@ class OrderStatusEnum {
 class DeliStatusEnum {
   static const String PENDING = 'PENDING';
   static const String CANCELED = 'CANCELED';
-  static const String DELIVERING = 'DELIVERING';  
+  static const String DELIVERING = 'DELIVERING';
   static const String DELIVERED = 'DELIVERED';
 }
 
@@ -83,9 +83,9 @@ String showUserDeiliStatus(String status) {
 String showPaymentType(String payment) {
   switch (payment) {
     case PaymentTypeEnums.CASH:
-      return 'TIỀN MẶT';
+      return 'Tiền mặt';
     case PaymentTypeEnums.POINTIFY:
-      return 'THẺ THÀNH VIÊN';
+      return 'Thẻ thành viên';
     default:
       return 'TIỀN MẶT';
   }

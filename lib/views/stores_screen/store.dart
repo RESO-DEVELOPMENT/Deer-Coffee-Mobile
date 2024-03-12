@@ -1,11 +1,8 @@
 import 'package:deer_coffee/enums/view_status.dart';
 import 'package:deer_coffee/models/store.dart';
-import 'package:deer_coffee/view_models/cart_view_model.dart';
 import 'package:deer_coffee/view_models/menu_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:ionicons/ionicons.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 import '../../utils/route_constrant.dart';

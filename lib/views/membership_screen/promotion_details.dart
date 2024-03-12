@@ -117,13 +117,8 @@ class _PromotionDetailsScreenState extends State<PromotionDetailsScreen> {
                                   .center, // Để căn giữa theo chiều ngang
                               children: [
                                 Text(
-                                  'Deer Coffee',
-                                  style: Get.textTheme.bodyLarge
-                                      ?.copyWith(fontWeight: FontWeight.bold),
-                                ),
-                                Text(
                                   promotionDetailsModel?.promotionName ?? '',
-                                  style: Get.textTheme.bodyLarge
+                                  style: Get.textTheme.bodyMedium
                                       ?.copyWith(fontWeight: FontWeight.bold),
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 2,
@@ -144,7 +139,7 @@ class _PromotionDetailsScreenState extends State<PromotionDetailsScreen> {
                                 ),
                                 Text(
                                   promotionDetailsModel?.promotionCode ?? "",
-                                  style: Get.textTheme.bodyMedium
+                                  style: Get.textTheme.bodySmall
                                       ?.copyWith(fontWeight: FontWeight.bold),
                                 ),
                                 TextButton(
@@ -156,7 +151,7 @@ class _PromotionDetailsScreenState extends State<PromotionDetailsScreen> {
                                   },
                                   child: Text(
                                     'Sao chép',
-                                    style: Get.textTheme.bodyMedium?.copyWith(
+                                    style: Get.textTheme.bodySmall?.copyWith(
                                         color: Colors.blueAccent,
                                         fontWeight: FontWeight.bold),
                                   ),
@@ -205,12 +200,12 @@ class _PromotionDetailsScreenState extends State<PromotionDetailsScreen> {
                                       .spaceBetween, // Căn giữa và đặt cách đều hai phần tử
                                   children: [
                                     Text('Ngày hết hạn :',
-                                        style: Get.textTheme.bodySmall),
+                                        style: Get.textTheme.labelSmall),
                                     Text(
                                         formatOnlyDate(
                                             promotionDetailsModel?.endDate ??
                                                 "2025-01-01T00:00:00"),
-                                        style: Get.textTheme.bodySmall),
+                                        style: Get.textTheme.labelSmall),
                                   ],
                                 ),
                                 Divider(
@@ -222,7 +217,7 @@ class _PromotionDetailsScreenState extends State<PromotionDetailsScreen> {
                                       .spaceBetween, // Căn giữa và đặt cách đều hai phần tử
                                   children: [
                                     Text('Lượt sử dụng còn lại',
-                                        style: Get.textTheme.bodySmall),
+                                        style: Get.textTheme.labelSmall),
                                     Text(
                                         promotionDetailsModel!
                                                     .currentVoucherQuantity! >
@@ -232,7 +227,7 @@ class _PromotionDetailsScreenState extends State<PromotionDetailsScreen> {
                                                     0)
                                                 .toString()
                                             : "Vô hạn",
-                                        style: Get.textTheme.bodySmall),
+                                        style: Get.textTheme.labelSmall),
                                   ],
                                 ),
                                 Divider(
@@ -246,7 +241,7 @@ class _PromotionDetailsScreenState extends State<PromotionDetailsScreen> {
                                   children: [
                                     Text(
                                       promotionDetailsModel?.description ?? '',
-                                      style: Get.textTheme.bodySmall,
+                                      style: Get.textTheme.labelSmall,
                                       maxLines: 5,
                                       overflow: TextOverflow.ellipsis,
                                     ),

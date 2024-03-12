@@ -100,7 +100,7 @@ class _RootScreenState extends State<RootScreen> {
           },
           child: const Icon(
             Icons.qr_code_scanner,
-            size: 32,
+            size: 28,
             color: Colors.white,
           )),
       body: portraitViews[_selectedIndex],
@@ -108,10 +108,10 @@ class _RootScreenState extends State<RootScreen> {
         showUnselectedLabels: true,
         type: BottomNavigationBarType.fixed,
         items: items,
-        iconSize: 28,
+        iconSize: 24,
         currentIndex: _selectedIndex,
         selectedItemColor: ThemeColor.primary,
-        unselectedItemColor: Colors.grey[600],
+        unselectedItemColor: Colors.grey,
         onTap: (int index) {
           setState(() {
             _selectedIndex = index;

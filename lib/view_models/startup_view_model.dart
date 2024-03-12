@@ -12,10 +12,6 @@ class StartUpViewModel extends BaseViewModel {
     handleStartUpLogic();
   }
   Future handleStartUpLogic() async {
-    print(GetPlatform.isWeb);
-    print(GetPlatform.isMobile);
-    print(GetPlatform.isAndroid);
-    print(GetPlatform.isIOS);
     if (GetPlatform.isWeb && (GetPlatform.isAndroid || GetPlatform.isIOS)) {
       final appId = GetPlatform.isIOS ? '6476899403' : 'com.reso.deercoffee';
       final url = Uri.parse(GetPlatform.isIOS

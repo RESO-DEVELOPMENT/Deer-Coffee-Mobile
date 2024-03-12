@@ -9,8 +9,6 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:dotted_dashed_line/dotted_dashed_line.dart';
 import 'package:deer_coffee/enums/view_status.dart';
-import 'package:deer_coffee/view_models/cart_view_model.dart';
-import '../../utils/route_constrant.dart';
 
 bool showBalance = true;
 
@@ -222,7 +220,7 @@ class _QrScreenState extends State<QrScreen> {
                               decoration: BoxDecoration(
                                 border: Border.all(
                                   color: ThemeColor.blue,
-                                  width: 2.0,
+                                  width: 1.0,
                                 ),
                                 borderRadius: BorderRadius.circular(8),
                                 color: Colors.white,
@@ -244,7 +242,7 @@ class _QrScreenState extends State<QrScreen> {
                                       child: Text(
                                         e.walletType?.name ?? '',
                                         style:
-                                            Get.textTheme.bodyMedium?.copyWith(
+                                            Get.textTheme.labelSmall?.copyWith(
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
@@ -257,7 +255,7 @@ class _QrScreenState extends State<QrScreen> {
                                       child: showBalance
                                           ? Text(
                                               formatPrice(e.balance ?? 0),
-                                              style: Get.textTheme.bodyLarge
+                                              style: Get.textTheme.labelMedium
                                                   ?.copyWith(
                                                 fontWeight: FontWeight.bold,
                                               ),

@@ -11,6 +11,7 @@ import '../models/category.dart';
 import '../models/collection.dart';
 import '../models/menu.dart';
 import '../models/product.dart';
+import '../utils/share_pref.dart';
 
 class MenuViewModel extends BaseViewModel {
   late Menu? currentMenu;
@@ -65,13 +66,26 @@ class MenuViewModel extends BaseViewModel {
   Future getListStore() async {
     setState(ViewStatus.Loading);
     storeList = await menuAPI?.getListStore();
-    selectedStore = storeList![0];
+    var storeId = await getStoreId();
+    if (storeId != null) {
+      var store = storeList?.firstWhere((element) => element.id == storeId);
+      if (store == -1) {
+        selectedStore = storeList![0];
+        await setStoreId(selectedStore?.id);
+      } else {
+        selectedStore = store;
+      }
+    } else {
+      selectedStore = storeList![0];
+      await setStoreId(selectedStore?.id);
+    }
     setState(ViewStatus.Completed);
   }
 
   Future<void> setStore(StoreModel store) async {
     setState(ViewStatus.Loading);
     selectedStore = store;
+    await setStoreId(selectedStore?.id);
     await getMenuOfBrand();
     setState(ViewStatus.Completed);
   }

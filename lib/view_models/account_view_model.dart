@@ -28,7 +28,6 @@ class AccountViewModel extends BaseViewModel {
   }
 
   Future<void> checkUser(String phone) async {
-    print(phone);
     phoneNumber = phone;
     CheckLoginModel? checkLogin = await accountAPI.checkUser(phone);
     Get.snackbar("Thông báo", checkLogin?.message ?? '');
@@ -43,6 +42,7 @@ class AccountViewModel extends BaseViewModel {
     if (user == null || user.userId == null) {
       Get.snackbar(
           'Lỗi đăng nhập', user?.message ?? 'Đăng nhập không thành công');
+      hideDialog();
       return;
     } else {
       requestObj.setToken = user.accessToken ?? '';

@@ -1,30 +1,17 @@
-import 'dart:async';
-
-import 'package:barcode/barcode.dart';
-import 'package:barcode_widget/barcode_widget.dart';
 import 'package:deer_coffee/enums/order_enum.dart';
 import 'package:deer_coffee/enums/view_status.dart';
-import 'package:deer_coffee/utils/format.dart';
 import 'package:deer_coffee/utils/theme.dart';
 import 'package:deer_coffee/view_models/account_view_model.dart';
 import 'package:deer_coffee/view_models/cart_view_model.dart';
 import 'package:deer_coffee/view_models/menu_view_model.dart';
-import 'package:deer_coffee/views/home_screen/banner_home.dart';
-import 'package:deer_coffee/views/login/login.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:ionicons/ionicons.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 import '../../utils/route_constrant.dart';
-import '../../utils/share_pref.dart';
 import '../../widgets/other_dialogs/dialog.dart';
 import '../bottom_sheet_util.dart';
-import '../login/login_card.dart';
-import 'user_card.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -402,13 +389,13 @@ class _HomePageState extends State<HomePage> {
                         SizedBox(width: 8),
                         Icon(
                           Icons.confirmation_num_outlined,
-                          size: 32,
+                          size: 24,
                           color: ThemeColor.primary,
                         ),
                         SizedBox(width: 8),
                         Text(
                           "Bạn có $numberOfVoucher mã giảm giá",
-                          style: Get.textTheme.bodyMedium?.copyWith(
+                          style: Get.textTheme.bodySmall?.copyWith(
                             color: ThemeColor.primary,
                           ),
                         ),
@@ -465,7 +452,7 @@ class _HomePageState extends State<HomePage> {
                       Text(
                         "Đăng nhập ngay để tận hưởng ưu đãi nhé !",
                         maxLines: 2,
-                        style: Get.textTheme.bodyMedium?.copyWith(
+                        style: Get.textTheme.bodySmall?.copyWith(
                           color: ThemeColor.primary,
                         ),
                       ),
