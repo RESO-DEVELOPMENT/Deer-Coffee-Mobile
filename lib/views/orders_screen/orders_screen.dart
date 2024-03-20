@@ -31,6 +31,8 @@ class _OrdersScreenState extends State<OrdersScreen> {
       (index) => GlobalKey());
 
   final ScrollController _scrollControllerOnProduct = ScrollController();
+  final ScrollController _scrollControllerOnCategory = ScrollController();
+
   @override
   void initState() {
     getUserId().then((value) => userId = value);
@@ -53,13 +55,11 @@ class _OrdersScreenState extends State<OrdersScreen> {
       if (keyContext != null) {
         final box = keyContext.findRenderObject() as RenderBox;
         final position = box.localToGlobal(Offset.zero);
-        if (position.dy >= 0 &&
-            position.dy <= MediaQuery.of(context).size.height) {
-          // This item is in the viewport
+        if (position.dy >= 0 && position.dy <= Get.size.height) {
           setState(() {
             selectedIndex = i;
           });
-          break; // Remove this if you want to know all items in the viewport
+          break;
         }
       }
     }
@@ -71,9 +71,8 @@ class _OrdersScreenState extends State<OrdersScreen> {
     });
     final context = _keys[index].currentContext;
     if (context != null) {
-      // Scroll to the exact widget position
       Scrollable.ensureVisible(context,
-          alignment: 0.2,
+          // alignment: 0.2,
           duration: const Duration(milliseconds: 500),
           curve: Curves.easeIn);
     }
@@ -185,93 +184,69 @@ class _OrdersScreenState extends State<OrdersScreen> {
           }),
         ),
         body: ScopedModelDescendant<MenuViewModel>(
-            builder: (context, build, model) {
-          return SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      flex: 1,
-                      child: ListView.builder(
-                        scrollDirection: Axis.vertical,
-                        shrinkWrap: true,
-                        itemCount: model.categories?.length,
-                        itemBuilder: (context, index) {
-                          return buildCircularButton(
-                            index,
-                            model.categories![index].name ?? '',
-                            model.categories![index].picUrl ?? '',
-                            model.categories![index].id ?? '',
-                          );
-                        },
-                        // children: [
-                        //   ...model.categories!.asMap().entries.map(
-                        //         (entry) => buildCircularButton(
-                        //           entry.value.name ?? '',
-                        //           entry.value.picUrl ?? '',
-                        //           entry.value.id ?? '',
-                        //         ),
-                        //       ),
-
-                        //   // ...Get.find<MenuViewModel>()
-                        //   //     .collections!
-                        //   //     .map((e) => categoryCard(
-                        //   //           e,
-                        //   //           Get.find<MenuViewModel>(),
-                        //   //         ))
-                        //   //     .toList(),
-                        // ],
-                      ),
-                    ),
-                    Expanded(
-                      flex: 3,
-                      child: Container(
-                        color: Colors.white,
-                        height: Get.height * 0.8,
-                        padding: const EdgeInsets.all(4),
-                        child: ListView.builder(
-                            physics: const BouncingScrollPhysics(
-                              parent: AlwaysScrollableScrollPhysics(),
-                            ),
-                            itemCount: model.categories?.length,
-                            controller: _scrollControllerOnProduct,
-                            shrinkWrap: true,
-                            scrollDirection: Axis.vertical,
-                            itemBuilder: (context, index) {
-                              return categoryCard(
-                                model.categories![index],
-                                index,
-                                model,
-                              );
-                            }
-                            // children: [
-                            //   ...Get.find<MenuViewModel>()
-                            //       .collections!
-                            //       .map((e) => collectionCard(
-                            //             e,
-                            //             Get.find<MenuViewModel>(),
-                            //           )),
-                            //   ...Get.find<MenuViewModel>()
-                            //       .categories!
-                            //       .map((e) => categoryCard(
-                            //             e,
-                            //             Get.find<MenuViewModel>(),
-                            //           )),
-                            // ]
-                            ),
-                      ),
-                    ),
-                  ],
+          builder: (context, build, model) {
+            return CustomScrollView(
+              slivers: [
+                SliverToBoxAdapter(
+child: Row(
+  crossAxisAlignment: CrossAxisAlignment.start,
+  mainAxisAlignment: MainAxisAlignment.start,
+  children: [
+    Expanded(
+      flex: 1,
+      child: Container(
+        color: Colors.grey[200],
+        height: Get.height * 0.8,
+        child: ListView.builder(
+          physics: const BouncingScrollPhysics(
+            parent: NeverScrollableScrollPhysics(),
+          ),
+          scrollDirection: Axis.vertical,
+          shrinkWrap: true,
+          controller: _scrollControllerOnCategory, // Sử dụng _scrollControllerOnCategory cho ListView này
+          itemCount: model.categories?.length,
+          itemBuilder: (context, index) {
+            return buildCircularButton(
+              index,
+              model.categories![index].name ?? '',
+              model.categories![index].picUrl ?? '',
+              model.categories![index].id ?? '',
+            );
+          },
+        ),
+      ),
+    ),
+    Expanded(
+      flex: 3,
+      child: Container(
+         height: Get.height * 0.8,
+        color: Colors.white,
+        padding: const EdgeInsets.all(4),
+        child: ListView.builder(
+          physics: const BouncingScrollPhysics(
+            parent: AlwaysScrollableScrollPhysics(),
+          ),
+          itemCount: model.categories?.length,
+          controller: _scrollControllerOnProduct, // Sử dụng _scrollControllerOnProduct cho ListView này
+          shrinkWrap: true,
+          scrollDirection: Axis.vertical,
+          itemBuilder: (context, index) {
+            return categoryCard(
+              model.categories![index],
+              index,
+              model,
+            );
+          },
+        ),
+      ),
+    ),
+  ],
+),
                 ),
               ],
-            ),
-          );
-        }),
+            );
+          },
+        ),
       ),
     );
   }
@@ -288,7 +263,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
             collection.name ?? '',
             style:
                 Get.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
-            textAlign: TextAlign.left, // Đặt chữ ở bên trái
+            textAlign: TextAlign.left,
           ),
           const SizedBox(
             height: 4,
@@ -308,11 +283,19 @@ class _OrdersScreenState extends State<OrdersScreen> {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          collection.name ?? '',
-          style:
-              Get.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
-          textAlign: TextAlign.left,
+        Container(
+          margin: EdgeInsets.only(left: 10),
+          child: Text(
+            collection.name ?? '',
+            style: idx == selectedIndex
+                ? Get.textTheme.bodyMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: idx == selectedIndex ? Colors.blue : null,
+                  )
+                : Get.textTheme.bodyMedium
+                    ?.copyWith(fontWeight: FontWeight.bold),
+            textAlign: TextAlign.left,
+          ),
         ),
         Column(
           children: products.map((e) => ProductCard(product: e)).toList(),
@@ -325,7 +308,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
     int idx,
     String text1,
     String image,
-    String categoryId, // Thêm tham số categoryId
+    String categoryId,
   ) {
     return InkWell(
       onTap: () {
@@ -340,17 +323,18 @@ class _OrdersScreenState extends State<OrdersScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
-              height: 10,
+              height: idx == 0 ? 0 : 10,
               decoration: BoxDecoration(
-                color: Get.theme.scaffoldBackgroundColor,
-                borderRadius: const BorderRadius.only(
-                  bottomRight:
-                      Radius.circular(20), // Adjust the radius as needed
+                color: idx == 0 ? Colors.transparent : Colors.grey[200],
+                borderRadius: BorderRadius.only(
+                  bottomRight: Radius.circular(20),
                 ),
               ),
             ),
-            const SizedBox(
+            Container(
               height: 4,
+              color: Colors.white,
+              child: SizedBox(),
             ),
             Container(
               height: 40,
@@ -373,15 +357,6 @@ class _OrdersScreenState extends State<OrdersScreen> {
             ),
             const SizedBox(
               height: 2,
-            ),
-            Container(
-              height: 10,
-              decoration: BoxDecoration(
-                color: Get.theme.scaffoldBackgroundColor,
-                borderRadius: const BorderRadius.only(
-                  topRight: Radius.circular(24), // Adjust the radius as needed
-                ),
-              ),
             ),
           ],
         ),
