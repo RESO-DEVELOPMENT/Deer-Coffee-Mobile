@@ -7,6 +7,7 @@ import 'package:deer_coffee/views/orders_screen/collection_detail.dart';
 import 'package:deer_coffee/views/policy-page.dart';
 import 'package:deer_coffee/views/profile_screen/order_history.dart';
 import 'package:deer_coffee/views/login/login_otp.dart';
+import 'package:deer_coffee/views/login/login_sign_up.dart';
 import 'package:deer_coffee/views/profile_screen/order_details.dart';
 import 'package:deer_coffee/views/orders_screen/product_details.dart';
 import 'package:deer_coffee/views/membership_screen/promotion_details.dart';
@@ -17,6 +18,7 @@ import 'package:deer_coffee/views/profile_screen/transaction_history.dart';
 import 'package:deer_coffee/views/qr_screen/qr_screen.dart';
 import 'package:deer_coffee/views/stores_screen/store.dart';
 import 'package:deer_coffee/views/stores_screen/store_details.dart';
+import 'package:deer_coffee/views/orders_screen/product_detail_1.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -83,6 +85,13 @@ class MyApp extends StatelessWidget {
                 ),
             transition: Transition.zoom),
         GetPage(
+            name: RouteHandler.SIGN_UP,
+            page: () => SignUp(
+                  phone: Get.parameters['phone'] ?? '',
+                  type: Get.parameters['type'] ?? '',
+                ),
+            transition: Transition.zoom),
+        GetPage(
             name: RouteHandler.HOME,
             page: () => RootScreen(
                   idx: int.parse(Get.parameters['idx'] ?? '0'),
@@ -110,6 +119,14 @@ class MyApp extends StatelessWidget {
                   id: Get.parameters['id'] ?? '',
                 ),
             transition: Transition.cupertino),
+        // em code thu
+        GetPage(
+            name: RouteHandler.PRODUCT_DETAIL_1,
+            page: () => ProductDetail(
+                  id: Get.parameters['id'] ?? '',
+                ),
+            transition: Transition.cupertino),
+        //
         GetPage(
             name: RouteHandler.VOUCHER_DETAIL,
             page: () => VoucherDetails(

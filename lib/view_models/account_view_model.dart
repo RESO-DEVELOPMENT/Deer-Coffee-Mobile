@@ -31,14 +31,20 @@ class AccountViewModel extends BaseViewModel {
     phoneNumber = phone;
     CheckLoginModel? checkLogin = await accountAPI.checkUser(phone);
     Get.snackbar("Thông báo", checkLogin?.message ?? '');
-    await Get.toNamed(
+    if (checkLogin?.signInMethod == "SIGNIN") {
+      await Get.toNamed(
       "${RouteHandler.OTP}?phone=$phone&type=${checkLogin?.signInMethod ?? "SIGNIN"}",
     );
+    } else {
+      await Get.toNamed(
+      "${RouteHandler.SIGN_UP}?phone=$phone&type=${checkLogin?.signInMethod ?? "SIGNUP"}",
+    );
+    }
   }
 
-  Future<void> onLogin(String phone, String pin, String type) async {
+  Future<void> onLogin(String phone, String pin, String type, String? fullName, String? gender, String? email) async {
     showLoadingDialog();
-    UserModel? user = await accountAPI.signIn(phone, pin, type);
+    UserModel? user = await accountAPI.signIn(phone, pin, type, fullName!, gender!, email!);
     if (user == null || user.userId == null) {
       Get.snackbar(
           'Lỗi đăng nhập', user?.message ?? 'Đăng nhập không thành công');

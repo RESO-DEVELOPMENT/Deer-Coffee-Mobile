@@ -294,7 +294,10 @@ class _MyOtpState extends State<MyOtp> {
                                   Get.find<AccountViewModel>().onLogin(
                                       widget.phone,
                                       pinController?.text ?? '213458',
-                                      widget.type);
+                                      widget.type,
+                                      '',
+                                      '',
+                                      '');
                                 }
                               }
                             },

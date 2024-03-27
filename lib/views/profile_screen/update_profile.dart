@@ -109,7 +109,10 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                     controller: _nameController,
                     decoration: InputDecoration(
                       labelText: 'Họ và tên',
-                      border: OutlineInputBorder(),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      prefixIcon: Icon(Icons.person),
                     ),
                   ),
                 ),
@@ -122,7 +125,10 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                     controller: _phoneController,
                     decoration: InputDecoration(
                       labelText: "Số điện thoại",
-                      border: OutlineInputBorder(),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      prefixIcon: Icon(Icons.phone),
                     ),
                   ),
                 ),
@@ -135,7 +141,10 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                     controller: _emailController,
                     decoration: InputDecoration(
                       labelText: 'Email',
-                      border: OutlineInputBorder(),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      prefixIcon: Icon(Icons.email),
                     ),
                   ),
                 ),
@@ -165,9 +174,11 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                         );
                       },
                     ).toList(),
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                       labelText: 'Giới tính',
-                      border: OutlineInputBorder(),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
                     ),
                   ),
                 ),

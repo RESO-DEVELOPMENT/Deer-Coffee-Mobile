@@ -188,60 +188,62 @@ class _OrdersScreenState extends State<OrdersScreen> {
             return CustomScrollView(
               slivers: [
                 SliverToBoxAdapter(
-child: Row(
-  crossAxisAlignment: CrossAxisAlignment.start,
-  mainAxisAlignment: MainAxisAlignment.start,
-  children: [
-    Expanded(
-      flex: 1,
-      child: Container(
-        color: Colors.grey[200],
-        height: Get.height * 0.8,
-        child: ListView.builder(
-          physics: const BouncingScrollPhysics(
-            parent: NeverScrollableScrollPhysics(),
-          ),
-          scrollDirection: Axis.vertical,
-          shrinkWrap: true,
-          controller: _scrollControllerOnCategory, // Sử dụng _scrollControllerOnCategory cho ListView này
-          itemCount: model.categories?.length,
-          itemBuilder: (context, index) {
-            return buildCircularButton(
-              index,
-              model.categories![index].name ?? '',
-              model.categories![index].picUrl ?? '',
-              model.categories![index].id ?? '',
-            );
-          },
-        ),
-      ),
-    ),
-    Expanded(
-      flex: 3,
-      child: Container(
-         height: Get.height * 0.8,
-        color: Colors.white,
-        padding: const EdgeInsets.all(4),
-        child: ListView.builder(
-          physics: const BouncingScrollPhysics(
-            parent: AlwaysScrollableScrollPhysics(),
-          ),
-          itemCount: model.categories?.length,
-          controller: _scrollControllerOnProduct, // Sử dụng _scrollControllerOnProduct cho ListView này
-          shrinkWrap: true,
-          scrollDirection: Axis.vertical,
-          itemBuilder: (context, index) {
-            return categoryCard(
-              model.categories![index],
-              index,
-              model,
-            );
-          },
-        ),
-      ),
-    ),
-  ],
-),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                          color: Colors.grey[200],
+                          height: Get.height * 0.8,
+                          child: ListView.builder(
+                            physics: const BouncingScrollPhysics(
+                              parent: NeverScrollableScrollPhysics(),
+                            ),
+                            scrollDirection: Axis.vertical,
+                            shrinkWrap: true,
+                            controller:
+                                _scrollControllerOnCategory, // Sử dụng _scrollControllerOnCategory cho ListView này
+                            itemCount: model.categories?.length,
+                            itemBuilder: (context, index) {
+                              return buildCircularButton(
+                                index,
+                                model.categories![index].name ?? '',
+                                model.categories![index].picUrl ?? '',
+                                model.categories![index].id ?? '',
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 3,
+                        child: Container(
+                          height: Get.height * 0.8,
+                          color: Colors.white,
+                          padding: const EdgeInsets.all(4),
+                          child: ListView.builder(
+                            physics: const BouncingScrollPhysics(
+                              parent: AlwaysScrollableScrollPhysics(),
+                            ),
+                            itemCount: model.categories?.length,
+                            controller:
+                                _scrollControllerOnProduct, // Sử dụng _scrollControllerOnProduct cho ListView này
+                            shrinkWrap: true,
+                            scrollDirection: Axis.vertical,
+                            itemBuilder: (context, index) {
+                              return categoryCard(
+                                model.categories![index],
+                                index,
+                                model,
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             );

@@ -32,12 +32,15 @@ class AccountAPI {
     return userInfo;
   }
 
-  Future<UserModel?> signIn(String phone, String pin, String type) async {
+  Future<UserModel?> signIn(String phone, String pin, String type, String? fullName, String? gender, String? email) async {
     final res = await request.post('users/sign-in', data: {
       "phone": phone,
       "pinCode": pin,
       "method": type,
-      'brandCode': "DEERCOFFEE"
+      'brandCode': "DEERCOFFEE",
+      "fullName": fullName,
+      "gender": gender,
+      "email": email,
     });
     var json = res.data;
     UserModel userInfo = UserModel.fromJson(json);

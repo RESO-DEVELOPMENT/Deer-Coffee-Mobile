@@ -19,7 +19,7 @@ class ProductCard extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: InkWell(
             onTap: () {
-              Get.toNamed("${RouteHandler.PRODUCT_DETAIL}?id=${product.id}");
+              Get.toNamed("${RouteHandler.PRODUCT_DETAIL_1}?id=${product.id}");
             },
             child: Column(
               children: [
