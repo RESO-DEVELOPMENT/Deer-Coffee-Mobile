@@ -9,9 +9,9 @@ import 'package:pinput/pinput.dart';
 import '../../utils/theme.dart';
 
 class MyOtp extends StatefulWidget {
-  final String type;
   final String phone;
-  const MyOtp({super.key, required this.phone, required this.type});
+  final String pinCode;
+  const MyOtp({super.key, required this.phone, required this.pinCode});
 
   @override
   State<MyOtp> createState() => _MyOtpState();
@@ -190,11 +190,7 @@ class _MyOtpState extends State<MyOtp> {
                           // child: Image.asset("assets/login.png"),
                         ),
                         Text(
-                          widget.type == "RESETPASS"
-                              ? "Cập nhật mã PIN"
-                              : widget.type == "SIGNIN"
-                                  ? "Xác Nhận Mã PIN"
-                                  : "Tạo mã PIN",
+                          "Nhập mã pin",
                           style: Get.textTheme.titleLarge?.copyWith(
                             fontWeight: FontWeight.bold,
                             color: Colors.black,
@@ -208,7 +204,7 @@ class _MyOtpState extends State<MyOtp> {
                             children: [
                               TextSpan(
                                 text:
-                                    "Mã pin là mật gồm 6 số dùng để đăng nhập với số điện thoại ${widget.phone}",
+                                    "Mã pin là mật gồm 4 số dùng để đăng nhập với số điện thoại ${widget.phone}",
                                 style: Get.textTheme.bodyMedium,
                               ),
                             ],
@@ -237,7 +233,7 @@ class _MyOtpState extends State<MyOtp> {
                           height: 16,
                         ),
                         Pinput(
-                          length: 6,
+                          length: 4,
                           controller: pinController,
                           showCursor: true,
                           focusNode: focusNode,
@@ -245,36 +241,34 @@ class _MyOtpState extends State<MyOtp> {
                         const SizedBox(
                           height: 16,
                         ),
-                        widget.type != "SIGNIN"
-                            ? Column(
+                        Column(
+                          children: [
+                            Text.rich(
+                              TextSpan(
                                 children: [
-                                  Text.rich(
-                                    TextSpan(
-                                      children: [
-                                        TextSpan(
-                                          text: "Xác nhận mã pin",
-                                          style: Get.textTheme.bodyMedium,
-                                        ),
-                                      ],
-                                    ),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  // _buildPinStatus(),
-
-                                  // _buildReenterPinStatus(),
-
-                                  const SizedBox(
-                                    height: 8,
-                                  ),
-                                  Pinput(
-                                    length: 6,
-                                    controller: reenterPinController,
-                                    showCursor: true,
-                                    focusNode: reFocusNode,
+                                  TextSpan(
+                                    text: "Xác nhận mã pin",
+                                    style: Get.textTheme.bodyMedium,
                                   ),
                                 ],
-                              )
-                            : SizedBox(),
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                            // _buildPinStatus(),
+
+                            // _buildReenterPinStatus(),
+
+                            const SizedBox(
+                              height: 8,
+                            ),
+                            Pinput(
+                              length: 4,
+                              controller: reenterPinController,
+                              showCursor: true,
+                              focusNode: reFocusNode,
+                            ),
+                          ],
+                        ),
                         const SizedBox(
                           height: 32,
                         ),
@@ -283,21 +277,16 @@ class _MyOtpState extends State<MyOtp> {
                           height: 50,
                           child: ElevatedButton(
                             onPressed: () {
-                              if (pinController?.text.length == 6) {
-                                if (widget.type != "SIGNIN" &&
-                                    (pinController?.text !=
-                                        reenterPinController?.text)) {
+                              if (pinController?.text.length == 4) {
+                                if ((pinController?.text !=
+                                    reenterPinController?.text)) {
                                   showAlertDialog(
                                       title: "Lỗi",
                                       content: "Mã pin không trùng khớp");
                                 } else {
                                   Get.find<AccountViewModel>().onLogin(
                                       widget.phone,
-                                      pinController?.text ?? '213458',
-                                      widget.type,
-                                      '',
-                                      '',
-                                      '');
+                                      pinController?.text ?? '213458');
                                 }
                               }
                             },
@@ -305,12 +294,7 @@ class _MyOtpState extends State<MyOtp> {
                                 backgroundColor: ThemeColor.primary,
                                 textStyle: Get.textTheme.titleMedium
                                     ?.copyWith(color: Colors.white)),
-                            child: Text(
-                                widget.type == "RESETPASS"
-                                    ? "Cập nhật"
-                                    : widget.type == "SIGNIN"
-                                        ? "Đăng nhập"
-                                        : "Tạo tài khoản",
+                            child: Text("Xác nhận",
                                 style: Get.textTheme.titleMedium
                                     ?.copyWith(color: Colors.white)),
                           ),

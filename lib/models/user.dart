@@ -245,3 +245,71 @@ class MembershipCardType {
     return data;
   }
 }
+
+class MemberShipRespone {
+  int? status;
+  String? message;
+  MemberShip? data;
+
+  MemberShipRespone({this.status, this.message, this.data});
+
+  MemberShipRespone.fromJson(Map<String, dynamic> json) {
+    status = json['status'];
+    message = json['message'];
+    data = json['data'] != null ? MemberShip.fromJson(json['data']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['status'] = status;
+    data['message'] = message;
+    if (this.data != null) {
+      data['data'] = this.data!.toJson();
+    }
+    return data;
+  }
+}
+
+class MemberShip {
+  String? userId;
+  String? username;
+  String? fullName;
+  String? token;
+  String? brandCode;
+  String? brandId;
+  String? roleName;
+
+  MemberShip({
+    this.userId,
+    this.username,
+    this.fullName,
+    this.token,
+    this.brandCode,
+    this.brandId,
+    this.roleName,
+  });
+
+  factory MemberShip.fromJson(Map<String, dynamic> json) {
+    return MemberShip(
+      userId: json['userId'],
+      username: json['username'],
+      fullName: json['fullName'],
+      token: json['token'],
+      brandCode: json['brandCode'],
+      brandId: json['brandId'],
+      roleName: json['roleName'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['userId'] = userId;
+    data['username'] = username;
+    data['fullName'] = fullName;
+    data['token'] = token;
+    data['brandCode'] = brandCode;
+    data['brandId'] = brandId;
+    data['roleName'] = roleName;
+    return data;
+  }
+}

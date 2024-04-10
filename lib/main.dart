@@ -2,28 +2,28 @@ import 'dart:io';
 
 import 'package:deer_coffee/views/cart.dart';
 import 'package:deer_coffee/views/home_screen/blog_details.dart';
-import 'package:deer_coffee/views/orders_screen/category_detail.dart';
-import 'package:deer_coffee/views/orders_screen/collection_detail.dart';
-import 'package:deer_coffee/views/policy-page.dart';
-import 'package:deer_coffee/views/profile_screen/order_history.dart';
 import 'package:deer_coffee/views/login/login_otp.dart';
 import 'package:deer_coffee/views/login/login_sign_up.dart';
-import 'package:deer_coffee/views/profile_screen/order_details.dart';
-import 'package:deer_coffee/views/orders_screen/product_details.dart';
 import 'package:deer_coffee/views/membership_screen/promotion_details.dart';
 import 'package:deer_coffee/views/membership_screen/voucher.dart';
 import 'package:deer_coffee/views/membership_screen/voucher_details.dart';
+import 'package:deer_coffee/views/orders_screen/category_detail.dart';
+import 'package:deer_coffee/views/orders_screen/collection_detail.dart';
+import 'package:deer_coffee/views/orders_screen/product_detail_1.dart';
+import 'package:deer_coffee/views/orders_screen/product_details.dart';
+import 'package:deer_coffee/views/policy-page.dart';
+import 'package:deer_coffee/views/profile_screen/order_details.dart';
+import 'package:deer_coffee/views/profile_screen/order_history.dart';
 import 'package:deer_coffee/views/profile_screen/transaction_details.dart';
 import 'package:deer_coffee/views/profile_screen/transaction_history.dart';
 import 'package:deer_coffee/views/qr_screen/qr_screen.dart';
 import 'package:deer_coffee/views/stores_screen/store.dart';
 import 'package:deer_coffee/views/stores_screen/store_details.dart';
-import 'package:deer_coffee/views/orders_screen/product_detail_1.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:url_strategy/url_strategy.dart';
-import 'firebase_options.dart';
+
 import 'setup.dart';
 import 'utils/request.dart';
 import 'utils/route_constrant.dart';
@@ -81,14 +81,18 @@ class MyApp extends StatelessWidget {
             name: RouteHandler.OTP,
             page: () => MyOtp(
                   phone: Get.parameters['phone'] ?? '',
-                  type: Get.parameters['type'] ?? '',
+                  pinCode: Get.parameters['pinCode'] ?? '',
                 ),
             transition: Transition.zoom),
         GetPage(
             name: RouteHandler.SIGN_UP,
             page: () => SignUp(
                   phone: Get.parameters['phone'] ?? '',
-                  type: Get.parameters['type'] ?? '',
+                  pinCode: Get.parameters['pinCode'] ?? '',
+                  fullName: Get.parameters['fullName'] ?? '',
+                  gender: Get.parameters['gender'] ?? '',
+                  email: Get.parameters['email'] ?? '',
+                  referralPhone: Get.parameters['referalPhone'] ?? '',
                 ),
             transition: Transition.zoom),
         GetPage(

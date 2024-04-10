@@ -1,14 +1,15 @@
 import 'package:deer_coffee/api/account_api.dart';
 import 'package:deer_coffee/enums/view_status.dart';
-import 'package:deer_coffee/models/check_login_model.dart';
 import 'package:deer_coffee/models/user_create.dart';
 import 'package:deer_coffee/utils/request.dart';
+import 'package:deer_coffee/utils/request_pointify.dart';
 import 'package:deer_coffee/view_models/base_view_model.dart';
 import 'package:deer_coffee/view_models/startup_view_model.dart';
 import 'package:deer_coffee/widgets/other_dialogs/dialog.dart';
 // import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:get/get.dart';
+
 import '../models/user.dart';
 import '../utils/route_constrant.dart';
 import '../utils/share_pref.dart';
@@ -19,44 +20,66 @@ class AccountViewModel extends BaseViewModel {
   AccountAPI accountAPI = AccountAPI();
   String? userId;
   UserDetails? memberShipModel;
+  MemberShip? memberShip;
   String? phoneNumber;
   var verId = '';
   int? resendTok = 0;
   var receivedID = '';
   AccountViewModel() {
     getToken().then((value) => requestObj.setToken = value);
+    getToken().then((value) => requestPointifyObj.setToken = value);
   }
 
   Future<void> checkUser(String phone) async {
     phoneNumber = phone;
-    CheckLoginModel? checkLogin = await accountAPI.checkUser(phone);
-    Get.snackbar("Thông báo", checkLogin?.message ?? '');
-    if (checkLogin?.signInMethod == "SIGNIN") {
+    bool? checkLogin = await accountAPI.checkUser(phone);
+    // Get.snackbar("Thông báo", checkLogin?.message ?? '');
+    if (checkLogin == true) {
       await Get.toNamed(
-      "${RouteHandler.OTP}?phone=$phone&type=${checkLogin?.signInMethod ?? "SIGNIN"}",
+      "${RouteHandler.OTP}?phone=$phone",
     );
     } else {
       await Get.toNamed(
-      "${RouteHandler.SIGN_UP}?phone=$phone&type=${checkLogin?.signInMethod ?? "SIGNUP"}",
+      "${RouteHandler.SIGN_UP}?phone=$phone",
     );
     }
   }
 
-  Future<void> onLogin(String phone, String pin, String type, String? fullName, String? gender, String? email) async {
+  Future<void> onLogin(String phone, String pinCode) async {
     showLoadingDialog();
-    UserModel? user = await accountAPI.signIn(phone, pin, type, fullName!, gender!, email!);
-    if (user == null || user.userId == null) {
+    MemberShipRespone? membership = await accountAPI.signIn(phone, pinCode);
+    if (membership == null || membership.data == null) {
       Get.snackbar(
-          'Lỗi đăng nhập', user?.message ?? 'Đăng nhập không thành công');
+          'Lỗi đăng nhập', membership?.message ?? 'Đăng nhập không thành công');
       hideDialog();
       return;
     } else {
-      requestObj.setToken = user.accessToken ?? '';
-      await setToken(user.accessToken ?? '');
-      await getMembershipInfo(user.userId ?? '');
+      requestPointifyObj.setToken = memberShip?.token ?? '';
+      await setToken(membership.data?.token ?? '');
+      print(membership.data?.token);
+      await getMembershipInfo(membership.data?.userId ?? '');
       hideDialog();
       await Get.find<CartViewModel>().getListPromotion();
-      Get.snackbar('Thông báo', user.message ?? 'Đăng nhập thành công');
+      Get.snackbar('Thông báo', membership.message ?? 'Đăng nhập thành công');
+      await Get.offAllNamed(RouteHandler.HOME);
+    }
+  }
+
+   Future<void> onSignUp(String phone, String pinCode, String fullName, int gender, String email, String referalPhone) async {
+    showLoadingDialog();
+    MemberShipRespone? membership = await accountAPI.signUp(phone, pinCode, fullName, gender, email, referalPhone);
+    if (membership == null || membership.data == null) {
+      Get.snackbar(
+          'Lỗi đăng ký', membership?.message ?? 'Đăng ký không thành công');
+      hideDialog();
+      return;
+    } else {
+      requestPointifyObj.setToken = memberShip?.token ?? '';
+      await setToken(membership.data?.token ?? '');
+      await getMembershipInfo(membership.data?.userId ?? '');
+      hideDialog();
+      await Get.find<CartViewModel>().getListPromotion();
+      Get.snackbar('Thông báo', membership.message ?? 'Đăng ký thành công');
       await Get.offAllNamed(RouteHandler.HOME);
     }
   }
