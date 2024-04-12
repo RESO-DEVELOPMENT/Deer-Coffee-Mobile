@@ -35,7 +35,8 @@ class _UserCardState extends State<UserCard> {
                   });
                 },
               ),
-              items: model.memberShipModel?.level?.membershipCard?.map((card) {
+              items: model.memberShipModel?.memberLevel?.membershipCard
+                  ?.map((card) {
                 return Builder(
                   builder: (BuildContext context) {
                     return InkWell(
@@ -50,7 +51,7 @@ class _UserCardState extends State<UserCard> {
                           borderRadius: BorderRadius.circular(24),
                           image: DecorationImage(
                               image: NetworkImage(
-                                  card.membershipCardType?.cardImage ?? ""),
+                                  card.membershipCardType?.cardImg ?? ""),
                               fit: BoxFit.cover),
                         ),
                         child: Container(

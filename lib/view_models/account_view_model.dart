@@ -1,5 +1,7 @@
 import 'package:deer_coffee/api/account_api.dart';
+import 'package:deer_coffee/api/pointify/pointify_data.dart';
 import 'package:deer_coffee/enums/view_status.dart';
+import 'package:deer_coffee/models/pointify/membership_info.dart';
 import 'package:deer_coffee/models/user_create.dart';
 import 'package:deer_coffee/utils/request.dart';
 import 'package:deer_coffee/utils/request_pointify.dart';
@@ -18,8 +20,10 @@ import 'cart_view_model.dart';
 class AccountViewModel extends BaseViewModel {
   // UserCredential? userCredential;
   AccountAPI accountAPI = AccountAPI();
+
+  PointifyData pointifyData = PointifyData();
   String? userId;
-  UserDetails? memberShipModel;
+  MembershipInfo? memberShipModel;
   MemberShip? memberShip;
   String? phoneNumber;
   var verId = '';
@@ -32,26 +36,29 @@ class AccountViewModel extends BaseViewModel {
 
   Future<void> checkUser(String phone) async {
     phoneNumber = phone;
-    bool? checkLogin = await accountAPI.checkUser(phone);
+    num? checkLogin = await accountAPI.checkUser(phone);
     // Get.snackbar("Thông báo", checkLogin?.message ?? '');
-    if (checkLogin == true) {
+    if (checkLogin == 0) {
       await Get.toNamed(
-      "${RouteHandler.OTP}?phone=$phone",
-    );
+        "${RouteHandler.OTP}?phone=$phone",
+      );
+    } else if (checkLogin == 1) {
+      await Get.toNamed(
+        "${RouteHandler.SIGN_UP}?phone=$phone",
+      );
     } else {
       await Get.toNamed(
-      "${RouteHandler.SIGN_UP}?phone=$phone",
-    );
+        "${RouteHandler.SIGN_UP}?phone=$phone",
+      );
     }
   }
 
   Future<void> onLogin(String phone, String pinCode) async {
     showLoadingDialog();
     MemberShipRespone? membership = await accountAPI.signIn(phone, pinCode);
-    if (membership == null || membership.data == null) {
-      Get.snackbar(
-          'Lỗi đăng nhập', membership?.message ?? 'Đăng nhập không thành công');
-      hideDialog();
+    if (membership == null || membership.status != 200) {
+      await showAlertDialog(
+          title: "Lỗi đăng nhập", content: membership?.message ?? '');
       return;
     } else {
       requestPointifyObj.setToken = memberShip?.token ?? '';
@@ -65,9 +72,11 @@ class AccountViewModel extends BaseViewModel {
     }
   }
 
-   Future<void> onSignUp(String phone, String pinCode, String fullName, int gender, String email, String referalPhone) async {
+  Future<void> onSignUp(String phone, String pinCode, String fullName,
+      int gender, String email, String referalPhone) async {
     showLoadingDialog();
-    MemberShipRespone? membership = await accountAPI.signUp(phone, pinCode, fullName, gender, email, referalPhone);
+    MemberShipRespone? membership = await accountAPI.signUp(
+        phone, pinCode, fullName, gender, email, referalPhone);
     if (membership == null || membership.data == null) {
       Get.snackbar(
           'Lỗi đăng ký', membership?.message ?? 'Đăng ký không thành công');
@@ -219,9 +228,11 @@ class AccountViewModel extends BaseViewModel {
   Future<void> getMembershipInfo(String id) async {
     try {
       setState(ViewStatus.Loading);
-      await accountAPI.getUserById(id).then((value) => memberShipModel = value);
-      userId = memberShipModel?.id;
-      await setUserId(memberShipModel?.id ?? '');
+      await pointifyData
+          .getMembershipInfo(id)
+          .then((value) => memberShipModel = value);
+      userId = memberShipModel?.membershipId;
+      await setUserId(memberShipModel?.membershipId ?? '');
       setState(ViewStatus.Completed);
     } catch (e) {
       setState(ViewStatus.Completed);
@@ -262,7 +273,7 @@ class AccountViewModel extends BaseViewModel {
   Future<void> updateUser(UserUpdate user, String id) async {
     showLoadingDialog();
     var res = await accountAPI.updateUser(id, user);
-    memberShipModel = await accountAPI.getUserById(id);
+    // memberShipModel = await accountAPI.getUserById(id);
     hideDialog();
     // await showAlertDialog(content: res);
   }

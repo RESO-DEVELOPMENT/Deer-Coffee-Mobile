@@ -1,4 +1,5 @@
 import 'package:deer_coffee/enums/order_enum.dart';
+import 'package:deer_coffee/models/pointify/membership_transaction.dart';
 import 'package:deer_coffee/models/transactions.dart';
 import 'package:deer_coffee/utils/route_constrant.dart';
 import 'package:deer_coffee/utils/theme.dart';
@@ -18,7 +19,7 @@ class TransactionsHistory extends StatefulWidget {
 }
 
 class _TransactionsHistoryState extends State<TransactionsHistory> {
-  List<TransactionModel>? listTrans = [];
+  List<MembershipTransaction>? listTrans = [];
   OrderViewModel model = Get.find<OrderViewModel>();
   @override
   void initState() {
@@ -58,7 +59,7 @@ class _TransactionsHistoryState extends State<TransactionsHistory> {
     );
   }
 
-  Widget transactionCard(TransactionModel transactionModel) {
+  Widget transactionCard(MembershipTransaction transactionModel) {
     return InkWell(
       onTap: () {
         Get.toNamed(
@@ -76,7 +77,7 @@ class _TransactionsHistoryState extends State<TransactionsHistory> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(formatTime(transactionModel.createdDate ?? ''),
+                    Text(formatTime(transactionModel.insDate ?? ''),
                         style: const TextStyle(color: Colors.grey)),
                   ],
                 ),
@@ -95,14 +96,6 @@ class _TransactionsHistoryState extends State<TransactionsHistory> {
               children: [
                 Text(transactionModel.description ?? "Khác",
                     style: Get.textTheme.titleMedium),
-                Text(
-                    transactionModel.status == "SUCCESS"
-                        ? "Thành công"
-                        : "Thất bại",
-                    style: Get.textTheme.titleMedium?.copyWith(
-                        color: transactionModel.status == "SUCCESS"
-                            ? ThemeColor.primary
-                            : Colors.red)),
               ],
             ),
           ],

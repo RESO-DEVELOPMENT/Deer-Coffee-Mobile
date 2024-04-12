@@ -1,5 +1,4 @@
 import 'package:deer_coffee/enums/order_enum.dart';
-import 'package:deer_coffee/utils/format.dart';
 import 'package:deer_coffee/utils/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

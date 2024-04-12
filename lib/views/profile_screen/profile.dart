@@ -1,4 +1,5 @@
-import 'package:deer_coffee/models/user.dart';
+import 'package:deer_coffee/models/pointify/membership_info.dart';
+import 'package:deer_coffee/models/pointify/membership_transaction.dart';
 import 'package:deer_coffee/utils/theme.dart';
 import 'package:deer_coffee/views/profile_screen/update_profile.dart';
 import 'package:deer_coffee/widgets/other_dialogs/dialog.dart';
@@ -83,18 +84,18 @@ class CustomLinearProgressBar extends StatelessWidget {
 }
 
 class _OtherPageState extends State<OtherPage> {
-  UserDetails? userModel;
+  MembershipInfo? userModel;
   AccountViewModel model = Get.find<AccountViewModel>();
   MemberWallet? pointWallet;
   MemberWallet? moneyWallet;
-  Level? memberLevel;
+  MemberLevel? memberLevel;
   @override
   void initState() {
     userModel = model.memberShipModel;
-    memberLevel = model.memberShipModel?.level;
-    pointWallet = model.memberShipModel?.level?.memberWallet
+    memberLevel = model.memberShipModel!.memberLevel;
+    pointWallet = model.memberShipModel?.memberLevel?.memberWallet
         ?.firstWhere((element) => element.walletType?.name == "Điểm");
-    moneyWallet = model.memberShipModel?.level?.memberWallet
+    moneyWallet = model.memberShipModel?.memberLevel?.memberWallet
         ?.firstWhere((element) => element.walletType?.name == "Số dư");
     super.initState();
   }
@@ -162,7 +163,8 @@ class _OtherPageState extends State<OtherPage> {
                                                 color: Colors.white,
                                                 fontWeight: FontWeight.bold)),
                                     Text(
-                                        model.memberShipModel?.level?.name ??
+                                        model.memberShipModel?.memberLevel
+                                                ?.name ??
                                             '',
                                         style: Get.textTheme.labelLarge
                                             ?.copyWith(
@@ -211,11 +213,14 @@ class _OtherPageState extends State<OtherPage> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(model.memberShipModel?.level?.name ?? '',
+                                Text(
+                                    model.memberShipModel?.memberLevel?.name ??
+                                        '',
                                     style: Get.textTheme.bodyMedium?.copyWith(
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold)),
-                                Text(userModel?.level?.nextLevelName ?? '',
+                                Text(
+                                    userModel?.memberLevel?.nextLevelName ?? '',
                                     style: Get.textTheme.bodyMedium?.copyWith(
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold)),
@@ -225,7 +230,7 @@ class _OtherPageState extends State<OtherPage> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: model
-                                    .memberShipModel!.level!.memberWallet!
+                                    .memberShipModel!.memberLevel!.memberWallet!
                                     .map((e) => Text(
                                           '${e.walletType?.name ?? ''}: ${formatPrice(e.balance ?? 0)}',
                                           style: Get.textTheme.bodySmall
@@ -738,7 +743,8 @@ class _OtherPageState extends State<OtherPage> {
                                                                 UserUpdate(
                                                                     status:
                                                                         "Deactive"),
-                                                                userModel?.id ??
+                                                                userModel
+                                                                        ?.membershipId ??
                                                                     ''),
                                                         Get.toNamed(
                                                             RouteHandler.LOGIN)

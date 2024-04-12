@@ -16,7 +16,7 @@ class AccountAPI {
     return token != null;
   }
 
-  Future<bool?> checkUser(String phone) async {
+  Future<num?> checkUser(String phone) async {
     try {
       final res = await requestPointify.get(
         'memberships/check-member',
@@ -24,8 +24,8 @@ class AccountAPI {
       );
       var json = res.data;
 
-      if (json is bool) {
-        return json;
+      if (json is num) {
+        return num.parse(json.toString());
       } else {
         print('Invalid response from API: $json');
         return null;
@@ -36,8 +36,8 @@ class AccountAPI {
     }
   }
 
-  Future<MemberShipRespone?> signUp(String phone, String pinCode, String fullName,
-      int gender, String email, String referalPhone) async {
+  Future<MemberShipRespone?> signUp(String phone, String pinCode,
+      String fullName, int gender, String email, String referalPhone) async {
     final res =
         await requestPointify.post('memberships/signup', queryParameters: {
       'apiKey': apiKey
@@ -67,12 +67,12 @@ class AccountAPI {
     return memberInfo;
   }
 
-  Future<UserDetails> getUserById(String id) async {
-    final res = await request.get('users/$id');
-    var json = res.data;
-    UserDetails userInfo = UserDetails.fromJson(json);
-    return userInfo;
-  }
+  // Future<UserDetails> getUserById(String id) async {
+  //   final res = await request.get('users/$id');
+  //   var json = res.data;
+  //   UserDetails userInfo = UserDetails.fromJson(json);
+  //   return userInfo;
+  // }
 
   Future<String> getUserQRCode(String id) async {
     final res = await request.post('users/$id/generate-qr');

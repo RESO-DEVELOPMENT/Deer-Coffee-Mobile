@@ -1,5 +1,7 @@
 import 'dart:core';
+import 'package:deer_coffee/api/pointify/pointify_data.dart';
 import 'package:deer_coffee/models/order_details.dart';
+import 'package:deer_coffee/models/pointify/membership_transaction.dart';
 import 'package:deer_coffee/models/transactions.dart';
 import 'package:deer_coffee/models/user.dart';
 import 'package:deer_coffee/utils/route_constrant.dart';
@@ -22,6 +24,7 @@ class OrderViewModel extends BaseViewModel {
   String? currentOrderId;
   num customerMoney = 0;
   num returnMoney = 0;
+  PointifyData pointifyData = PointifyData();
   OrderResponseModel? currentOrder;
   List<PaymentProvider?> listPayment = [];
   PaymentProvider? selectedPaymentMethod;
@@ -170,13 +173,13 @@ class OrderViewModel extends BaseViewModel {
     }
   }
 
-  Future<List<TransactionModel>?> getListTransaction() async {
+  Future<List<MembershipTransaction>?> getListTransaction() async {
     try {
       setState(ViewStatus.Loading);
 
       String? userId = await getUserId();
       if (userId != null) {
-        var listTrans = await api.getListTransactionOfUser(userId ?? '');
+        var listTrans = await pointifyData.getListTransactionOfUser(userId);
         if (listTrans != null) {
           setState(ViewStatus.Completed);
           return listTrans;

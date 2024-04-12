@@ -1,9 +1,8 @@
-import 'package:deer_coffee/models/user.dart';
+import 'package:deer_coffee/models/pointify/membership_info.dart';
 import 'package:deer_coffee/view_models/cart_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../enums/promotion_enums.dart';
 import '../models/pointify/promotion_model.dart';
 import '../utils/format.dart';
 import '../utils/route_constrant.dart';
@@ -13,10 +12,10 @@ import '../view_models/account_view_model.dart';
 Widget buildTicketWidget(
     PromotionPointify promotion, bool isSelected, CartViewModel model) {
   String? selectedCode;
-  UserDetails? info = Get.find<AccountViewModel>().memberShipModel;
+  MembershipInfo? info = Get.find<AccountViewModel>().memberShipModel;
   if (promotion.promotionType == 3) {
     selectedCode =
-        '${info?.phoneNumber}_${promotion?.promotionCode}_${promotion.listVoucher?.first.voucherCode ?? ''}';
+        '${info?.phoneNumber}_${promotion.promotionCode}_${promotion.listVoucher?.first.voucherCode ?? ''}';
   } else {
     selectedCode = '${info?.phoneNumber}_${promotion.promotionCode}';
   }
@@ -138,7 +137,6 @@ class DotPainter extends CustomPainter {
     final double dotSpacing = 15.0;
     final double edgeDotSpacing = 30.0;
     final double leftOffset = 120.0;
-    final double bottomOffset = size.height - 25.0;
 
     for (int i = 0; i < 10; i++) {
       double y = i * dotSpacing;

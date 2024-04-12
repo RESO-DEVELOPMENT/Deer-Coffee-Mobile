@@ -77,16 +77,16 @@ class OrderAPI {
     return listOrder;
   }
 
-  Future<List<TransactionModel>>? getListTransactionOfUser(
-    String userId,
-  ) async {
-    var params = <String, dynamic>{'page': 1, 'size': 100};
-    final res = await request.get('users/$userId/transactions',
-        queryParameters: params);
-    var jsonList = res.data['items'];
-    TransactionModel().fromList(jsonList);
-    return TransactionModel().fromList(jsonList);
-  }
+  // Future<List<TransactionModel>>? getListTransactionOfUser(
+  //   String userId,
+  // ) async {
+  //   var params = <String, dynamic>{'page': 1, 'size': 100};
+  //   final res = await request.get('users/$userId/transactions',
+  //       queryParameters: params);
+  //   var jsonList = res.data['items'];
+  //   TransactionModel().fromList(jsonList);
+  //   return TransactionModel().fromList(jsonList);
+  // }
 
   Future<OrderDetailsModel> getOrderDetails(
     String orderId,

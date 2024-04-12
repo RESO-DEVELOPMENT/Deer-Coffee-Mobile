@@ -211,7 +211,8 @@ class _QrScreenState extends State<QrScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       crossAxisAlignment: CrossAxisAlignment.center,
-                      children: model.memberShipModel!.level!.memberWallet!
+                      children: model
+                          .memberShipModel!.memberLevel!.memberWallet!
                           .map(
                             (e) => Container(
                               padding: const EdgeInsets.all(2),

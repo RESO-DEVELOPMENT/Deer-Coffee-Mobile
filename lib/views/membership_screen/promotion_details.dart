@@ -1,4 +1,5 @@
 import 'package:deer_coffee/enums/view_status.dart';
+import 'package:deer_coffee/models/pointify/membership_info.dart';
 import 'package:deer_coffee/models/pointify/promotion_model.dart';
 import 'package:deer_coffee/models/user.dart';
 import 'package:deer_coffee/utils/format.dart';
@@ -21,7 +22,7 @@ class PromotionDetailsScreen extends StatefulWidget {
 
 class _PromotionDetailsScreenState extends State<PromotionDetailsScreen> {
   PromotionPointify? promotionDetailsModel;
-  UserDetails? info;
+  MembershipInfo? info;
   String? selectedCode;
   @override
   void initState() {

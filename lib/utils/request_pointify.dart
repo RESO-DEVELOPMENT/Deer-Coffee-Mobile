@@ -92,6 +92,7 @@ class CustomInterceptors extends Interceptor {
 class RequestPointify {
   static BaseOptions options = BaseOptions(
       baseUrl: 'https://api-pointify.reso.vn/api/',
+      // baseUrl: 'https://localhost:7131/api/',
       headers: {
         Headers.contentTypeHeader: "application/json",
         Headers.acceptHeader: "text/plain",

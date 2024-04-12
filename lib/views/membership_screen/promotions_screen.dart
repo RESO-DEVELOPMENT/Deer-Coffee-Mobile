@@ -1,5 +1,6 @@
 import 'package:barcode_widget/barcode_widget.dart';
 import 'package:deer_coffee/enums/view_status.dart';
+import 'package:deer_coffee/models/pointify/membership_info.dart';
 import 'package:deer_coffee/utils/share_pref.dart';
 
 import 'package:deer_coffee/view_models/account_view_model.dart';
@@ -27,7 +28,7 @@ class PromotionsScreen extends StatefulWidget {
 class _PromotionsScreenState extends State<PromotionsScreen> {
   String? userId;
   AccountViewModel model = Get.find<AccountViewModel>();
-  UserDetails? user;
+  MembershipInfo? user;
   @override
   void initState() {
     user = model.memberShipModel;
@@ -78,7 +79,9 @@ class _PromotionsScreenState extends State<PromotionsScreen> {
                                     style: Get.textTheme.bodyMedium?.copyWith(
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold)),
-                                Text(model.memberShipModel?.level?.name ?? '',
+                                Text(
+                                    model.memberShipModel?.memberLevel?.name ??
+                                        '',
                                     style: Get.textTheme.bodyLarge?.copyWith(
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold)),
@@ -113,7 +116,8 @@ class _PromotionsScreenState extends State<PromotionsScreen> {
                       ),
                       Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: model.memberShipModel!.level!.memberWallet!
+                          children: model
+                              .memberShipModel!.memberLevel!.memberWallet!
                               .map((e) => Text(
                                     '${e.walletType?.name ?? ''}: ${formatPrice(e.balance ?? 0)}',
                                     style: Get.textTheme.titleMedium?.copyWith(

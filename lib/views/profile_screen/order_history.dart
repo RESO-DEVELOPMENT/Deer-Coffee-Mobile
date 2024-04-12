@@ -1,6 +1,8 @@
 import 'package:deer_coffee/enums/order_enum.dart';
 import 'package:deer_coffee/enums/view_status.dart';
 import 'package:deer_coffee/models/order_in_list.dart';
+import 'package:deer_coffee/models/pointify/membership_info.dart';
+import 'package:deer_coffee/models/pointify/membership_transaction.dart';
 import 'package:deer_coffee/utils/format.dart';
 import 'package:deer_coffee/view_models/order_view_model.dart';
 import 'package:flutter/cupertino.dart';
@@ -23,9 +25,9 @@ class OrderHistory extends StatefulWidget {
 
 class _OrderHistoryState extends State<OrderHistory> {
   AccountViewModel model = Get.find<AccountViewModel>();
-  UserDetails? user;
+  MembershipInfo? user;
   OrderViewModel orderViewModel = Get.find<OrderViewModel>();
-  List<TransactionModel>? listTrans = [];
+  List<MembershipTransaction>? listTrans = [];
   @override
   void initState() {
     user = model.memberShipModel;
@@ -167,7 +169,7 @@ class _OrderHistoryState extends State<OrderHistory> {
     );
   }
 
-  Widget transactionCard(TransactionModel transactionModel) {
+  Widget transactionCard(MembershipTransaction transactionModel) {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
@@ -221,7 +223,7 @@ class _OrderHistoryState extends State<OrderHistory> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                          formatTime(transactionModel.createdDate ?? ''),
+                          formatTime(transactionModel.insDate ?? ''),
                           style: Get.textTheme.labelSmall
                               ?.copyWith(color: Colors.grey),
                         ),

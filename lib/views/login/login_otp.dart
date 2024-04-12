@@ -241,53 +241,52 @@ class _MyOtpState extends State<MyOtp> {
                         const SizedBox(
                           height: 16,
                         ),
-                        Column(
-                          children: [
-                            Text.rich(
-                              TextSpan(
-                                children: [
-                                  TextSpan(
-                                    text: "Xác nhận mã pin",
-                                    style: Get.textTheme.bodyMedium,
-                                  ),
-                                ],
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                            // _buildPinStatus(),
+                        // Column(
+                        //   children: [
+                        //     Text.rich(
+                        //       TextSpan(
+                        //         children: [
+                        //           TextSpan(
+                        //             text: "Xác nhận mã pin",
+                        //             style: Get.textTheme.bodyMedium,
+                        //           ),
+                        //         ],
+                        //       ),
+                        //       textAlign: TextAlign.center,
+                        //     ),
+                        //     // _buildPinStatus(),
 
-                            // _buildReenterPinStatus(),
+                        //     // _buildReenterPinStatus(),
 
-                            const SizedBox(
-                              height: 8,
-                            ),
-                            Pinput(
-                              length: 4,
-                              controller: reenterPinController,
-                              showCursor: true,
-                              focusNode: reFocusNode,
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 32,
-                        ),
+                        //     const SizedBox(
+                        //       height: 8,
+                        //     ),
+                        //     Pinput(
+                        //       length: 4,
+                        //       controller: reenterPinController,
+                        //       showCursor: true,
+                        //       focusNode: reFocusNode,
+                        //     ),
+                        //   ],
+                        // ),
+                        // const SizedBox(
+                        //   height: 32,
+                        // ),
                         SizedBox(
                           width: 200,
                           height: 50,
                           child: ElevatedButton(
                             onPressed: () {
                               if (pinController?.text.length == 4) {
-                                if ((pinController?.text !=
-                                    reenterPinController?.text)) {
-                                  showAlertDialog(
-                                      title: "Lỗi",
-                                      content: "Mã pin không trùng khớp");
-                                } else {
-                                  Get.find<AccountViewModel>().onLogin(
-                                      widget.phone,
-                                      pinController?.text ?? '213458');
-                                }
+                                // if ((pinController?.text !=
+                                //     reenterPinController?.text)) {
+                                //   showAlertDialog(
+                                //       title: "Lỗi",
+                                //       content: "Mã pin không trùng khớp");
+                                // } else {
+                                Get.find<AccountViewModel>().onLogin(
+                                    widget.phone, pinController?.text ?? '');
+                                // }
                               }
                             },
                             style: ElevatedButton.styleFrom(

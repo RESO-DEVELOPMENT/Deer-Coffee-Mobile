@@ -94,8 +94,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     size: 30,
                                   ),
                                   onPressed: () {
-                                    Navigator.of(context)
-                                        .pop(); // Navigate back to the previous screen (LoginScreen)
+                                    Get.back();
                                   },
                                 ),
                               ),

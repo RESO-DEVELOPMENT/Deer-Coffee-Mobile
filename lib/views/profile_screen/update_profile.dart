@@ -1,5 +1,6 @@
 import 'dart:io' as io;
 import 'package:deer_coffee/enums/view_status.dart';
+import 'package:deer_coffee/models/pointify/membership_info.dart';
 import 'package:deer_coffee/models/user.dart';
 import 'package:deer_coffee/models/user_create.dart';
 import 'package:deer_coffee/utils/theme.dart';
@@ -23,18 +24,17 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
-  String _selectedGender = 'ORTHER';
+  String? _selectedGender = "0";
   String? downloadURL;
-  UserDetails? user;
+  MembershipInfo? user;
 
   @override
   void initState() {
     user = Get.find<AccountViewModel>().memberShipModel;
-    _nameController.setText(user?.fullName ?? '');
+    _nameController.setText(user?.fullname ?? '');
     _emailController.setText(user?.email ?? '');
     _phoneController.setText(user?.phoneNumber ?? '');
-    _selectedGender = user?.gender ?? 'ORTHER';
-    downloadURL = user?.urlImg;
+    _selectedGender = user?.gender.toString() ?? "0";
     super.initState();
   }
 
@@ -194,7 +194,8 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                           gender: _selectedGender,
                           email: _emailController.text,
                           urlImg: downloadURL);
-                      await model.updateUser(userUpdate, user?.id ?? '');
+                      await model.updateUser(
+                          userUpdate, user?.membershipId ?? '');
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: ThemeColor.primary,
