@@ -1,7 +1,7 @@
 import 'dart:io' as io;
+
 import 'package:deer_coffee/enums/view_status.dart';
 import 'package:deer_coffee/models/pointify/membership_info.dart';
-import 'package:deer_coffee/models/user.dart';
 import 'package:deer_coffee/models/user_create.dart';
 import 'package:deer_coffee/utils/theme.dart';
 import 'package:deer_coffee/view_models/account_view_model.dart';
@@ -24,9 +24,10 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
-  String? _selectedGender = "0";
+  String? _selectedGender = "3";
   String? downloadURL;
   MembershipInfo? user;
+  int? gender;
 
   @override
   void initState() {
@@ -34,7 +35,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
     _nameController.setText(user?.fullname ?? '');
     _emailController.setText(user?.email ?? '');
     _phoneController.setText(user?.phoneNumber ?? '');
-    _selectedGender = user?.gender.toString() ?? "0";
+    _selectedGender = user?.gender.toString() ?? "3";
     super.initState();
   }
 
@@ -101,83 +102,241 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                 // ),
 
                 // Tên
-                Container(
-                  height: 50,
-                  width: double.infinity,
-                  margin: EdgeInsets.all(8),
-                  child: TextField(
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: Get.width * 0.1,
+                    vertical: 15.0,
+                  ),
+                  child: TextFormField(
                     controller: _nameController,
+                    keyboardType: TextInputType.name,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
                     decoration: InputDecoration(
                       labelText: 'Họ và tên',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
+                      prefixIcon: const Icon(Icons.person),
+                      suffixIcon: IconButton(
+                        onPressed: () {
+                          _nameController.clear();
+                        },
+                        icon: const Icon(Icons.clear),
                       ),
-                      prefixIcon: Icon(Icons.person),
+                      hintStyle: Get.textTheme.bodyMedium,
+                      floatingLabelBehavior: FloatingLabelBehavior.never,
+                      filled: true,
+                      isDense: true,
+                      labelStyle: Get.textTheme.labelLarge,
+                      fillColor: Get.theme.colorScheme.background,
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide(
+                          color: ThemeColor.primary,
+                          width: 2.0,
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide(
+                          color: ThemeColor.primary,
+                          width: 2.0,
+                        ),
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide(
+                          color: ThemeColor.primary,
+                          width: 2.0,
+                        ),
+                      ),
+                      contentPadding: const EdgeInsets.all(16),
+                      isCollapsed: true,
+                      errorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide(
+                          color: Get.theme.colorScheme.error,
+                          width: 2.0,
+                        ),
+                      ),
                     ),
                   ),
                 ),
-                Container(
-                  height: 50,
-                  width: double.infinity,
-                  margin: EdgeInsets.all(8),
-                  child: TextField(
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: Get.width * 0.1,
+                    vertical: 15.0,
+                  ),
+                  child: TextFormField(
                     readOnly: true,
                     controller: _phoneController,
+                    keyboardType: TextInputType.phone,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
                     decoration: InputDecoration(
-                      labelText: "Số điện thoại",
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
+                      labelText: 'Số điện thoại',
+                      prefixIcon: const Icon(Icons.phone),
+                      suffixIcon: IconButton(
+                        onPressed: () {
+                          _nameController.clear();
+                        },
+                        icon: const Icon(Icons.clear),
                       ),
-                      prefixIcon: Icon(Icons.phone),
+                      hintStyle: Get.textTheme.bodyMedium,
+                      floatingLabelBehavior: FloatingLabelBehavior.never,
+                      filled: true,
+                      isDense: true,
+                      labelStyle: Get.textTheme.labelLarge,
+                      fillColor: Get.theme.colorScheme.background,
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide(
+                          color: ThemeColor.primary,
+                          width: 2.0,
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide(
+                          color: ThemeColor.primary,
+                          width: 2.0,
+                        ),
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide(
+                          color: ThemeColor.primary,
+                          width: 2.0,
+                        ),
+                      ),
+                      contentPadding: const EdgeInsets.all(16),
+                      isCollapsed: true,
+                      errorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide(
+                          color: Get.theme.colorScheme.error,
+                          width: 2.0,
+                        ),
+                      ),
                     ),
                   ),
                 ),
                 // Email
-                Container(
-                  height: 50,
-                  width: double.infinity,
-                  margin: EdgeInsets.all(8),
-                  child: TextField(
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: Get.width * 0.1,
+                    vertical: 15.0,
+                  ),
+                  child: TextFormField(
                     controller: _emailController,
+                    keyboardType: TextInputType.emailAddress,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
                     decoration: InputDecoration(
-                      labelText: 'Email',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
+                      labelText: 'E-mail',
+                      prefixIcon: const Icon(Icons.email),
+                      suffixIcon: IconButton(
+                        onPressed: () {
+                          _nameController.clear();
+                        },
+                        icon: const Icon(Icons.clear),
                       ),
-                      prefixIcon: Icon(Icons.email),
+                      hintStyle: Get.textTheme.bodyMedium,
+                      floatingLabelBehavior: FloatingLabelBehavior.never,
+                      filled: true,
+                      isDense: true,
+                      labelStyle: Get.textTheme.bodyLarge,
+                      fillColor: Get.theme.colorScheme.background,
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide(
+                          color: ThemeColor.primary,
+                          width: 2.0,
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide(
+                          color: ThemeColor.primary,
+                          width: 2.0,
+                        ),
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide(
+                          color: ThemeColor.primary,
+                          width: 2.0,
+                        ),
+                      ),
+                      contentPadding: const EdgeInsets.all(16),
+                      isCollapsed: true,
+                      errorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide(
+                          color: Get.theme.colorScheme.error,
+                          width: 2.0,
+                        ),
+                      ),
                     ),
                   ),
                 ),
-                Container(
-                  height: 60,
-                  width: double.infinity,
-                  margin: EdgeInsets.all(8),
-                  child: DropdownButtonFormField<String>(
-                    value: _selectedGender,
-                    onChanged: (newValue) {
-                      setState(() {
-                        _selectedGender = newValue!;
-                      });
-                    },
-                    items: ['MALE', 'FEMALE', 'ORTHER']
-                        .map<DropdownMenuItem<String>>(
-                      (String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(
-                            value == "MALE"
-                                ? "Nam"
-                                : value == "FEMALE"
-                                    ? 'Nữ'
-                                    : "Khác",
-                          ),
-                        );
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: Get.width * 0.1,
+                    vertical: 15.0,
+                  ),
+                  child: Container(
+                    child: DropdownButtonFormField<String>(
+                      value: _selectedGender,
+                      onChanged: (newValue) {
+                        setState(() {
+                          _selectedGender = newValue;
+                        });
                       },
-                    ).toList(),
-                    decoration: InputDecoration(
-                      labelText: 'Giới tính',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
+                      items: ['1', '2', '3'].map<DropdownMenuItem<String>>(
+                        (String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(
+                              "${value == '1' ? 'Nam' : value == '2' ? 'Nữ' : 'Khác'}",
+                              style: Get.textTheme.bodyMedium,
+                            ),
+                          );
+                        },
+                      ).toList(),
+                      decoration: InputDecoration(
+                        labelText: 'Giới tính',
+                        hintStyle: Get.textTheme.bodyMedium,
+                        floatingLabelBehavior: FloatingLabelBehavior.never,
+                        filled: true,
+                        isDense: true,
+                        labelStyle: Get.textTheme.labelLarge,
+                        fillColor: Get.theme.colorScheme.background,
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(
+                            color: ThemeColor.primary,
+                            width: 2.0,
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(
+                            color: ThemeColor.primary,
+                            width: 2.0,
+                          ),
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(
+                            color: ThemeColor.primary,
+                            width: 2.0,
+                          ),
+                        ),
+                        contentPadding: const EdgeInsets.all(16),
+                        isCollapsed: true,
+                        errorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(
+                            color: Get.theme.colorScheme.error,
+                            width: 2.0,
+                          ),
+                        ),
                       ),
                     ),
                   ),

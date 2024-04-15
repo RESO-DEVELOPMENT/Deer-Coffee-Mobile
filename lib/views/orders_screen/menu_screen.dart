@@ -1,15 +1,12 @@
 import 'package:deer_coffee/models/category.dart';
-import 'package:deer_coffee/models/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 import '../../models/product.dart';
-import '../../models/user.dart';
 import '../../utils/route_constrant.dart';
 import '../../utils/share_pref.dart';
 import '../../utils/theme.dart';
-import '../../view_models/account_view_model.dart';
 import '../../view_models/cart_view_model.dart';
 import '../../view_models/menu_view_model.dart';
 import '../../widgets/other_dialogs/dialog.dart';
@@ -50,7 +47,7 @@ class _MenuScreenState extends State<MenuScreen> {
                   showAlertDialog(
                       title: "Giỏ hàng trống",
                       content:
-                          "Giỏ hàng đang trống, vui lòng đặt sản phảm bạn nhé");
+                          "Giỏ hàng đang trống, vui lòng đặt sản phẩm bạn nhé");
                 } else if (userId == null) {
                   showAlertDialog(
                       title: "Người dùng chưa đăng nhập",

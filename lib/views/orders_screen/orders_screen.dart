@@ -97,7 +97,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                     showAlertDialog(
                         title: "Giỏ hàng trống",
                         content:
-                            "Giỏ hàng đang trống, vui lòng đặt sản phảm bạn nhé");
+                            "Giỏ hàng đang trống, vui lòng đặt sản phẩm bạn nhé");
                   } else if (userId == null) {
                     showAlertDialog(
                         title: "Người dùng chưa đăng nhập",
@@ -228,8 +228,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                               parent: AlwaysScrollableScrollPhysics(),
                             ),
                             itemCount: model.categories?.length,
-                            controller:
-                                _scrollControllerOnProduct, // Sử dụng _scrollControllerOnProduct cho ListView này
+                            controller: _scrollControllerOnProduct,
                             shrinkWrap: true,
                             scrollDirection: Axis.vertical,
                             itemBuilder: (context, index) {

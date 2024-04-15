@@ -1,13 +1,12 @@
 import 'dart:core';
+
 import 'package:deer_coffee/api/pointify/pointify_data.dart';
 import 'package:deer_coffee/models/order_details.dart';
 import 'package:deer_coffee/models/pointify/membership_transaction.dart';
-import 'package:deer_coffee/models/transactions.dart';
-import 'package:deer_coffee/models/user.dart';
 import 'package:deer_coffee/utils/route_constrant.dart';
 import 'package:deer_coffee/utils/share_pref.dart';
 import 'package:get/get.dart';
-import 'package:flutter/services.dart';
+
 import '../api/order_api.dart';
 import '../enums/order_enum.dart';
 import '../enums/view_status.dart';

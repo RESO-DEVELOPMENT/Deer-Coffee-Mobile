@@ -48,7 +48,7 @@ class AccountViewModel extends BaseViewModel {
       );
     } else {
       await Get.toNamed(
-        "${RouteHandler.SIGN_UP}?phone=$phone",
+        "${RouteHandler.RESET}?phone=$phone",
       );
     }
   }
@@ -63,7 +63,6 @@ class AccountViewModel extends BaseViewModel {
     } else {
       requestPointifyObj.setToken = memberShip?.token ?? '';
       await setToken(membership.data?.token ?? '');
-      print(membership.data?.token);
       await getMembershipInfo(membership.data?.userId ?? '');
       hideDialog();
       await Get.find<CartViewModel>().getListPromotion();
@@ -89,6 +88,24 @@ class AccountViewModel extends BaseViewModel {
       hideDialog();
       await Get.find<CartViewModel>().getListPromotion();
       Get.snackbar('Thông báo', membership.message ?? 'Đăng ký thành công');
+      await Get.offAllNamed(RouteHandler.HOME);
+    }
+  }
+
+   Future<void> onResetPassword(String phone, String pinCode) async {
+    showLoadingDialog();
+    MemberShipRespone? membership = await accountAPI.resetPassword(phone, pinCode);
+    if (membership == null || membership.status != 200) {
+      await showAlertDialog(
+          title: "Lỗi đặt lại mật khẩu", content: membership?.message ?? '');
+      return;
+    } else {
+      requestPointifyObj.setToken = memberShip?.token ?? '';
+      await setToken(membership.data?.token ?? '');
+      await getMembershipInfo(membership.data?.userId ?? '');
+      hideDialog();
+      await Get.find<CartViewModel>().getListPromotion();
+      Get.snackbar('Thông báo', membership.message ?? 'Thay đổi mật khẩu thành công');
       await Get.offAllNamed(RouteHandler.HOME);
     }
   }

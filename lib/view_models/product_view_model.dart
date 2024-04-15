@@ -12,6 +12,7 @@ class ProductViewModel extends BaseViewModel {
   ProductList productInCart = ProductList();
   List<Attribute> listAttribute = Get.find<CartViewModel>().listAttribute;
   List<Category>? listCategory = Get.find<MenuViewModel>().categories;
+  
 
   void addProductToCartItem(Product product) {
     productInCart = ProductList(
@@ -30,11 +31,13 @@ class ProductViewModel extends BaseViewModel {
         finalAmount: product.sellingPrice,
         discount: 0,
         extras: [],
-        attributes: []);
+        attributes: [],
+        variants: []);
     for (var attribute in listAttribute) {
       productInCart.attributes!
           .add(Attributes(name: attribute.name, value: attribute.options.last));
     }
+
     countAmount();
     notifyListeners();
   }

@@ -4,6 +4,7 @@ import 'package:deer_coffee/views/cart.dart';
 import 'package:deer_coffee/views/home_screen/blog_details.dart';
 import 'package:deer_coffee/views/login/login_otp.dart';
 import 'package:deer_coffee/views/login/login_sign_up.dart';
+import 'package:deer_coffee/views/login/reset_password.dart';
 import 'package:deer_coffee/views/membership_screen/promotion_details.dart';
 import 'package:deer_coffee/views/membership_screen/voucher.dart';
 import 'package:deer_coffee/views/membership_screen/voucher_details.dart';
@@ -123,14 +124,18 @@ class MyApp extends StatelessWidget {
                   id: Get.parameters['id'] ?? '',
                 ),
             transition: Transition.cupertino),
-        // em code thu
         GetPage(
             name: RouteHandler.PRODUCT_DETAIL_1,
             page: () => ProductDetail(
                   id: Get.parameters['id'] ?? '',
                 ),
             transition: Transition.cupertino),
-        //
+        GetPage(
+            name: RouteHandler.RESET,
+            page: () => ResetPassword(
+                  phone: Get.parameters['phone'] ?? '',
+                ),
+            transition: Transition.cupertino),
         GetPage(
             name: RouteHandler.VOUCHER_DETAIL,
             page: () => VoucherDetails(

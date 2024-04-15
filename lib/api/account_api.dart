@@ -67,6 +67,19 @@ class AccountAPI {
     return memberInfo;
   }
 
+  Future<MemberShipRespone?> resetPassword(String phone, String pinCode) async {
+    final res =
+        await requestPointify.patch('memberships/reset-pass', queryParameters: {
+      'apiKey': apiKey
+    }, data: {
+      "phone": phone,
+      "pinCode": pinCode,
+    });
+    var json = res.data;
+    MemberShipRespone memberInfo = MemberShipRespone.fromJson(json);
+    return memberInfo;
+  }
+
   // Future<UserDetails> getUserById(String id) async {
   //   final res = await request.get('users/$id');
   //   var json = res.data;

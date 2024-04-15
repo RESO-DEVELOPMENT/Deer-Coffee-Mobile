@@ -1,23 +1,23 @@
 import 'dart:async';
 
 import 'package:deer_coffee/view_models/account_view_model.dart';
+import 'package:deer_coffee/widgets/other_dialogs/dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pinput/pinput.dart';
 
 import '../../utils/theme.dart';
 
-class MyOtp extends StatefulWidget {
+class ResetPassword extends StatefulWidget {
   final String phone;
-  final String pinCode;
-  const MyOtp({super.key, required this.phone, required this.pinCode});
+  const ResetPassword({super.key, required this.phone});
 
   @override
-  State<MyOtp> createState() => _MyOtpState();
+  State<ResetPassword> createState() => _ResetPasswordState();
 }
 
-class _MyOtpState extends State<MyOtp> {
-  int _countdown = 6; // Đếm ngược từ 60 giây
+class _ResetPasswordState extends State<ResetPassword> {
+  int _countdown = 6;
   late Timer _timer;
   String? phoneNumber;
   String? pin;
@@ -189,7 +189,7 @@ class _MyOtpState extends State<MyOtp> {
                           // child: Image.asset("assets/login.png"),
                         ),
                         Text(
-                          "Nhập mã pin",
+                          "Nhập mã pin mới",
                           style: Get.textTheme.titleLarge?.copyWith(
                             fontWeight: FontWeight.bold,
                             color: Colors.black,
@@ -217,7 +217,7 @@ class _MyOtpState extends State<MyOtp> {
                           TextSpan(
                             children: [
                               TextSpan(
-                                text: "Nhập mã để tiếp tục ",
+                                text: "Nhập mã pin mới",
                                 style: Get.textTheme.bodyMedium,
                               ),
                             ],
@@ -240,52 +240,52 @@ class _MyOtpState extends State<MyOtp> {
                         const SizedBox(
                           height: 16,
                         ),
-                        // Column(
-                        //   children: [
-                        //     Text.rich(
-                        //       TextSpan(
-                        //         children: [
-                        //           TextSpan(
-                        //             text: "Xác nhận mã pin",
-                        //             style: Get.textTheme.bodyMedium,
-                        //           ),
-                        //         ],
-                        //       ),
-                        //       textAlign: TextAlign.center,
-                        //     ),
-                        //     // _buildPinStatus(),
+                        Column(
+                          children: [
+                            Text.rich(
+                              TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text: "Xác nhận mã pin",
+                                    style: Get.textTheme.bodyMedium,
+                                  ),
+                                ],
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                            // _buildPinStatus(),
 
-                        //     // _buildReenterPinStatus(),
+                            // _buildReenterPinStatus(),
 
-                        //     const SizedBox(
-                        //       height: 8,
-                        //     ),
-                        //     Pinput(
-                        //       length: 4,
-                        //       controller: reenterPinController,
-                        //       showCursor: true,
-                        //       focusNode: reFocusNode,
-                        //     ),
-                        //   ],
-                        // ),
-                        // const SizedBox(
-                        //   height: 32,
-                        // ),
+                            const SizedBox(
+                              height: 8,
+                            ),
+                            Pinput(
+                              length: 4,
+                              controller: reenterPinController,
+                              showCursor: true,
+                              focusNode: reFocusNode,
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 32,
+                        ),
                         SizedBox(
                           width: 200,
                           height: 50,
                           child: ElevatedButton(
                             onPressed: () {
                               if (pinController?.text.length == 4) {
-                                // if ((pinController?.text !=
-                                //     reenterPinController?.text)) {
-                                //   showAlertDialog(
-                                //       title: "Lỗi",
-                                //       content: "Mã pin không trùng khớp");
-                                // } else {
-                                Get.find<AccountViewModel>().onLogin(
-                                    widget.phone, pinController?.text ?? '');
-                                // }
+                                if ((pinController?.text !=
+                                    reenterPinController?.text)) {
+                                  showAlertDialog(
+                                      title: "Lỗi",
+                                      content: "Mã pin không trùng khớp");
+                                } else {
+                                  Get.find<AccountViewModel>().onResetPassword(
+                                      widget.phone, pinController?.text ?? '');
+                                }
                               }
                             },
                             style: ElevatedButton.styleFrom(
@@ -300,25 +300,6 @@ class _MyOtpState extends State<MyOtp> {
                         const SizedBox(
                           height: 8,
                         ),
-                        // Row(
-                        //   mainAxisAlignment: MainAxisAlignment.center,
-                        //   children: [
-                        //     const Text("Bạn không nhận mã?"),
-                        //     TextButton(
-                        //       onPressed: () {
-                        //         if (_countdown == 0) {
-                        //           Get.find<AccountViewModel>().resendOtp();
-                        //         }
-                        //       },
-                        //       child: const Text('Gửi lại'),
-                        //     ),
-                        //     const Text("sau "),
-                        //     Text(
-                        //       '($_countdown)',
-                        //       style: const TextStyle(color: Colors.black),
-                        //     ),
-                        //   ],
-                        // )
                       ],
                     ),
                   ),

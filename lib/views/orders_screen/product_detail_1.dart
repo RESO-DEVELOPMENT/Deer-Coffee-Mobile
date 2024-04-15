@@ -1,17 +1,12 @@
 import 'dart:ui';
 
-import 'package:deer_coffee/utils/route_constrant.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:deer_coffee/enums/view_status.dart';
 import 'package:deer_coffee/models/cart_model.dart';
 import 'package:deer_coffee/utils/theme.dart';
 import 'package:deer_coffee/view_models/menu_view_model.dart';
 import 'package:deer_coffee/view_models/product_view_model.dart';
-import 'package:deer_coffee/views/cart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -30,7 +25,7 @@ class ProductDetail extends StatefulWidget {
   State<ProductDetail> createState() => _ProductDetailState();
 }
 
- final _scrollController = ScrollController();
+final _scrollController = ScrollController();
 
 class _ProductDetailState extends State<ProductDetail> {
   late Product product;
@@ -81,194 +76,185 @@ class _ProductDetailState extends State<ProductDetail> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-          body: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: Scaffold(
-          body: NestedScrollView(
-            controller: _scrollController,
-            headerSliverBuilder:
-                (BuildContext context, bool innerBoxIsScrolled) {
-              return <Widget>[
-                SliverAppBar(
-                  systemOverlayStyle: SystemUiOverlayStyle(
-                      statusBarBrightness: Brightness.dark),
-                  expandedHeight: 300.0,
-                  backgroundColor: Colors.white,
-                  pinned: true,
-                  elevation: 0.0,
-                  stretch: true,
-                  flexibleSpace: FlexibleSpaceBar(
-                    background: Image.network(
-                      loadingBuilder: (BuildContext context, Widget child,
-                          ImageChunkEvent? loadingProgress) {
-                        if (loadingProgress == null) {
-                          return child;
-                        }
-                        return Center(
-                          child: CircularProgressIndicator(
-                            value: loadingProgress.expectedTotalBytes != null
-                                ? loadingProgress.cumulativeBytesLoaded /
-                                    loadingProgress.expectedTotalBytes!
-                                : null,
-                          ),
-                        );
-                      },
-                      product.picUrl!.isEmpty
-                          ? 'https://i.imgur.com/X0WTML2.jpg'
-                          : product.picUrl ?? '',
-                      fit: BoxFit.cover,
-                      width: double.maxFinite,
+    return Scaffold(
+      body: NestedScrollView(
+        controller: _scrollController,
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          return <Widget>[
+            SliverAppBar(
+              systemOverlayStyle:
+                  SystemUiOverlayStyle(statusBarBrightness: Brightness.dark),
+              expandedHeight: 300.0,
+              backgroundColor: Colors.white,
+              pinned: true,
+              elevation: 0.0,
+              stretch: true,
+              flexibleSpace: FlexibleSpaceBar(
+                background: Image.network(
+                  loadingBuilder: (BuildContext context, Widget child,
+                      ImageChunkEvent? loadingProgress) {
+                    if (loadingProgress == null) {
+                      return child;
+                    }
+                    return Center(
+                      child: CircularProgressIndicator(
+                        value: loadingProgress.expectedTotalBytes != null
+                            ? loadingProgress.cumulativeBytesLoaded /
+                                loadingProgress.expectedTotalBytes!
+                            : null,
+                      ),
+                    );
+                  },
+                  product.picUrl!.isEmpty
+                      ? 'https://i.imgur.com/X0WTML2.jpg'
+                      : product.picUrl ?? '',
+                  fit: BoxFit.cover,
+                  width: double.maxFinite,
+                ),
+                stretchModes: const [
+                  StretchMode.blurBackground,
+                  StretchMode.zoomBackground,
+                ],
+              ),
+              bottom: PreferredSize(
+                preferredSize: const Size.fromHeight(0.0),
+                child: Container(
+                  height: 32.0,
+                  alignment: Alignment.center,
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(32.0),
+                      topRight: Radius.circular(32.0),
                     ),
-                    stretchModes: const [
-                      StretchMode.blurBackground,
-                      StretchMode.zoomBackground,
-                    ],
                   ),
-                  bottom: PreferredSize(
-                    preferredSize: const Size.fromHeight(0.0),
-                    child: Container(
-                      height: 32.0,
-                      alignment: Alignment.center,
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(32.0),
-                          topRight: Radius.circular(32.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: 40.0,
+                        height: 5,
+                        decoration: BoxDecoration(
+                          color: Colors.grey[400],
+                          borderRadius: BorderRadius.circular(100.0),
                         ),
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            width: 40.0,
-                            height: 5,
-                            decoration: BoxDecoration(
-                              color: Colors.grey[400],
-                              borderRadius: BorderRadius.circular(100.0),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                    ],
                   ),
-                  leadingWidth: 80.0,
-                  leading: Container(
-                    margin: const EdgeInsets.only(left: 24.0),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(36.0),
-                      child: BackdropFilter(
-                        filter: ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
+                ),
+              ),
+              leadingWidth: 80.0,
+              leading: Container(
+                margin: const EdgeInsets.only(left: 24.0),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(36.0),
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
+                    child: Container(
+                      height: 56,
+                      width: 56,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.white.withOpacity(0.50),
+                      ),
+                      child: InkWell(
+                        onTap: () {
+                          Get.back();
+                        },
                         child: Container(
-                          height: 56,
-                          width: 56,
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.white.withOpacity(0.50),
-                          ),
-                          child: InkWell(
-                            onTap: () {
-                               Get.back();
-                            },
-                            child: Container(
-                              width: 24,
-                              height: 24,
-                              child: Image.asset(
-                                  'assets/images/arrow-back-ios.png'),
-                            ),
-                          ),
+                          width: 24,
+                          height: 24,
+                          child:
+                              Image.asset('assets/images/arrow-back-ios.png'),
                         ),
                       ),
                     ),
                   ),
                 ),
-              ];
-            },
-            body: ScopedModel<ProductViewModel>(
-              model: productViewModel,
-              child: ScopedModelDescendant<ProductViewModel>(
-                  builder: (context, child, model) {
-                return Column(
-                  children: [
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: ListView(
-                          physics: NeverScrollableScrollPhysics(),
+              ),
+            ),
+          ];
+        },
+        body: ScopedModel<ProductViewModel>(
+          model: productViewModel,
+          child: ScopedModelDescendant<ProductViewModel>(
+              builder: (context, child, model) {
+            return Column(
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ListView(
+                      physics: NeverScrollableScrollPhysics(),
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  product.name ?? '',
-                                  style: Get.textTheme.bodyMedium
-                                      ?.copyWith(fontWeight: FontWeight.bold),
-                                ),
-                                Container(
-                                  width: 120,
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(24),
-                                      border: Border.all(
-                                        color: ThemeColor.primary,
-                                      )),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      IconButton(
-                                        onPressed: () {
-                                          model.decreaseQuantity();
-                                        },
-                                        icon: Icon(
-                                          CupertinoIcons.minus,
-                                          color: ThemeColor.primary,
-                                          size: 24,
-                                        ),
-                                      ),
-                                      Text(
-                                        model.productInCart.quantity.toString(),
-                                        style: Get.textTheme.bodyMedium,
-                                      ),
-                                      IconButton(
-                                        onPressed: () {
-                                          model.increaseQuantity();
-                                        },
-                                        icon: Icon(
-                                          CupertinoIcons.plus,
-                                          color: ThemeColor.primary,
-                                          size: 24,
-                                        ),
-                                      ),
-                                    ],
+                            Text(
+                              product.name ?? '',
+                              style: Get.textTheme.bodyMedium
+                                  ?.copyWith(fontWeight: FontWeight.bold),
+                            ),
+                            Container(
+                              width: 120,
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(24),
+                                  border: Border.all(
+                                    color: ThemeColor.primary,
+                                  )),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  IconButton(
+                                    onPressed: () {
+                                      model.decreaseQuantity();
+                                    },
+                                    icon: Icon(
+                                      CupertinoIcons.minus,
+                                      color: ThemeColor.primary,
+                                      size: 24,
+                                    ),
                                   ),
-                                ),
-                              ],
+                                  Text(
+                                    model.productInCart.quantity.toString(),
+                                    style: Get.textTheme.bodyMedium,
+                                  ),
+                                  IconButton(
+                                    onPressed: () {
+                                      model.increaseQuantity();
+                                    },
+                                    icon: Icon(
+                                      CupertinoIcons.plus,
+                                      color: ThemeColor.primary,
+                                      size: 24,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
-                            SizedBox(
-                              height: 8,
-                            ),
-                            productSize(model),
-                            productAttributes(model),
-                            addExtra(model),
-                            buildNote(model)
                           ],
                         ),
-                      ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        productSize(model),
+                        productAttributes(model),
+                        addExtra(model),
+                        buildNote(model)
+                      ],
                     ),
-                    buildButton(model)
-                  ],
-                );
-              }),
-            ),
-          ),
+                  ),
+                ),
+                buildButton(model)
+              ],
+            );
+          }),
         ),
-      )),
+      ),
     );
   }
 
@@ -491,4 +477,6 @@ class _ProductDetailState extends State<ProductDetail> {
       ],
     );
   }
+
 }
+

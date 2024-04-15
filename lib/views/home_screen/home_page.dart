@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:deer_coffee/enums/order_enum.dart';
 import 'package:deer_coffee/enums/view_status.dart';
 import 'package:deer_coffee/utils/theme.dart';
@@ -6,7 +7,6 @@ import 'package:deer_coffee/view_models/cart_view_model.dart';
 import 'package:deer_coffee/view_models/menu_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 import '../../utils/route_constrant.dart';
@@ -57,7 +57,7 @@ class _HomePageState extends State<HomePage> {
                         return InkWell(
                           onTap: () {
                             Get.toNamed(
-                              "${RouteHandler.BLOG}?id=${blog.id}",
+                              "${RouteHandler.LOGIN}?id=${blog.id}",
                             );
                           },
                           child: Container(

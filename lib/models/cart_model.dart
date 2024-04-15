@@ -1,3 +1,5 @@
+import 'package:deer_coffee/models/product.dart';
+
 class CartModel {
   String? storeId;
   String? orderType;
@@ -110,6 +112,7 @@ class ProductList {
   String? picUrl;
   List<Extras>? extras;
   List<Attributes>? attributes;
+  List<Variant>? variants;
 
   ProductList(
       {this.productInMenuId,
@@ -127,7 +130,8 @@ class ProductList {
       this.note,
       this.picUrl,
       this.extras,
-      this.attributes});
+      this.attributes,
+      this.variants});
 
   ProductList.fromJson(Map<String, dynamic> json) {
     productInMenuId = json['productInMenuId'];
@@ -156,6 +160,12 @@ class ProductList {
         attributes!.add(Attributes.fromJson(v));
       });
     }
+    if (json['variants'] != null) {
+      variants = <Variant>[];
+      json['variants'].forEach((v) {
+        variants!.add(Variant.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -179,6 +189,9 @@ class ProductList {
     }
     if (attributes != null) {
       data['attributes'] = attributes!.map((v) => v.toJson()).toList();
+    }
+    if (variants != null) {
+      data['variants'] = variants!.map((v) => v.toJson()).toList();
     }
     return data;
   }

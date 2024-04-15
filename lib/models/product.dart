@@ -17,6 +17,7 @@ class Product {
   String? categoryId;
   List<String>? collectionIds;
   List<String>? extraCategoryIds;
+  List<Variant>? variants;
 
   Product(
       {this.id,
@@ -36,7 +37,8 @@ class Product {
       this.brandId,
       this.categoryId,
       this.collectionIds,
-      this.extraCategoryIds});
+      this.extraCategoryIds,
+      this.variants});
 
   Product.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -58,6 +60,7 @@ class Product {
     collectionIds = json['collectionIds'].cast<String>();
     extraCategoryIds = json['extraCategoryIds'].cast<String>();
     menuProductId = json['menuProductId'];
+    variants = json['variants'].cast<Variant>();
   }
 
   Map<String, dynamic> toJson() {
@@ -80,6 +83,40 @@ class Product {
     data['collectionIds'] = collectionIds;
     data['extraCategoryIds'] = extraCategoryIds;
     data['menuProductId'] = menuProductId;
+    data['variants'] = variants;
     return data;
   }
 }
+
+class Variant {
+  String id;
+  String name;
+  String value;
+  int displayOrder;
+
+  Variant({
+    required this.id,
+    required this.name,
+    required this.value,
+    required this.displayOrder,
+  });
+
+  factory Variant.fromJson(Map<String, dynamic> json) {
+    return Variant(
+      id: json['id'],
+      name: json['name'],
+      value: json['value'],
+      displayOrder: json['displayOrder'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'value': value,
+      'displayOrder': displayOrder,
+    };
+  }
+}
+

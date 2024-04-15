@@ -92,7 +92,7 @@ class _OtherPageState extends State<OtherPage> {
   @override
   void initState() {
     userModel = model.memberShipModel;
-    memberLevel = model.memberShipModel!.memberLevel;
+    memberLevel = model.memberShipModel?.memberLevel;
     pointWallet = model.memberShipModel?.memberLevel?.memberWallet
         ?.firstWhere((element) => element.walletType?.name == "Điểm");
     moneyWallet = model.memberShipModel?.memberLevel?.memberWallet

@@ -1,12 +1,8 @@
 import 'package:deer_coffee/utils/theme.dart';
 import 'package:deer_coffee/view_models/account_view_model.dart';
-import 'package:deer_coffee/views/login/login_otp.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:pinput/pinput.dart';
-
-import '../../utils/route_constrant.dart';
 
 enum Language {
   Vietnamese,
