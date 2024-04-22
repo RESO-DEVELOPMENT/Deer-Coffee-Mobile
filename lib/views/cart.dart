@@ -234,7 +234,7 @@ class _CartScreenState extends State<CartScreen> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      '${model.cart.productList![index].attributes?[0].name} ${model.cart.productList![index].attributes![0].value} ${model.cart.productList![index].attributes?[1].name} ${model.cart.productList![index].attributes![1].value}',
+                                      model.cart.productList![index].attributes != null && model.cart.productList![index].attributes!.isNotEmpty ? '${model.cart.productList![index].attributes![0].value}, ${model.cart.productList![index].attributes![1].value}' : 'N/A',
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                       style: Get.textTheme.labelSmall,

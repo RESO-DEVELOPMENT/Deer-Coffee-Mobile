@@ -12,32 +12,26 @@ class ProductViewModel extends BaseViewModel {
   ProductList productInCart = ProductList();
   List<Attribute> listAttribute = Get.find<CartViewModel>().listAttribute;
   List<Category>? listCategory = Get.find<MenuViewModel>().categories;
-  
 
   void addProductToCartItem(Product product) {
     productInCart = ProductList(
-        productInMenuId: product.menuProductId,
-        parentProductId: product.parentProductId,
-        name: product.name,
-        type: product.type,
-        quantity: 1,
-        code: product.code,
-        picUrl: product.picUrl,
-        categoryCode: listCategory!
-            .firstWhereOrNull((element) => element.id == product.categoryId)
-            ?.code,
-        sellingPrice: product.sellingPrice,
-        totalAmount: product.sellingPrice,
-        finalAmount: product.sellingPrice,
-        discount: 0,
-        extras: [],
-        attributes: [],
-        variants: []);
-    for (var attribute in listAttribute) {
-      productInCart.attributes!
-          .add(Attributes(name: attribute.name, value: attribute.options.last));
-    }
-
+      productInMenuId: product.menuProductId,
+      parentProductId: product.parentProductId,
+      name: product.name,
+      type: product.type,
+      quantity: 1,
+      code: product.code,
+      picUrl: product.picUrl,
+      categoryCode: listCategory!
+          .firstWhereOrNull((element) => element.id == product.categoryId)
+          ?.code,
+      sellingPrice: product.sellingPrice,
+      totalAmount: product.sellingPrice,
+      finalAmount: product.sellingPrice,
+      discount: 0,
+      extras: [],
+      attributes: [],
+    );
     countAmount();
     notifyListeners();
   }
@@ -47,16 +41,16 @@ class ProductViewModel extends BaseViewModel {
     Get.back();
   }
 
-  void setAttributes(Attributes attribute) {
+  void setAttributes(Variant variant) {
     bool isExist = false;
     for (var element in productInCart.attributes!) {
-      if (element.name == attribute.name) {
-        element.value = attribute.value;
+      if (element.name == variant.name) {
+        element.value = variant.value;
         isExist = true;
       }
     }
     if (isExist == false) {
-      productInCart.attributes!.add(attribute);
+      productInCart.attributes!.add(variant);
     }
     notifyListeners();
   }

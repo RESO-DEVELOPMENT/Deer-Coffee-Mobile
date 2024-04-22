@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'package:deer_coffee/models/cart_model.dart';
+import 'package:deer_coffee/models/product_attribute.dart';
 import 'package:deer_coffee/utils/theme.dart';
 import 'package:deer_coffee/view_models/menu_view_model.dart';
 import 'package:deer_coffee/view_models/product_view_model.dart';
@@ -13,7 +13,6 @@ import 'package:scoped_model/scoped_model.dart';
 import '../../enums/product_enum.dart';
 import '../../models/category.dart';
 import '../../models/product.dart';
-import '../../models/product_attribute.dart';
 import '../../utils/format.dart';
 
 class ProductDetail extends StatefulWidget {
@@ -29,17 +28,18 @@ final _scrollController = ScrollController();
 
 class _ProductDetailState extends State<ProductDetail> {
   late Product product;
+  String currentVariant = '';
+  TextEditingController noteController = TextEditingController();
   MenuViewModel menuViewModel = Get.find<MenuViewModel>();
   ProductViewModel productViewModel = ProductViewModel();
   List<Product> childProducts = [];
   List<Category> extraCategory = [];
   String? selectedSize;
-  List<Attribute> listAttribute = [];
-  List<Attributes> selectedAttributes = [];
+  List<Attribute> listVariants = [];
+  List<Variant> selectedAttributes = [];
 
   @override
   void initState() {
-    // TODO: implement initState
     product = Get.find<MenuViewModel>().getProductById(widget.id);
     productViewModel.addProductToCartItem(product);
     extraCategory = menuViewModel.getExtraCategoryByNormalProduct(product)!;
@@ -51,8 +51,15 @@ class _ProductDetailState extends State<ProductDetail> {
       }
       productViewModel.addProductToCartItem(childProducts[0]);
     }
-    listAttribute = productViewModel.listAttribute;
-    selectedAttributes = productViewModel.productInCart.attributes!;
+
+    for (var attribute in product.variants!) {
+      List<String> values = attribute.value!.split("_");
+      listVariants.add(Attribute(
+        attribute.name.toString(),
+        values,
+      ));
+      selectedAttributes.add(Variant(name: attribute.name, value: ""));
+    }
     super.initState();
   }
 
@@ -263,19 +270,20 @@ class _ProductDetailState extends State<ProductDetail> {
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        for (int i = 0; i < listAttribute.length; i++)
+        for (int i = 0; i < listVariants.length; i++)
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(listAttribute[i].name,
+              Text(listVariants[i].name,
                   style: Get.textTheme.bodySmall
                       ?.copyWith(fontWeight: FontWeight.bold)),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
-                children: listAttribute[i]
+                children: listVariants[i]
                     .options
+                    .toList()
                     .map((option) => TextButton(
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all<Color>(
@@ -368,7 +376,7 @@ class _ProductDetailState extends State<ProductDetail> {
             return RadioListTile(
               activeColor: ThemeColor.primary,
               dense: true,
-              visualDensity: VisualDensity(
+              visualDensity: const VisualDensity(
                 horizontal: VisualDensity.maximumDensity,
                 vertical: VisualDensity.minimumDensity,
               ),
@@ -453,6 +461,7 @@ class _ProductDetailState extends State<ProductDetail> {
                       Expanded(
                         child: TextField(
                           style: Get.textTheme.labelSmall,
+                          controller: noteController,
                           decoration: const InputDecoration(
                             hintText: 'Hãy nói gì đó...',
                             border: InputBorder.none, // Bỏ gạch dưới chân
@@ -477,6 +486,4 @@ class _ProductDetailState extends State<ProductDetail> {
       ],
     );
   }
-
 }
-

@@ -1,30 +1,25 @@
-import 'package:deer_coffee/view_models/menu_view_model.dart';
-
-import '../enums/promotion_enums.dart';
-import '../models/pointify/voucher_model.dart';
-import '../models/store.dart';
-import '../models/user.dart';
 import 'package:deer_coffee/utils/share_pref.dart';
+import 'package:deer_coffee/view_models/menu_view_model.dart';
 import 'package:get/get.dart';
 
 import '../api/order_api.dart';
 import '../api/pointify/pointify_data.dart';
 import '../enums/order_enum.dart';
+import '../enums/promotion_enums.dart';
 import '../enums/view_status.dart';
 import '../models/cart_model.dart';
 import '../models/payment_provider.dart';
 import '../models/pointify/promotion_model.dart';
+import '../models/pointify/voucher_model.dart';
 import '../models/product_attribute.dart';
+import '../models/store.dart';
 import 'base_view_model.dart';
 import 'order_view_model.dart';
 
 class CartViewModel extends BaseViewModel {
   CartModel cart = CartModel();
   int? peopleNumber;
-  List<Attribute> listAttribute = [
-    Attribute("Đường", ["0%", "50%", "100%"]),
-    Attribute("Đá", ["0%", "50%", "100%"])
-  ];
+  List<Attribute> listAttribute = [];
   late OrderAPI orderAPI = OrderAPI();
   PointifyData? promotionData = PointifyData();
   List<PromotionPointify>? promotions = [];
@@ -32,6 +27,7 @@ class CartViewModel extends BaseViewModel {
   List<PromotionPointify>? promotionsUsingPromotionCode = [];
   List<VoucherModel>? listUserVoucher = [];
   List<PaymentProvider> listPayment = [];
+  List<String> messages = [];
   CartViewModel() {
     cart.orderType = OrderTypeEnum.TAKE_AWAY;
     cart.productList = [];
@@ -41,7 +37,6 @@ class CartViewModel extends BaseViewModel {
     cart.bonusPoint = 0;
     cart.shippingFee = 0;
     cart.deliveryAddress = null;
-
     listPayment = [
       PaymentProvider(
           name: "Thanh toán khi nhận hàng",
@@ -55,6 +50,7 @@ class CartViewModel extends BaseViewModel {
               "https://firebasestorage.googleapis.com/v0/b/pos-system-47f93.appspot.com/o/files%2Fpointify.jpg?alt=media&token=c1953b7c-23d4-4fb6-b866-ac13ae639a00")
     ];
     cart.paymentType = listPayment[0].code;
+    cart.message = "";
   }
 
   Future<void> getListPromotion() async {
@@ -193,6 +189,10 @@ class CartViewModel extends BaseViewModel {
       element.discount = 0;
       element.finalAmount = element.totalAmount;
       element.promotionCodeApplied = null;
+      if (element.attributes != null && element.attributes!.length >= 2) {
+        element.note =
+            element.attributes![0].value! + ", " + element.attributes![1].value!;
+      }
     }
     cart.promotionList!.clear();
     await orderAPI.prepareOrder(cart).then((value) => {

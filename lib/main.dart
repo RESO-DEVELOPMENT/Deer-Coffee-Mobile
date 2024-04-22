@@ -11,7 +11,6 @@ import 'package:deer_coffee/views/membership_screen/voucher_details.dart';
 import 'package:deer_coffee/views/orders_screen/category_detail.dart';
 import 'package:deer_coffee/views/orders_screen/collection_detail.dart';
 import 'package:deer_coffee/views/orders_screen/product_detail_1.dart';
-import 'package:deer_coffee/views/orders_screen/product_details.dart';
 import 'package:deer_coffee/views/policy-page.dart';
 import 'package:deer_coffee/views/profile_screen/order_details.dart';
 import 'package:deer_coffee/views/profile_screen/order_history.dart';
@@ -118,12 +117,12 @@ class MyApp extends StatelessWidget {
             name: RouteHandler.TRANSACTIONS,
             page: () => const TransactionsHistory(),
             transition: Transition.cupertino),
-        GetPage(
-            name: RouteHandler.PRODUCT_DETAIL,
-            page: () => Option(
-                  id: Get.parameters['id'] ?? '',
-                ),
-            transition: Transition.cupertino),
+        // GetPage(
+        //     name: RouteHandler.PRODUCT_DETAIL,
+        //     page: () => Option(
+        //           id: Get.parameters['id'] ?? '',
+        //         ),
+        //     transition: Transition.cupertino),
         GetPage(
             name: RouteHandler.PRODUCT_DETAIL_1,
             page: () => ProductDetail(

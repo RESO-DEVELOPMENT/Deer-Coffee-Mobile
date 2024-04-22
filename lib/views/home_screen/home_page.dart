@@ -57,7 +57,7 @@ class _HomePageState extends State<HomePage> {
                         return InkWell(
                           onTap: () {
                             Get.toNamed(
-                              "${RouteHandler.LOGIN}?id=${blog.id}",
+                              "${RouteHandler.BLOG}?id=${blog.id}",
                             );
                           },
                           child: Container(

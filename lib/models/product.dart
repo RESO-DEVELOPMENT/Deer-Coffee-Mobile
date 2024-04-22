@@ -60,7 +60,12 @@ class Product {
     collectionIds = json['collectionIds'].cast<String>();
     extraCategoryIds = json['extraCategoryIds'].cast<String>();
     menuProductId = json['menuProductId'];
-    variants = json['variants'].cast<Variant>();
+    if (json['variants'] != null) {
+      variants = <Variant>[];
+      json['variants'].forEach((v) {
+        variants!.add(Variant.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -83,40 +88,29 @@ class Product {
     data['collectionIds'] = collectionIds;
     data['extraCategoryIds'] = extraCategoryIds;
     data['menuProductId'] = menuProductId;
-    data['variants'] = variants;
+    if (variants != null) {
+      data['variants'] = variants!.map((v) => v.toJson()).toList();
+    }
     return data;
   }
 }
 
 class Variant {
-  String id;
-  String name;
-  String value;
-  int displayOrder;
+  String? name;
+  String? value;
 
-  Variant({
-    required this.id,
-    required this.name,
-    required this.value,
-    required this.displayOrder,
-  });
+  Variant({this.name, this.value});
 
-  factory Variant.fromJson(Map<String, dynamic> json) {
-    return Variant(
-      id: json['id'],
-      name: json['name'],
-      value: json['value'],
-      displayOrder: json['displayOrder'],
-    );
+  Variant.fromJson(Map<String, dynamic> json) {
+    name = json['name'];
+    value = json['value'];
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'name': name,
-      'value': value,
-      'displayOrder': displayOrder,
-    };
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['name'] = name;
+    data['value'] = value;
+    return data;
   }
 }
 

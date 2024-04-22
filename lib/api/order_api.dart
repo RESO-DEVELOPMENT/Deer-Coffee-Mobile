@@ -1,5 +1,3 @@
-import 'package:deer_coffee/models/transactions.dart';
-
 import '../models/cart_model.dart';
 import '../models/order_details.dart';
 import '../models/order_in_list.dart';
