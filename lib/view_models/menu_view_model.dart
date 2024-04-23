@@ -2,8 +2,6 @@ import 'package:deer_coffee/api/menu_api.dart';
 import 'package:deer_coffee/models/blog.dart';
 import 'package:deer_coffee/models/store.dart';
 import 'package:deer_coffee/view_models/base_view_model.dart';
-import 'package:deer_coffee/view_models/cart_view_model.dart';
-import 'package:get/get.dart';
 
 import '../enums/product_enum.dart';
 import '../enums/view_status.dart';

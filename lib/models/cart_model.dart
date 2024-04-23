@@ -111,27 +111,26 @@ class ProductList {
   String? note;
   String? picUrl;
   List<Extras>? extras;
-  List<Attributes>? attributes;
-  List<Variant>? variants;
+  List<Variant>? attributes;
 
-  ProductList(
-      {this.productInMenuId,
-      this.parentProductId,
-      this.name,
-      this.type,
-      this.quantity,
-      this.sellingPrice,
-      this.code,
-      this.categoryCode,
-      this.totalAmount,
-      this.discount,
-      this.finalAmount,
-      this.promotionCodeApplied,
-      this.note,
-      this.picUrl,
-      this.extras,
-      this.attributes,
-      this.variants});
+  ProductList({
+    this.productInMenuId,
+    this.parentProductId,
+    this.name,
+    this.type,
+    this.quantity,
+    this.sellingPrice,
+    this.code,
+    this.categoryCode,
+    this.totalAmount,
+    this.discount,
+    this.finalAmount,
+    this.promotionCodeApplied,
+    this.note,
+    this.picUrl,
+    this.extras,
+    this.attributes,
+  });
 
   ProductList.fromJson(Map<String, dynamic> json) {
     productInMenuId = json['productInMenuId'];
@@ -155,15 +154,9 @@ class ProductList {
       });
     }
     if (json['attributes'] != null) {
-      attributes = <Attributes>[];
+      attributes = <Variant>[];
       json['attributes'].forEach((v) {
-        attributes!.add(Attributes.fromJson(v));
-      });
-    }
-    if (json['variants'] != null) {
-      variants = <Variant>[];
-      json['variants'].forEach((v) {
-        variants!.add(Variant.fromJson(v));
+        attributes!.add(Variant.fromJson(v));
       });
     }
   }
@@ -189,9 +182,6 @@ class ProductList {
     }
     if (attributes != null) {
       data['attributes'] = attributes!.map((v) => v.toJson()).toList();
-    }
-    if (variants != null) {
-      data['variants'] = variants!.map((v) => v.toJson()).toList();
     }
     return data;
   }
