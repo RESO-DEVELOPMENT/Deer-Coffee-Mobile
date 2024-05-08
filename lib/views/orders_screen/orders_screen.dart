@@ -189,8 +189,6 @@ class _OrdersScreenState extends State<OrdersScreen> {
               slivers: [
                 SliverToBoxAdapter(
                   child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Expanded(
                         flex: 1,
@@ -203,8 +201,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                             ),
                             scrollDirection: Axis.vertical,
                             shrinkWrap: true,
-                            controller:
-                                _scrollControllerOnCategory, // Sử dụng _scrollControllerOnCategory cho ListView này
+                            controller: _scrollControllerOnCategory,
                             itemCount: model.categories?.length,
                             itemBuilder: (context, index) {
                               return buildCircularButton(
@@ -316,49 +313,71 @@ class _OrdersScreenState extends State<OrdersScreen> {
         scrollToWidget(idx);
       },
       child: Container(
-        color: idx == selectedIndex ? Colors.white : Colors.transparent,
-        width: 70,
-        height: 100,
+        decoration: BoxDecoration(
+          color: idx == selectedIndex ? Colors.white : Colors.grey[200],
+        ),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Container(
-              height: idx == 0 ? 0 : 10,
-              decoration: BoxDecoration(
-                color: idx == 0 ? Colors.transparent : Colors.grey[200],
-                borderRadius: BorderRadius.only(
-                  bottomRight: Radius.circular(20),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                idx != 0
+                    ? Container(
+                        height: 10.0,
+                        decoration: BoxDecoration(
+                          color: Colors.grey[200],
+                          borderRadius: const BorderRadius.only(
+                            bottomRight: Radius.circular(20),
+                          ),
+                        ),
+                      )
+                    : Container(),
+                Container(
+                  padding: const EdgeInsets.all(14),
+                  child: Column(
+                    children: [
+                      Container(
+                        height: 40,
+                        width: 40,
+                        decoration: BoxDecoration(
+                            shape: BoxShape.rectangle,
+                            image: DecorationImage(
+                                image: NetworkImage(image.isEmpty
+                                    ? 'https://i.imgur.com/X0WTML2.jpg'
+                                    : image))),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        text1,
+                        style: Get.textTheme.labelMedium,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ),
                 ),
-              ),
+                Container(
+                  height: 10.0,
+                  decoration: BoxDecoration(
+                    color: Colors.grey[200],
+                    borderRadius: const BorderRadius.only(
+                      topRight: Radius.circular(20),
+                    ),
+                  ),
+                ),
+              ],
             ),
-            Container(
-              height: 4,
-              color: Colors.white,
-              child: SizedBox(),
-            ),
-            Container(
-              height: 40,
-              width: 40,
-              decoration: BoxDecoration(
-                  shape: BoxShape.rectangle,
-                  image: DecorationImage(
-                      image: NetworkImage(image.isEmpty
-                          ? 'https://i.imgur.com/X0WTML2.jpg'
-                          : image))),
-            ),
-            const SizedBox(
-              height: 2,
-            ),
-            Text(
-              text1,
-              style: Get.textTheme.labelMedium,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-            ),
-            const SizedBox(
-              height: 2,
-            ),
+            // Container(
+            //   decoration: BoxDecoration(
+            //     color: Colors.grey[200],
+            //     borderRadius: const BorderRadius.only(
+            //       topRight: Radius.circular(20),
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),

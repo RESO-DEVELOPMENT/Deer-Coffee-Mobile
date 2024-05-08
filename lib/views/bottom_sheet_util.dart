@@ -7,9 +7,9 @@ import 'package:get/get.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 import '../enums/view_status.dart';
-import '../utils/route_constrant.dart';
 
 Future<void> showSelectStore() async {
+  CartViewModel cartViewModel = Get.find<CartViewModel>();
   Get.bottomSheet(ScopedModel<MenuViewModel>(
     model: Get.find<MenuViewModel>(),
     child:
@@ -31,7 +31,6 @@ Future<void> showSelectStore() async {
                 const SizedBox(
                   width: 24,
                 ),
-                // Căn giữa văn bản
                 const Expanded(
                   child: Center(
                     child: Text(
@@ -41,8 +40,6 @@ Future<void> showSelectStore() async {
                     ),
                   ),
                 ),
-
-                // Căn giữa biểu tượng
                 Center(
                   child: IconButton(
                     icon: const Icon(Icons.close),
@@ -57,10 +54,34 @@ Future<void> showSelectStore() async {
                 children: model.storeList!
                     .map((e) => InkWell(
                           onTap: () {
-                            model.setStore(e);
-                            Get.find<CartViewModel>()
-                                .setOrderType(OrderTypeEnum.TAKE_AWAY);
-                            Get.back();
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text("Thông báo"),
+                                  content: Text(
+                                      "Giỏ hàng của bạn sẽ bị xóa sau khi thay đổi của hàng. Bạn có chắc chắn muốn thay đổi cửa hàng không?"),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      onPressed: () {
+                                        Get.back();
+                                      },
+                                      child: Text("Hủy"),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        model.setStore(e);
+                                        Get.find<CartViewModel>().setOrderType(
+                                            OrderTypeEnum.TAKE_AWAY);
+                                        cartViewModel.clearCartData();
+                                        Get.back();
+                                      },
+                                      child: Text("Đồng ý"),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
                           },
                           child: Container(
                             margin: const EdgeInsets.only(top: 8),
@@ -77,8 +98,6 @@ Future<void> showSelectStore() async {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                // Image widget here
-
                                 Expanded(
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.start,

@@ -66,33 +66,33 @@ class _CartScreenState extends State<CartScreen> {
                           ?.copyWith(fontWeight: FontWeight.bold),
                     ),
                   ),
-                  SizedBox(
-                    height: 36,
-                    child: TextButton(
-                        onPressed: () {
-                          if (model.cart.orderType == OrderTypeEnum.EAT_IN) {
-                            inputDialog(
-                                    "Giao hàng đến",
-                                    "Vui lòng nhập địa chỉ",
-                                    model.cart.deliveryAddress,
-                                    isNum: false)
-                                .then((value) => {
-                                      if (value != null)
-                                        {
-                                          model.setAddress(value),
-                                        }
-                                    });
-                            model.setOrderType(OrderTypeEnum.DELIVERY);
-                          } else {
-                            showSelectStore();
-                          }
-                        },
-                        child: Text(
-                          "Thay đổi",
-                          style: Get.textTheme.bodySmall
-                              ?.copyWith(color: ThemeColor.primary),
-                        )),
-                  )
+                  // SizedBox(
+                  //   height: 36,
+                  //   child: TextButton(
+                  //       onPressed: () {
+                  //         if (model.cart.orderType == OrderTypeEnum.EAT_IN) {
+                  //           inputDialog(
+                  //                   "Giao hàng đến",
+                  //                   "Vui lòng nhập địa chỉ",
+                  //                   model.cart.deliveryAddress,
+                  //                   isNum: false)
+                  //               .then((value) => {
+                  //                     if (value != null)
+                  //                       {
+                  //                         model.setAddress(value),
+                  //                       }
+                  //                   });
+                  //           model.setOrderType(OrderTypeEnum.DELIVERY);
+                  //         } else {
+                  //           showSelectStore();
+                  //         }
+                  //       },
+                  //       child: Text(
+                  //         "Thay đổi",
+                  //         style: Get.textTheme.bodySmall
+                  //             ?.copyWith(color: ThemeColor.primary),
+                  //       )),
+                  // )
                 ],
               ),
               InkWell(
@@ -234,7 +234,7 @@ class _CartScreenState extends State<CartScreen> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      model.cart.productList![index].attributes != null && model.cart.productList![index].attributes!.isNotEmpty ? '${model.cart.productList![index].attributes![0].value}, ${model.cart.productList![index].attributes![1].value}' : 'N/A',
+                                      '${model.cart.productList![index]?.note != null ? model.cart.productList![index]!.note.toString() : ''}',
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                       style: Get.textTheme.labelSmall,
@@ -247,12 +247,6 @@ class _CartScreenState extends State<CartScreen> {
                                             : "-${formatPrice(model.cart.productList![index].discount ?? 0)}",
                                         style: Get.textTheme.labelSmall),
                                   ],
-                                ),
-                                Text(
-                                  model.cart.productList![index].note ?? '',
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: Get.textTheme.labelSmall,
                                 ),
                                 ListView.builder(
                                   shrinkWrap: true,

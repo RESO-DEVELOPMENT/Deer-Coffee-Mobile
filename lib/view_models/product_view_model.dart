@@ -105,7 +105,17 @@ class ProductViewModel extends BaseViewModel {
   }
 
   void setNotes(String note) {
-    productInCart.note = note;
+    if (productInCart.attributes != null) {
+      String attributeValues = '';
+      for (int i = 0; i < productInCart.attributes!.length; i++) {
+        if (productInCart.attributes![i].value != null) {
+          attributeValues += '${productInCart.attributes![i].value!}, ';
+        }
+      }
+      productInCart.note = '$attributeValues$note';
+    } else {
+      productInCart.note = note;
+    }
     notifyListeners();
   }
 

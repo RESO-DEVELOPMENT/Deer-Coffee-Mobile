@@ -62,6 +62,7 @@ class _SignUpState extends State<SignUp> {
   String _selectedGender = 'MALE';
   String? downloadURL;
   int? gender;
+  static const int _otpLength = 6;
 
   final focusNode = FocusNode();
   final reFocusNode = FocusNode();
@@ -573,7 +574,7 @@ class _SignUpState extends State<SignUp> {
                     //   height: 16,
                     // ),
                     Pinput(
-                      length: 4,
+                      length: _otpLength,
                       controller: pinController,
                       showCursor: true,
                       focusNode: focusNode,
@@ -605,7 +606,7 @@ class _SignUpState extends State<SignUp> {
                           height: 8,
                         ),
                         Pinput(
-                          length: 4,
+                          length: _otpLength,
                           controller: reenterPinController,
                           showCursor: true,
                           focusNode: reFocusNode,

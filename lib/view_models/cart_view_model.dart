@@ -189,10 +189,6 @@ class CartViewModel extends BaseViewModel {
       element.discount = 0;
       element.finalAmount = element.totalAmount;
       element.promotionCodeApplied = null;
-      if (element.attributes != null && element.attributes!.length >= 2) {
-        element.note =
-            element.attributes![0].value! + ", " + element.attributes![1].value!;
-      }
     }
     cart.promotionList!.clear();
     await orderAPI.prepareOrder(cart).then((value) => {
@@ -226,6 +222,11 @@ class CartViewModel extends BaseViewModel {
 
   Future<void> createOrder() async {
     bool res = false;
+    StoreModel? store = Get.find<MenuViewModel>().selectedStore;
+    if (store == null) {
+      await Get.find<MenuViewModel>().getListStore();
+    }
+    cart.storeId = store?.id ?? '';
     await Get.find<OrderViewModel>()
         .placeOrder(cart)
         .then((value) => res = value);

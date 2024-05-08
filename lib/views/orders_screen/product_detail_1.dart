@@ -37,6 +37,8 @@ class _ProductDetailState extends State<ProductDetail> {
   String? selectedSize;
   List<Attribute> listVariants = [];
   List<Variant> selectedAttributes = [];
+  List<bool> isSelectedAttributes = [];
+  bool isIconVisible = false;
 
   @override
   void initState() {
@@ -58,8 +60,10 @@ class _ProductDetailState extends State<ProductDetail> {
         attribute.name.toString(),
         values,
       ));
-      selectedAttributes.add(Variant(name: attribute.name, value: ""));
+      selectedAttributes
+          .add(Variant(name: attribute.name, value: attribute.value));
     }
+    isSelectedAttributes = List.filled(selectedAttributes.length, false);
     super.initState();
   }
 
@@ -84,226 +88,288 @@ class _ProductDetailState extends State<ProductDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: NestedScrollView(
-        controller: _scrollController,
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-          return <Widget>[
-            SliverAppBar(
-              systemOverlayStyle:
-                  SystemUiOverlayStyle(statusBarBrightness: Brightness.dark),
-              expandedHeight: 300.0,
-              backgroundColor: Colors.white,
-              pinned: true,
-              elevation: 0.0,
-              stretch: true,
-              flexibleSpace: FlexibleSpaceBar(
-                background: Image.network(
-                  loadingBuilder: (BuildContext context, Widget child,
-                      ImageChunkEvent? loadingProgress) {
-                    if (loadingProgress == null) {
-                      return child;
-                    }
-                    return Center(
-                      child: CircularProgressIndicator(
-                        value: loadingProgress.expectedTotalBytes != null
-                            ? loadingProgress.cumulativeBytesLoaded /
-                                loadingProgress.expectedTotalBytes!
-                            : null,
-                      ),
-                    );
-                  },
-                  product.picUrl!.isEmpty
-                      ? 'https://i.imgur.com/X0WTML2.jpg'
-                      : product.picUrl ?? '',
-                  fit: BoxFit.cover,
-                  width: double.maxFinite,
-                ),
-                stretchModes: const [
-                  StretchMode.blurBackground,
-                  StretchMode.zoomBackground,
-                ],
+      body: CustomScrollView(
+        slivers: <Widget>[
+          SliverAppBar(
+            systemOverlayStyle:
+                SystemUiOverlayStyle(statusBarBrightness: Brightness.dark),
+            expandedHeight: 300.0,
+            backgroundColor: Colors.grey[200],
+            pinned: true,
+            elevation: 0.0,
+            stretch: true,
+            flexibleSpace: FlexibleSpaceBar(
+              background: Image.network(
+                product.picUrl!.isEmpty
+                    ? 'https://i.imgur.com/X0WTML2.jpg'
+                    : product.picUrl ?? '',
+                fit: BoxFit.cover,
+                width: double.maxFinite,
               ),
-              bottom: PreferredSize(
-                preferredSize: const Size.fromHeight(0.0),
+              stretchModes: const [
+                StretchMode.blurBackground,
+                StretchMode.zoomBackground,
+              ],
+            ),
+            bottom: PreferredSize(
+              preferredSize: const Size.fromHeight(20.0),
+              child: Container(
+                height: 32.0,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: Colors.grey[200],
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(32.0),
+                    topRight: Radius.circular(32.0),
+                  ),
+                ),
                 child: Container(
-                  height: 32.0,
-                  alignment: Alignment.center,
-                  decoration: const BoxDecoration(
+                  height: 4.0,
+                  width: 40.0,
+                  decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(32.0),
-                      topRight: Radius.circular(32.0),
-                    ),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        width: 40.0,
-                        height: 5,
-                        decoration: BoxDecoration(
-                          color: Colors.grey[400],
-                          borderRadius: BorderRadius.circular(100.0),
-                        ),
-                      ),
-                    ],
+                    borderRadius: BorderRadius.circular(2.0),
                   ),
                 ),
               ),
-              leadingWidth: 80.0,
-              leading: Container(
-                margin: const EdgeInsets.only(left: 24.0),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(36.0),
-                  child: BackdropFilter(
-                    filter: ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
-                    child: Container(
-                      height: 56,
-                      width: 56,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.white.withOpacity(0.50),
-                      ),
-                      child: InkWell(
-                        onTap: () {
-                          Get.back();
-                        },
-                        child: Container(
-                          width: 24,
-                          height: 24,
-                          child:
-                              Image.asset('assets/images/arrow-back-ios.png'),
-                        ),
+            ),
+            leadingWidth: 60.0,
+            leading: Container(
+              margin: const EdgeInsets.only(left: 24.0),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(36.0),
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
+                  child: Container(
+                    height: 56,
+                    width: 56,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.white.withOpacity(0.50),
+                    ),
+                    child: InkWell(
+                      onTap: () {
+                        Get.back();
+                      },
+                      child: Container(
+                        width: 24,
+                        height: 24,
+                        child: Image.asset('assets/images/arrow-back-ios.png'),
                       ),
                     ),
                   ),
                 ),
               ),
             ),
-          ];
-        },
-        body: ScopedModel<ProductViewModel>(
-          model: productViewModel,
-          child: ScopedModelDescendant<ProductViewModel>(
-              builder: (context, child, model) {
-            return Column(
-              children: [
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ListView(
-                      physics: NeverScrollableScrollPhysics(),
+          ),
+          productDetail(productViewModel),
+        ],
+      ),
+    );
+  }
+
+  Widget productDetail(ProductViewModel model) {
+    return ScopedModel<ProductViewModel>(
+      model: productViewModel,
+      child: ScopedModelDescendant<ProductViewModel>(
+        builder: (context, child, model) {
+          return SliverToBoxAdapter(
+            child: Container(
+              color: Colors.grey[200],
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Container(
+                    padding: EdgeInsets.fromLTRB(12.0, 0.0, 12.0, 0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              product.name ?? '',
-                              style: Get.textTheme.bodyMedium
-                                  ?.copyWith(fontWeight: FontWeight.bold),
+                        Text(
+                          product.name ?? '',
+                          style: Get.textTheme.bodyMedium
+                              ?.copyWith(fontWeight: FontWeight.bold),
+                        ),
+                        Container(
+                          width: 120,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(24),
+                            border: Border.all(
+                              color: ThemeColor.primary,
                             ),
-                            Container(
-                              width: 120,
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(24),
-                                  border: Border.all(
-                                    color: ThemeColor.primary,
-                                  )),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  IconButton(
-                                    onPressed: () {
-                                      model.decreaseQuantity();
-                                    },
-                                    icon: Icon(
-                                      CupertinoIcons.minus,
-                                      color: ThemeColor.primary,
-                                      size: 24,
-                                    ),
-                                  ),
-                                  Text(
-                                    model.productInCart.quantity.toString(),
-                                    style: Get.textTheme.bodyMedium,
-                                  ),
-                                  IconButton(
-                                    onPressed: () {
-                                      model.increaseQuantity();
-                                    },
-                                    icon: Icon(
-                                      CupertinoIcons.plus,
-                                      color: ThemeColor.primary,
-                                      size: 24,
-                                    ),
-                                  ),
-                                ],
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              IconButton(
+                                onPressed: () {
+                                  model.decreaseQuantity();
+                                },
+                                icon: Icon(
+                                  CupertinoIcons.minus,
+                                  color: ThemeColor.primary,
+                                  size: 24,
+                                ),
                               ),
-                            ),
-                          ],
+                              Text(
+                                model.productInCart.quantity.toString(),
+                                style: Get.textTheme.bodyMedium,
+                              ),
+                              IconButton(
+                                onPressed: () {
+                                  model.increaseQuantity();
+                                },
+                                icon: Icon(
+                                  CupertinoIcons.plus,
+                                  color: ThemeColor.primary,
+                                  size: 24,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        productSize(model),
-                        productAttributes(model),
-                        addExtra(model),
-                        buildNote(model)
                       ],
                     ),
                   ),
-                ),
-                buildButton(model)
-              ],
-            );
-          }),
-        ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                    child: productSize(model),
+                    padding: EdgeInsets.all(10.0),
+                    decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                    ),
+                  ),
+                  Container(
+                    child: productAttributes(model),
+                    padding: EdgeInsets.all(10.0),
+                    decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                  ),
+                  addExtra(model),
+                  Container(
+                    child: buildNote(model),
+                    margin: EdgeInsets.fromLTRB(12.0, 0.0, 12.0, 0.0),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  buildButton(model),
+                ],
+              ),
+            ),
+          );
+        },
       ),
     );
   }
 
   Widget productAttributes(ProductViewModel model) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.start,
       children: [
         for (int i = 0; i < listVariants.length; i++)
           Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(listVariants[i].name,
-                  style: Get.textTheme.bodySmall
-                      ?.copyWith(fontWeight: FontWeight.bold)),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: listVariants[i]
-                    .options
-                    .toList()
-                    .map((option) => TextButton(
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>(
-                              option == selectedAttributes[i].value
-                                  ? ThemeColor.primary
-                                  : Colors.transparent),
+              Container(
+                padding: EdgeInsets.all(12.0),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          listVariants[i].name,
+                          style: Get.textTheme.bodySmall
+                              ?.copyWith(fontWeight: FontWeight.bold),
                         ),
-                        onPressed: () {
-                          setAttributes(i, option);
-                          model.setAttributes(selectedAttributes[i]);
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Column(
+                      children: List.generate(
+                        listVariants[i].options.length,
+                        (index) {
+                          final option = listVariants[i].options[index];
+                          return GestureDetector(
+                            onTap: () {
+                              model.setNotes(option);
+                              setAttributes(i, option);
+                              model.setAttributes(selectedAttributes[i]);
+                              setState(() {
+                                isSelectedAttributes[i] = true;
+                              });
+                            },
+                            child: Container(
+                              padding: EdgeInsets.symmetric(vertical: 8.0),
+                              decoration:
+                                  index != (listVariants[i].options.length - 1)
+                                      ? BoxDecoration(
+                                          border: Border(
+                                            bottom: BorderSide(
+                                              color: Colors.grey.shade300,
+                                              width: 1.0,
+                                            ),
+                                          ),
+                                        )
+                                      : null,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    option,
+                                    style: Get.textTheme.labelSmall?.copyWith(
+                                      color:
+                                          option == selectedAttributes[i].value
+                                              ? Colors.black
+                                              : Colors.grey[900],
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 10.0,
+                                  ),
+                                  option == selectedAttributes[i].value
+                                      ? Icon(
+                                          size: 20,
+                                          Icons.check_circle,
+                                          color: ThemeColor.primary,
+                                        )
+                                      : const Icon(
+                                          size: 20,
+                                          Icons.circle_outlined,
+                                          color: Colors.grey,
+                                        ),
+                                ],
+                              ),
+                            ),
+                          );
                         },
-                        child: Text(
-                          option,
-                          style: Get.textTheme.labelSmall?.copyWith(
-                              color: option == selectedAttributes[i].value
-                                  ? Colors.white
-                                  : Colors.black),
-                        )))
-                    .toList(),
+                      ),
+                    )
+                  ],
+                ),
               ),
+              SizedBox(height: 18, child: Container(color: Colors.grey[200])),
             ],
           ),
       ],
@@ -318,8 +384,8 @@ class _ProductDetailState extends State<ProductDetail> {
           List<Product> extraProduct =
               menuViewModel.getProductsByCategory(e.id);
           return Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(e.name!,
                   style: Get.textTheme.bodySmall
@@ -361,46 +427,87 @@ class _ProductDetailState extends State<ProductDetail> {
   }
 
   Widget productSize(ProductViewModel model) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        Text("Kích cỡ",
-            style:
-                Get.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.bold)),
-        ListView.builder(
-          shrinkWrap: true,
-          itemCount: childProducts.length,
-          physics: NeverScrollableScrollPhysics(),
-          itemBuilder: (context, i) {
-            return RadioListTile(
-              activeColor: ThemeColor.primary,
-              dense: true,
-              visualDensity: const VisualDensity(
-                horizontal: VisualDensity.maximumDensity,
-                vertical: VisualDensity.minimumDensity,
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      padding: EdgeInsets.all(12.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                "Kích cỡ",
+                style: Get.textTheme.bodySmall
+                    ?.copyWith(fontWeight: FontWeight.bold),
               ),
-              title: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text("Size ${childProducts[i].size!}",
-                      style: Get.textTheme.labelSmall),
-                  Text(formatPrice(childProducts[i].sellingPrice!),
-                      style: Get.textTheme.labelSmall),
-                ],
-              ),
-              value: childProducts[i].id,
-              groupValue: selectedSize,
-              selected: selectedSize == childProducts[i].id,
-              onChanged: (value) {
-                model.addProductToCartItem(childProducts[i]);
-                setSelectedRadio(value!);
+            ],
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Column(
+            children: List.generate(
+              childProducts.length,
+              (index) {
+                bool isSelected = selectedSize == childProducts[index].id;
+                return GestureDetector(
+                  onTap: () {
+                    model.addProductToCartItem(childProducts[index]);
+                    setSelectedRadio(childProducts[index].id != null
+                        ? childProducts[index].id!
+                        : childProducts[index].id!);
+                  },
+                  child: Container(
+                    padding: EdgeInsets.symmetric(vertical: 8.0),
+                    decoration: index != (childProducts.length - 1)
+                        ? BoxDecoration(
+                            border: Border(
+                              bottom: BorderSide(
+                                color: Colors.grey.shade300,
+                                width: 1.0,
+                              ),
+                            ),
+                          )
+                        : null,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text("Size ${childProducts[index].size!}",
+                            style: Get.textTheme.labelSmall),
+                        Row(
+                          children: [
+                            Text(
+                              formatPrice(childProducts[index].sellingPrice!),
+                              style: Get.textTheme.labelSmall,
+                            ),
+                            SizedBox(width: 8),
+                            isSelected == true
+                                ? Icon(
+                                    size: 20,
+                                    Icons.check_circle,
+                                    color: ThemeColor.primary,
+                                  )
+                                : const Icon(
+                                    size: 20,
+                                    Icons.circle_outlined,
+                                    color: Colors.grey,
+                                  ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                );
               },
-            );
-          },
-        ),
-      ],
+            ),
+          )
+        ],
+      ),
     );
   }
 
@@ -429,61 +536,64 @@ class _ProductDetailState extends State<ProductDetail> {
   }
 
   Widget buildNote(ProductViewModel model) {
-    return Column(
-      children: [
-        Row(
-          children: [
-            Text(
-              'Ghi chú', // Đây là tiêu đề yêu cầu khác
-              style: Get.textTheme.bodySmall
-                  ?.copyWith(fontWeight: FontWeight.bold),
-            ),
-          ],
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        children: [
+          Row(
             children: [
-              Container(
-                height: 50,
-                width: Get.width * 0.9,
-                decoration: BoxDecoration(
-                  color: const Color(0xFFF4F5F7),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 16.0, vertical: 4.0),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: TextField(
-                          style: Get.textTheme.labelSmall,
-                          controller: noteController,
-                          decoration: const InputDecoration(
-                            hintText: 'Hãy nói gì đó...',
-                            border: InputBorder.none, // Bỏ gạch dưới chân
-                          ),
-                          onChanged: (value) {
-                            model.setNotes(value);
-                          },
-                        ),
-                      ),
-                      SizedBox(
-                          width: 4), // Tạo khoảng cách giữa văn bản và icon
-                      Icon(Icons.edit, // Icon cây viết
-                          color: ThemeColor.primary // Màu của icon
-                          ),
-                    ],
-                  ),
-                ),
+              Text(
+                'Ghi chú',
+                style: Get.textTheme.bodySmall
+                    ?.copyWith(fontWeight: FontWeight.bold),
               ),
             ],
           ),
-        ),
-      ],
+          SizedBox(
+            height: 10.0,
+          ),
+          Padding(
+            padding: const EdgeInsets.all(0.0),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  height: 50,
+                  width: Get.width * 0.85,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFF4F5F7),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16.0, vertical: 4.0),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: TextField(
+                            style: Get.textTheme.labelSmall,
+                            controller: noteController,
+                            decoration: const InputDecoration(
+                              hintText: 'Hãy nói gì đó...',
+                              border: InputBorder.none,
+                            ),
+                            onChanged: (value) {
+                              model.setNotes(value);
+                            },
+                          ),
+                        ),
+                        const SizedBox(width: 4),
+                        Icon(Icons.edit, color: ThemeColor.primary),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
