@@ -23,7 +23,7 @@ class _MyOtpState extends State<MyOtp> {
   String? pin;
   TextEditingController? pinController = TextEditingController();
   TextEditingController? reenterPinController = TextEditingController();
-
+  static const int _otpLength = 6;
   final focusNode = FocusNode();
   final reFocusNode = FocusNode();
   final formKey = GlobalKey<FormState>();
@@ -203,7 +203,7 @@ class _MyOtpState extends State<MyOtp> {
                             children: [
                               TextSpan(
                                 text:
-                                    "Mã pin là mật gồm 4 số dùng để đăng nhập với số điện thoại ${widget.phone}",
+                                    "Mã pin là mật gồm 6 số dùng để đăng nhập với số điện thoại ${widget.phone}",
                                 style: Get.textTheme.bodyMedium,
                               ),
                             ],
@@ -232,7 +232,7 @@ class _MyOtpState extends State<MyOtp> {
                           height: 16,
                         ),
                         Pinput(
-                          length: 4,
+                          length: _otpLength,
                           controller: pinController,
                           showCursor: true,
                           focusNode: focusNode,

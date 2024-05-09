@@ -66,7 +66,8 @@ class AccountViewModel extends BaseViewModel {
       await getMembershipInfo(membership.data?.userId ?? '');
       hideDialog();
       await Get.find<CartViewModel>().getListPromotion();
-      Get.snackbar('Thông báo', membership.message ?? 'Đăng nhập thành công');
+      Get.snackbar('Thông báo',
+          membership.message == "Success" ? 'Đăng nhập thành công' : '');
       await Get.offAllNamed(RouteHandler.HOME);
     }
   }
@@ -87,14 +88,16 @@ class AccountViewModel extends BaseViewModel {
       await getMembershipInfo(membership.data?.userId ?? '');
       hideDialog();
       await Get.find<CartViewModel>().getListPromotion();
-      Get.snackbar('Thông báo', membership.message ?? 'Đăng ký thành công');
+      Get.snackbar('Thông báo',
+          membership.message == "Success" ? 'Đăng nhập thành công' : '');
       await Get.offAllNamed(RouteHandler.HOME);
     }
   }
 
-   Future<void> onResetPassword(String phone, String pinCode) async {
+  Future<void> onResetPassword(String phone, String pinCode) async {
     showLoadingDialog();
-    MemberShipRespone? membership = await accountAPI.resetPassword(phone, pinCode);
+    MemberShipRespone? membership =
+        await accountAPI.resetPassword(phone, pinCode);
     if (membership == null || membership.status != 200) {
       await showAlertDialog(
           title: "Lỗi đặt lại mật khẩu", content: membership?.message ?? '');
@@ -105,7 +108,8 @@ class AccountViewModel extends BaseViewModel {
       await getMembershipInfo(membership.data?.userId ?? '');
       hideDialog();
       await Get.find<CartViewModel>().getListPromotion();
-      Get.snackbar('Thông báo', membership.message ?? 'Thay đổi mật khẩu thành công');
+      Get.snackbar(
+          'Thông báo', membership.message ?? 'Thay đổi mật khẩu thành công');
       await Get.offAllNamed(RouteHandler.HOME);
     }
   }
