@@ -3,7 +3,7 @@ import 'package:deer_coffee/models/pointify/membership_transaction.dart';
 import '../../models/pointify/membership_info.dart';
 import '../../models/pointify/promotion_model.dart';
 import '../../utils/request.dart';
-import '../../utils/request_passio.dart';
+import '../../utils/request_pointify.dart';
 
 class PointifyData {
   Future<List<PromotionPointify>> getListPromotionOfPointify(
