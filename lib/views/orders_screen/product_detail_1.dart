@@ -94,7 +94,7 @@ class _ProductDetailState extends State<ProductDetail> {
             systemOverlayStyle:
                 SystemUiOverlayStyle(statusBarBrightness: Brightness.dark),
             expandedHeight: 300.0,
-            backgroundColor: Colors.grey[200],
+            backgroundColor: Colors.grey[100],
             pinned: true,
             elevation: 0.0,
             stretch: true,
@@ -117,7 +117,7 @@ class _ProductDetailState extends State<ProductDetail> {
                 height: 32.0,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
-                  color: Colors.grey[200],
+                  color: Colors.grey[100],
                   borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(32.0),
                     topRight: Radius.circular(32.0),
@@ -166,6 +166,8 @@ class _ProductDetailState extends State<ProductDetail> {
           productDetail(productViewModel),
         ],
       ),
+      floatingActionButton: buildButton(productViewModel),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 
@@ -176,7 +178,7 @@ class _ProductDetailState extends State<ProductDetail> {
         builder: (context, child, model) {
           return SliverToBoxAdapter(
             child: Container(
-              color: Colors.grey[200],
+              color: Colors.grey[100],
               child: Column(
                 children: [
                   const SizedBox(
@@ -242,14 +244,14 @@ class _ProductDetailState extends State<ProductDetail> {
                     child: productSize(model),
                     padding: EdgeInsets.all(10.0),
                     decoration: BoxDecoration(
-                      color: Colors.grey[200],
+                      color: Colors.grey[100],
                     ),
                   ),
                   Container(
                     child: productAttributes(model),
                     padding: EdgeInsets.all(10.0),
                     decoration: BoxDecoration(
-                      color: Colors.grey[200],
+                      color: Colors.grey[100],
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                   ),
@@ -263,9 +265,8 @@ class _ProductDetailState extends State<ProductDetail> {
                     ),
                   ),
                   const SizedBox(
-                    height: 15,
+                    height: 100,
                   ),
-                  buildButton(model),
                 ],
               ),
             ),
@@ -369,7 +370,7 @@ class _ProductDetailState extends State<ProductDetail> {
                   ],
                 ),
               ),
-              SizedBox(height: 18, child: Container(color: Colors.grey[200])),
+              SizedBox(height: 18, child: Container(color: Colors.grey[100])),
             ],
           ),
       ],

@@ -1,6 +1,4 @@
-import 'package:deer_coffee/enums/order_enum.dart';
 import 'package:deer_coffee/view_models/cart_view_model.dart';
-import 'package:deer_coffee/view_models/menu_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:scoped_model/scoped_model.dart';
