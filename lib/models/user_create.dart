@@ -1,36 +1,25 @@
 class UserUpdate {
-  String? phoneNunmer;
-  String? fullName;
-  String? gender;
+  String? fullname;
+  num? gender;
   String? email;
-  String? urlImg;
-  String? status;
+  bool? delFlg;
 
-  UserUpdate(
-      {this.phoneNunmer,
-      this.fullName,
-      this.gender,
-      this.email,
-      this.urlImg,
-      this.status});
+  UserUpdate({this.fullname, this.gender, this.email, this.delFlg});
 
   UserUpdate.fromJson(Map<String, dynamic> json) {
-    phoneNunmer = json['phoneNunmer'];
-    fullName = json['fullName'];
+    fullname = json['fullName'];
     gender = json['gender'];
     email = json['email'];
-    urlImg = json['urlImg'];
-    status = json['status'];
+    delFlg = json['delFlg'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['phoneNunmer'] = phoneNunmer;
-    data['fullName'] = fullName;
-    data['gender'] = gender;
+
+    data['fullname'] = fullname;
     data['email'] = email;
-    data['urlImg'] = urlImg;
-    data['status'] = status;
+    data['gender'] = gender;
+    data['delFlg'] = delFlg;
     return data;
   }
 }

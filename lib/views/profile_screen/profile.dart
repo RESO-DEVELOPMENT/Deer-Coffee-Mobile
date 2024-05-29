@@ -86,17 +86,11 @@ class CustomLinearProgressBar extends StatelessWidget {
 class _OtherPageState extends State<OtherPage> {
   MembershipInfo? userModel;
   AccountViewModel model = Get.find<AccountViewModel>();
-  MemberWallet? pointWallet;
-  MemberWallet? moneyWallet;
   MemberLevel? memberLevel;
   @override
   void initState() {
     userModel = model.memberShipModel;
     memberLevel = model.memberShipModel?.memberLevel;
-    pointWallet = model.memberShipModel?.memberLevel?.memberWallet
-        ?.firstWhere((element) => element.walletType?.name == "Điểm");
-    moneyWallet = model.memberShipModel?.memberLevel?.memberWallet
-        ?.firstWhere((element) => element.walletType?.name == "Số dư");
     super.initState();
   }
 
@@ -139,7 +133,7 @@ class _OtherPageState extends State<OtherPage> {
                     children: [
                       Container(
                         width: Get.width * 0.9,
-                        height: Get.width * 0.9 * 9 / 16,
+                        height: Get.width * 0.9 * 6 / 16,
                         padding: const EdgeInsets.all(16),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
@@ -158,7 +152,7 @@ class _OtherPageState extends State<OtherPage> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text('Hạng thành viên',
-                                        style: Get.textTheme.labelSmall
+                                        style: Get.textTheme.labelMedium
                                             ?.copyWith(
                                                 color: Colors.white,
                                                 fontWeight: FontWeight.bold)),
@@ -172,42 +166,32 @@ class _OtherPageState extends State<OtherPage> {
                                                 fontWeight: FontWeight.bold)),
                                   ],
                                 ),
-                                ElevatedButton(
-                                  onPressed: () {
-                                    Get.toNamed(RouteHandler.VOUCHER);
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.white,
-                                  ),
-                                  child: Padding(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(0, 8, 0, 8),
-                                    child: Row(
-                                      children: <Widget>[
-                                        Icon(
-                                          Icons.confirmation_number,
-                                          color: ThemeColor.primary,
-                                          size: 20,
-                                        ),
-                                        SizedBox(
-                                          width: 4,
-                                        ),
-                                        Text(
-                                          'Khuyến mãi',
-                                          style: Get.textTheme.bodySmall
-                                              ?.copyWith(
-                                                  color: ThemeColor.primary),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
+                                Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Text('Deer Coffee Rewards',
+                                        style: Get.textTheme.labelMedium
+                                            ?.copyWith(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold)),
+                                    Text(
+                                        formatPrice(model.memberShipModel
+                                                ?.memberLevel?.point ??
+                                            0),
+                                        style: Get.textTheme.labelLarge
+                                            ?.copyWith(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold)),
+                                  ],
                                 ),
                               ],
                             ),
                             Padding(
                               padding: const EdgeInsets.all(4.0),
                               child: CustomLinearProgressBar(
-                                  progress: (pointWallet?.balance ?? 1) /
+                                  progress: (memberLevel?.point ?? 1) /
                                       (memberLevel?.maxPoint ?? 1)),
                             ),
                             Row(
@@ -226,116 +210,9 @@ class _OtherPageState extends State<OtherPage> {
                                         fontWeight: FontWeight.bold)),
                               ],
                             ),
-                            Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: model
-                                    .memberShipModel!.memberLevel!.memberWallet!
-                                    .map((e) => Text(
-                                          '${e.walletType?.name ?? ''}: ${formatPrice(e.balance ?? 0)}',
-                                          style: Get.textTheme.bodySmall
-                                              ?.copyWith(
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.bold),
-                                        ))
-                                    .toList()),
                           ],
                         ),
                       ),
-                      // Row(
-                      //   crossAxisAlignment: CrossAxisAlignment.center,
-                      //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      //   children: [
-                      //     Container(
-                      //       // width: ((Get.width * 0.6) / 2) - 1,
-                      //       // height: (Get.width * 0.3) / 2,
-
-                      //       decoration: const BoxDecoration(
-                      //         borderRadius: BorderRadius.only(
-                      //             bottomLeft: Radius.circular(20)),
-                      //       ),
-                      //       child: const Column(
-                      //         mainAxisAlignment: MainAxisAlignment.center,
-                      //         children: [
-                      //           Text(
-                      //             'Ví tiền',
-                      //             style: TextStyle(
-                      //               fontSize: 15,
-                      //               fontWeight: FontWeight.normal,
-                      //             ),
-                      //             textAlign: TextAlign.center,
-                      //           ),
-                      //           Row(
-                      //             mainAxisAlignment: MainAxisAlignment.center,
-                      //             children: [
-                      //               Text(
-                      //                 model
-                      //                     .memberShipModel!.level!.memberWallet!
-                      //                     .where((element) =>
-                      //                         element.walletType == "Monney"),
-                      //                 style: TextStyle(
-                      //                   fontSize: 15,
-                      //                   fontWeight: FontWeight.bold,
-                      //                 ),
-                      //               ),
-                      //               Text(
-                      //                 ' ₫',
-                      //                 style: TextStyle(
-                      //                   fontSize: 15,
-                      //                   fontWeight: FontWeight.bold,
-                      //                 ),
-                      //               )
-                      //             ],
-                      //           ),
-                      //         ],
-                      //       ),
-                      //     ),
-                      //     Container(
-                      //       color: Colors.white,
-                      //       margin: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                      //       width: 2,
-                      //       height: (Get.width * 0.3) / 4,
-                      //     ),
-                      //     Container(
-                      //       // width: ((Get.width * 0.6) / 2) - 1,
-                      //       // height: (Get.width * 0.3) / 2,
-                      //       decoration: const BoxDecoration(
-                      //         borderRadius: BorderRadius.only(
-                      //             bottomRight: Radius.circular(20)),
-                      //       ),
-                      //       child: Column(
-                      //         mainAxisAlignment: MainAxisAlignment.center,
-                      //         children: [
-                      //           const Text(
-                      //             'Deer Point',
-                      //             style: TextStyle(
-                      //               fontSize: 15,
-                      //               fontWeight: FontWeight.normal,
-                      //             ),
-                      //             textAlign: TextAlign.center,
-                      //           ),
-                      //           Row(
-                      //             mainAxisAlignment: MainAxisAlignment.center,
-                      //             children: [
-                      //               const Text(
-                      //                 '120',
-                      //                 style: TextStyle(
-                      //                   fontSize: 15,
-                      //                   fontWeight: FontWeight.bold,
-                      //                 ),
-                      //               ),
-                      //               Image.asset(
-                      //                 'assets/images/deercoffee-logopage-0001-2.png',
-                      //                 width: 30,
-                      //                 height: 30,
-                      //               ),
-                      //             ],
-                      //           ),
-                      //         ],
-                      //       ),
-                      //     ),
-                      //   ],
-                      // )
                     ],
                   ),
                 ),
@@ -618,7 +495,9 @@ class _OtherPageState extends State<OtherPage> {
                                   ),
                                 ),
                               ),
-                              const Divider(),
+                              const Divider(
+                                thickness: 0.2,
+                              ),
                               // SizedBox(
                               //   height: 50,
                               //   child: InkWell(
@@ -690,7 +569,9 @@ class _OtherPageState extends State<OtherPage> {
                                   ),
                                 ),
                               ),
-                              const Divider(),
+                              const Divider(
+                                thickness: 0.2,
+                              ),
                               SizedBox(
                                 height: 50,
                                 child: InkWell(
@@ -722,7 +603,9 @@ class _OtherPageState extends State<OtherPage> {
                                   ),
                                 ),
                               ),
-                              const Divider(),
+                              const Divider(
+                                thickness: 0.2,
+                              ),
 
                               userModel != null
                                   ? SizedBox(
@@ -741,8 +624,8 @@ class _OtherPageState extends State<OtherPage> {
                                                                 AccountViewModel>()
                                                             .updateUser(
                                                                 UserUpdate(
-                                                                    status:
-                                                                        "Deactive"),
+                                                                    delFlg:
+                                                                        true),
                                                                 userModel
                                                                         ?.membershipId ??
                                                                     ''),

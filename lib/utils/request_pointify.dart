@@ -91,8 +91,8 @@ class CustomInterceptors extends Interceptor {
 
 class RequestPointify {
   static BaseOptions options = BaseOptions(
-      baseUrl: 'https://api-pointify.reso.vn/api/',
-      // baseUrl: 'https://localhost:7131/api/',
+      // baseUrl: 'https://api-pointify.reso.vn/api/',
+      baseUrl: 'https://localhost:7131/api/',
       headers: {
         Headers.contentTypeHeader: "application/json",
         Headers.acceptHeader: "text/plain",
@@ -100,7 +100,6 @@ class RequestPointify {
       connectTimeout: const Duration(seconds: 15),
       sendTimeout: const Duration(seconds: 15),
       receiveTimeout: const Duration(seconds: 15));
-
   late Dio _inner;
   RequestPointify() {
     _inner = Dio(options);

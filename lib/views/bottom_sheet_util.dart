@@ -2,6 +2,7 @@ import 'package:deer_coffee/enums/order_enum.dart';
 import 'package:deer_coffee/utils/theme.dart';
 import 'package:deer_coffee/view_models/cart_view_model.dart';
 import 'package:deer_coffee/view_models/menu_view_model.dart';
+import 'package:deer_coffee/widgets/other_dialogs/dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -54,34 +55,23 @@ Future<void> showSelectStore() async {
                 children: model.storeList!
                     .map((e) => InkWell(
                           onTap: () {
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  title: Text("Thông báo"),
-                                  content: Text(
-                                      "Giỏ hàng của bạn sẽ bị xóa sau khi thay đổi của hàng. Bạn có chắc chắn muốn thay đổi cửa hàng không?"),
-                                  actions: <Widget>[
-                                    TextButton(
-                                      onPressed: () {
-                                        Get.back();
-                                      },
-                                      child: Text("Hủy"),
-                                    ),
-                                    TextButton(
-                                      onPressed: () {
-                                        model.setStore(e);
-                                        Get.find<CartViewModel>().setOrderType(
-                                            OrderTypeEnum.TAKE_AWAY);
-                                        cartViewModel.clearCartData();
-                                        Get.back();
-                                      },
-                                      child: Text("Đồng ý"),
-                                    ),
-                                  ],
-                                );
-                              },
-                            );
+                            showConfirmDialog(
+                              title: "Thông báo",
+                              content:
+                                  "Giỏ hàng của bạn sẽ bị xóa sau khi thay đổi của hàng. Bạn có chắc chắn muốn thay đổi cửa hàng không?",
+                              confirmText: "Xác nhận",
+                            ).then((value) => {
+                                  if (value)
+                                    {
+                                      model.setStore(e),
+                                      Get.find<CartViewModel>().setOrderType(
+                                          OrderTypeEnum.TAKE_AWAY),
+                                      cartViewModel.clearCartData(),
+                                      Get.back()
+                                    }
+                                  else
+                                    {Get.back()}
+                                });
                           },
                           child: Container(
                             margin: const EdgeInsets.only(top: 8),

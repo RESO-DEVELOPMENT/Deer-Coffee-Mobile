@@ -22,6 +22,7 @@ import 'package:deer_coffee/views/stores_screen/store_details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:url_strategy/url_strategy.dart';
 
 import 'setup.dart';
@@ -66,7 +67,8 @@ class MyApp extends StatelessWidget {
           colorSchemeSeed: const Color(0xff8FBEFF),
           scaffoldBackgroundColor: Color(0xffF9F9F9),
           brightness: Brightness.light,
-          fontFamily: 'Inter'),
+          textTheme: GoogleFonts.poppinsTextTheme(),
+          fontFamily: 'Arial'),
       themeMode: ThemeMode.light,
       getPages: [
         GetPage(

@@ -59,26 +59,27 @@ class MemberLevel {
   num? indexLevel;
   String? benefits;
   num? maxPoint;
+  num? point;
   String? nextLevelName;
   List<MemberWallet>? memberWallet;
   List<MembershipCard>? membershipCard;
-
   MemberLevel(
       {this.memberLevelId,
       this.name,
       this.indexLevel,
       this.benefits,
       this.maxPoint,
+      this.point,
       this.nextLevelName,
       this.memberWallet,
       this.membershipCard});
-
   MemberLevel.fromJson(Map<String, dynamic> json) {
     memberLevelId = json['memberLevelId'];
     name = json['name'];
     indexLevel = json['indexLevel'];
     benefits = json['benefits'];
     maxPoint = json['maxPoint'];
+    point = json['point'];
     nextLevelName = json['nextLevelName'];
     if (json['memberWallet'] != null) {
       memberWallet = <MemberWallet>[];

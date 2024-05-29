@@ -83,7 +83,7 @@ String showUserDeiliStatus(String status) {
 String showPaymentType(String payment) {
   switch (payment) {
     case PaymentTypeEnums.CASH:
-      return 'Tiền mặt';
+      return 'Thanh toán tại quầy';
     case PaymentTypeEnums.POINTIFY:
       return 'Thẻ thành viên';
     default:

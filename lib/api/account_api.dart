@@ -88,13 +88,14 @@ class AccountAPI {
   // }
 
   Future<String> getUserQRCode(String id) async {
-    final res = await request.post('users/$id/generate-qr');
+    final res = await requestPointify.get('memberships/$id/qr');
     var json = res.data;
     return json;
   }
 
   Future<dynamic> updateUser(String id, UserUpdate update) async {
-    final res = await request.patch('users/$id', data: update.toJson());
+    final res = await requestPointify.patch('memberships/$id',
+        queryParameters: {'apiKey': apiKey}, data: update.toJson());
     var json = res.data;
     return json;
   }

@@ -62,7 +62,7 @@ class _SignUpState extends State<SignUp> {
   String _selectedGender = 'MALE';
   String? downloadURL;
   int? gender;
-  static const int _otpLength = 6;
+  static const int _otpLength = 4;
 
   final focusNode = FocusNode();
   final reFocusNode = FocusNode();
@@ -168,19 +168,27 @@ class _SignUpState extends State<SignUp> {
 
     return Scaffold(
       appBar: AppBar(
-        elevation: 0.0,
-        automaticallyImplyLeading: false,
-        leading: IconButton(
-          icon: Icon(
-            Icons.cancel,
-            color: Colors.grey.shade400,
-            size: 30,
+          elevation: 0.0,
+          title: Text(
+            "Đăng kí tài khoản",
+            style: Get.textTheme.bodyMedium!.copyWith(
+              fontWeight: FontWeight.bold,
+              color: ThemeColor.primary,
+            ),
           ),
-          onPressed: () {
-            Get.back();
-          },
-        ),
-      ),
+          automaticallyImplyLeading: false,
+          actions: [
+            IconButton(
+              icon: Icon(
+                Icons.cancel,
+                color: Colors.grey.shade400,
+                size: 30,
+              ),
+              onPressed: () {
+                Get.back();
+              },
+            ),
+          ]),
       body: Padding(
         // Hình ảnh làm background
         // Container(
@@ -219,15 +227,7 @@ class _SignUpState extends State<SignUp> {
                     //     const SizedBox(width: 16),
                     //   ],
                     // ),
-                    Text(
-                      "Đăng kí tài khoản",
-                      style:
-                          Theme.of(context).textTheme.headlineSmall!.copyWith(
-                                fontSize: 25,
-                                fontWeight: FontWeight.bold,
-                                color: ThemeColor.primary,
-                              ),
-                    ),
+
                     const SizedBox(
                       height: 10,
                     ),
@@ -618,7 +618,7 @@ class _SignUpState extends State<SignUp> {
                     ),
                     SizedBox(
                       width: 200,
-                      height: 30,
+                      height: 50,
                       child: ElevatedButton(
                         onPressed: () {
                           formKey.currentState?.validate();
@@ -644,9 +644,12 @@ class _SignUpState extends State<SignUp> {
                             backgroundColor: ThemeColor.primary,
                             textStyle: Get.textTheme.titleMedium
                                 ?.copyWith(color: Colors.white)),
-                        child: Text("Tạo tài khoản",
-                            style: Get.textTheme.titleMedium
-                                ?.copyWith(color: Colors.white)),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text("Tạo tài khoản",
+                              style: Get.textTheme.titleMedium
+                                  ?.copyWith(color: Colors.white)),
+                        ),
                       ),
                     ),
                     const SizedBox(

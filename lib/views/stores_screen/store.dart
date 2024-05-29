@@ -27,7 +27,7 @@ class _StoreState extends State<Store> {
       appBar: AppBar(
           title: Text(
         "Danh sách cửa hàng",
-        style: Get.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+        style: Get.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
       )),
       body: ScopedModel<MenuViewModel>(
         model: Get.find<MenuViewModel>(),
@@ -39,7 +39,7 @@ class _StoreState extends State<Store> {
             return Center(child: Text("Không có cửa hàng nào"));
           }
           return Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(16),
             child: ListView(
                 children: model.storeList!.map((e) => buildStore(e)).toList()),
           );
@@ -51,14 +51,14 @@ class _StoreState extends State<Store> {
   Widget buildStore(StoreModel store) {
     return InkWell(
       onTap: () {
-        Get.toNamed(
-          "${RouteHandler.STORE}?id=${store.id}",
-        );
+        // Get.toNamed(
+        //   "${RouteHandler.STORE}?id=${store.id}",
+        // );
       },
       child: Container(
-        margin: EdgeInsets.only(top: 8),
+        margin: const EdgeInsets.only(bottom: 16),
         width: Get.width,
-        height: 110,
+        height: 90,
         padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
@@ -81,11 +81,11 @@ class _StoreState extends State<Store> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(store.name ?? '',
-                      style: Get.textTheme.bodyMedium
+                      style: Get.textTheme.bodySmall
                           ?.copyWith(fontWeight: FontWeight.bold)),
                   Text(
                     store.address ?? '',
-                    style: Get.textTheme.bodySmall,
+                    style: Get.textTheme.labelSmall,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),

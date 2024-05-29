@@ -294,8 +294,8 @@ class AccountViewModel extends BaseViewModel {
   Future<void> updateUser(UserUpdate user, String id) async {
     showLoadingDialog();
     var res = await accountAPI.updateUser(id, user);
-    // memberShipModel = await accountAPI.getUserById(id);
+    await getMembershipInfo(id);
     hideDialog();
-    // await showAlertDialog(content: res);
+    await showAlertDialog(content: "Thành công");
   }
 }

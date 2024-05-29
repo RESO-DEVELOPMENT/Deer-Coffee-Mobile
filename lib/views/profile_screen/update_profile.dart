@@ -25,7 +25,6 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   String? _selectedGender = "3";
-  String? downloadURL;
   MembershipInfo? user;
   int? gender;
 
@@ -43,7 +42,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Thông tin người dùng",
+        title: Text("Thông tin cá nhân",
             style: Get.textTheme.titleMedium
                 ?.copyWith(fontWeight: FontWeight.bold)),
         centerTitle: true,
@@ -293,7 +292,11 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                           return DropdownMenuItem<String>(
                             value: value,
                             child: Text(
-                              "${value == '1' ? 'Nam' : value == '2' ? 'Nữ' : 'Khác'}",
+                              (value == '1')
+                                  ? 'Nam'
+                                  : (value == '2')
+                                      ? 'Nữ'
+                                      : 'Khác',
                               style: Get.textTheme.bodyMedium,
                             ),
                           );
@@ -349,10 +352,9 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                   child: ElevatedButton(
                     onPressed: () async {
                       UserUpdate userUpdate = UserUpdate(
-                          fullName: _nameController.text,
-                          gender: _selectedGender,
-                          email: _emailController.text,
-                          urlImg: downloadURL);
+                          fullname: _nameController.text,
+                          gender: int.parse(_selectedGender ?? "3"),
+                          email: _emailController.text);
                       await model.updateUser(
                           userUpdate, user?.membershipId ?? '');
                     },

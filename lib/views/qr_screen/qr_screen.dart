@@ -10,8 +10,6 @@ import 'package:scoped_model/scoped_model.dart';
 import 'package:dotted_dashed_line/dotted_dashed_line.dart';
 import 'package:deer_coffee/enums/view_status.dart';
 
-bool showBalance = true;
-
 class QrScreen extends StatefulWidget {
   const QrScreen({super.key});
 
@@ -21,6 +19,7 @@ class QrScreen extends StatefulWidget {
 
 class _QrScreenState extends State<QrScreen> {
   String? qrData;
+  bool showBalance = false;
   String _qrCodeType = "PAYMENT";
   List<String> listQRType = ["PAYMENT", "GET_POINT"];
   AccountViewModel accountViewModel = Get.find<AccountViewModel>();
@@ -278,69 +277,6 @@ class _QrScreenState extends State<QrScreen> {
                           )
                           .toList(),
                     ),
-                    // ScopedModel<CartViewModel>(
-                    //   model: Get.find<CartViewModel>(),
-                    //   child: ScopedModelDescendant<CartViewModel>(
-                    //     builder: (context, child, model) {
-                    //       var numberOfVoucher = 0;
-                    //       if (model.status == ViewStatus.Loading) {
-                    //         return const SizedBox.shrink();
-                    //       }
-                    //       if (model.promotionsHasVoucher != null) {
-                    //         numberOfVoucher =
-                    //             model.promotionsHasVoucher?.length ?? 0;
-                    //       }
-                    //       return Container(
-                    //         margin: const EdgeInsets.fromLTRB(24, 8, 24, 0),
-                    //         decoration: BoxDecoration(
-                    //           shape: BoxShape.rectangle,
-                    //           border: Border.all(
-                    //             width: 2,
-                    //             color: ThemeColor
-                    //                 .primary, // This sets the border color to red
-                    //           ),
-                    //           borderRadius: BorderRadius.circular(8),
-                    //         ),
-                    //         height: 48,
-                    //         // width: Get.width*0.7,
-                    //         child: InkWell(
-                    //           onTap: () {
-                    //             Get.toNamed(RouteHandler.VOUCHER);
-                    //           },
-                    //           child: Row(
-                    //             mainAxisAlignment: MainAxisAlignment.start,
-                    //             crossAxisAlignment: CrossAxisAlignment.center,
-                    //             children: [
-                    //               SizedBox(width: 8),
-                    //               Icon(
-                    //                 Icons.confirmation_num_outlined,
-                    //                 size: 32,
-                    //                 color: ThemeColor.primary,
-                    //               ),
-                    //               SizedBox(width: 8),
-                    //               Expanded(
-                    //                 child: Text(
-                    //                   "Bạn có $numberOfVoucher mã giảm giá",
-                    //                   style: Get.textTheme.bodyMedium?.copyWith(
-                    //                     color: ThemeColor.primary,
-                    //                   ),
-                    //                 ),
-                    //               ),
-                    //               Icon(
-                    //                 Icons.arrow_forward_ios_outlined,
-                    //                 color: ThemeColor.primary,
-                    //               )
-                    //             ],
-                    //           ),
-                    //         ),
-                    //       );
-                    //     },
-                    //   ),
-                    // ),
-
-                    const SizedBox(
-                      height: 8,
-                    )
                   ],
                 ),
               ),

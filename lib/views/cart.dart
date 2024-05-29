@@ -136,7 +136,7 @@ class _CartScreenState extends State<CartScreen> {
                     )),
               ),
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(16),
                 child: Text(
                   "Danh sách món",
                   style: Get.textTheme.bodySmall
@@ -167,7 +167,7 @@ class _CartScreenState extends State<CartScreen> {
                     child: Container(
                       width: Get.width,
                       height: 80,
-                      padding: const EdgeInsets.all(8),
+                      padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
                       color: Colors.white,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -296,7 +296,7 @@ class _CartScreenState extends State<CartScreen> {
                 },
               ),
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
                 child: Text(
                   "Thanh toán",
                   style: Get.textTheme.bodySmall
@@ -330,7 +330,7 @@ class _CartScreenState extends State<CartScreen> {
                           child: Text(
                             showPaymentType(model.cart.paymentType ??
                                 PaymentTypeEnums.CASH),
-                            style: Get.textTheme.bodySmall
+                            style: Get.textTheme.labelSmall
                                 ?.copyWith(color: ThemeColor.primary),
                           )),
                     ),
@@ -342,7 +342,7 @@ class _CartScreenState extends State<CartScreen> {
                           },
                           child: Text(
                             model.cart.promotionCode ?? 'Thêm khuyến mãi',
-                            style: Get.textTheme.bodySmall
+                            style: Get.textTheme.labelSmall
                                 ?.copyWith(color: ThemeColor.primary),
                           )),
                     ),
@@ -352,16 +352,9 @@ class _CartScreenState extends State<CartScreen> {
                   child: Expanded(
                     child: Container(
                       height: 50,
-                      padding: const EdgeInsets.fromLTRB(8, 0, 0, 0),
+                      padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
                       child: ElevatedButton(
                         onPressed: () {
-                          // if (model.deliAddress == null) {
-                          //   showAlertDialog(
-                          //       title: "Chọn địa chỉ",
-                          //       content: "Vui lòng chọn địa chỉ nhận hàng");
-                          // } else {
-                          //   model.createOrder();
-                          // }
                           model.createOrder();
                         },
                         style: ElevatedButton.styleFrom(
@@ -408,7 +401,7 @@ class _CartScreenState extends State<CartScreen> {
     return Container(
       width: Get.width,
       color: Colors.white,
-      padding: EdgeInsets.all(8),
+      padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
       child: Column(
         children: [
           Row(
@@ -417,11 +410,11 @@ class _CartScreenState extends State<CartScreen> {
             children: [
               Text(
                 "Tạm tính",
-                style: Get.textTheme.bodyMedium,
+                style: Get.textTheme.labelMedium,
               ),
               Text(
                 formatPrice(model.cart.totalAmount ?? 0),
-                style: Get.textTheme.labelSmall,
+                style: Get.textTheme.labelMedium,
               )
             ],
           ),
@@ -437,10 +430,8 @@ class _CartScreenState extends State<CartScreen> {
                           style: Get.textTheme.labelSmall,
                         ),
                         Text(
-                          e.effectType == "GET_POINT"
-                              ? ("+${e.discountAmount} Bean")
-                              : ("-${formatPrice(e.discountAmount ?? 0)}"),
-                          style: Get.textTheme.bodySmall,
+                          "-${formatPrice(e.discountAmount ?? 0)}",
+                          style: Get.textTheme.labelSmall,
                         )
                       ],
                     ),
@@ -451,11 +442,11 @@ class _CartScreenState extends State<CartScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                "Giảm giá",
+                "Tích điểm",
                 style: Get.textTheme.labelSmall,
               ),
               Text(
-                "-${formatPrice(model.cart.discountAmount ?? 0)}",
+                "+${model.cart.bonusPoint} Point",
                 style: Get.textTheme.labelSmall,
               )
             ],
@@ -466,7 +457,8 @@ class _CartScreenState extends State<CartScreen> {
             children: [
               Text(
                 "Tổng cộng",
-                style: Get.textTheme.labelMedium,
+                style: Get.textTheme.labelMedium
+                    ?.copyWith(fontWeight: FontWeight.bold),
               ),
               Text(
                 formatPrice(model.cart.finalAmount ?? 0),
