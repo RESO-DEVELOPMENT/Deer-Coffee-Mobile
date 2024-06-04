@@ -14,15 +14,13 @@ import '../../widgets/other_dialogs/dialog.dart';
 import '../bottom_sheet_util.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  int _currentIndex = 0;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,9 +46,7 @@ class _HomePageState extends State<HomePage> {
                         enlargeCenterPage: true,
                         pageSnapping: true,
                         onPageChanged: (index, reason) {
-                          setState(() {
-                            _currentIndex = index;
-                          });
+                          setState(() {});
                         },
                       ),
                       items: model.blogList?.map((blog) {
@@ -87,7 +83,7 @@ class _HomePageState extends State<HomePage> {
                     color: Colors.white,
                   ),
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(top: 16),
@@ -192,61 +188,19 @@ class _HomePageState extends State<HomePage> {
                           ],
                         ),
                       ),
-                      // ScopedModelDescendant<MenuViewModel>(
-                      //     builder: (context, build, model) {
-                      //   return Container(
-                      //     padding: const EdgeInsets.all(16),
-                      //     child: CarouselSlider(
-                      //       options: CarouselOptions(
-                      //         scrollPhysics: const BouncingScrollPhysics(),
-                      //         // height: 140.0, // Điều chỉnh chiều cao của slider
-                      //         aspectRatio: 3,
-                      //         autoPlay: true, // Tự động chuyển đổi ảnh
-                      //         enlargeCenterPage: true,
-                      //         onPageChanged: (index, reason) {
-                      //           setState(() {
-                      //             _currentIndex = index;
-                      //           });
-                      //         },
-                      //       ),
-                      //       items: model.blogList?.map((blog) {
-                      //         return Builder(
-                      //           builder: (BuildContext context) {
-                      //             return InkWell(
-                      //               onTap: () {
-                      //                 Get.toNamed(
-                      //                   "${RouteHandler.BLOG}?id=${blog.id}",
-                      //                 );
-                      //               },
-                      //               child: Container(
-                      //                 width: MediaQuery.of(context).size.width,
-                      //                 decoration: BoxDecoration(
-                      //                   borderRadius:
-                      //                       BorderRadius.circular(8.0),
-                      //                   image: DecorationImage(
-                      //                       image:
-                      //                           NetworkImage(blog.image ?? ""),
-                      //                       fit: BoxFit.cover),
-                      //                 ),
-                      //               ),
-                      //             );
-                      //           },
-                      //         );
-                      //       }).toList(),
-                      //     ),
-                      //   );
-                      // }),
                       buildLoginButton(),
                       ScopedModelDescendant<MenuViewModel>(
                           builder: (context, build, model) {
-                        return GridView.count(
-                            crossAxisCount: 2,
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            children: model.blogList!
-                                .map((e) => Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Card(
+                        return Padding(
+                          padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                          child: GridView.count(
+                              crossAxisCount: 2,
+                              crossAxisSpacing: 8,
+                              mainAxisSpacing: 8,
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              children: model.blogList!
+                                  .map((e) => Card(
                                         shape: RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(8.0),
@@ -290,9 +244,9 @@ class _HomePageState extends State<HomePage> {
                                                 )),
                                           ),
                                         ),
-                                      ),
-                                    ))
-                                .toList());
+                                      ))
+                                  .toList()),
+                        );
                       })
                     ],
                   ),
@@ -305,12 +259,6 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
     );
-  }
-
-  void _changeItem(int value) {
-    setState(() {
-      _currentIndex = value;
-    });
   }
 
   Widget buildCircularButton(
@@ -358,12 +306,8 @@ class _HomePageState extends State<HomePage> {
       model: Get.find<CartViewModel>(),
       child: ScopedModelDescendant<CartViewModel>(
         builder: (context, child, model) {
-          var numberOfVoucher = 0;
           if (model.status == ViewStatus.Loading) {
             return const SizedBox.shrink();
-          }
-          if (model.promotionsHasVoucher != null) {
-            numberOfVoucher = model.promotionsHasVoucher?.length ?? 0;
           }
           return Container(
             margin: const EdgeInsets.fromLTRB(16, 0, 16, 0),
@@ -394,8 +338,8 @@ class _HomePageState extends State<HomePage> {
                         ),
                         SizedBox(width: 8),
                         Text(
-                          "Bạn có $numberOfVoucher mã giảm giá",
-                          style: Get.textTheme.bodySmall?.copyWith(
+                          "Các ưu đãi hiện có",
+                          style: Get.textTheme.bodyMedium?.copyWith(
                             color: ThemeColor.primary,
                           ),
                         ),
@@ -412,10 +356,6 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-
-  // Widget buildUserWallet() {
-  //   return
-  // }
 
   Widget buildLoginButton() {
     return ScopedModel<AccountViewModel>(
