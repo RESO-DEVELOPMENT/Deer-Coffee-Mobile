@@ -41,17 +41,24 @@ class _RootScreenState extends State<RootScreen> {
     HomePage(),
     OrdersScreen(),
     // MenuScreen(),
-    // QrScreen(),
+    QrScreen(),
     OrderHistory(),
     OtherPage(),
   ];
 
-  List<BottomNavigationBarItem> items = const [
+  List<BottomNavigationBarItem> items = [
     BottomNavigationBarItem(
         icon: Icon(Icons.home_outlined), label: 'Trang chủ'),
     BottomNavigationBarItem(
         icon: Icon(Icons.coffee_outlined), label: 'Đặt hàng'),
-    // BottomNavigationBarItem(icon: Icon(Icons.qr_code), label: 'Quet mã'),
+    BottomNavigationBarItem(
+      icon: Icon(
+        Icons.qr_code_scanner,
+        color: ThemeColor.primary,
+        size: 32,
+      ),
+      label: 'Quét mã',
+    ),
     BottomNavigationBarItem(
         icon: Icon(
           Icons.history_outlined,
@@ -80,32 +87,9 @@ class _RootScreenState extends State<RootScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: FloatingActionButton(
-          elevation: 2,
-          backgroundColor: ThemeColor.primary,
-          onPressed: () {
-            if (userId == null) {
-              showConfirmDialog(
-                      title: "Người dùng chưa đăng nhập",
-                      content:
-                          "Vui lòng đăng nhập để đặt đơn và nhận ưu đãi nhé",
-                      confirmText: "Đăng nhập")
-                  .then((value) => {
-                        if (value) {Get.toNamed(RouteHandler.LOGIN)}
-                      });
-            } else {
-              Get.toNamed(RouteHandler.QR);
-            }
-          },
-          child: const Icon(
-            Icons.qr_code_scanner,
-            size: 28,
-            color: Colors.white,
-          )),
       body: portraitViews[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
-        showUnselectedLabels: true,
+        showUnselectedLabels: false,
         type: BottomNavigationBarType.fixed,
         items: items,
         iconSize: 24,

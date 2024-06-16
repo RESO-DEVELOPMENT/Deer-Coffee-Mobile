@@ -264,9 +264,14 @@ class AccountViewModel extends BaseViewModel {
   Future<String?> getQRCode() async {
     try {
       setState(ViewStatus.Loading);
-      String? qr;
-      await accountAPI.getUserQRCode(userId ?? '').then((value) => qr = value);
+
+      var qr =
+          memberShipModel?.memberLevel?.membershipCard?[0].membershipCardCode ??
+              '';
       setState(ViewStatus.Completed);
+      if (qr == '') {
+        return null;
+      }
       return qr;
     } catch (e) {
       setState(ViewStatus.Completed);

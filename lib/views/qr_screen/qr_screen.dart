@@ -10,6 +10,8 @@ import 'package:scoped_model/scoped_model.dart';
 import 'package:dotted_dashed_line/dotted_dashed_line.dart';
 import 'package:deer_coffee/enums/view_status.dart';
 
+import '../login/login_card.dart';
+
 class QrScreen extends StatefulWidget {
   const QrScreen({super.key});
 
@@ -92,16 +94,19 @@ class _QrScreenState extends State<QrScreen> {
         model: Get.find<AccountViewModel>(),
         child: ScopedModelDescendant<AccountViewModel>(
             builder: (context, build, model) {
+          if (model.memberShipModel == null) {
+            return const Center(child: LoginCard());
+          }
           if (model.status == ViewStatus.Loading) {
             return const Center(child: CircularProgressIndicator());
           } else if (qrData == null) {
             return const Center(
-              child: Text("Không lấy được mã qr, vui lòng thử lại"),
+              child: Text("Không lấy được mã qr"),
             );
           }
           return Center(
             child: Container(
-              height: Get.height * 0.85,
+              height: Get.height,
               color: ThemeColor.primary,
               padding: const EdgeInsets.all(16),
               child: Container(
@@ -128,26 +133,7 @@ class _QrScreenState extends State<QrScreen> {
                         size: 200.0,
                       ),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text("Tự động cập nhật sau",
-                            style: Get.textTheme.bodySmall),
-                        Text(
-                          ' $_countdown s',
-                          style: Get.textTheme.bodySmall,
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            changeQr();
-                          },
-                          child: Text('Cập nhật',
-                              style: Get.textTheme.bodySmall?.copyWith(
-                                  color: ThemeColor.primary,
-                                  fontWeight: FontWeight.bold)),
-                        ),
-                      ],
-                    ),
+
                     // Line
                     Stack(
                       alignment: Alignment.centerLeft,
@@ -283,53 +269,6 @@ class _QrScreenState extends State<QrScreen> {
             ),
           );
         }),
-      ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
-        child: SegmentedButton<String>(
-          style: ButtonStyle(
-            side: MaterialStateProperty.all(BorderSide(
-                color: ThemeColor.primary,
-                width: 1.5,
-                style: BorderStyle.solid)),
-            backgroundColor:
-                MaterialStateColor.resolveWith((Set<MaterialState> states) {
-              return states.contains(MaterialState.selected)
-                  ? ThemeColor.primary
-                  : Colors.white;
-            }),
-            foregroundColor:
-                MaterialStateColor.resolveWith((Set<MaterialState> states) {
-              return states.contains(MaterialState.selected)
-                  ? Colors.white
-                  : ThemeColor.primary;
-            }),
-          ),
-          showSelectedIcon: false,
-          segments: const <ButtonSegment<String>>[
-            ButtonSegment<String>(
-              value: 'PAYMENT',
-              label: Padding(
-                padding: EdgeInsets.fromLTRB(2, 16, 2, 16),
-                child: Text('Thanh toán'),
-              ),
-            ),
-            ButtonSegment<String>(
-              value: 'GET_POINT',
-              label: Padding(
-                padding: EdgeInsets.fromLTRB(2, 16, 2, 16),
-                child: Text('Nạp tiền,Tích điểm'),
-              ),
-            ),
-          ],
-          selected: <String>{_qrCodeType},
-          onSelectionChanged: (Set<String> newSelection) {
-            setState(() {
-              _qrCodeType = newSelection.first;
-            });
-            changeQr();
-          },
-        ),
       ),
     );
   }

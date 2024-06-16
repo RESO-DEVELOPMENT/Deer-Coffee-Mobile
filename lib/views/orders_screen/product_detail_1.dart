@@ -515,7 +515,7 @@ class _ProductDetailState extends State<ProductDetail> {
   Widget buildButton(ProductViewModel model) {
     return Container(
       width: Get.width,
-      padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+      padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
       child: ElevatedButton(
           style: ElevatedButton.styleFrom(
             shape: RoundedRectangleBorder(
@@ -527,11 +527,11 @@ class _ProductDetailState extends State<ProductDetail> {
             model.addProductToCart();
           },
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(4, 16, 4, 16),
+            padding: const EdgeInsets.all(12),
             child: Text(
                 "Thêm ${formatPrice(model.productInCart.finalAmount ?? 0)}",
-                style: Get.textTheme.bodyMedium
-                    ?.copyWith(color: Get.theme.colorScheme.background)),
+                style: Get.textTheme.bodyLarge
+                    ?.copyWith(color: Get.theme.colorScheme.surface)),
           )),
     );
   }

@@ -116,7 +116,7 @@ class _OrderHistoryState extends State<OrderHistory> {
                 Text(showOrderStatus(order.status ?? ''),
                     style: Get.textTheme.labelSmall?.copyWith(
                         color: order.status == OrderStatusEnum.PAID
-                            ? Colors.greenAccent
+                            ? Colors.teal
                             : order.status == OrderStatusEnum.CANCELED
                                 ? Colors.redAccent
                                 : order.status == OrderStatusEnum.PENDING
@@ -127,9 +127,6 @@ class _OrderHistoryState extends State<OrderHistory> {
             const SizedBox(height: 4),
             Row(
               children: [
-                const Icon(Icons.store,
-                    color: Colors.grey, size: 16), // Biểu tượng cafe
-                const SizedBox(width: 4),
                 Expanded(
                   child: Text(
                     order.storeName ?? '',
@@ -186,7 +183,7 @@ class _OrderHistoryState extends State<OrderHistory> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Padding(
-                padding: const EdgeInsets.fromLTRB(0, 4, 4, 4),
+                padding: const EdgeInsets.all(8),
                 child: transactionModel.type == TransactionTypeEnum.PAYMENT
                     ? const Icon(CupertinoIcons.creditcard,
                         color: Colors.greenAccent, size: 24)
@@ -202,7 +199,13 @@ class _OrderHistoryState extends State<OrderHistory> {
                                 color: Colors.blue,
                                 size: 24,
                               )
-                            : const Icon(Icons.info_outline),
+                            : transactionModel.type == TransactionTypeEnum.BONUS
+                                ? const Icon(
+                                    Icons.wallet_giftcard,
+                                    color: Colors.teal,
+                                    size: 24,
+                                  )
+                                : const Icon(Icons.info_outline),
               ),
               Expanded(
                 child: Column(
@@ -231,7 +234,7 @@ class _OrderHistoryState extends State<OrderHistory> {
                           "${transactionModel.isIncrease! ? " + " : " - "}${formatPrice(transactionModel.amount ?? 0)} ${transactionModel.currency!}",
                           style: Get.textTheme.labelMedium?.copyWith(
                             color: transactionModel.isIncrease!
-                                ? Colors.greenAccent
+                                ? Colors.teal
                                 : Colors.redAccent,
                           ),
                         ),

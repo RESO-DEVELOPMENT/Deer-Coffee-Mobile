@@ -32,10 +32,10 @@ class _PromotionDetailsScreenState extends State<PromotionDetailsScreen> {
     // ignore: prefer_is_not_empty
     if (promotionDetailsModel?.promotionType == 3) {
       selectedCode =
-          '${info?.phoneNumber}_${promotionDetailsModel?.promotionCode}_${promotionDetailsModel?.listVoucher?.first.voucherCode ?? ''}';
+          '${info?.memberLevel?.membershipCard?[0].membershipCardCode ?? ''}_${promotionDetailsModel?.promotionCode}_${promotionDetailsModel?.listVoucher?.first.voucherCode ?? ''}';
     } else {
       selectedCode =
-          '${info?.phoneNumber}_${promotionDetailsModel!.promotionCode}';
+          '${info?.memberLevel?.membershipCard?[0].membershipCardCode ?? ''}_${promotionDetailsModel!.promotionCode}';
     }
     super.initState();
   }
